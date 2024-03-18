@@ -19,6 +19,9 @@ const formSchema = z.object({
   username: z.string().min(1, {
     message: "Tên đăng nhập là bắt buộc",
   }),
+  fullname: z.string().min(1, {
+    message: "Họ tên là bắt buộc",
+  }),
   phone: z.string().min(1, {
     message: "Số điện thoại là bắt buộc",
   }),
@@ -41,6 +44,7 @@ const Register = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: "",
+      fullname: "",
       password: "",
       confirmPassword: "",
       phone: "",
@@ -56,15 +60,15 @@ const Register = () => {
   return (
     <div className="bg-bgHaui h-screen  bg-no-repeat ">
       <div className="bg-green-500 max-padd-container bg-transparent h-full flex items-center">
-        <div className="flex flex-col items-center gap-2 bg-white px-10 py-8 shadow-md rounded-lg">
+        <div className="flex flex-col items-center gap-2 bg-white px-10 py-4 shadow-md rounded-lg">
           <img
             src={`https://cdn-001.haui.edu.vn//img/logo-haui-size.png`}
             alt="logo"
-            className="w-24 h-24 object-cover"
+            className="w-16 h-16 object-cover"
           />
 
           <div className="flex flex-col items-center">
-            <h1 className="text-2xl font-semibold mb-3">
+            <h1 className="text-xl font-semibold mb-3">
               Đại Học Công Nghiệp Hà Nội
             </h1>
             <p>HAUI Social</p>
@@ -73,7 +77,7 @@ const Register = () => {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-4 w-full"
+              className="space-y-3 w-full"
             >
               <FormField
                 control={form.control}
@@ -82,6 +86,18 @@ const Register = () => {
                   <FormItem>
                     <FormControl>
                       <Input placeholder="Tên đăng nhập" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="fullname"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input placeholder="Họ tên" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -99,7 +115,7 @@ const Register = () => {
                   </FormItem>
                 )}
               />
-              <div className="flex gap-5">
+              <div className="grid grid-cols-[1fr_1fr] gap-5">
                 <FormField
                   control={form.control}
                   name="class"
@@ -117,12 +133,12 @@ const Register = () => {
                   control={form.control}
                   name="gender"
                   render={({ field }) => (
-                    <FormItem className="flex  gap-3 border px-3 py-2 rounded-lg flex-1">
+                    <FormItem className="flex px-3">
                       <FormControl>
                         <RadioGroup
                           onValueChange={field.onChange}
                           defaultValue={field.value}
-                          className="flex items-center gap-10"
+                          className="flex  gap-10"
                         >
                           <FormItem className="flex items-center space-x-3 space-y-0">
                             <FormControl>

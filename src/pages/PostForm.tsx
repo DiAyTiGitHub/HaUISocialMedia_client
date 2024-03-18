@@ -33,7 +33,7 @@ const formSchema = z.object({
   tags: z.string(),
 });
 
-const CreatePost = ({ children }: { children: ReactNode }) => {
+const PostForm = ({ children }: { children: ReactNode }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -131,4 +131,4 @@ const CreatePost = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export default CreatePost;
+export default PostForm;

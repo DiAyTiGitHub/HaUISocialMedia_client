@@ -219,7 +219,7 @@ body {
   }
 
   .user-grid {
-    @apply w-full grid grid-cols-1 xs:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-7 max-w-5xl;
+    @apply w-full grid grid-cols-1 xs:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-7 max-w-5xl;
   }
 
   /* Explore */
@@ -333,7 +333,7 @@ body {
   }
 
   .post-card_img {
-    @apply h-64 xs:h-[400px] lg:h-[450px] w-full rounded-[24px] object-cover mb-5;
+    @apply h-64 xs:h-[300px] lg:h-[350px] w-full rounded-[24px] object-cover mb-5;
   }
 
   /* Topbar */

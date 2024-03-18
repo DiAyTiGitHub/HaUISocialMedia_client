@@ -1,13 +1,22 @@
 import avatar from "@/assets/avatar.png";
-import { Edit } from "lucide-react";
+import { Ellipsis, Eraser, Pencil } from "lucide-react";
 import { Link } from "react-router-dom";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import PostForm from "@/pages/PostForm";
 import PostStats from "./PostStats";
+import React from "react";
+import Delete from "./Delete";
 
 const PortCard = () => {
   return (
     <div className="post-card">
-      <div className="flex-between">
-        <div className="flex items-center gap-3">
+      <div className="relative flex-between">
+        <div className="  flex items-center gap-3">
           <Link to="/">
             <img
               src={avatar}
@@ -24,9 +33,41 @@ const PortCard = () => {
           </div>
         </div>
 
-        <Link to="/">
-          <Edit />
-        </Link>
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <button
+              onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+                e.stopPropagation()
+              }
+            >
+              <Ellipsis />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="relative right-10">
+            <DropdownMenuItem>
+              <PostForm>
+                <button
+                  className="flex gap-2 items-center"
+                  onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+                    e.stopPropagation()
+                  }
+                >
+                  <div className="flex gap-3 items-center">
+                    <Pencil />
+                    Chỉnh sửa
+                  </div>
+                </button>
+              </PostForm>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Delete>
+                <div className="flex gap-3 items-center">
+                  <Eraser /> Xoá
+                </div>
+              </Delete>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
 
       <Link

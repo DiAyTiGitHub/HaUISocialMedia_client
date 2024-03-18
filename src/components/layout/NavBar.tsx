@@ -1,6 +1,9 @@
-import { Bell, MessageCircle, Search, UserCheckIcon } from "lucide-react";
+import { MessageCircle, Search } from "lucide-react";
 import { Link } from "react-router-dom";
 import hauiLogo from "@/assets/logo-haui.png";
+
+import UserDropdownMenu from "../shared/UserDropdownMenu";
+import Notification from "../shared/Notification";
 const NavBar = () => {
   return (
     <nav className="bg-white shadow-sm sticky top-0 z-10">
@@ -8,7 +11,7 @@ const NavBar = () => {
         <div className="flex gap-10">
           <Link to="/" className="flex items-center gap-5">
             <img src={hauiLogo} />
-            <h1 className="font-semibold text-2xl">HAUI Social</h1>
+            <h1 className="font-semibold text-xl">HAUI Social</h1>
           </Link>
           <div className="flex items-center border  rounded-full bg-slate-100 px-3 py-2">
             <input
@@ -23,15 +26,11 @@ const NavBar = () => {
         </div>
 
         <div className="flex items-center gap-10">
-          <Link to="/">
-            <Bell />
+          <Link to="/chats">
+            <MessageCircle className="hover:text-blue-500" />
           </Link>
-          <Link to="/">
-            <MessageCircle />
-          </Link>
-          <div>
-            <UserCheckIcon />
-          </div>
+          <Notification />
+          <UserDropdownMenu />
         </div>
       </div>
     </nav>

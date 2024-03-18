@@ -13,6 +13,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "react-router-dom";
 
+//fake data to test
+import { currentUser } from "@/mockData";
+import { useUserContext } from "@/context/authContext";
+
 const formSchema = z.object({
   username: z.string().min(1, {
     message: "Tên đăng nhập là bắt buộc",
@@ -24,6 +28,7 @@ const formSchema = z.object({
 
 const Login = () => {
   const navigate = useNavigate();
+  const { setUser } = useUserContext();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -34,8 +39,15 @@ const Login = () => {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
-    navigate("/");
-    window.location.href = "/";
+    if (
+      values.username === currentUser.username &&
+      values.password === currentUser.username
+    ) {
+      setUser(currentUser);
+      navigate("/");
+    } else {
+      alert("Tai khoan khong ton tai");
+    }
   }
 
   return (

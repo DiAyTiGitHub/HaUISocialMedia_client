@@ -1,17 +1,14 @@
-import React from "react";
 import NavBar from "./NavBar";
-import Sidebar from "./Sidebar";
-import RightSidebar from "./RightSidebar";
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+import { Outlet } from "react-router-dom";
+
+const Layout = () => {
   return (
     <div className=" flex flex-col">
       <NavBar />
       <div>
-        <div className="relative min-h-screen flex mt-10 max-padd-container ">
-          <Sidebar />
-          {children}
-          <RightSidebar />
+        <div className="relative  flex mt-10 max-padd-container ">
+          <Outlet />
         </div>
       </div>
     </div>
