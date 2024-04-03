@@ -19,10 +19,10 @@ const PostStats = ({ post }: PostStatsProps) => {
   return (
     <div className={`flex justify-start items-center z-20 `}>
       <div className="flex gap-2 mr-5">
-        <button onClick={() => handleDislike()}>
+        <button onClick={handleLike}>
           <Heart fill="red" />
         </button>
-        <p className="small-medium lg:base-medium">1</p>
+        <p className="small-medium lg:base-medium">{post.likes.length}</p>
       </div>
 
       <div className="flex gap-2">

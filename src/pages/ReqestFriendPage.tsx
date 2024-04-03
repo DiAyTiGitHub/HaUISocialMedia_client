@@ -77,13 +77,6 @@ const RequestFriendPage = () => {
                       {friend.requestSender.lastName}{" "}
                       {friend.requestSender.firstName}
                     </p>
-
-                    {/* <Button
-                      className="bg-blue-600 hover:bg-blue-500"
-                      onClick={() => handleAcceptFriend(friend.id)}
-                    >
-                      Chấp nhận
-                    </Button> */}
                     <CustomButtonFriend
                       handleFn={(id: string) => handleAcceptFriend(id)}
                       title="Chấp nhật"

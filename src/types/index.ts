@@ -21,7 +21,7 @@ export type IPost = {
   createDate: Date;
   creator: IUser;
   content: string;
-  like: [];
+  likes: [];
 };
 
 export type IComment = {
