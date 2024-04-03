@@ -9,8 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import {
   Form,
   FormControl,
@@ -23,28 +22,61 @@ import { Textarea } from "@/components/ui/textarea";
 import FileUploader from "@/components/shared/FileUploader";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { handleUploadImage } from "@/lib";
+import { useCreatePost, useUpdatePost } from "@/react-query/post";
+import { IPost } from "@/types";
+
+export type CreatePostType = {
+  content: String;
+  image: String;
+};
 
 const formSchema = z.object({
-  caption: z
+  content: z
     .string()
     .min(5, { message: "Minimum 5 characters." })
     .max(2200, { message: "Maximum 2,200 caracters" }),
   file: z.custom<File[]>(),
-  tags: z.string(),
 });
 
-const PostForm = ({ children }: { children: ReactNode }) => {
+type PostFormProps = {
+  children: ReactNode;
+  post?: IPost;
+};
+
+const PostForm = ({ children, post }: PostFormProps) => {
+  const { mutate: createPost } = useCreatePost();
+  const { mutate: updatePost } = useUpdatePost();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      caption: "",
+      content: post?.content || "",
       file: [],
-      tags: "",
     },
   });
-
-  function handleSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function handleSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      setIsLoading(true);
+      let url;
+      if (values.file[0]) {
+        url = await handleUploadImage(values.file[0]);
+      }
+      //console.log(url);
+      const newPost: CreatePostType = {
+        content: values.content,
+        image: url as String,
+      };
+      //console.log(newPost);
+      if (post) {
+        updatePost({ ...post, content: values.content });
+      } else {
+        createPost(newPost);
+      }
+      setIsLoading(false);
+    } catch (error) {
+      console.log("[Create_Post]", error);
+    }
   }
   return (
     <Dialog>
@@ -66,31 +98,14 @@ const PostForm = ({ children }: { children: ReactNode }) => {
               <div className="flex flex-1 flex-col gap-5">
                 <FormField
                   control={form.control}
-                  name="caption"
+                  name="content"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Nội dung</FormLabel>
                       <FormControl>
-                        <Textarea {...field} />
+                        <Textarea {...field} rows={10} />
                       </FormControl>
                       <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="tags"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Nhãn (ngăn cách bởi " , ")</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="CongViec, ThuGian"
-                          type="text"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage className="" />
                     </FormItem>
                   )}
                 />
@@ -116,7 +131,9 @@ const PostForm = ({ children }: { children: ReactNode }) => {
             </div>
 
             <DialogFooter>
-              <Button type="submit">Tạo bài viết</Button>
+              <Button disabled={isLoading} type="submit">
+                {isLoading ? "Đang tạo..." : "Tạo bài viết "}
+              </Button>
             </DialogFooter>
           </form>
         </Form>

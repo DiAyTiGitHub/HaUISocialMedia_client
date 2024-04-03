@@ -12,11 +12,16 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
+import { useCreateComment } from "@/react-query/comment";
 
-type CommentProp = {
-  postId: string;
-  currentUserImage: string;
-  currentUserId: string;
+export type CreateCommentType = {
+  content: string;
+  post: {
+    id: string;
+  };
+  repliedComment?: {
+    id: string;
+  };
 };
 
 const formSchema = z.object({
@@ -24,8 +29,13 @@ const formSchema = z.object({
     message: "Bình luận không được để trống.",
   }),
 });
-
-const Comment = () => {
+type CommentProps = {
+  postId: string;
+  repliCommentId?: string;
+};
+const Comment = ({ postId, repliCommentId }: CommentProps) => {
+  const { mutate: createComment, isLoading: isCreateComment } =
+    useCreateComment();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -33,7 +43,27 @@ const Comment = () => {
     },
   });
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    let newComment: CreateCommentType;
+    if (repliCommentId) {
+      newComment = {
+        content: values.comment,
+        post: {
+          id: postId,
+        },
+        repliedComment: {
+          id: repliCommentId,
+        },
+      };
+    } else {
+      newComment = {
+        content: values.comment,
+        post: {
+          id: postId,
+        },
+      };
+    }
+
+    createComment(newComment);
   }
   return (
     <Form {...form}>
@@ -64,7 +94,7 @@ const Comment = () => {
             </FormItem>
           )}
         />
-        <Button type="submit">
+        <Button type="submit" disabled={isCreateComment}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

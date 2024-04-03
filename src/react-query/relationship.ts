@@ -2,7 +2,6 @@ import { IUser } from "@/types";
 import toast from "react-hot-toast";
 import { useMutation, useQuery } from "react-query";
 import * as apiClient from "./query-api";
-import { requestFriendsPagination } from "@/pages/ReqestFriendPage";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const useGetSuggestFriends = () => {

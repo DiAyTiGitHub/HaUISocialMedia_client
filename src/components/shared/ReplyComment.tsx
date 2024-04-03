@@ -1,15 +1,18 @@
+import { useGetSubComment } from "@/react-query/comment";
 import CommentCard from "./CommentCard";
 
 type ReplyCommentProps = {
-  id_comment: string;
+  commentId: string;
 };
 
-const ReplyComment = () => {
-  // fetch reply commment data in here
+const ReplyComment = ({ commentId }: ReplyCommentProps) => {
+  const { data: subComment } = useGetSubComment(commentId);
 
   return (
     <div>
-      <CommentCard />
+      {subComment?.map((comment) => (
+        <CommentCard key={comment.id} comment={comment} />
+      ))}
     </div>
   );
 };

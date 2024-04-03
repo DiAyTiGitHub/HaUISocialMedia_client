@@ -14,3 +14,22 @@ export type IUser = {
   role: string;
   username: string;
 };
+
+export type IPost = {
+  id: string;
+  comments: [];
+  createDate: Date;
+  creator: IUser;
+  content: string;
+  like: [];
+};
+
+export type IComment = {
+  commenter: IUser;
+  content: string;
+  createDate: Date;
+  id: string;
+  numsOfSubComments: number;
+  post: IPost;
+  repliedComment: any;
+};
