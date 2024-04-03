@@ -1,19 +1,22 @@
+import { useAuth } from "@/context/AuthProvider";
 import { Input } from "../ui/input";
 import CreatePost from "@/pages/PostForm";
-import { useUserContext } from "@/context/authContext";
+
 import { Link } from "react-router-dom";
 
 const SessionCreatePost = () => {
-  const { user } = useUserContext();
+  const { currentUser } = useAuth();
   return (
-    <div className="bg-white p-5 rounded-lg">
-      <div className="flex items-center gap-5 border-b ">
-        <Link to="/profile/1" className="w-20 h-20">
-          <img
-            src={user.avatar}
-            alt="avatar"
-            className=" object-cover rounded-full"
-          />
+    <div className="w-full bg-white p-5 rounded-lg">
+      <div className="flex items-center gap-5 ">
+        <Link to="/profile/1" className="flex items-center">
+          <div className="profile-photo">
+            <img
+              src={currentUser?.avatar || "/person.jpg"}
+              alt="avatar"
+              className=" object-cover rounded-full"
+            />
+          </div>
         </Link>
         <CreatePost>
           <Input

@@ -12,10 +12,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "react-router-dom";
-
-//fake data to test
-import { currentUser } from "@/mockData";
-import { useUserContext } from "@/context/authContext";
+import * as apiClient from "@/react-query/query-api";
+import { useMutation } from "react-query";
+import toast from "react-hot-toast";
+import { checkJWt } from "@/lib/utils";
 
 const formSchema = z.object({
   username: z.string().min(1, {
@@ -25,11 +25,10 @@ const formSchema = z.object({
     message: "Mật khẩu là bắt buộc",
   }),
 });
-
+export type LoginForm = z.infer<typeof formSchema>;
 const Login = () => {
   const navigate = useNavigate();
-  const { setUser } = useUserContext();
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<LoginForm>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: "",
@@ -37,22 +36,30 @@ const Login = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    if (
-      values.username === currentUser.username &&
-      values.password === currentUser.username
-    ) {
-      setUser(currentUser);
-      navigate("/");
-    } else {
-      alert("Tai khoan khong ton tai");
-    }
-  }
-
+  const mutation = useMutation(apiClient.signIn, {
+    onSuccess: async (data: any) => {
+      const claim = checkJWt(data?.accessToken);
+      //console.log(claim);
+      if (claim.scope === "USER") {
+        localStorage.setItem("token", data.accessToken);
+        localStorage.setItem("user", JSON.stringify(data.loggedInUser));
+        toast.success("Đăng nhập thành công");
+        window.location.href = "/";
+        navigate("/");
+      } else {
+        toast.error("Không có quyền truy cập");
+      }
+    },
+    onError: () => {
+      toast.error("Đăng nhập thất bại");
+    },
+  });
+  const onSubmit = (values: LoginForm) => {
+    mutation.mutate(values);
+  };
   return (
     <div className="bg-bgHaui h-screen ">
-      <div className="bg-green-500 max-padd-container bg-transparent h-full flex items-center">
+      <div className="bg-green-500 max-w-[1200px] mx-auto bg-transparent h-full flex items-center">
         <div className="flex flex-col items-center gap-5 bg-white p-16 shadow-md rounded-lg">
           <img
             src={`https://cdn-001.haui.edu.vn//img/logo-haui-size.png`}
@@ -61,7 +68,7 @@ const Login = () => {
           />
 
           <div className="flex flex-col items-center">
-            <h1 className="text-3xl font-semibold mb-5">
+            <h1 className="text-3xl font-semibold mb-5 ">
               Đại Học Công Nghiệp Hà Nội
             </h1>
             <p>HAUI Social</p>
@@ -106,10 +113,7 @@ const Login = () => {
                   Đăng ký
                 </Link>
               </p>
-              <Button
-                type="submit"
-                className="w-full bg-blue-600 hover:bg-blue-500"
-              >
+              <Button type="submit" className="w-full">
                 Đăng Nhập
               </Button>
             </form>

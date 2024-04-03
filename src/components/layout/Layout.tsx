@@ -4,14 +4,12 @@ import { Outlet } from "react-router-dom";
 
 const Layout = () => {
   return (
-    <div className=" flex flex-col">
+    <>
       <NavBar />
-      <div>
-        <div className="relative  flex mt-10 max-padd-container ">
-          <Outlet />
-        </div>
-      </div>
-    </div>
+      <main className=" container relative mt-10">
+        <Outlet />
+      </main>
+    </>
   );
 };
 

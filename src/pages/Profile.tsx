@@ -5,19 +5,14 @@ import SessionCreatePost from "@/components/shared/SessionCreatePost";
 
 const Profile = () => {
   return (
-    <>
-      <NavBar />
-      <div className="max-padd-container">
-        <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] mt-10 gap-10">
-          <ProfileInfo />
+    <div className="w-full grid grid-cols-[25vw_auto_20vw] gap-x-8 relative">
+      <ProfileInfo />
 
-          <div className="flex flex-col gap-10">
-            <SessionCreatePost />
-            <PostList />
-          </div>
-        </div>
+      <div className="flex flex-col gap-10">
+        <SessionCreatePost />
+        <PostList />
       </div>
-    </>
+    </div>
   );
 };
 

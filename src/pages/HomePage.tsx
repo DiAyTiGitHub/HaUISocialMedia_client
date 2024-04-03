@@ -5,14 +5,15 @@ import SessionCreatePost from "@/components/shared/SessionCreatePost";
 
 const HomePage = () => {
   return (
-    <>
+    <div className="w-full grid grid-cols-[18vw_auto_20vw] gap-x-8 relative">
       <Sidebar />
-      <div className="flex flex-col flex-1  gap-10 mx-5 lg:ml-[26%]">
+
+      <div className="">
         <SessionCreatePost />
         <PostList />
       </div>
       <RightSidebar />
-    </>
+    </div>
   );
 };
 

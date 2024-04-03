@@ -10,7 +10,7 @@ const Notification = () => {
     <Popover>
       <PopoverTrigger>
         {" "}
-        <Bell className="hover:text-blue-600" />
+        <Bell className="hover:text-primary" />
       </PopoverTrigger>
       <PopoverContent className="min-w-[250px] mt-3 relative right-1/3">
         <div>

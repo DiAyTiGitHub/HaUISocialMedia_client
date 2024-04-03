@@ -33,7 +33,7 @@ const Delete = ({ children }: { children: React.ReactNode }) => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Huỷ</AlertDialogCancel>
-          <AlertDialogAction className="bg-red hover:bg-red text-white">
+          <AlertDialogAction className="bg-red-600 hover:bg-red-500 text-white">
             Xoá
           </AlertDialogAction>
         </AlertDialogFooter>

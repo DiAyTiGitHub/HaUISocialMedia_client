@@ -62,8 +62,8 @@ const PostForm = ({ children }: { children: ReactNode }) => {
               </DialogDescription>
             </DialogHeader>
 
-            <div className="flex gap-10">
-              <div className="flex flex-1 w-full flex-col  gap-5">
+            <div className="flex gap-8">
+              <div className="flex flex-1 flex-col gap-5">
                 <FormField
                   control={form.control}
                   name="caption"
@@ -71,9 +71,9 @@ const PostForm = ({ children }: { children: ReactNode }) => {
                     <FormItem>
                       <FormLabel>Nội dung</FormLabel>
                       <FormControl>
-                        <Textarea className="custom-scrollbar" {...field} />
+                        <Textarea {...field} />
                       </FormControl>
-                      <FormMessage className="" />
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -87,7 +87,6 @@ const PostForm = ({ children }: { children: ReactNode }) => {
                         <Input
                           placeholder="CongViec, ThuGian"
                           type="text"
-                          className=""
                           {...field}
                         />
                       </FormControl>
@@ -117,12 +116,7 @@ const PostForm = ({ children }: { children: ReactNode }) => {
             </div>
 
             <DialogFooter>
-              <Button
-                type="submit"
-                className="bg-blue-600 hover:bg-blue-500 mx-auto mt-10"
-              >
-                Tạo bài viết
-              </Button>
+              <Button type="submit">Tạo bài viết</Button>
             </DialogFooter>
           </form>
         </Form>

@@ -59,7 +59,7 @@ const Register = () => {
 
   return (
     <div className="bg-bgHaui h-screen  bg-no-repeat ">
-      <div className="bg-green-500 max-padd-container bg-transparent h-full flex items-center">
+      <div className="bg-green-500 max-w-[1200px] mx-auto bg-transparent h-full flex items-center">
         <div className="flex flex-col items-center gap-2 bg-white px-10 py-4 shadow-md rounded-lg">
           <img
             src={`https://cdn-001.haui.edu.vn//img/logo-haui-size.png`}
@@ -197,10 +197,7 @@ const Register = () => {
                   Đăng nhập
                 </Link>
               </p>
-              <Button
-                type="submit"
-                className="w-full bg-blue-600 hover:bg-blue-500"
-              >
+              <Button type="submit" className="w-full">
                 Đăng Ký
               </Button>
             </form>

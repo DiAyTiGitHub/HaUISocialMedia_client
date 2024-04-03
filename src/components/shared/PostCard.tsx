@@ -14,15 +14,11 @@ import Delete from "./Delete";
 
 const PortCard = () => {
   return (
-    <div className="post-card">
+    <div className="bg-white rounded-xl p-4 my-4 text-base">
       <div className="relative flex-between">
         <div className="  flex items-center gap-3">
-          <Link to="/">
-            <img
-              src={avatar}
-              alt="creator"
-              className="w-12 lg:h-12 rounded-full"
-            />
+          <Link to="/" className="profile-photo">
+            <img src={avatar} alt="creator" className="rounded-full" />
           </Link>
 
           <div className="flex flex-col">
@@ -35,13 +31,7 @@ const PortCard = () => {
 
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <button
-              onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-                e.stopPropagation()
-              }
-            >
-              <Ellipsis />
-            </button>
+            <Ellipsis />
           </DropdownMenuTrigger>
           <DropdownMenuContent className="relative right-10">
             <DropdownMenuItem>
@@ -70,20 +60,17 @@ const PortCard = () => {
         </DropdownMenu>
       </div>
 
-      <Link
-        to="/"
-        // to={`/posts/${post.$id}`}
-      >
-        <div className="small-medium lg:base-medium py-5">
-          <p>caption</p>
-          <ul className="flex gap-1 mt-2">
-            <li>tag</li>
-            <li>tag</li>
-          </ul>
-        </div>
+      <div className="small-medium lg:base-medium py-5">
+        <p>caption</p>
+        <ul className="flex gap-1 mt-2">
+          <li>tag</li>
+          <li>tag</li>
+        </ul>
+      </div>
 
+      <div className="rounded-xl overflow-hidden my-3">
         <img src={avatar} alt="post image" className="post-card_img" />
-      </Link>
+      </div>
 
       <PostStats />
     </div>

@@ -1,26 +1,28 @@
 import SidebarFriendPage from "@/components/shared/SidebarFriendPage";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/context/AuthProvider";
 import * as apiClient from "@/react-query/query-api";
+import { useSendRequestFriend } from "@/react-query/relationship";
 import { IUser } from "@/types";
-
 import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useMutation } from "react-query";
-
-export type currentFriendsPagination = {
+export type suggestFriendsPagination = {
   pageIndex: number;
   pageSize: number;
 };
 
-const FriendPage = () => {
-  const [currentFriendPagination, setCurrentFriendPagination] =
-    useState<currentFriendsPagination>({
+const SuggestFriendPage = () => {
+  const { mutate: sendRequest } = useSendRequestFriend();
+  const [suggestFriendPagination, setSuggestFriendPagination] =
+    useState<suggestFriendsPagination>({
       pageIndex: 0,
       pageSize: 10,
     });
+
   const [friends, setFriends] = useState<IUser[]>();
 
-  const mutation = useMutation(apiClient.getCurrentFriend, {
+  const mutation = useMutation(apiClient.getSuggestFriends, {
     onSuccess: async (data: any) => {
       setFriends(data);
     },
@@ -29,16 +31,19 @@ const FriendPage = () => {
     },
   });
   useEffect(() => {
-    mutation.mutate(currentFriendPagination);
-  }, [currentFriendPagination]);
-
+    mutation.mutate(suggestFriendPagination);
+  }, [suggestFriendPagination]);
+  console.log(friends);
+  const handleSendRequestFriend = (friendId: string) => {
+    sendRequest(friendId);
+  };
   return (
     <div className="grid grid-cols-[1fr_3fr] mt-5">
       <SidebarFriendPage />
       <div className="flex flex-col gap-10 mx-5">
         <div className="flex-1 p-5">
           <div className="mb-5">
-            <h3 className="h3-bold mb-5">Danh sách bạn bè</h3>
+            <h3 className="h3-bold mb-5">Danh sách gợi ý</h3>
             <div className="flex items-center bg-white max-w-max  rounded-xl">
               <input
                 type="text"
@@ -50,11 +55,12 @@ const FriendPage = () => {
               </button>
             </div>
           </div>
-          {!friends || friends.length === 0 ? (
-            <span>Không có bạn bè</span>
-          ) : (
-            <div className="user-grid my-10">
-              {friends.map((friend: IUser) => (
+
+          <div className=" grid grid-cols-2 gap-5 my-10">
+            {!friends || friends.length === 0 ? (
+              <span>Không có bạn bè gợi ý</span>
+            ) : (
+              friends.map((friend: IUser) => (
                 <div
                   key={friend.id}
                   className="flex items-center gap-5 p-3 bg-white border border-light-2 rounded-xl"
@@ -69,18 +75,18 @@ const FriendPage = () => {
                       {friend.lastName} {friend.firstName}
                     </p>
 
-                    <Button className="bg-blue-600 hover:bg-blue-500">
-                      Bạn bè
+                    <Button onClick={() => handleSendRequestFriend(friend.id)}>
+                      Thêm bạn bè
                     </Button>
                   </div>
                 </div>
-              ))}
-            </div>
-          )}
+              ))
+            )}
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default FriendPage;
+export default SuggestFriendPage;
