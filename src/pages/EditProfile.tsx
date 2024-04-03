@@ -14,9 +14,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import ProfileUploader from "@/components/shared/ProfileUploader";
-import { Pencil } from "lucide-react";
+import { Loader, Pencil } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useAuth } from "@/context/AuthProvider";
+import { useUpdateUser } from "@/react-query/user";
 
 const formSchema = z.object({
   firstname: z.string().min(1, { message: "Họ không được trống" }),
@@ -32,7 +33,7 @@ const formSchema = z.object({
 export type UpdateUserForm = z.infer<typeof formSchema>;
 
 const EditProfile = () => {
-  const navigate = useNavigate();
+  const { mutate: updateUser, isLoading: isUpdating } = useUpdateUser();
   const { currentUser } = useAuth();
   const form = useForm<UpdateUserForm>({
     resolver: zodResolver(formSchema),
@@ -43,16 +44,23 @@ const EditProfile = () => {
       lastname: currentUser?.lastName || "",
       birthDate: currentUser?.birthDate || "",
       address: currentUser?.address || "",
-      gender: currentUser?.gender || "",
+      gender: currentUser?.gender.toString() || "false",
       email: currentUser?.email || "",
     },
   });
 
   // Handler
-  const handleUpdate = async (value: z.infer<typeof formSchema>) => {
-    console.log(value);
-
-    // return navigate(`/profile/${currentUser?.id}`);
+  const handleUpdate = async (values: z.infer<typeof formSchema>) => {
+    updateUser({
+      ...currentUser,
+      phoneNumber: values.phoneNumber,
+      firstName: values.firstname,
+      lastName: values.lastname,
+      birthDate: values.birthDate,
+      address: values.address,
+      gender: values.gender,
+      email: values.email,
+    });
   };
 
   return (
@@ -134,18 +142,18 @@ const EditProfile = () => {
                     <FormControl>
                       <RadioGroup
                         onValueChange={field.onChange}
-                        defaultValue={field.value}
+                        defaultValue={"false"}
                         className="flex  gap-10"
                       >
                         <FormItem className="flex items-center space-x-3 space-y-0">
                           <FormControl>
-                            <RadioGroupItem value="nam" />
+                            <RadioGroupItem value={"false"} />
                           </FormControl>
                           <FormLabel>Nam</FormLabel>
                         </FormItem>
                         <FormItem className="flex items-center space-x-3 space-y-0">
                           <FormControl>
-                            <RadioGroupItem value="nữ" />
+                            <RadioGroupItem value={"true"} />
                           </FormControl>
                           <FormLabel>Nữ</FormLabel>
                         </FormItem>
@@ -196,8 +204,12 @@ const EditProfile = () => {
               <Button type="button" className="bg-red-500 hover:bg-rose-600">
                 Huỷ
               </Button>
-              <Button type="submit" className="bg-blue-600 hover:bg-blue-500">
-                Cập nhật
+              <Button
+                disabled={isUpdating}
+                type="submit"
+                className="bg-blue-600 hover:bg-blue-500"
+              >
+                {isUpdating ? <Loader /> : "Cập nhật"}
               </Button>
             </div>
           </form>

@@ -24,7 +24,7 @@ const PortCard = ({ post }: PostProps) => {
     <div className="bg-white rounded-xl p-4 my-4 text-base">
       <div className="relative flex-between">
         <div className="  flex items-center gap-3">
-          <Link to="/" className="profile-photo">
+          <Link to={`/profile/${post.creator.id}`} className="profile-photo">
             <img
               src={post.creator.avatar || "/person.jpg"}
               alt="creator"
@@ -36,7 +36,7 @@ const PortCard = ({ post }: PostProps) => {
             <p className="base-medium lg:body-bold text-dark-1">
               {post.creator.lastName} {post.creator.firstName}
             </p>
-            <div className="flex-center gap-2 text-light-3">
+            <div className="flex gap-3 text-light-3">
               <p className="subtle-semibold lg:small-regular ">
                 {multiFormatDateString(post.createDate.toString())}
               </p>

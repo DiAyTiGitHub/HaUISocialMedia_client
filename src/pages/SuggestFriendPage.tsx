@@ -1,19 +1,21 @@
+import CustomButtonFriend from "@/components/shared/CustomButtonFriend";
 import SidebarFriendPage from "@/components/shared/SidebarFriendPage";
-import { Button } from "@/components/ui/button";
-import { useAuth } from "@/context/AuthProvider";
 import * as apiClient from "@/react-query/query-api";
 import { useSendRequestFriend } from "@/react-query/relationship";
 import { IUser } from "@/types";
 import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useMutation } from "react-query";
+import { useInView } from "react-intersection-observer";
+import Loader from "@/components/shared/Loader";
 export type suggestFriendsPagination = {
   pageIndex: number;
   pageSize: number;
 };
 
 const SuggestFriendPage = () => {
-  const { mutate: sendRequest } = useSendRequestFriend();
+  const { ref, inView } = useInView();
+  const { mutate: sendRequest, isLoading: isSending } = useSendRequestFriend();
   const [suggestFriendPagination, setSuggestFriendPagination] =
     useState<suggestFriendsPagination>({
       pageIndex: 0,
@@ -37,6 +39,15 @@ const SuggestFriendPage = () => {
   const handleSendRequestFriend = (friendId: string) => {
     sendRequest(friendId);
   };
+
+  useEffect(() => {
+    if (inView) {
+      setSuggestFriendPagination((prev) => ({
+        ...prev,
+        pageSize: prev.pageSize + 10,
+      }));
+    }
+  }, [inView]);
   return (
     <div className="grid grid-cols-[1fr_3fr] mt-5">
       <SidebarFriendPage />
@@ -75,14 +86,26 @@ const SuggestFriendPage = () => {
                       {friend.lastName} {friend.firstName}
                     </p>
 
-                    <Button onClick={() => handleSendRequestFriend(friend.id)}>
+                    {/* <Button onClick={() => handleSendRequestFriend(friend.id)}>
                       Thêm bạn bè
-                    </Button>
+                    </Button> */}
+                    <CustomButtonFriend
+                      handleFn={(id: string) => handleSendRequestFriend(id)}
+                      title="Thêm bạn bè"
+                      titleDisable="Đã gửi lời mời"
+                      isLoading={isSending}
+                      id={friend.id}
+                    />
                   </div>
                 </div>
               ))
             )}
           </div>
+          {friends && friends.length <= 12 && (
+            <div ref={ref}>
+              <Loader />
+            </div>
+          )}
         </div>
       </div>
     </div>

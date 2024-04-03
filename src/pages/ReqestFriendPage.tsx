@@ -1,8 +1,7 @@
+import CustomButtonFriend from "@/components/shared/CustomButtonFriend";
 import SidebarFriendPage from "@/components/shared/SidebarFriendPage";
-import { Button } from "@/components/ui/button";
 import * as apiClient from "@/react-query/query-api";
 import { useAcceptFriend } from "@/react-query/relationship";
-import { IUser } from "@/types";
 import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useMutation } from "react-query";
@@ -34,6 +33,7 @@ const RequestFriendPage = () => {
     mutate(requestFriendPagination);
   }, [requestFriendPagination]);
   console.log(requestFriends);
+
   const handleAcceptFriend = (acceptFriendId: string) => {
     acceptFriend(acceptFriendId);
   };
@@ -61,31 +61,40 @@ const RequestFriendPage = () => {
           {!requestFriends || requestFriends.length === 0 ? (
             <span>Không có lời mời</span>
           ) : (
-            requestFriends.map((friend: any) => (
-              <div
-                key={friend.id}
-                className="flex items-center gap-5 p-3 bg-white border border-light-2 rounded-xl"
-              >
-                <img
-                  src={friend.avatar || "/person.jpg"}
-                  alt="avatar"
-                  className="w-10 h-10 rounded-full object-cover"
-                />
-                <div className="flex justify-between flex-1">
-                  <p className="font-semibold">
-                    {friend.requestSender.lastName}{" "}
-                    {friend.requestSender.firstName}
-                  </p>
+            <div className="grid grid-cols-2 gap-5 my-10">
+              {requestFriends.map((friend: any) => (
+                <div
+                  key={friend.id}
+                  className="flex items-center gap-5 p-3 bg-white border border-light-2 rounded-xl"
+                >
+                  <img
+                    src={friend.avatar || "/person.jpg"}
+                    alt="avatar"
+                    className="w-10 h-10 rounded-full object-cover"
+                  />
+                  <div className="flex justify-between flex-1">
+                    <p className="font-semibold">
+                      {friend.requestSender.lastName}{" "}
+                      {friend.requestSender.firstName}
+                    </p>
 
-                  <Button
-                    className="bg-blue-600 hover:bg-blue-500"
-                    onClick={() => handleAcceptFriend(friend.id)}
-                  >
-                    Chấp nhận
-                  </Button>
+                    {/* <Button
+                      className="bg-blue-600 hover:bg-blue-500"
+                      onClick={() => handleAcceptFriend(friend.id)}
+                    >
+                      Chấp nhận
+                    </Button> */}
+                    <CustomButtonFriend
+                      handleFn={(id: string) => handleAcceptFriend(id)}
+                      title="Chấp nhật"
+                      titleDisable="Đã chấp nhận"
+                      isLoading={isAccpectLoading}
+                      id={friend.id}
+                    />
+                  </div>
                 </div>
-              </div>
-            ))
+              ))}
+            </div>
           )}
         </div>
       </div>

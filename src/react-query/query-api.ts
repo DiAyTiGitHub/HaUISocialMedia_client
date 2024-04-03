@@ -3,12 +3,28 @@ import { currentFriendsPagination } from "@/pages/FriendPage";
 import { LoginForm } from "@/pages/Login";
 import { CreatePostType } from "@/pages/PostForm";
 import { suggestFriendsPagination } from "@/pages/SuggestFriendPage";
-import { IComment, IPost } from "@/types";
+import { IComment, IPost, IUser } from "@/types";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // ================ Auth ==========================
 export const signIn = async (formData: LoginForm) => {
   const response = await fetch(`${API_BASE_URL}/api/auth/authenticate`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  });
+
+  const body = await response.json();
+
+  if (!response.ok) throw Error(body.message);
+
+  return body;
+};
+
+export const register = async (formData: any) => {
+  const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -287,3 +303,60 @@ export const getSubCommentPost = async (
   return body;
 };
 //======================================================================
+
+//================================= User ===============================
+export const getUserById = async (userId: string): Promise<IUser> => {
+  const token = localStorage.getItem("token");
+  const response = await fetch(`${API_BASE_URL}/api/user/id/${userId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const body = await response.json();
+
+  if (!response.ok) throw Error(body.message);
+
+  return body;
+};
+
+export const updateUser = async (formData: IUser) => {
+  const token = localStorage.getItem("token");
+  const response = await fetch(`${API_BASE_URL}/api/user/update`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(formData),
+  });
+
+  const body = await response.json();
+
+  if (!response.ok) throw Error(body.message);
+
+  return body;
+};
+
+export const getPostOfUser = async ({
+  newFeedPagination,
+  userId,
+}: {
+  newFeedPagination: any;
+  userId: string;
+}) => {
+  const token = localStorage.getItem("token");
+  const response = await fetch(`${API_BASE_URL}/api/post/newsfeed/${userId}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(newFeedPagination),
+  });
+  const body = await response.json();
+  if (!response.ok) throw Error(body.message);
+  return body;
+};

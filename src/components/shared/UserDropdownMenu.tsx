@@ -6,9 +6,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { LogOut, Pencil } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { currentUser } from "@/mockData";
+import { useAuth } from "@/context/AuthProvider";
 const UserDropdownMenu = () => {
-  const user = currentUser;
+  const { currentUser } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -20,7 +20,7 @@ const UserDropdownMenu = () => {
     <DropdownMenu>
       <DropdownMenuTrigger>
         <img
-          src={user.avatar}
+          src={currentUser?.avatar || "/person.jpg"}
           alt="user-image"
           className="w-10 h-10 rounded-full object-cover"
         />

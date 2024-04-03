@@ -6,7 +6,7 @@ export type IUser = {
   code: string;
   email: string;
   firstName: string;
-  gender: string;
+  gender: boolean;
   id: string;
   lastName: string;
   password: string;
