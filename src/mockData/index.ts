@@ -103,3 +103,738 @@ export const listFriend = [
     class: "KTPM",
   },
 ];
+
+type UserType = {
+  _id: string;
+  username: string;
+  profileImage: string;
+};
+
+type MessageType = {
+  chat: string;
+  sender: UserType;
+  text: string;
+  createdAt: Date;
+  seenBy: UserType[];
+};
+type ChatType = {
+  members: UserType[];
+  messages: MessageType[];
+};
+
+export const chats: ChatType[] = [
+  {
+    members: [
+      {
+        _id: "2",
+        username: "Thanh Thuan",
+        profileImage:
+          "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+      },
+    ],
+    messages: [
+      {
+        chat: "1",
+        sender: {
+          _id: "1",
+          username: "Nguoi gui",
+          profileImage:
+            "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+        },
+        text: "Noi dung tin nhan noi dung tin nhan",
+        createdAt: new Date(),
+        seenBy: [
+          {
+            _id: "2",
+            username: "Nguoi xem",
+            profileImage:
+              "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+          },
+        ],
+      },
+    ],
+  },
+
+  {
+    members: [
+      {
+        _id: "2",
+        username: "Thanh Thuan",
+        profileImage:
+          "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+      },
+    ],
+    messages: [
+      {
+        chat: "1",
+        sender: {
+          _id: "1",
+          username: "Nguoi gui",
+          profileImage:
+            "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+        },
+        text: "Noi dung tin nhan noi dung tin nhan",
+        createdAt: new Date(),
+        seenBy: [
+          {
+            _id: "2",
+            username: "Nguoi xem",
+            profileImage:
+              "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    members: [
+      {
+        _id: "2",
+        username: "Thanh Thuan",
+        profileImage:
+          "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+      },
+    ],
+    messages: [
+      {
+        chat: "1",
+        sender: {
+          _id: "1",
+          username: "Nguoi gui",
+          profileImage:
+            "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+        },
+        text: "Noi dung tin nhan noi dung tin nhan",
+        createdAt: new Date(),
+        seenBy: [
+          {
+            _id: "2",
+            username: "Nguoi xem",
+            profileImage:
+              "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    members: [
+      {
+        _id: "2",
+        username: "Thanh Thuan",
+        profileImage:
+          "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+      },
+    ],
+    messages: [
+      {
+        chat: "1",
+        sender: {
+          _id: "1",
+          username: "Nguoi gui",
+          profileImage:
+            "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+        },
+        text: "Noi dung tin nhan noi dung tin nhan",
+        createdAt: new Date(),
+        seenBy: [
+          {
+            _id: "2",
+            username: "Nguoi xem",
+            profileImage:
+              "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    members: [
+      {
+        _id: "2",
+        username: "Thanh Thuan",
+        profileImage:
+          "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+      },
+    ],
+    messages: [
+      {
+        chat: "1",
+        sender: {
+          _id: "1",
+          username: "Nguoi gui",
+          profileImage:
+            "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+        },
+        text: "Noi dung tin nhan noi dung tin nhan",
+        createdAt: new Date(),
+        seenBy: [
+          {
+            _id: "2",
+            username: "Nguoi xem",
+            profileImage:
+              "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    members: [
+      {
+        _id: "2",
+        username: "Thanh Thuan",
+        profileImage:
+          "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+      },
+    ],
+    messages: [
+      {
+        chat: "1",
+        sender: {
+          _id: "1",
+          username: "Nguoi gui",
+          profileImage:
+            "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+        },
+        text: "Noi dung tin nhan noi dung tin nhan",
+        createdAt: new Date(),
+        seenBy: [
+          {
+            _id: "2",
+            username: "Nguoi xem",
+            profileImage:
+              "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    members: [
+      {
+        _id: "2",
+        username: "Thanh Thuan",
+        profileImage:
+          "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+      },
+    ],
+    messages: [
+      {
+        chat: "1",
+        sender: {
+          _id: "1",
+          username: "Nguoi gui",
+          profileImage:
+            "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+        },
+        text: "Noi dung tin nhan noi dung tin nhan",
+        createdAt: new Date(),
+        seenBy: [
+          {
+            _id: "2",
+            username: "Nguoi xem",
+            profileImage:
+              "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    members: [
+      {
+        _id: "2",
+        username: "Thanh Thuan",
+        profileImage:
+          "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+      },
+    ],
+    messages: [
+      {
+        chat: "1",
+        sender: {
+          _id: "1",
+          username: "Nguoi gui",
+          profileImage:
+            "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+        },
+        text: "Noi dung tin nhan noi dung tin nhan",
+        createdAt: new Date(),
+        seenBy: [
+          {
+            _id: "2",
+            username: "Nguoi xem",
+            profileImage:
+              "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    members: [
+      {
+        _id: "2",
+        username: "Thanh Thuan",
+        profileImage:
+          "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+      },
+    ],
+    messages: [
+      {
+        chat: "1",
+        sender: {
+          _id: "1",
+          username: "Nguoi gui",
+          profileImage:
+            "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+        },
+        text: "Noi dung tin nhan noi dung tin nhan",
+        createdAt: new Date(),
+        seenBy: [
+          {
+            _id: "2",
+            username: "Nguoi xem",
+            profileImage:
+              "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    members: [
+      {
+        _id: "2",
+        username: "Thanh Thuan",
+        profileImage:
+          "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+      },
+    ],
+    messages: [
+      {
+        chat: "1",
+        sender: {
+          _id: "1",
+          username: "Nguoi gui",
+          profileImage:
+            "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+        },
+        text: "Noi dung tin nhan noi dung tin nhan",
+        createdAt: new Date(),
+        seenBy: [
+          {
+            _id: "2",
+            username: "Nguoi xem",
+            profileImage:
+              "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    members: [
+      {
+        _id: "2",
+        username: "Thanh Thuan",
+        profileImage:
+          "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+      },
+    ],
+    messages: [
+      {
+        chat: "1",
+        sender: {
+          _id: "1",
+          username: "Nguoi gui",
+          profileImage:
+            "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+        },
+        text: "Noi dung tin nhan noi dung tin nhan",
+        createdAt: new Date(),
+        seenBy: [
+          {
+            _id: "2",
+            username: "Nguoi xem",
+            profileImage:
+              "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    members: [
+      {
+        _id: "2",
+        username: "Thanh Thuan",
+        profileImage:
+          "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+      },
+    ],
+    messages: [
+      {
+        chat: "1",
+        sender: {
+          _id: "1",
+          username: "Nguoi gui",
+          profileImage:
+            "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+        },
+        text: "Noi dung tin nhan noi dung tin nhan",
+        createdAt: new Date(),
+        seenBy: [
+          {
+            _id: "2",
+            username: "Nguoi xem",
+            profileImage:
+              "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    members: [
+      {
+        _id: "2",
+        username: "Thanh Thuan",
+        profileImage:
+          "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+      },
+    ],
+    messages: [
+      {
+        chat: "1",
+        sender: {
+          _id: "1",
+          username: "Nguoi gui",
+          profileImage:
+            "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+        },
+        text: "Noi dung tin nhan noi dung tin nhan",
+        createdAt: new Date(),
+        seenBy: [
+          {
+            _id: "2",
+            username: "Nguoi xem",
+            profileImage:
+              "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    members: [
+      {
+        _id: "2",
+        username: "Thanh Thuan",
+        profileImage:
+          "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+      },
+    ],
+    messages: [
+      {
+        chat: "1",
+        sender: {
+          _id: "1",
+          username: "Nguoi gui",
+          profileImage:
+            "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+        },
+        text: "Noi dung tin nhan noi dung tin nhan",
+        createdAt: new Date(),
+        seenBy: [
+          {
+            _id: "2",
+            username: "Nguoi xem",
+            profileImage:
+              "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    members: [
+      {
+        _id: "2",
+        username: "Thanh Thuan",
+        profileImage:
+          "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+      },
+    ],
+    messages: [
+      {
+        chat: "1",
+        sender: {
+          _id: "1",
+          username: "Nguoi gui",
+          profileImage:
+            "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+        },
+        text: "Noi dung tin nhan noi dung tin nhan",
+        createdAt: new Date(),
+        seenBy: [
+          {
+            _id: "2",
+            username: "Nguoi xem",
+            profileImage:
+              "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    members: [
+      {
+        _id: "2",
+        username: "Thanh Thuan",
+        profileImage:
+          "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+      },
+    ],
+    messages: [
+      {
+        chat: "1",
+        sender: {
+          _id: "1",
+          username: "Nguoi gui",
+          profileImage:
+            "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+        },
+        text: "Noi dung tin nhan noi dung tin nhan",
+        createdAt: new Date(),
+        seenBy: [
+          {
+            _id: "2",
+            username: "Nguoi xem",
+            profileImage:
+              "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    members: [
+      {
+        _id: "2",
+        username: "Thanh Thuan",
+        profileImage:
+          "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+      },
+    ],
+    messages: [
+      {
+        chat: "1",
+        sender: {
+          _id: "1",
+          username: "Nguoi gui",
+          profileImage:
+            "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+        },
+        text: "Noi dung tin nhan noi dung tin nhan",
+        createdAt: new Date(),
+        seenBy: [
+          {
+            _id: "2",
+            username: "Nguoi xem",
+            profileImage:
+              "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    members: [
+      {
+        _id: "2",
+        username: "Thanh Thuan",
+        profileImage:
+          "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+      },
+    ],
+    messages: [
+      {
+        chat: "1",
+        sender: {
+          _id: "1",
+          username: "Nguoi gui",
+          profileImage:
+            "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+        },
+        text: "Noi dung tin nhan noi dung tin nhan",
+        createdAt: new Date(),
+        seenBy: [
+          {
+            _id: "2",
+            username: "Nguoi xem",
+            profileImage:
+              "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    members: [
+      {
+        _id: "2",
+        username: "Thanh Thuan",
+        profileImage:
+          "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+      },
+    ],
+    messages: [
+      {
+        chat: "1",
+        sender: {
+          _id: "1",
+          username: "Nguoi gui",
+          profileImage:
+            "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+        },
+        text: "Noi dung tin nhan noi dung tin nhan",
+        createdAt: new Date(),
+        seenBy: [
+          {
+            _id: "2",
+            username: "Nguoi xem",
+            profileImage:
+              "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    members: [
+      {
+        _id: "2",
+        username: "Thanh Thuan",
+        profileImage:
+          "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+      },
+    ],
+    messages: [
+      {
+        chat: "1",
+        sender: {
+          _id: "1",
+          username: "Nguoi gui",
+          profileImage:
+            "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+        },
+        text: "Noi dung tin nhan noi dung tin nhan",
+        createdAt: new Date(),
+        seenBy: [
+          {
+            _id: "2",
+            username: "Nguoi xem",
+            profileImage:
+              "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    members: [
+      {
+        _id: "2",
+        username: "Thanh Thuan",
+        profileImage:
+          "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+      },
+    ],
+    messages: [
+      {
+        chat: "1",
+        sender: {
+          _id: "1",
+          username: "Nguoi gui",
+          profileImage:
+            "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+        },
+        text: "Noi dung tin nhan noi dung tin nhan",
+        createdAt: new Date(),
+        seenBy: [
+          {
+            _id: "2",
+            username: "Nguoi xem",
+            profileImage:
+              "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    members: [
+      {
+        _id: "2",
+        username: "Thanh Thuan",
+        profileImage:
+          "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+      },
+    ],
+    messages: [
+      {
+        chat: "1",
+        sender: {
+          _id: "1",
+          username: "Nguoi gui",
+          profileImage:
+            "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+        },
+        text: "Noi dung tin nhan noi dung tin nhan",
+        createdAt: new Date(),
+        seenBy: [
+          {
+            _id: "2",
+            username: "Nguoi xem",
+            profileImage:
+              "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    members: [
+      {
+        _id: "2",
+        username: "Thanh Thuan",
+        profileImage:
+          "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+      },
+    ],
+    messages: [
+      {
+        chat: "1",
+        sender: {
+          _id: "1",
+          username: "Nguoi gui",
+          profileImage:
+            "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+        },
+        text: "Noi dung tin nhan noi dung tin nhan",
+        createdAt: new Date(),
+        seenBy: [
+          {
+            _id: "2",
+            username: "Nguoi xem",
+            profileImage:
+              "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+          },
+        ],
+      },
+    ],
+  },
+];

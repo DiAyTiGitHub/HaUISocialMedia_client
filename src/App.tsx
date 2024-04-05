@@ -9,6 +9,11 @@ import EditProfile from "./pages/EditProfile";
 import FriendPage from "./pages/FriendPage";
 import Wishlist from "./pages/Wishlist";
 import GroupPage from "./pages/GroupPage";
+import ProtectedRoute from "./context/ProtectedRoute";
+import ChatDetailPage from "./pages/ChatDetailPage";
+import SuggestFriendPage from "./pages/SuggestFriendPage";
+import RequestFriendPage from "./pages/ReqestFriendPage";
+import PostDetail from "./pages/PostDetail";
 
 const App = () => {
   return (
@@ -17,16 +22,21 @@ const App = () => {
       <Route path="/register" element={<Register />} />
 
       {/* private routes */}
-      <Route path="/" element={<Layout />}>
-        <Route index element={<HomePage />} />
+      <Route>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route path="/profile/edit" element={<EditProfile />} />
+          <Route path="/wishlist" element={<Wishlist />} />
+          <Route path="/groups" element={<GroupPage />} />
+          <Route path="/friends" element={<FriendPage />} />
+          <Route path="/suggest-friends" element={<SuggestFriendPage />} />
+          <Route path="/add-friends" element={<RequestFriendPage />} />
+          <Route path="/profile/:profileId" element={<Profile />} />
+          <Route path="/post/:postId" element={<PostDetail />} />
+        </Route>
         <Route path="/chats" element={<ChatPage />} />
-        <Route path="/profile/edit" element={<EditProfile />} />
-        <Route path="/friends" element={<FriendPage />} />
-        <Route path="/wishlist" element={<Wishlist />} />
-        <Route path="/groups" element={<GroupPage />} />
+        <Route path="/chats/:roomId" element={<ChatDetailPage />} />
       </Route>
-
-      <Route path="/profile/:profileId" element={<Profile />} />
     </Routes>
   );
 };

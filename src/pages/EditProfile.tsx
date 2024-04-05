@@ -11,46 +11,62 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useUserContext } from "@/context/authContext";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import ProfileUploader from "@/components/shared/ProfileUploader";
-import { Pencil } from "lucide-react";
+import { Loader, Pencil } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useAuth } from "@/context/AuthProvider";
+import { useUpdateUser } from "@/react-query/user";
 
 const formSchema = z.object({
-  fullname: z.string().min(5, { message: "Họ tên không được trống" }),
-  phone: z.string().min(1, { message: "Số điện thoại không được trống" }),
-  file: z.custom<File[]>(),
+  firstname: z.string().min(1, { message: "Họ không được trống" }),
+  lastname: z.string().min(1, { message: "Tên không được trống" }),
+  birthDate: z.string(),
+  address: z.string().min(1, { message: "Địa chỉ không được trống" }),
+  email: z.string().email({ message: "Email không hợp lệ" }),
+  phoneNumber: z.string().min(1, { message: "Số điện thoại không được trống" }),
+  avatar: z.custom<File[]>(),
   gender: z.string(),
-  class: z.string(),
 });
 
+export type UpdateUserForm = z.infer<typeof formSchema>;
+
 const EditProfile = () => {
-  const navigate = useNavigate();
-  const { user } = useUserContext();
-  const form = useForm<z.infer<typeof formSchema>>({
+  const { mutate: updateUser, isLoading: isUpdating } = useUpdateUser();
+  const { currentUser } = useAuth();
+  const form = useForm<UpdateUserForm>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      file: [],
-      phone: user.phone,
-      fullname: user.fullname,
-      class: user.class,
-      gender: user.gender,
+      avatar: [],
+      phoneNumber: currentUser?.phoneNumber || "",
+      firstname: currentUser?.firstName || "",
+      lastname: currentUser?.lastName || "",
+      birthDate: currentUser?.birthDate || "",
+      address: currentUser?.address || "",
+      gender: currentUser?.gender.toString() || "false",
+      email: currentUser?.email || "",
     },
   });
 
   // Handler
-  const handleUpdate = async (value: z.infer<typeof formSchema>) => {
-    console.log(value);
-
-    return navigate(`/profile/1`);
+  const handleUpdate = async (values: z.infer<typeof formSchema>) => {
+    updateUser({
+      ...currentUser,
+      phoneNumber: values.phoneNumber,
+      firstName: values.firstname,
+      lastName: values.lastname,
+      birthDate: values.birthDate,
+      address: values.address,
+      gender: values.gender,
+      email: values.email,
+    });
   };
 
   return (
-    <div className="flex flex-1 bg-white p-10 ">
-      <div className="max-padd-container">
-        <div className="flex-start gap-3 justify-start w-full max-w-5xl">
+    <div className="flex w-full bg-white p-10 ">
+      <div className="mx-auto">
+        <div className="flex-start gap-3 justify-start w-full ">
           <Pencil />
           <h2 className="text-xl md:h3-bold text-left w-full">
             Chỉnh sửa thông tin cá nhân
@@ -60,45 +76,58 @@ const EditProfile = () => {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleUpdate)}
-            className="flex flex-col gap-7 w-full mt-4 max-w-5xl"
+            className="flex flex-col gap-7 w-full mt-4 "
           >
             <FormField
               control={form.control}
-              name="file"
+              name="avatar"
               render={({ field }) => (
                 <FormItem className="flex">
                   <FormControl>
                     <ProfileUploader
                       fieldChange={field.onChange}
-                      mediaUrl={user.avatar}
+                      mediaUrl={currentUser?.avatar || "/person.jpg"}
                     />
                   </FormControl>
                   <FormMessage className="" />
                 </FormItem>
               )}
             />
-
-            <FormField
-              control={form.control}
-              name="fullname"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input placeholder="Họ tên" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="flex gap-3">
+              <FormField
+                control={form.control}
+                name="firstname"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input placeholder="Tên" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="lastname"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input placeholder="Họ" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
             <div className="grid grid-cols-[1fr_1fr] gap-5">
               <FormField
                 control={form.control}
-                name="class"
+                name="birthDate"
                 render={({ field }) => (
                   <FormItem className="flex-1">
                     <FormControl>
-                      <Input placeholder="Lớp" {...field} />
+                      <Input placeholder="Sinh nhật" {...field} type="date" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -113,18 +142,18 @@ const EditProfile = () => {
                     <FormControl>
                       <RadioGroup
                         onValueChange={field.onChange}
-                        defaultValue={field.value}
+                        defaultValue={"false"}
                         className="flex  gap-10"
                       >
                         <FormItem className="flex items-center space-x-3 space-y-0">
                           <FormControl>
-                            <RadioGroupItem value="nam" />
+                            <RadioGroupItem value={"false"} />
                           </FormControl>
                           <FormLabel>Nam</FormLabel>
                         </FormItem>
                         <FormItem className="flex items-center space-x-3 space-y-0">
                           <FormControl>
-                            <RadioGroupItem value="nữ" />
+                            <RadioGroupItem value={"true"} />
                           </FormControl>
                           <FormLabel>Nữ</FormLabel>
                         </FormItem>
@@ -137,7 +166,7 @@ const EditProfile = () => {
             </div>
             <FormField
               control={form.control}
-              name="phone"
+              name="phoneNumber"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
@@ -147,12 +176,40 @@ const EditProfile = () => {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input placeholder="Email" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="address"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input placeholder="Địa chỉ" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <div className="flex gap-4 items-center justify-end">
-              <Button type="button" className="bg-red hover:bg-rose-600">
+              <Button type="button" className="bg-red-500 hover:bg-rose-600">
                 Huỷ
               </Button>
-              <Button type="submit" className="bg-blue-600 hover:bg-blue-500">
-                Cập nhật
+              <Button
+                disabled={isUpdating}
+                type="submit"
+                className="bg-blue-600 hover:bg-blue-500"
+              >
+                {isUpdating ? <Loader /> : "Cập nhật"}
               </Button>
             </div>
           </form>

@@ -10,9 +10,13 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-import React from "react";
-
-const Delete = ({ children }: { children: React.ReactNode }) => {
+import React, { ReactNode } from "react";
+type DeleteProps = {
+  children: ReactNode;
+  handleDelete: () => void;
+  isDisable: boolean;
+};
+const Delete = ({ children, handleDelete, isDisable }: DeleteProps) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger
@@ -33,7 +37,11 @@ const Delete = ({ children }: { children: React.ReactNode }) => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Huỷ</AlertDialogCancel>
-          <AlertDialogAction className="bg-red hover:bg-red text-white">
+          <AlertDialogAction
+            disabled={isDisable}
+            className="bg-red-600 hover:bg-red-500 text-white"
+            onClick={handleDelete}
+          >
             Xoá
           </AlertDialogAction>
         </AlertDialogFooter>

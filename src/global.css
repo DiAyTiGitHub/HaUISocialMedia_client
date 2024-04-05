@@ -1,78 +1,42 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
-
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --primary-color-hue: 252;
+    --dark-color-lightness: 17%;
+    --light-color-lightness: 95%;
+    --white-color-lightness: 100%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --color-dark: hsl(252, 30%, var(--dark-color-lightness));
+    --color-light: hsl(252, 30%, var(--light-color-lightness));
+    --color-gray: hsl(var(--primary-color-hue), 15%, 65%);
+    --color-primary: hsl(var(--primary-color-hue), 75%, 60%);
+    --color-secondary: hsl(252, 100%, 90%);
+    --color-sucess: hsl(120, 90%, 65%);
+    --color-danger: hsl(0, 95%, 65%);
+    --color-white: hsl(252, 30%, var(--white-color-lightness));
+    --color-black: hsl(252, 30%, 10%);
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --border-radius: 2rem;
+    --card-border-radius: 1rem;
+    --btn-padding: 0.6rem 2rem;
+    --search-padding: 0.6rem 1rem;
+    --card-padding: 1rem;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --sticky-top-left: 5.4rem;
+    --sticky-top-right: -18rem;
   }
 }
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Inter", "sans-serif";
+  font-family: "Roboto", sans-serif;
+  text-decoration: none;
+  list-style: none;
 }
 .linearGradient {
   background: linear-gradient(180deg, #fde1ff, #e1ffea22, 60%);
@@ -92,27 +56,181 @@
   background: #555;
 }
 body {
-  background-color: #f0f2f5;
+  color: var(--color-dark);
+  background: var(--color-light);
+  overflow-x: hidden;
 }
 
-@layer base {
-  * {
-    @apply box-border list-none p-0 m-0 scroll-smooth;
-  }
+.form {
+  @apply flex flex-col items-center gap-5;
+}
 
-  body {
-    @apply min-h-screen font-inter;
-  }
+.input {
+  @apply flex items-center justify-between px-5 py-3 rounded-2xl cursor-pointer shadow-2xl;
+}
 
-  .max-container {
-    @apply mx-auto max-w-[1440px];
-  }
-  .padding-container {
-    @apply px-6 lg:px-20 3xl:px-0;
-  }
-  .max-padd-container {
-    @apply mx-auto max-w-[1440px] px-6 lg:px-20;
-  }
+.input-field {
+  @apply w-[300px] max-sm:w-full bg-transparent outline-none;
+}
+
+.button {
+  @apply w-full px-5 py-3 mt-5 mb-7 rounded-xl cursor-pointer bg-blue-1 hover:bg-red-1 text-white text-body-bold;
+}
+
+.link {
+  @apply text-base-medium hover:text-red-1;
+}
+
+/* Main Container */
+.main-container {
+  @apply max-h-screen flex justify-between gap-5 px-10 py-3 max-lg:gap-8;
+}
+
+/* Top Bar */
+.topbar {
+  @apply top-0 sticky px-10 py-5 flex items-center justify-between bg-blue-2;
+}
+
+.menu {
+  @apply flex items-center gap-8 max-sm:hidden;
+}
+
+.profilePhoto {
+  @apply w-11 h-11 rounded-full object-cover object-center;
+}
+
+/* Bottom Bar */
+.bottom-bar {
+  @apply fixed bottom-0 z-50 w-full flex justify-between items-center px-5 py-2 bg-white sm:hidden;
+}
+
+/* Profile Page */
+.profile-page {
+  @apply mt-16 flex flex-col gap-11 items-center justify-center;
+}
+
+.edit-profile {
+  @apply flex flex-col gap-9;
+}
+
+.profile {
+  @apply w-1/3 max-sm:w-5/6 max-lg:w-2/3 max-xl:w-1/2 flex flex-col items-center justify-center gap-6 bg-white rounded-3xl;
+}
+
+/* Chat List */
+.chat-list {
+  @apply h-[80vh] flex flex-col gap-5;
+}
+
+.input-search {
+  @apply px-5 py-3 rounded-2xl bg-white outline-none;
+}
+
+.chats {
+  @apply flex-1 flex flex-col bg-white rounded-3xl py-4 px-3 overflow-y-scroll;
+}
+
+/* Chat Box */
+.chat-box {
+  @apply flex items-start justify-between p-2 rounded-2xl cursor-pointer hover:bg-grey-2;
+}
+
+.current-chat {
+  @apply bg-blue-2;
+}
+
+.chat-info {
+  @apply flex gap-3;
+}
+
+.last-message {
+  @apply w-[120px] sm:w-[250px] truncate;
+}
+
+/* Contacts */
+.create-chat-container {
+  @apply flex flex-col gap-5;
+}
+
+.contact-bar {
+  @apply flex gap-7 items-start max-lg:flex-col;
+}
+
+.contact-list {
+  @apply h-[70vh] w-1/2 max-lg:w-full flex flex-col gap-5 bg-white rounded-3xl py-5 px-8 mb-20;
+}
+
+.contact {
+  @apply flex gap-3 items-center cursor-pointer;
+}
+
+.create-chat {
+  @apply w-1/2 max-lg:w-full flex flex-col gap-7;
+}
+
+.input-group-name {
+  @apply bg-white rounded-2xl px-5 py-3 outline-none;
+}
+
+.selected-contact {
+  @apply text-base-bold p-2 bg-pink-1 rounded-lg;
+}
+
+/* ChatDetails */
+.chat-details {
+  @apply h-[85vh] flex flex-col bg-white rounded-2xl;
+}
+
+/* Chat Header */
+.chat-header {
+  @apply flex items-center gap-4 px-8 py-3 text-body-bold;
+}
+
+/* Chat Body */
+.chat-body {
+  @apply flex-1 flex flex-col gap-5 bg-[#d2c8c8] p-5 overflow-y-scroll;
+}
+
+.message-box {
+  @apply flex gap-3 items-start;
+}
+
+.message-profilePhoto {
+  @apply w-8 h-8 rounded-full;
+}
+
+.message-info {
+  @apply flex flex-col gap-2;
+}
+
+.message-photo {
+  @apply w-40 h-auto rounded-lg;
+}
+
+.message-text {
+  @apply w-fit bg-white p-3 rounded-lg text-base-medium;
+}
+
+.message-text-sender {
+  @apply w-fit bg-purple-2 text-white p-3 rounded-lg text-base-medium;
+}
+
+/* Message Input */
+.send-message {
+  @apply w-full flex items-center justify-between px-7 py-3 rounded-3xl cursor-pointer bg-white;
+}
+
+.prepare-message {
+  @apply flex items-center gap-4;
+}
+
+.send-icon {
+  @apply w-10 h-10 rounded-full hover:scale-125 ease-in-out duration-300;
+}
+
+/* BottomBar */
+.bottombar {
+  @apply bottom-0 sticky px-10 py-5 flex items-center justify-between sm:hidden;
 }
 
 @layer utilities {
@@ -130,7 +248,7 @@ body {
   }
 
   .h3-bold {
-    @apply text-[24px] font-bold leading-[140%] tracking-tighter;
+    @apply text-[20px] font-bold leading-[140%] tracking-tighter;
   }
 
   .base-semibold {
@@ -209,17 +327,37 @@ body {
     background: #7878a3;
   }
 
+  /* Layout */
   .common-container {
-    @apply flex flex-col flex-1 items-center gap-10 overflow-scroll py-10 px-5 md:px-8 lg:p-14 custom-scrollbar;
+    @apply w-[80%] mx-auto;
+  }
+  .search-padding {
+    @apply px-2 py-2;
+  }
+  .card-padding {
+    @apply p-2;
+  }
+  .sidebar-active {
+    @apply before:block before:w-2 before:h-full before:absolute before:bg-primary;
   }
 
+  .profile-photo {
+    @apply w-[2.7rem] overflow-hidden h-[2.7rem];
+  }
+
+  .btn {
+    @apply inline-block py-2 px-8 font-medium rounded-xl cursor-pointer hover:opacity-80;
+  }
+  .btn-primary {
+    @apply bg-primary text-white;
+  }
   /* All Users */
   .user-container {
     @apply max-w-5xl flex flex-col items-start w-full gap-6 md:gap-9;
   }
 
   .user-grid {
-    @apply w-full grid grid-cols-1 xs:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-7 max-w-5xl;
+    @apply w-full grid grid-cols-1 xs:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-7 max-w-5xl;
   }
 
   /* Explore */
@@ -237,11 +375,11 @@ body {
 
   /* Home */
   .home-container {
-    @apply flex flex-col flex-1 items-center gap-10 overflow-scroll py-10;
+    @apply flex flex-col flex-1 items-center gap-10 overflow-scroll py-10 px-5 md:px-8 lg:p-14 custom-scrollbar;
   }
 
   .home-posts {
-    @apply flex flex-col items-center w-full gap-6 md:gap-9;
+    @apply max-w-screen-sm flex flex-col items-center w-full gap-6 md:gap-9;
   }
 
   .home-creators {
@@ -294,15 +432,15 @@ body {
 
   /* File uploader */
   .file_uploader-img {
-    @apply h-80 w-full rounded-[24px] object-cover object-top;
+    @apply w-full rounded-[24px] object-cover object-top;
   }
 
   .file_uploader-label {
-    @apply text-light-4 text-center small-regular w-full  border-t border-t-dark-4;
+    @apply text-light text-center small-regular w-full p-4 border-t border-t-dark;
   }
 
   .file_uploader-box {
-    @apply flex-center flex-col p-5 w-48 h-48;
+    @apply flex-center flex-col p-7 h-80;
   }
 
   /* Grid Post List */
@@ -329,11 +467,11 @@ body {
 
   /* Post Card */
   .post-card {
-    @apply bg-white rounded-3xl border p-5 lg:p-7 w-full;
+    @apply bg-dark rounded-3xl border border-dark p-5 lg:p-7 w-full max-w-screen-sm;
   }
 
   .post-card_img {
-    @apply h-64 xs:h-[300px] lg:h-[350px] w-full rounded-[24px] object-cover mb-5;
+    @apply h-64 xs:h-[400px] lg:h-[450px] w-full rounded-[24px] object-cover mb-5;
   }
 
   /* Topbar */
@@ -347,35 +485,8 @@ body {
   }
 }
 
+.thread-card_bar {
+  @apply relative mt-2 w-0.5 grow rounded-full bg-neutral-800;
+}
 @layer components {
-  /* SHADCN COMPONENTS */
-  /* Form */
-  .shad-form_label {
-    @apply text-white !important;
-  }
-
-  .shad-form_message {
-    @apply text-red !important;
-  }
-
-  .shad-input {
-    @apply h-12 bg-dark-4 border-none placeholder:text-light-4 focus-visible:ring-1 focus-visible:ring-offset-1 ring-offset-light-3 !important;
-  }
-
-  .shad-textarea {
-    @apply h-36 bg-dark-3 rounded-xl border-none focus-visible:ring-1 focus-visible:ring-offset-1 ring-offset-light-3 !important;
-  }
-
-  /* Button */
-  .shad-button_primary {
-    @apply bg-primary-500 hover:bg-primary-500 text-light-1 flex gap-2 !important;
-  }
-
-  .shad-button_dark_4 {
-    @apply h-12 bg-dark-4 px-5 text-light-1 flex gap-2 !important;
-  }
-
-  .shad-button_ghost {
-    @apply flex gap-4 items-center justify-start hover:bg-transparent hover:text-white !important;
-  }
 }

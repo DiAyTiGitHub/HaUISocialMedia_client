@@ -1,8 +1,7 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-
-import { Button } from "@/components/ui/button";
+import * as apiClient from "@/react-query/query-api";
 import {
   Form,
   FormControl,
@@ -12,54 +11,62 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useMutation } from "react-query";
+import toast from "react-hot-toast";
+import { Button } from "@/components/ui/button";
 
 const formSchema = z.object({
   username: z.string().min(1, {
     message: "Tên đăng nhập là bắt buộc",
   }),
-  fullname: z.string().min(1, {
-    message: "Họ tên là bắt buộc",
-  }),
-  phone: z.string().min(1, {
-    message: "Số điện thoại là bắt buộc",
-  }),
-  class: z.string().min(1, {
-    message: "Lớp là bắt buộc",
-  }),
-  gender: z.enum(["nam", "nữ"], {
-    required_error: "Vui lòng chọn giới tính",
-  }),
   password: z.string().min(1, {
     message: "Mật khẩu là bắt buộc",
   }),
+  firstName: z.string().min(1, { message: "Họ không được trống" }),
+  lastName: z.string().min(1, { message: "Tên không được trống" }),
+  birthDate: z.string(),
   confirmPassword: z.string().min(1, {
-    message: "Mật khẩu là bắt buộc",
+    message: "Nhập lại mật khẩu",
   }),
+  phoneNumber: z.string().min(1, { message: "Số điện thoại không được trống" }),
+  gender: z.string(),
 });
-
 const Register = () => {
+  const navigate = useNavigate();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: "",
-      fullname: "",
       password: "",
+      firstName: "",
+      lastName: "",
       confirmPassword: "",
-      phone: "",
-      gender: "nam",
-      class: "",
+      phoneNumber: "",
+      gender: "false",
+      birthDate: "",
+    },
+  });
+  const { mutate: register, isLoading } = useMutation(apiClient.register, {
+    onSuccess: async (data: any) => {
+      console.log(data);
+      toast.success("Đăng ký thành công");
+      navigate("/login");
+    },
+    onError: () => {
+      toast.error("Đăng ký thất bại");
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
     console.log(values);
-  }
+    register(values);
+  };
 
   return (
     <div className="bg-bgHaui h-screen  bg-no-repeat ">
-      <div className="bg-green-500 max-padd-container bg-transparent h-full flex items-center">
+      <div className="bg-green-500 max-w-[1200px] mx-auto bg-transparent h-full flex items-center">
         <div className="flex flex-col items-center gap-2 bg-white px-10 py-4 shadow-md rounded-lg">
           <img
             src={`https://cdn-001.haui.edu.vn//img/logo-haui-size.png`}
@@ -91,21 +98,35 @@ const Register = () => {
                   </FormItem>
                 )}
               />
+              <div className="flex gap-3">
+                <FormField
+                  control={form.control}
+                  name="firstName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input placeholder="Tên" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="lastName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input placeholder="Họ" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
               <FormField
                 control={form.control}
-                name="fullname"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input placeholder="Họ tên" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="phone"
+                name="phoneNumber"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
@@ -118,11 +139,11 @@ const Register = () => {
               <div className="grid grid-cols-[1fr_1fr] gap-5">
                 <FormField
                   control={form.control}
-                  name="class"
+                  name="birthDate"
                   render={({ field }) => (
                     <FormItem className="flex-1">
                       <FormControl>
-                        <Input placeholder="Lớp" {...field} />
+                        <Input placeholder="Sinh nhật" {...field} type="date" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -142,13 +163,13 @@ const Register = () => {
                         >
                           <FormItem className="flex items-center space-x-3 space-y-0">
                             <FormControl>
-                              <RadioGroupItem value="nam" />
+                              <RadioGroupItem value="false" />
                             </FormControl>
                             <FormLabel>Nam</FormLabel>
                           </FormItem>
                           <FormItem className="flex items-center space-x-3 space-y-0">
                             <FormControl>
-                              <RadioGroupItem value="nữ" />
+                              <RadioGroupItem value="true" />
                             </FormControl>
                             <FormLabel>Nữ</FormLabel>
                           </FormItem>
@@ -197,10 +218,7 @@ const Register = () => {
                   Đăng nhập
                 </Link>
               </p>
-              <Button
-                type="submit"
-                className="w-full bg-blue-600 hover:bg-blue-500"
-              >
+              <Button type="submit" className="w-full">
                 Đăng Ký
               </Button>
             </form>

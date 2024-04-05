@@ -1,15 +1,19 @@
 import PostCard from "./PostCard";
+import { IPost } from "@/types";
+import { Loader } from "lucide-react";
 
-const PostList = () => {
+type PostListProps = {
+  posts: IPost[];
+  isLoading: boolean;
+};
+const PostList = ({ posts, isLoading }: PostListProps) => {
+  if (isLoading) return <Loader />;
   return (
-    <ul className="flex flex-col flex-1 gap-9 w-full pb-10">
-      <li>
-        <PostCard />
-      </li>
-      <li>
-        <PostCard />
-      </li>
-    </ul>
+    <div className="">
+      {posts?.map((post: IPost) => (
+        <PostCard key={post.id} post={post} />
+      ))}
+    </div>
   );
 };
 

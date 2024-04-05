@@ -1,47 +1,55 @@
 import avatar from "@/assets/avatar.png";
 import { Button } from "../ui/button";
-import { Pencil } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Loader, Pencil } from "lucide-react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "@/context/AuthProvider";
+import { useGetUseById } from "@/react-query/user";
 
 const ProfileInfo = () => {
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
+  const { profileId } = useParams();
+  const { data: userProfile, isLoading } = useGetUseById(profileId as string);
+  console.log(userProfile);
+  if (isLoading) return <Loader />;
   return (
     <div className="bg-white h-fit p-5">
       <div className="flex justify-between items-center border-b border-black pb-5">
         <div className="flex items-center gap-2">
-          <img
-            src={avatar}
-            alt="avartar"
-            className="w-12 lg:h-12 object-cover rounded-full"
-          />
+          <div className="profile-photo">
+            <img
+              src={userProfile?.avatar || "/person.jpg"}
+              alt="avartar"
+              className="rounded-full"
+            />
+          </div>
           <div>
-            <p className="text-lg font-bold">Nguyen Thanh Thuan</p>
-            <p>
-              <span>255</span> bạn bè
+            <p className="text-base font-bold">
+              {userProfile?.lastName} {userProfile?.firstName}
             </p>
           </div>
         </div>
-        <Button
-          onClick={() => navigate("/profile/edit")}
-          className="bg-blue-600 hover:bg-blue-500 flex items-center gap-3"
-        >
-          {" "}
-          <Pencil />
-          Chỉnh sửa
-        </Button>
+        {currentUser?.id === userProfile?.id ? (
+          <Button onClick={() => navigate("/profile/edit")}>
+            <Pencil />
+          </Button>
+        ) : (
+          <Button>Bạn bè</Button>
+        )}
       </div>
 
       <div className="mt-5 flex flex-col ">
-        <p className="text-xl font-bold mb-5">Giới thiệu</p>
+        <p className="h3-bold mb-5">Giới thiệu</p>
         <div className="flex flex-col gap-5 text-lg">
           <p>
             Giới tính: <span>Nam</span>
           </p>
-          <p>
-            Tên tài khoản: <span>abc12345</span>
+          <p className="font-medium">
+            Tên tài khoản:{" "}
+            <span className="font-normal">{userProfile?.username}</span>
           </p>
           <p>
-            Ngày tham gia: <span>11/04/22</span>
+            Ngày sinh: <span>11/04/22</span>
           </p>
           <p>
             Lớp: <span>KTPM</span>

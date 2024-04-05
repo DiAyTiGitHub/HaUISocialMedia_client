@@ -4,18 +4,23 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useUserContext } from "@/context/authContext";
 import { LogOut, Pencil } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
+import { useAuth } from "@/context/AuthProvider";
 const UserDropdownMenu = () => {
-  const { user } = useUserContext();
+  const { currentUser } = useAuth();
   const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <img
-          src={user.avatar}
+          src={currentUser?.avatar || "/person.jpg"}
           alt="user-image"
           className="w-10 h-10 rounded-full object-cover"
         />
@@ -30,7 +35,7 @@ const UserDropdownMenu = () => {
           </button>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <button className="flex items-center gap-2">
+          <button className="flex items-center gap-2" onClick={handleLogout}>
             <LogOut /> Đăng xuất
           </button>
         </DropdownMenuItem>

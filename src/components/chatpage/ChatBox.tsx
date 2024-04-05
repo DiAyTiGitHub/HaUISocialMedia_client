@@ -1,145 +1,99 @@
-import { ChevronRight } from "lucide-react";
-import { Link } from "react-router-dom";
-import avatar from "@/assets/avatar.png";
-import { Button } from "../ui/button";
-// get gobal state
-const currentUser = {
-  id: 1,
-  name: "Nguyen Thanh Thuan",
-  avatar: avatar,
+import { format } from "date-fns";
+import { useNavigate } from "react-router-dom";
+
+type UserType = {
+  _id: string;
+  username: string;
+  profileImage: string;
 };
+type MessageType = {
+  chat: string;
+  sender: UserType;
+  text: string;
+  createdAt: Date;
+  seenBy: UserType[];
+};
+type ChatType = {
+  members: UserType[];
+  messages: MessageType[];
+};
+type ChatBoxProps = {
+  chat: ChatType;
+  currentUser: UserType;
+  currentChatId?: string;
+};
+const ChatBox = ({ chat, currentUser, currentChatId }: ChatBoxProps) => {
+  const navigate = useNavigate();
+  const otherMembers = chat?.members?.filter(
+    (member) => member._id !== currentUser._id
+  );
 
-const dataChat = [
-  {
-    userId: 1,
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum ipsam exercitationem ad, deleniti iste enim corporis nemo, fugiat repudiandae impedit nesciunt provident? Deleniti cupiditate hic amet ut quaerat sed officiis!",
-    avatar: avatar,
-  },
-  {
-    userId: 2,
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum ipsam exercitationem ad, deleniti iste enim corporis nemo, fugiat repudiandae impedit nesciunt provident? Deleniti cupiditate hic amet ut quaerat sed officiis!",
-    avatar: avatar,
-  },
-  {
-    userId: 1,
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum ipsam exercitationem ad, deleniti iste enim corporis nemo, fugiat repudiandae impedit nesciunt provident? Deleniti cupiditate hic amet ut quaerat sed officiis!",
-    avatar: avatar,
-  },
-  {
-    userId: 2,
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum ipsam exercitationem ad, deleniti iste enim corporis nemo, fugiat repudiandae impedit nesciunt provident? Deleniti cupiditate hic amet ut quaerat sed officiis!",
-    avatar: avatar,
-  },
-  {
-    userId: 1,
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum ipsam exercitationem ad, deleniti iste enim corporis nemo, fugiat repudiandae impedit nesciunt provident? Deleniti cupiditate hic amet ut quaerat sed officiis!",
-    avatar: avatar,
-  },
-  {
-    userId: 2,
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum ipsam exercitationem ad, deleniti iste enim corporis nemo, fugiat repudiandae impedit nesciunt provident? Deleniti cupiditate hic amet ut quaerat sed officiis!",
-    avatar: avatar,
-  },
-  {
-    userId: 1,
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum ipsam exercitationem ad, deleniti iste enim corporis nemo, fugiat repudiandae impedit nesciunt provident? Deleniti cupiditate hic amet ut quaerat sed officiis!",
-    avatar: avatar,
-  },
-  {
-    userId: 2,
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum ipsam exercitationem ad, deleniti iste enim corporis nemo, fugiat repudiandae impedit nesciunt provident? Deleniti cupiditate hic amet ut quaerat sed officiis!",
-    avatar: avatar,
-  },
-  {
-    userId: 1,
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum ipsam exercitationem ad, deleniti iste enim corporis nemo, fugiat repudiandae impedit nesciunt provident? Deleniti cupiditate hic amet ut quaerat sed officiis!",
-    avatar: avatar,
-  },
-  {
-    userId: 2,
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum ipsam exercitationem ad, deleniti iste enim corporis nemo, fugiat repudiandae impedit nesciunt provident? Deleniti cupiditate hic amet ut quaerat sed officiis!",
-    avatar: avatar,
-  },
-  {
-    userId: 1,
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum ipsam exercitationem ad, deleniti iste enim corporis nemo, fugiat repudiandae impedit nesciunt provident? Deleniti cupiditate hic amet ut quaerat sed officiis!",
-    avatar: avatar,
-  },
-  {
-    userId: 2,
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum ipsam exercitationem ad, deleniti iste enim corporis nemo, fugiat repudiandae impedit nesciunt provident? Deleniti cupiditate hic amet ut quaerat sed officiis!",
-    avatar: avatar,
-  },
-  {
-    userId: 1,
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum ipsam exercitationem ad, deleniti iste enim corporis nemo, fugiat repudiandae impedit nesciunt provident? Deleniti cupiditate hic amet ut quaerat sed officiis!",
-    avatar: avatar,
-  },
-  {
-    userId: 2,
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum ipsam exercitationem ad, deleniti iste enim corporis nemo, fugiat repudiandae impedit nesciunt provident? Deleniti cupiditate hic amet ut quaerat sed officiis!",
-    avatar: avatar,
-  },
-  {
-    userId: 1,
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum ipsam exercitationem ad, deleniti iste enim corporis nemo, fugiat repudiandae impedit nesciunt provident? Deleniti cupiditate hic amet ut quaerat sed officiis!",
-    avatar: avatar,
-  },
-  {
-    userId: 2,
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum ipsam exercitationem ad, deleniti iste enim corporis nemo, fugiat repudiandae impedit nesciunt provident? Deleniti cupiditate hic amet ut quaerat sed officiis!",
-    avatar: avatar,
-  },
-  {
-    userId: 1,
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum ipsam exercitationem ad, deleniti iste enim corporis nemo, fugiat repudiandae impedit nesciunt provident? Deleniti cupiditate hic amet ut quaerat sed officiis!",
-    avatar: avatar,
-  },
-];
+  const lastMessage =
+    chat?.messages?.length > 0 && chat?.messages[chat?.messages.length - 1];
 
-const ChatBox = () => {
+  const seen = lastMessage?.seenBy?.find(
+    (member) => member._id === currentUser._id
+  );
+
   return (
-    <div className=" bg-white rounded-lg p-5 max-h-[80vh] w-full overflow-y-scroll">
-      <div className="">
-        <span className="flex gap-2">
-          <Link to="/chats">Nhắn tin</Link> <ChevronRight />
-          Thanh Thuan
-        </span>
+    <div
+      className={`chat-box ${chat._id === currentChatId ? "bg-blue-2" : ""}`}
+      onClick={() => navigate(`/chats/1`)}
+    >
+      <div className="chat-info">
+        {chat?.isGroup ? (
+          <img
+            src={chat?.groupPhoto || "/assets/group.png"}
+            alt="group-photo"
+            className="profilePhoto"
+          />
+        ) : (
+          <img
+            src={otherMembers[0].profileImage || "/assets/person.jpg"}
+            alt="profile-photo"
+            className="profilePhoto"
+          />
+        )}
 
-        <div className="my-10 p-5   flex w-full flex-col gap-5 lg:max-h-[350px] overflow-y-scroll">
-          {dataChat.map((data) => (
-            <div
-              className={`flex gap-5  ${
-                currentUser.id === data.userId
-                  ? "flex-row-reverse self-end"
-                  : ""
-              }`}
-            >
-              <img
-                src={data.avatar}
-                alt="avatar"
-                className="w-10 h-10 rounded-full object-cover"
-              />
+        <div className="flex flex-col gap-1">
+          {chat?.isGroup ? (
+            <p className="text-base-bold">{chat?.name}</p>
+          ) : (
+            <p className="text-base-bold">{otherMembers[0]?.username}</p>
+          )}
+
+          {!lastMessage && <p className="text-small-bold">Started a chat</p>}
+
+          {lastMessage?.photo ? (
+            lastMessage?.sender?._id === currentUser._id ? (
+              <p className="text-small-medium text-grey-3">You sent a photo</p>
+            ) : (
               <p
-                className={`text-xs max-w-[500px] rounded-2xl  p-3 ${
-                  currentUser.id === data.userId
-                    ? "bg-light-3 text-white"
-                    : "bg-blue-500 text-white"
+                className={`${
+                  seen ? "text-small-medium text-grey-3" : "text-small-bold"
                 }`}
               >
-                {data.desc}
+                Received a photo
               </p>
-            </div>
-          ))}
+            )
+          ) : (
+            <p
+              className={`last-message ${
+                seen ? "text-small-medium text-grey-3" : "text-small-bold"
+              }`}
+            >
+              {lastMessage?.text}
+            </p>
+          )}
         </div>
-        <hr className="h-0 border border-light-4 mb-5" />
-        <form className="flex justify-between items-center">
-          <textarea
-            placeholder="Gửi tin nhắn"
-            className="w-[80%] h-16 p-2 border border-light-3 rounded-lg"
-          />
-          <Button className="bg-blue-600 hover:bg-blue-500 w-24">Gửi</Button>
-        </form>
+      </div>
+
+      <div>
+        {/* <p className="text-base-light text-grey-3">
+          {!lastMessage
+            ? format(new Date(chat?.createdAt), "p")
+            : format(new Date(chat?.lastMessageAt), "p")}
+        </p> */}
       </div>
     </div>
   );

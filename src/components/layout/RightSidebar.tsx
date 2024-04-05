@@ -1,7 +1,9 @@
+import FriendResquest from "../shared/FriendResquest";
+
 const RightSidebar = () => {
   return (
-    <div className="lg:min-w-[250px] h-full">
-      <p>Không có hoạt động nào</p>
+    <div className="sticky top-[6rem] h-max bottom-0 ">
+      <FriendResquest />
     </div>
   );
 };
