@@ -15,50 +15,62 @@ export type newFeedPagination = {
 };
 const HomePage = () => {
   const { ref, inView } = useInView();
+  const [showLoadMore, setShowLoadMore] = useState<boolean>(true);
   const [newFeedPagination, setNewFeedPagination] = useState<newFeedPagination>(
     {
-      pageIndex: 0,
+      pageIndex: 1,
       pageSize: 10,
     }
   );
-  const [posts, setPosts] = useState<IPost[]>();
+  const [posts, setPosts] = useState<IPost[]>([]);
 
   const { mutate, isLoading } = useMutation(apiClient.getNewFeed, {
     onSuccess: async (data: any) => {
-      setPosts(data);
+      if (data && data.length > 0) {
+        setNewFeedPagination((prev) => ({
+          ...prev,
+          pageIndex: prev.pageIndex + 1,
+        }));
+        setPosts((prev) => [...prev, ...data]);
+      } else {
+        if (
+          !data ||
+          data.length === 0 ||
+          data.length < newFeedPagination.pageSize
+        )
+          setShowLoadMore(false);
+      }
     },
     onError: (error: Error) => {
       console.log(error);
     },
   });
-  useEffect(() => {
-    mutate(newFeedPagination);
-  }, [newFeedPagination]);
-  console.log(posts);
+  const handleGetData = (pagination: any) => {
+    mutate(pagination);
+  };
+
   useEffect(() => {
     if (inView) {
-      setNewFeedPagination((prev) => ({
-        ...prev,
-        pageSize: prev.pageSize + 10,
-      }));
+      handleGetData(newFeedPagination);
     }
-  }, [inView]);
-  if (!posts) return;
+  }, [inView, newFeedPagination]);
   return (
     <div className="w-full grid grid-cols-[18vw_auto_20vw] gap-x-8 relative">
       <Sidebar />
-
       <div className="">
         <SessionCreatePost />
-        <PostList posts={posts} isLoading={isLoading} />
-        {posts.length > 0 && posts.length <= 5 ? (
-          <div ref={ref}>
-            <Loader />
-          </div>
+        {!posts ? (
+          <p className="mt-10 text-center">Không có bài viết nào </p>
         ) : (
-          <span className="flex justify-center mt-10">
-            Không có bài viết nào
-          </span>
+          <>
+            <PostList posts={posts} isLoading={isLoading} />
+
+            {showLoadMore && (
+              <div ref={ref}>
+                <Loader />
+              </div>
+            )}
+          </>
         )}
       </div>
       <RightSidebar />

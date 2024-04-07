@@ -1,7 +1,7 @@
 export type IUser = {
   address: string;
   avatar: string;
-  birthDate: string;
+  birthDate: Date;
   classroomDto: string;
   code: string;
   email: string;
@@ -18,6 +18,7 @@ export type IUser = {
 export type IPost = {
   id: string;
   comments: [];
+  image: string;
   createDate: Date;
   creator: IUser;
   content: string;
@@ -33,3 +34,5 @@ export type IComment = {
   post: IPost;
   repliedComment: any;
 };
+
+export type RequestFriendType = {};

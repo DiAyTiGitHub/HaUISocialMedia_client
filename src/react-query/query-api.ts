@@ -8,6 +8,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // ================ Auth ==========================
 export const signIn = async (formData: LoginForm) => {
+  console.log(formData);
   const response = await fetch(`${API_BASE_URL}/api/auth/authenticate`, {
     method: "POST",
     headers: {
@@ -227,7 +228,7 @@ export const likePost = async (postId: string) => {
 export const dislikePost = async (postId: string) => {
   const token = localStorage.getItem("token");
   const response = await fetch(`${API_BASE_URL}/api/like/${postId}`, {
-    method: "Delete",
+    method: "DELETE",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,

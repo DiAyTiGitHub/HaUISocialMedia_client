@@ -16,6 +16,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useMutation } from "react-query";
 import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
+import Loader from "@/components/shared/Loader";
 
 const formSchema = z.object({
   username: z.string().min(1, {
@@ -26,7 +27,10 @@ const formSchema = z.object({
   }),
   firstName: z.string().min(1, { message: "Họ không được trống" }),
   lastName: z.string().min(1, { message: "Tên không được trống" }),
-  birthDate: z.string(),
+  code: z.string().min(1, {
+    message: "Mã sinh viên là bắt buộc",
+  }),
+
   confirmPassword: z.string().min(1, {
     message: "Nhập lại mật khẩu",
   }),
@@ -45,7 +49,7 @@ const Register = () => {
       confirmPassword: "",
       phoneNumber: "",
       gender: "false",
-      birthDate: "",
+      code: "",
     },
   });
   const { mutate: register, isLoading } = useMutation(apiClient.register, {
@@ -139,11 +143,15 @@ const Register = () => {
               <div className="grid grid-cols-[1fr_1fr] gap-5">
                 <FormField
                   control={form.control}
-                  name="birthDate"
+                  name="code"
                   render={({ field }) => (
                     <FormItem className="flex-1">
                       <FormControl>
-                        <Input placeholder="Sinh nhật" {...field} type="date" />
+                        <Input
+                          placeholder="Mã sinh viên"
+                          {...field}
+                          type="text"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -218,8 +226,8 @@ const Register = () => {
                   Đăng nhập
                 </Link>
               </p>
-              <Button type="submit" className="w-full">
-                Đăng Ký
+              <Button disabled={isLoading} type="submit" className="w-full">
+                {isLoading ? <Loader /> : "Đăng ký"}
               </Button>
             </form>
           </Form>

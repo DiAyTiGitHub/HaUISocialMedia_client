@@ -50,7 +50,8 @@ const Login = () => {
         toast.error("Không có quyền truy cập");
       }
     },
-    onError: () => {
+    onError: (error: any) => {
+      console.log(error);
       toast.error("Đăng nhập thất bại");
     },
   });

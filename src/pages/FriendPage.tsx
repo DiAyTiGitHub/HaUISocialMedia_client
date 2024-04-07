@@ -1,3 +1,4 @@
+import Loader from "@/components/shared/Loader";
 import SidebarFriendPage from "@/components/shared/SidebarFriendPage";
 import { Button } from "@/components/ui/button";
 import * as apiClient from "@/react-query/query-api";
@@ -5,6 +6,7 @@ import { IUser } from "@/types";
 
 import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
 import { useMutation } from "react-query";
 
 export type currentFriendsPagination = {
@@ -13,24 +15,44 @@ export type currentFriendsPagination = {
 };
 
 const FriendPage = () => {
+  const { ref, inView } = useInView();
+  const [showLoadMore, setShowLoadMore] = useState<boolean>(true);
   const [currentFriendPagination, setCurrentFriendPagination] =
     useState<currentFriendsPagination>({
       pageIndex: 0,
       pageSize: 10,
     });
-  const [friends, setFriends] = useState<IUser[]>();
+  const [friends, setFriends] = useState<any[]>([]);
 
   const mutation = useMutation(apiClient.getCurrentFriend, {
     onSuccess: async (data: any) => {
-      setFriends(data);
+      if (data && data.length > 0) {
+        setCurrentFriendPagination({
+          pageSize: currentFriendPagination.pageSize,
+          pageIndex: currentFriendPagination.pageIndex + 1,
+        });
+        setFriends((prev) => [...prev, ...data]);
+      } else {
+        if (
+          !data ||
+          data.length === 0 ||
+          data.length < currentFriendPagination.pageSize
+        )
+          setShowLoadMore(false);
+      }
     },
     onError: (error: Error) => {
       console.log(error);
     },
   });
+  const handleGetData = (pagination: any) => {
+    mutation.mutate(pagination);
+  };
   useEffect(() => {
-    mutation.mutate(currentFriendPagination);
-  }, [currentFriendPagination]);
+    if (inView) {
+      handleGetData(currentFriendPagination);
+    }
+  }, [inView, currentFriendPagination]);
 
   return (
     <div className="grid grid-cols-[1fr_3fr] mt-5">
@@ -75,6 +97,11 @@ const FriendPage = () => {
                   </div>
                 </div>
               ))}
+            </div>
+          )}
+          {showLoadMore && (
+            <div ref={ref}>
+              <Loader />
             </div>
           )}
         </div>

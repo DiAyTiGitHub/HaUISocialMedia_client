@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import { useInView } from "react-intersection-observer";
 import Loader from "@/components/shared/Loader";
+import { Link } from "react-router-dom";
 export type suggestFriendsPagination = {
   pageIndex: number;
   pageSize: number;
@@ -19,35 +20,47 @@ const SuggestFriendPage = () => {
   const [suggestFriendPagination, setSuggestFriendPagination] =
     useState<suggestFriendsPagination>({
       pageIndex: 0,
-      pageSize: 10,
+      pageSize: 5,
     });
-
-  const [friends, setFriends] = useState<IUser[]>();
+  const [suggestFriends, setSuggestFriends] = useState<IUser[]>([]);
+  const [showLoadMore, setShowLoadMore] = useState<boolean>(true);
 
   const mutation = useMutation(apiClient.getSuggestFriends, {
     onSuccess: async (data: any) => {
-      setFriends(data);
+      if (data && data.length > 0) {
+        setSuggestFriendPagination({
+          pageSize: suggestFriendPagination.pageSize,
+          pageIndex: suggestFriendPagination.pageIndex + 1,
+        });
+        setSuggestFriends((prev) => [...prev, ...data]);
+      } else {
+        if (
+          !data ||
+          data.length === 0 ||
+          data.length < suggestFriendPagination.pageSize
+        )
+          setShowLoadMore(false);
+      }
     },
     onError: (error: Error) => {
       console.log(error);
     },
   });
-  useEffect(() => {
-    mutation.mutate(suggestFriendPagination);
-  }, [suggestFriendPagination]);
-  console.log(friends);
+
+  const handleGetData = (pagination: any) => {
+    mutation.mutate(pagination);
+  };
+
   const handleSendRequestFriend = (friendId: string) => {
     sendRequest(friendId);
   };
 
   useEffect(() => {
     if (inView) {
-      setSuggestFriendPagination((prev) => ({
-        ...prev,
-        pageSize: prev.pageSize + 10,
-      }));
+      handleGetData(suggestFriendPagination);
     }
-  }, [inView]);
+  }, [inView, suggestFriendPagination]);
+  console.log(1);
   return (
     <div className="grid grid-cols-[1fr_3fr] mt-5">
       <SidebarFriendPage />
@@ -68,23 +81,28 @@ const SuggestFriendPage = () => {
           </div>
 
           <div className=" grid grid-cols-2 gap-5 my-10">
-            {!friends || friends.length === 0 ? (
+            {!suggestFriends || suggestFriends.length === 0 ? (
               <span>Không có bạn bè gợi ý</span>
             ) : (
-              friends.map((friend: IUser) => (
+              suggestFriends.map((friend: IUser) => (
                 <div
                   key={friend.id}
                   className="flex items-center gap-5 p-3 bg-white border border-light-2 rounded-xl"
                 >
-                  <img
-                    src={friend.avatar || "/person.jpg"}
-                    alt="avatar"
-                    className="w-10 h-10 rounded-full object-cover"
-                  />
+                  <Link to={`/profile/${friend.id}`}>
+                    <img
+                      src={friend.avatar || "/person.jpg"}
+                      alt="avatar"
+                      className="w-10 h-10 rounded-full object-cover"
+                    />
+                  </Link>
                   <div className="flex justify-between flex-1">
-                    <p className="font-semibold">
+                    <Link
+                      to={`/profile/${friend.id}`}
+                      className="font-semibold"
+                    >
                       {friend.lastName} {friend.firstName}
-                    </p>
+                    </Link>
 
                     {/* <Button onClick={() => handleSendRequestFriend(friend.id)}>
                       Thêm bạn bè
@@ -101,7 +119,7 @@ const SuggestFriendPage = () => {
               ))
             )}
           </div>
-          {friends && friends.length <= 12 && (
+          {showLoadMore && (
             <div ref={ref}>
               <Loader />
             </div>

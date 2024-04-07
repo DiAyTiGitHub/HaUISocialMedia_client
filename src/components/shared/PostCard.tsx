@@ -86,7 +86,11 @@ const PortCard = ({ post }: PostProps) => {
       </div>
 
       <div className="rounded-xl overflow-hidden my-3">
-        <img src={avatar} alt="post image" className="post-card_img" />
+        <img
+          src={post.image || avatar}
+          alt="post image"
+          className="post-card_img"
+        />
       </div>
 
       <PostStats post={post} />

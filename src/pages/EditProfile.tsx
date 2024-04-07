@@ -2,7 +2,7 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
-
+import { format } from "date-fns";
 import {
   Form,
   FormControl,
@@ -11,18 +11,25 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import ProfileUploader from "@/components/shared/ProfileUploader";
-import { Loader, Pencil } from "lucide-react";
+import { CalendarIcon, Loader, Pencil } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useAuth } from "@/context/AuthProvider";
 import { useUpdateUser } from "@/react-query/user";
+import { handleUploadImage } from "@/lib";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 const formSchema = z.object({
   firstname: z.string().min(1, { message: "Họ không được trống" }),
   lastname: z.string().min(1, { message: "Tên không được trống" }),
-  birthDate: z.string(),
+  birthDate: z.date(),
   address: z.string().min(1, { message: "Địa chỉ không được trống" }),
   email: z.string().email({ message: "Email không hợp lệ" }),
   phoneNumber: z.string().min(1, { message: "Số điện thoại không được trống" }),
@@ -42,7 +49,7 @@ const EditProfile = () => {
       phoneNumber: currentUser?.phoneNumber || "",
       firstname: currentUser?.firstName || "",
       lastname: currentUser?.lastName || "",
-      birthDate: currentUser?.birthDate || "",
+      birthDate: (currentUser?.birthDate as Date) || Date.now,
       address: currentUser?.address || "",
       gender: currentUser?.gender.toString() || "false",
       email: currentUser?.email || "",
@@ -51,6 +58,11 @@ const EditProfile = () => {
 
   // Handler
   const handleUpdate = async (values: z.infer<typeof formSchema>) => {
+    console.log(values);
+    let url;
+    if (values.avatar[0]) {
+      url = await handleUploadImage(values.avatar[0]);
+    }
     updateUser({
       ...currentUser,
       phoneNumber: values.phoneNumber,
@@ -60,6 +72,7 @@ const EditProfile = () => {
       address: values.address,
       gender: values.gender,
       email: values.email,
+      avatar: url,
     });
   };
 
@@ -127,7 +140,31 @@ const EditProfile = () => {
                 render={({ field }) => (
                   <FormItem className="flex-1">
                     <FormControl>
-                      <Input placeholder="Sinh nhật" {...field} type="date" />
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button variant={"outline"}>
+                              {field.value ? (
+                                format(field.value, "yyyy-MM-dd")
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                            disabled={(date) =>
+                              date > new Date() || date < new Date("1900-01-01")
+                            }
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
                     </FormControl>
                     <FormMessage />
                   </FormItem>

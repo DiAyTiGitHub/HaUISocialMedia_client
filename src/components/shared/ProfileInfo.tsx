@@ -1,10 +1,9 @@
-import avatar from "@/assets/avatar.png";
 import { Button } from "../ui/button";
 import { Loader, Pencil } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "@/context/AuthProvider";
 import { useGetUseById } from "@/react-query/user";
-
+import { format, parseISO } from "date-fns";
 const ProfileInfo = () => {
   const navigate = useNavigate();
   const { currentUser } = useAuth();
@@ -42,17 +41,29 @@ const ProfileInfo = () => {
         <p className="h3-bold mb-5">Giới thiệu</p>
         <div className="flex flex-col gap-5 text-lg">
           <p>
-            Giới tính: <span>Nam</span>
+            Giới tính: <span>{userProfile?.gender ? "Nữ" : "Nam"}</span>
           </p>
           <p className="font-medium">
             Tên tài khoản:{" "}
             <span className="font-normal">{userProfile?.username}</span>
           </p>
           <p>
-            Ngày sinh: <span>11/04/22</span>
+            Ngày sinh:{" "}
+            <span>
+              {format(
+                parseISO(userProfile?.birthDate.toString() || ""),
+                "yyy-MM-dd"
+              )}
+            </span>
           </p>
           <p>
-            Lớp: <span>KTPM</span>
+            Email: <span>{userProfile?.email}</span>
+          </p>
+          <p>
+            SDT: <span>{userProfile?.phoneNumber || "Chưa cập nhật"}</span>
+          </p>
+          <p>
+            Địa chỉ: <span>{userProfile?.address || "Chưa cập nhật"}</span>
           </p>
         </div>
       </div>

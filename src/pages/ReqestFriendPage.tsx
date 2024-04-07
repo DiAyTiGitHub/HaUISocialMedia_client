@@ -1,9 +1,11 @@
 import CustomButtonFriend from "@/components/shared/CustomButtonFriend";
+import Loader from "@/components/shared/Loader";
 import SidebarFriendPage from "@/components/shared/SidebarFriendPage";
 import * as apiClient from "@/react-query/query-api";
 import { useAcceptFriend } from "@/react-query/relationship";
 import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
 import { useMutation } from "react-query";
 
 export type requestFriendsPagination = {
@@ -12,32 +14,52 @@ export type requestFriendsPagination = {
 };
 
 const RequestFriendPage = () => {
+  const { ref, inView } = useInView();
   const { acceptFriend, isLoading: isAccpectLoading } = useAcceptFriend();
-  const [requestFriends, setResquestFriends] = useState([]);
-
+  const [requestFriends, setResquestFriends] = useState<any[]>([]);
+  const [showLoadMore, setShowLoadMore] = useState<boolean>(true);
   const [requestFriendPagination, setRequestFriendPagination] =
     useState<requestFriendsPagination>({
       pageIndex: 0,
       pageSize: 10,
     });
 
-  const { mutate, isLoading } = useMutation({
-    mutationFn: (requestFriendPagination: requestFriendsPagination) =>
-      apiClient.getRequestFriend(requestFriendPagination),
-    onSuccess: (data) => {
-      setResquestFriends(data);
+  const { mutate, isLoading } = useMutation(apiClient.getRequestFriend, {
+    onSuccess: async (data: any) => {
+      if (data && data.length > 0) {
+        setRequestFriendPagination({
+          pageSize: requestFriendPagination.pageSize,
+          pageIndex: requestFriendPagination.pageIndex + 1,
+        });
+        setResquestFriends((prev) => [...prev, ...data]);
+      } else {
+        if (
+          !data ||
+          data.length === 0 ||
+          data.length < requestFriendPagination.pageSize
+        )
+          setShowLoadMore(false);
+      }
+    },
+    onError: (error: Error) => {
+      console.log(error);
     },
   });
 
-  useEffect(() => {
-    mutate(requestFriendPagination);
-  }, [requestFriendPagination]);
-  console.log(requestFriends);
+  const handleGetData = (pagination: any) => {
+    mutate(pagination);
+  };
 
+  console.log(requestFriends);
   const handleAcceptFriend = (acceptFriendId: string) => {
     acceptFriend(acceptFriendId);
   };
 
+  useEffect(() => {
+    if (inView) {
+      handleGetData(requestFriendPagination);
+    }
+  }, [inView, requestFriendPagination]);
   if (isLoading) return <span>Loading</span>;
   return (
     <div className="grid grid-cols-[1fr_3fr] mt-5">
@@ -79,7 +101,7 @@ const RequestFriendPage = () => {
                     </p>
                     <CustomButtonFriend
                       handleFn={(id: string) => handleAcceptFriend(id)}
-                      title="Chấp nhật"
+                      title="Chấp nhận"
                       titleDisable="Đã chấp nhận"
                       isLoading={isAccpectLoading}
                       id={friend.id}
@@ -87,6 +109,11 @@ const RequestFriendPage = () => {
                   </div>
                 </div>
               ))}
+            </div>
+          )}
+          {showLoadMore && (
+            <div ref={ref}>
+              <Loader />
             </div>
           )}
         </div>

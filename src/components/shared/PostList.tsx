@@ -4,7 +4,7 @@ import { Loader } from "lucide-react";
 
 type PostListProps = {
   posts: IPost[];
-  isLoading: boolean;
+  isLoading?: boolean;
 };
 const PostList = ({ posts, isLoading }: PostListProps) => {
   if (isLoading) return <Loader />;

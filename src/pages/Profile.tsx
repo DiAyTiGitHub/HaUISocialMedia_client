@@ -7,9 +7,12 @@ import * as apiClient from "@/react-query/query-api";
 import { newFeedPagination } from "./HomePage";
 import { IPost } from "@/types";
 import { useParams } from "react-router-dom";
+import Loader from "@/components/shared/Loader";
+import PostList from "@/components/shared/PostList";
 
 const Profile = () => {
   const { ref, inView } = useInView();
+  const [showLoadMore, setShowLoadMore] = useState<boolean>(true);
   const { profileId } = useParams();
   const [newFeedPagination, setNewFeedPagination] = useState<newFeedPagination>(
     {
@@ -17,33 +20,39 @@ const Profile = () => {
       pageSize: 10,
     }
   );
-  const [posts, setPosts] = useState<IPost[]>();
+  const [posts, setPosts] = useState<IPost[]>([]);
 
   const { mutate, isLoading } = useMutation(apiClient.getPostOfUser, {
     onSuccess: async (data: any) => {
-      setPosts(data);
+      if (data && data.length > 0) {
+        setNewFeedPagination((prev) => ({
+          ...prev,
+          pageIndex: prev.pageIndex + 1,
+        }));
+        setPosts((prev) => [...prev, ...data]);
+        if (data.length < newFeedPagination.pageSize) setShowLoadMore(false);
+      } else {
+        if (!data || data.length === 0) setShowLoadMore(false);
+      }
     },
     onError: (error: Error) => {
       console.log(error);
     },
   });
-  useEffect(() => {
+
+  const handleGetData = () => {
     mutate({
       newFeedPagination: newFeedPagination,
       userId: profileId as string,
     });
-  }, [newFeedPagination]);
-
-  console.log(posts);
-
+  };
   useEffect(() => {
     if (inView) {
-      setNewFeedPagination((prev) => ({
-        ...prev,
-        pageSize: prev.pageSize + 10,
-      }));
+      handleGetData();
     }
-  }, [inView]);
+  }, [inView, newFeedPagination]);
+
+  console.log(posts);
 
   return (
     <div className="w-full grid grid-cols-[25vw_auto_20vw] gap-x-8 relative">
@@ -51,7 +60,12 @@ const Profile = () => {
 
       <div className="flex flex-col gap-10">
         <SessionCreatePost />
-        {/* <PostList /> */}
+        <PostList posts={posts} isLoading={isLoading} />
+        {showLoadMore && (
+          <div ref={ref}>
+            <Loader />
+          </div>
+        )}
       </div>
     </div>
   );

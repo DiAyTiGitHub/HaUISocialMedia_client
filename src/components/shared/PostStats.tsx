@@ -1,27 +1,55 @@
+import { useAuth } from "@/context/AuthProvider";
 import { useDislikePost, useLikePost } from "@/react-query/post";
-import { IPost } from "@/types";
-import { Heart, MessagesSquare } from "lucide-react";
+import { IPost, IUser } from "@/types";
+import { Heart, Loader, MessagesSquare } from "lucide-react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 type PostStatsProps = {
   post: IPost;
 };
 const PostStats = ({ post }: PostStatsProps) => {
+  console.log(post);
+
   const navigate = useNavigate();
-  const { mutate: likePost } = useLikePost();
+  const { currentUser } = useAuth();
+  const { mutate: likePost, isLoading: isLikeing } = useLikePost();
   const { mutate: dislike } = useDislikePost();
+  const likesList = post.likes.map((user: any) => user.userLike.id);
+  const [likes, setLikes] = useState<string[]>(likesList);
+  console.log(currentUser?.id);
   const handleLike = () => {
+    let likesArray = [...likes];
+
+    if (likesArray.includes(currentUser?.id as string)) {
+      likesArray = likesArray.filter((Id) => Id !== currentUser?.id);
+    } else {
+      likesArray.push(currentUser?.id as string);
+    }
+
+    setLikes(likesArray);
     likePost(post.id);
   };
   const handleDislike = () => {
     dislike(post.id);
   };
+
+  const checkIsLiked = (likeList: string[], userId: string) => {
+    return likeList.includes(userId);
+  };
+
   return (
     <div className={`flex justify-start items-center z-20 `}>
       <div className="flex gap-2 mr-5">
-        <button onClick={handleLike}>
-          <Heart fill="red" />
-        </button>
+        {checkIsLiked(likes, currentUser?.id as string) ? (
+          <button onClick={handleDislike}>
+            {isLikeing ? <Loader /> : <Heart fill="red" />}
+          </button>
+        ) : (
+          <button onClick={handleLike}>
+            <Heart />
+          </button>
+        )}
         <p className="small-medium lg:base-medium">{post.likes.length}</p>
       </div>
 
