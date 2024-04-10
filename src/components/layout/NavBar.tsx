@@ -1,4 +1,4 @@
-import { MessageCircle, Search } from "lucide-react";
+import { GraduationCap, MessageCircle, Search } from "lucide-react";
 import { Link } from "react-router-dom";
 import hauiLogo from "@/assets/logo-haui.png";
 
@@ -27,6 +27,9 @@ const NavBar = () => {
         </div>
 
         <div className="flex items-center gap-10">
+          <Link to="/leaderboard">
+            <GraduationCap className="hover:text-primary" />
+          </Link>
           <Link to="/chats">
             <MessageCircle className="hover:text-primary" />
           </Link>

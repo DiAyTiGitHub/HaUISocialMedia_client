@@ -67,7 +67,7 @@ const PostDetail = () => {
           <Comment postId={postDetail?.id || ""} />
         </div>
 
-        <div className="mt-3 max-w-[40vw] max-h-screen overflow-scroll ">
+        <div className="mt-3 max-w-[40vw] max-h-screen overflow-y-auto ">
           <p className="body-bold mb-3">Bình luận gần đây</p>
           {postDetail?.comments.length === 0 ? (
             <span>Chưa có bình luận nào</span>

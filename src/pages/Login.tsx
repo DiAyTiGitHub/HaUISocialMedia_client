@@ -16,7 +16,6 @@ import * as apiClient from "@/react-query/query-api";
 import { useMutation } from "react-query";
 import toast from "react-hot-toast";
 import { checkJWt } from "@/lib/utils";
-
 const formSchema = z.object({
   username: z.string().min(1, {
     message: "Tên đăng nhập là bắt buộc",
@@ -43,6 +42,7 @@ const Login = () => {
       if (claim.scope === "USER") {
         localStorage.setItem("token", data.accessToken);
         localStorage.setItem("user", JSON.stringify(data.loggedInUser));
+
         toast.success("Đăng nhập thành công");
         window.location.href = "/";
         navigate("/");

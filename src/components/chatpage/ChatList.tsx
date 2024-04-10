@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 import { chats } from "@/mockData";
 import ChatBox from "./ChatBox";
+import { useGetAllJoinedRooms } from "@/react-query/message";
 type ChatListProps = {
   currentChatId?: string;
 };
@@ -22,7 +25,9 @@ type ChatType = {
   messages: MessageType[];
 };
 const ChatList = ({ currentChatId }: ChatListProps) => {
-  //const currentUser = sessions?.user;
+  // const { data } = useGetAllJoinedRooms();
+  // console.log(data);
+
   const currentUser = {
     _id: "1",
     username: "Thanh Thuan",
@@ -93,12 +98,22 @@ const ChatList = ({ currentChatId }: ChatListProps) => {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
-
-      <div className="chats">
-        {chats?.map((chat, index) => (
-          <ChatBox chat={chat} currentUser={currentUser} />
-        ))}
-      </div>
+      <Tabs defaultValue="all" className="w-full">
+        <TabsList>
+          <TabsTrigger value="all">Tất cả</TabsTrigger>
+          <TabsTrigger value="private">Riêng tư</TabsTrigger>
+          <TabsTrigger value="group">Nhóm</TabsTrigger>
+        </TabsList>
+        <TabsContent value="all">
+          <div className="chats h-[75vh] overflow-y-auto ">
+            {chats?.map((chat, index) => (
+              <ChatBox chat={chat} currentUser={currentUser} />
+            ))}
+          </div>
+        </TabsContent>
+        <TabsContent value="private">Get chat private</TabsContent>
+        <TabsContent value="group">get group chat</TabsContent>
+      </Tabs>
     </div>
   );
 };

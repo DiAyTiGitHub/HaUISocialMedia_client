@@ -14,6 +14,7 @@ import ChatDetailPage from "./pages/ChatDetailPage";
 import SuggestFriendPage from "./pages/SuggestFriendPage";
 import RequestFriendPage from "./pages/ReqestFriendPage";
 import PostDetail from "./pages/PostDetail";
+import LeaderBoard from "./pages/LeaderBoard";
 
 const App = () => {
   return (
@@ -33,6 +34,7 @@ const App = () => {
           <Route path="/add-friends" element={<RequestFriendPage />} />
           <Route path="/profile/:profileId" element={<Profile />} />
           <Route path="/post/:postId" element={<PostDetail />} />
+          <Route path="/leaderboard" element={<LeaderBoard />} />
         </Route>
         <Route path="/chats" element={<ChatPage />} />
         <Route path="/chats/:roomId" element={<ChatDetailPage />} />

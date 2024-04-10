@@ -18,7 +18,7 @@ const HomePage = () => {
   const [showLoadMore, setShowLoadMore] = useState<boolean>(true);
   const [newFeedPagination, setNewFeedPagination] = useState<newFeedPagination>(
     {
-      pageIndex: 1,
+      pageIndex: 0,
       pageSize: 10,
     }
   );

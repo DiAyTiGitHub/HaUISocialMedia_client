@@ -361,3 +361,23 @@ export const getPostOfUser = async ({
   if (!response.ok) throw Error(body.message);
   return body;
 };
+
+// =========================== Message =======================
+
+export const getAllJoinedRooms = async () => {
+  const token = localStorage.getItem("token");
+  const response = await fetch(`${API_BASE_URL}/api/room/joinedRooms`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const body = await response.json();
+
+  if (!response.ok) throw Error(body.message);
+
+  return body;
+};
+// =============================================================
