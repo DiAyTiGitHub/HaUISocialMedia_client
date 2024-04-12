@@ -1,106 +1,62 @@
+import { useAuth } from "@/context/AuthProvider";
+import * as apiClient from "@/react-query/query-api";
 import { useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
+import { useMutation } from "react-query";
+import Loader from "../shared/Loader";
 
 type ContactType = {
   username: string;
   profileImage: string;
 };
 
-const contacts = [
-  {
-    username: "Thanh Thuan",
-    profileImage:
-      "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-  },
-  {
-    username: "Thanh Thuan",
-    profileImage:
-      "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-  },
-  {
-    username: "Thanh Thuan",
-    profileImage:
-      "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-  },
-  {
-    username: "Thanh Thuan",
-    profileImage:
-      "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-  },
-  {
-    username: "Thanh Thuan",
-    profileImage:
-      "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-  },
-  {
-    username: "Thanh Thuan",
-    profileImage:
-      "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-  },
-  {
-    username: "Thanh Thuan",
-    profileImage:
-      "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-  },
-  {
-    username: "Thanh Thuan",
-    profileImage:
-      "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-  },
-  {
-    username: "Thanh Thuan",
-    profileImage:
-      "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-  },
-  {
-    username: "Thanh Thuan",
-    profileImage:
-      "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-  },
-  {
-    username: "Thanh Thuan",
-    profileImage:
-      "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-  },
-  {
-    username: "Thanh Thuan",
-    profileImage:
-      "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-  },
-  {
-    username: "Thanh Thuan",
-    profileImage:
-      "https://images.pexels.com/photos/17840523/pexels-photo-17840523/free-photo-of-nha-ngoi-nha-can-nha-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-  },
-];
 const Contacts = () => {
-  //const [loading, setLoading] = useState(true);
-  //const [contacts, setContacts] = useState([]);
   const [search, setSearch] = useState("");
+  const { currentUser } = useAuth();
 
-  //const currentUser = session?.user;
+  const { ref, inView } = useInView();
+  const [showLoadMore, setShowLoadMore] = useState<boolean>(true);
+  const [currentFriendPagination, setCurrentFriendPagination] = useState<any>({
+    pageIndex: 0,
+    pageSize: 10,
+  });
+  const [contacts, setContacts] = useState<any[]>([]);
 
-  // const getContacts = async () => {
-  //   try {
-  //     const res = await fetch(
-  //       search !== "" ? `/api/users/searchContact/${search}` : "/api/users"
-  //     );
-  //     const data = await res.json();
-  //     setContacts(data.filter((contact) => contact._id !== currentUser._id));
-  //     setLoading(false);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (currentUser) getContacts();
-  // }, [currentUser, search]);
+  const mutation = useMutation(apiClient.getCurrentFriend, {
+    onSuccess: async (data: any) => {
+      if (data && data.length > 0) {
+        setCurrentFriendPagination({
+          pageSize: currentFriendPagination.pageSize,
+          pageIndex: currentFriendPagination.pageIndex + 1,
+        });
+        setContacts((prev) => [...prev, ...data]);
+      } else {
+        if (
+          !data ||
+          data.length === 0 ||
+          data.length < currentFriendPagination.pageSize
+        )
+          setShowLoadMore(false);
+      }
+    },
+    onError: (error: Error) => {
+      console.log(error);
+    },
+  });
+  const handleGetData = (pagination: any) => {
+    mutation.mutate(pagination);
+  };
+  useEffect(() => {
+    if (inView) {
+      handleGetData(currentFriendPagination);
+    }
+  }, [inView, currentFriendPagination]);
 
   /* SELECT CONTACT */
-  const [selectedContacts, setSelectedContacts] = useState<ContactType[]>([]);
+  const [selectedContacts, setSelectedContacts] = useState<any[]>([]);
   const isGroup = selectedContacts.length > 1;
 
-  const handleSelect = (contact: ContactType) => {
+  const handleSelect = (contact: any) => {
     if (selectedContacts.includes(contact)) {
       setSelectedContacts((prevSelectedContacts) =>
         prevSelectedContacts.filter((item) => item !== contact)
@@ -116,24 +72,6 @@ const Contacts = () => {
   /* ADD GROUP CHAT NAME */
   const [name, setName] = useState("");
 
-  /* CREATE CHAT */
-  // const createChat = async () => {
-  //   const res = await fetch("/api/chats", {
-  //     method: "POST",
-  //     body: JSON.stringify({
-  //       currentUserId: currentUser._id,
-  //       members: selectedContacts.map((contact) => contact.id),
-  //       isGroup,
-  //       name,
-  //     }),
-  //   });
-  //   const chat = await res.json();
-
-  //   if (res.ok) {
-  //     router.push(`/chats/${chat._id}`);
-  //   }
-  // };
-
   return (
     <div className="create-chat-container">
       <input
@@ -143,7 +81,7 @@ const Contacts = () => {
         onChange={(e) => setSearch(e.target.value)}
       />
 
-      <div className="contact-bar">
+      <div className="contact-bar mt-10">
         <div className="contact-list">
           <p className="text-body-bold">Chọn người liên lạc</p>
 
@@ -186,13 +124,20 @@ const Contacts = () => {
                   </svg>
                 )}
                 <img
-                  src={user.profileImage}
+                  src={user.avatar || "/person.jpg"}
                   alt="profile"
                   className="profilePhoto"
                 />
-                <p className="text-base-bold">{user.username}</p>
+                <p className="text-base-bold">
+                  {user.lastName} {user.firstName}
+                </p>
               </div>
             ))}
+            {showLoadMore && (
+              <div ref={ref}>
+                <Loader />
+              </div>
+            )}
           </div>
         </div>
 
@@ -200,7 +145,7 @@ const Contacts = () => {
           {isGroup && (
             <>
               <div className="flex flex-col gap-3">
-                <p className="text-body-bold">Group Chat Name</p>
+                <p className="text-body-bold">Tên nhóm </p>
                 <input
                   placeholder="Enter group chat name..."
                   className="input-group-name"
@@ -214,7 +159,7 @@ const Contacts = () => {
                 <div className="flex flex-wrap gap-3">
                   {selectedContacts.map((contact, index) => (
                     <p className="selected-contact" key={index}>
-                      {contact.username}
+                      {contact.firstName} {contact.lastName}
                     </p>
                   ))}
                 </div>

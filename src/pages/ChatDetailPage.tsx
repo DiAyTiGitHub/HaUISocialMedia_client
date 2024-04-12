@@ -2,6 +2,7 @@ import ChatDetails from "@/components/chatpage/ChatDetails";
 import ChatList from "@/components/chatpage/ChatList";
 import NavBar from "@/components/layout/NavBar";
 import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 const ChatDetailPage = () => {
   // const seenMessages = async () => {
@@ -29,7 +30,6 @@ const ChatDetailPage = () => {
       <NavBar />
       <div className="main-container relative">
         <div className="w-1/3 max-lg:hidden">
-          {/* currentChatId={chatId} */}
           <ChatList />
         </div>
         <div className="w-2/3 max-lg:w-full">

@@ -9,15 +9,13 @@ type PostStatsProps = {
   post: IPost;
 };
 const PostStats = ({ post }: PostStatsProps) => {
-  console.log(post);
-
   const navigate = useNavigate();
   const { currentUser } = useAuth();
   const { mutate: likePost, isLoading: isLikeing } = useLikePost();
   const { mutate: dislike } = useDislikePost();
   const likesList = post.likes.map((user: any) => user.userLike.id);
   const [likes, setLikes] = useState<string[]>(likesList);
-  console.log(currentUser?.id);
+
   const handleLike = () => {
     let likesArray = [...likes];
 
