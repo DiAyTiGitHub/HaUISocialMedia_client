@@ -29,7 +29,11 @@ const CustomButtonFriend = ({
   return (
     <Button
       disabled={isDisable}
-      className="bg-blue-600 hover:bg-blue-500"
+      className={`${
+        title === "Từ chối"
+          ? "bg-white text-black hover:bg-grey-2"
+          : "bg-blue-600 hover:bg-blue-500"
+      }`}
       onClick={handdleClick}
     >
       {isLoading && "Đang..."}

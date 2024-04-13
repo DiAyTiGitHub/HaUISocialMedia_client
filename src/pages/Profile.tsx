@@ -52,19 +52,23 @@ const Profile = () => {
     }
   }, [inView, newFeedPagination]);
 
-  console.log(posts);
-
   return (
     <div className="w-full grid grid-cols-[25vw_auto_20vw] gap-x-8 relative">
       <ProfileInfo />
 
       <div className="flex flex-col gap-10">
         <SessionCreatePost />
-        <PostList posts={posts} isLoading={isLoading} />
-        {showLoadMore && (
-          <div ref={ref}>
-            <Loader />
-          </div>
+        {!posts || posts.length === 0 ? (
+          <p>Chưa có bài viết nào</p>
+        ) : (
+          <>
+            <PostList posts={posts} isLoading={isLoading} />
+            {showLoadMore && (
+              <div ref={ref}>
+                <Loader />
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>

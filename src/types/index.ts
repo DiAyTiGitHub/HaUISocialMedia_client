@@ -36,3 +36,19 @@ export type IComment = {
 };
 
 export type RequestFriendType = {};
+
+export type NotificationType = {
+  id: string;
+  createDate: Date;
+  content: string;
+  notificationType: {
+    id: string;
+    code: string;
+    name: string;
+    description: string;
+    notificationsDto: any;
+  };
+  owner: IUser;
+  actor: IUser;
+  referenceId: string;
+};

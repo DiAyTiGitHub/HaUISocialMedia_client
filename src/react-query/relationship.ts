@@ -73,3 +73,14 @@ export const useSendRequestFriend = () => {
     },
   });
 };
+export const useDenyRequestFriend = () => {
+  return useMutation({
+    mutationFn: (friendId: string) => apiClient.denyFriendRequest(friendId),
+    onSuccess: (data) => {
+      toast.success("Đã từ chối lời mời");
+    },
+    onError: () => {
+      toast.error("Có lỗi xảy ra");
+    },
+  });
+};

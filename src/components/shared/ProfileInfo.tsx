@@ -47,17 +47,24 @@ const ProfileInfo = () => {
             Tên tài khoản:{" "}
             <span className="font-normal">{userProfile?.username}</span>
           </p>
-          <p>
+          <p className="flex gap-2">
             Ngày sinh:{" "}
             <span>
-              {format(
-                parseISO(userProfile?.birthDate.toString() || ""),
-                "yyy-MM-dd"
+              {" "}
+              {userProfile?.birthDate ? (
+                <>
+                  {format(
+                    parseISO(userProfile?.birthDate?.toString() || ""),
+                    "yyy-MM-dd"
+                  )}
+                </>
+              ) : (
+                <span>Chưa cập nhật</span>
               )}
             </span>
           </p>
           <p>
-            Email: <span>{userProfile?.email}</span>
+            Email: <span>{userProfile?.email || "Chưa cập nhật"} </span>
           </p>
           <p>
             SDT: <span>{userProfile?.phoneNumber || "Chưa cập nhật"}</span>

@@ -82,6 +82,23 @@ export const sendFriendRequest = async (friendId: string) => {
   return response.json();
 };
 
+export const denyFriendRequest = async (friendId: string) => {
+  const token = localStorage.getItem("token");
+  const response = await fetch(
+    `${API_BASE_URL}/api/relationship/unacceptFriend/${friendId}`,
+    {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  if (!response.ok) throw new Error("Failed to deny request Friend");
+  return response.json();
+};
+
 export const getRequestFriend = async (
   currentFriendPagination: currentFriendsPagination
 ) => {
@@ -235,11 +252,7 @@ export const dislikePost = async (postId: string) => {
     },
   });
 
-  const body = await response.json();
-
-  if (!response.ok) throw Error(body.message);
-
-  return body;
+  if (!response.ok) throw Error("Failed to dislike post");
 };
 // ======================================================================
 
@@ -381,3 +394,18 @@ export const getAllJoinedRooms = async () => {
   return body;
 };
 // =============================================================
+
+export const getAllNotification = async (paging: any) => {
+  const token = localStorage.getItem("token");
+  const response = await fetch(`${API_BASE_URL}/api/notification/paging`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(paging),
+  });
+  const body = await response.json();
+  if (!response.ok) throw Error(body.message);
+  return body;
+};

@@ -1,17 +1,21 @@
 import avatar from "@/assets/avatar.png";
 import { requestFriendsPagination } from "@/pages/ReqestFriendPage";
-import { useAcceptFriend } from "@/react-query/relationship";
+import {
+  useAcceptFriend,
+  useDenyRequestFriend,
+} from "@/react-query/relationship";
 import { useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import * as apiClient from "@/react-query/query-api";
 import CustomButtonFriend from "./CustomButtonFriend";
 import { Loader } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { IUser } from "@/types";
 
 const FriendResquest = () => {
   const navigate = useNavigate();
   const { acceptFriend, isLoading: isAccpectLoading } = useAcceptFriend();
+  const { mutate: denyFriend, isLoading: isDenyLoading } =
+    useDenyRequestFriend();
   const [requestFriends, setResquestFriends] = useState<any[]>([]);
 
   const [requestFriendPagination, setRequestFriendPagination] =
@@ -36,6 +40,9 @@ const FriendResquest = () => {
 
   const handleAcceptFriend = (acceptFriendId: string) => {
     acceptFriend(acceptFriendId);
+  };
+  const handleDenyFriend = (denyFriendId: string) => {
+    denyFriend(denyFriendId);
   };
 
   if (isLoading) return <Loader />;
@@ -70,7 +77,13 @@ const FriendResquest = () => {
                   isLoading={isAccpectLoading}
                   id={friend.id}
                 />
-                <button className="btn">Từ chối</button>
+                <CustomButtonFriend
+                  handleFn={(id: string) => handleDenyFriend(id)}
+                  title="Từ chối"
+                  titleDisable="Đã từ chối"
+                  isLoading={isDenyLoading}
+                  id={friend.id}
+                />
               </div>
             </div>
           ))}

@@ -24,8 +24,8 @@ const PostDetail = () => {
     postId as string
   );
   if (isLoading) return <span>Đang tải...</span>;
-  // console.log(postDetail);
-  // console.log(comments);
+  if (!postDetail)
+    return <p className="text-body-bold">Không tồn tại bài viết</p>;
   return (
     <div className="flex gap-x-10 justify-between max-h-screen ">
       <div className="sticky top-[1rem]">

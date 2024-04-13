@@ -62,12 +62,12 @@ const PostForm = ({ children, post }: PostFormProps) => {
       if (values.file[0]) {
         url = await handleUploadImage(values.file[0]);
       }
-      //console.log(url);
+
       const newPost: CreatePostType = {
         content: values.content,
         image: url as String,
       };
-      //console.log(newPost);
+
       if (post) {
         updatePost({ ...post, content: values.content });
       } else {
@@ -120,7 +120,7 @@ const PostForm = ({ children, post }: PostFormProps) => {
                       <FormControl>
                         <FileUploader
                           fieldChange={field.onChange}
-                          mediaUrl={""}
+                          mediaUrl={post?.image || ""}
                         />
                       </FormControl>
                       <FormMessage />
