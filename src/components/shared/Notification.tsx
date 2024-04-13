@@ -54,7 +54,7 @@ const Notification = () => {
         {" "}
         <Bell className="hover:text-primary" />
       </PopoverTrigger>
-      <PopoverContent className="min-w-[350px] mt-3 relative right-1/3 max-h-[70vh] overflow-y-auto">
+      <PopoverContent className="min-w-[350px] mt-3 relative right-1/3 max-h-[70vh] overflow-y-auto border-none">
         <div>
           <p className="text-lg mb-2 font-bold">Thông báo</p>
           {!notifications || notifications.length === 0 ? (

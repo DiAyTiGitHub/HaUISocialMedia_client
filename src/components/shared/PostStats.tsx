@@ -2,8 +2,9 @@ import { useAuth } from "@/context/AuthProvider";
 import { useDislikePost, useLikePost } from "@/react-query/post";
 import { IPost, IUser } from "@/types";
 import { Heart, Loader, MessagesSquare } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { effect } from "zod";
 
 type PostStatsProps = {
   post: IPost;
@@ -28,12 +29,21 @@ const PostStats = ({ post }: PostStatsProps) => {
     setLikes(likesArray);
     likePost(post.id);
   };
-  const handleDislike = () => {
-    dislike(post.id);
-  };
 
   const checkIsLiked = (likeList: string[], userId: string) => {
     return likeList.includes(userId);
+  };
+  const handleDislike = () => {
+    let likesArray = [...likes];
+
+    if (likesArray.includes(currentUser?.id as string)) {
+      likesArray = likesArray.filter((Id) => Id !== currentUser?.id);
+    } else {
+      likesArray.push(currentUser?.id as string);
+    }
+
+    setLikes(likesArray);
+    dislike(post.id);
   };
 
   return (
