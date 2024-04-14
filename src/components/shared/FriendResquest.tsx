@@ -87,14 +87,14 @@ const FriendResquest = () => {
               </div>
             </div>
           ))}
+          <div
+            className="body-bold text-center hover:text-primary cursor-pointer"
+            onClick={() => navigate("/add-friends")}
+          >
+            Xem thêm
+          </div>
         </>
       )}
-      <div
-        className="body-bold text-center hover:text-primary cursor-pointer"
-        onClick={() => navigate("/add-friends")}
-      >
-        Xem thêm
-      </div>
     </div>
   );
 };

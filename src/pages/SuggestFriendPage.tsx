@@ -87,7 +87,7 @@ const SuggestFriendPage = () => {
               suggestFriends.map((friend: IUser) => (
                 <div
                   key={friend.id}
-                  className="flex items-center gap-5 p-3 bg-white border border-light-2 rounded-xl"
+                  className="flex items-center gap-5 p-3 bg-blue-2 rounded-xl"
                 >
                   <Link to={`/profile/${friend.id}`}>
                     <img
@@ -103,10 +103,6 @@ const SuggestFriendPage = () => {
                     >
                       {friend.lastName} {friend.firstName}
                     </Link>
-
-                    {/* <Button onClick={() => handleSendRequestFriend(friend.id)}>
-                      Thêm bạn bè
-                    </Button> */}
                     <CustomButtonFriend
                       handleFn={(id: string) => handleSendRequestFriend(id)}
                       title="Thêm bạn bè"

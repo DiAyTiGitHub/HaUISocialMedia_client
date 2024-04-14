@@ -25,8 +25,8 @@ const UserDropdownMenu = () => {
           className="w-10 h-10 rounded-full object-cover"
         />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="relative right-[45%] min-w-[300px] flex flex-col gap-5 p-3">
-        <DropdownMenuItem>
+      <DropdownMenuContent className="relative right-[2vw] min-w-[300px] flex flex-col gap-3 p-3 border-none shadow-lg">
+        <DropdownMenuItem className="hover:bg-blue-2 py-2 rounded-xl">
           <button
             className="flex gap-2 items-center"
             onClick={() => navigate("/profile/edit")}
@@ -34,7 +34,7 @@ const UserDropdownMenu = () => {
             <Pencil /> Chỉnh sửa thông tin
           </button>
         </DropdownMenuItem>
-        <DropdownMenuItem>
+        <DropdownMenuItem className="hover:bg-blue-2 py-2 rouned-lg">
           <button className="flex items-center gap-2" onClick={handleLogout}>
             <LogOut /> Đăng xuất
           </button>

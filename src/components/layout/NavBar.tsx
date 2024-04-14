@@ -1,39 +1,58 @@
 import { GraduationCap, MessageCircle, Search } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import hauiLogo from "@/assets/logo-haui.png";
 
 import UserDropdownMenu from "../shared/UserDropdownMenu";
 import Notification from "../shared/Notification";
+import { navbarLink } from "@/constant";
 const NavBar = () => {
+  const { pathname } = useLocation();
   return (
-    <nav className="w-full bg-white py-3 sticky top-0 z-10">
-      <div className="container flex-between ">
-        <Link to="/" className="flex items-center gap-5">
-          <div className="profile-image">
-            <img src={hauiLogo} />
-          </div>
-          <h1 className="font-semibold text-xl">HAUI Social</h1>
-        </Link>
+    <nav className="w-full bg-white py-3 px-5 sticky top-0 z-10 shadow-lg">
+      <div className="flex-between ">
+        <div className="flex gap-3">
+          <Link to="/" className="flex items-center gap-5">
+            <div className="profile-image">
+              <img src={hauiLogo} />
+            </div>
+          </Link>
 
-        <div className="bg-light rounded-full search-padding flex items-center">
-          <input
-            type="text"
-            placeholder="Tìm kiếm..."
-            className="outline-none  bg-transparent w-[30vw] ml-4 text-dark"
-          />
-          <button>
-            <Search />
-          </button>
+          <div className="bg-light rounded-full search-padding flex items-center">
+            <input
+              type="text"
+              placeholder="Tìm kiếm trên Haui Social..."
+              className="outline-none  bg-transparent  ml-4 text-dark"
+            />
+            <button className="px-4">
+              <Search />
+            </button>
+          </div>
+        </div>
+
+        <div className="flex gap-10">
+          {navbarLink.map((link) => (
+            <Link
+              key={link.route}
+              to={link.route}
+              className={`flex items-center justify-center h-16 w-20 cursor-pointer relative ${
+                pathname === link.route && "navbar-active"
+              }`}
+            >
+              <img src={link.icon} alt="icon" className="w-8 h-8 relative" />
+            </Link>
+          ))}
         </div>
 
         <div className="flex items-center gap-10">
-          <Link to="/leaderboard">
+          <Link to="/leaderboard" className="bg-light p-3 rounded-full">
             <GraduationCap className="hover:text-primary" />
           </Link>
-          <Link to="/chats">
+          <Link to="/chats" className="bg-light p-3 rounded-full">
             <MessageCircle className="hover:text-primary" />
           </Link>
-          <Notification />
+          <div className="bg-light p-3 rounded-full ">
+            <Notification />
+          </div>
           <UserDropdownMenu />
         </div>
       </div>

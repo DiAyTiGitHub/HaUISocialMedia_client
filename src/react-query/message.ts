@@ -7,3 +7,10 @@ export const useGetAllJoinedRooms = () => {
     queryFn: () => apiClient.getAllJoinedRooms(),
   });
 };
+export const useGetChatById = (chatId: string) => {
+  return useQuery({
+    queryKey: "getChatId",
+    queryFn: () => apiClient.getChatById(chatId),
+    enabled: !!chatId,
+  });
+};

@@ -9,7 +9,7 @@ import { useMutation } from "react-query";
 import * as apiClient from "@/react-query/query-api";
 import { NotificationType } from "@/types";
 import { useInView } from "react-intersection-observer";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { multiFormatDateString } from "@/lib/utils";
 
 const Notification = () => {
@@ -22,7 +22,6 @@ const Notification = () => {
     pageSize: 10,
   });
 
-  const navigate = useNavigate();
   const mutation = useMutation(apiClient.getAllNotification, {
     onSuccess: async (data: any) => {
       if (data && data.length > 0) {
@@ -67,7 +66,7 @@ const Notification = () => {
                   to={`${
                     notification.notificationType.name === "Friend"
                       ? "/profile/" + notification.actor?.id
-                      : `/post/${notification.id}`
+                      : `/post/${notification?.post}`
                   }`}
                   className="flex items-center gap-2 bg-blue-2 p-3 rounded-lg"
                 >
@@ -77,7 +76,7 @@ const Notification = () => {
                     alt="profileImage"
                   />
                   <div>
-                    <p className="text-body-medium">{notification.content}</p>
+                    <p className="text-base-medium">{notification.content}</p>
                     <span>
                       {multiFormatDateString(
                         notification.createDate.toString()

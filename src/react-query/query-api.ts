@@ -393,6 +393,23 @@ export const getAllJoinedRooms = async () => {
 
   return body;
 };
+
+export const getChatById = async (chatId: string) => {
+  const token = localStorage.getItem("token");
+  const response = await fetch(`${API_BASE_URL}/api/room/${chatId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const body = await response.json();
+
+  if (!response.ok) throw Error(body.message);
+
+  return body;
+};
 // =============================================================
 
 export const getAllNotification = async (paging: any) => {

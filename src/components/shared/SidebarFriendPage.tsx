@@ -5,19 +5,12 @@ const SidebarFriendPage = () => {
   const { pathname } = useLocation();
   return (
     <div className="sticky h-max top-[5.4rem] ">
-      <Link
-        to={`/`}
-        className="flex items-center gap-x-4 w-full p-4 bg-white rounded-2xl"
-      >
-        <p className="text-sm font-semibold">Trang chủ</p>
-      </Link>
-
-      <div className="mt-4 bg-white rounded-xl">
+      <div className="mt-4 bg-white rounded-xl shadow-sm">
         {sidebarFriendPage.map((link) => (
           <Link
             key={link.route}
             to={link.route}
-            className={`flex items-center h-16 cursor-pointer relative ${
+            className={`flex items-center h-16 cursor-pointer relative  hover:bg-blue-2 ${
               pathname === link.route && "sidebar-active"
             }`}
           >

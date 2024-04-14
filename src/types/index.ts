@@ -51,4 +51,5 @@ export type NotificationType = {
   owner: IUser;
   actor: IUser;
   referenceId: string;
+  post: string;
 };

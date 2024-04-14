@@ -6,6 +6,7 @@ import "./global.css";
 import AuthProvider from "./context/AuthProvider.tsx";
 import { BrowserRouter } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
+import { SocketContextProvider } from "./context/SocketContext.tsx";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -19,7 +20,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <AuthProvider>
-          <App />
+          <SocketContextProvider>
+            <App />
+          </SocketContextProvider>
           <Toaster />
         </AuthProvider>
       </BrowserRouter>

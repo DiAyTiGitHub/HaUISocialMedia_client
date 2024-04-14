@@ -338,7 +338,10 @@ body {
     @apply p-2;
   }
   .sidebar-active {
-    @apply before:block before:w-2 before:h-full before:absolute before:bg-primary;
+    @apply before:block before:w-1 before:h-full before:absolute before:bg-primary;
+  }
+  .navbar-active {
+    @apply before:block before:h-1 before:w-full before:absolute before:bottom-0 before:bg-primary;
   }
 
   .profile-photo {
@@ -471,7 +474,7 @@ body {
   }
 
   .post-card_img {
-    @apply h-64 xs:h-[400px] lg:h-[450px] w-full rounded-[24px] object-cover mb-5;
+    @apply h-64 xs:h-[400px] lg:h-[480px] w-full rounded-[24px] object-cover;
   }
 
   /* Topbar */

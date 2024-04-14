@@ -12,15 +12,18 @@ import { useMutation } from "react-query";
 export type currentFriendsPagination = {
   pageIndex: number;
   pageSize: number;
+  keyWord: string;
 };
 
 const FriendPage = () => {
   const { ref, inView } = useInView();
   const [showLoadMore, setShowLoadMore] = useState<boolean>(true);
+  const [search, setSearch] = useState("");
   const [currentFriendPagination, setCurrentFriendPagination] =
     useState<currentFriendsPagination>({
       pageIndex: 0,
       pageSize: 10,
+      keyWord: search,
     });
   const [friends, setFriends] = useState<any[]>([]);
 
@@ -30,6 +33,7 @@ const FriendPage = () => {
         setCurrentFriendPagination({
           pageSize: currentFriendPagination.pageSize,
           pageIndex: currentFriendPagination.pageIndex + 1,
+          keyWord: search,
         });
         setFriends((prev) => [...prev, ...data]);
       } else {
@@ -47,6 +51,13 @@ const FriendPage = () => {
   });
   const handleGetData = (pagination: any) => {
     mutation.mutate(pagination);
+  };
+  const handleSearch = () => {
+    setCurrentFriendPagination((prev) => ({
+      ...prev,
+      keyWord: search,
+      pageIndex: 0,
+    }));
   };
   useEffect(() => {
     if (inView) {
@@ -66,8 +77,9 @@ const FriendPage = () => {
                 type="text"
                 placeholder="Tìm bạn bè..."
                 className="input input-field"
+                onChange={(e) => setSearch(e.target.value)}
               />
-              <button className="btn btn-primary">
+              <button className="btn btn-primary" onClick={handleSearch}>
                 <Search />
               </button>
             </div>
@@ -79,7 +91,7 @@ const FriendPage = () => {
               {friends.map((friend: IUser) => (
                 <div
                   key={friend.id}
-                  className="flex items-center gap-5 p-3 bg-white border border-light-2 rounded-xl"
+                  className="flex items-center gap-5 p-3 bg-white  rounded-xl"
                 >
                   <img
                     src={friend.avatar || "/person.jpg"}

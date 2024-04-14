@@ -1,6 +1,6 @@
 import avatar from "@/assets/avatar.png";
 import { Ellipsis, Eraser, Pencil } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PostForm from "@/pages/PostForm";
 import PostStats from "./PostStats";
 import React, { useState } from "react";
@@ -13,9 +13,17 @@ import { multiFormatDateString } from "@/lib/utils";
 type PostProps = {
   post: IPost;
 };
+
+const images = [
+  "https://images.unsplash.com/photo-1712992510624-3bb00e23fe76?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxN3x8fGVufDB8fHx8fA%3D%3D",
+  "https://plus.unsplash.com/premium_photo-1712171314766-4087f2e84711?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyNHx8fGVufDB8fHx8fA%3D%3D",
+  "https://plus.unsplash.com/premium_photo-1669997804140-ecc75729b583?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyOHx8fGVufDB8fHx8fA%3D%3D",
+  "https://images.unsplash.com/photo-1712839398283-5b5bc134d9dc?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzNXx8fGVufDB8fHx8fA%3D%3D",
+];
 const PortCard = ({ post }: PostProps) => {
   const [dropdown, setdropDowm] = useState<boolean>(false);
   const { currentUser } = useAuth();
+  const navigate = useNavigate();
   const { mutate: deletePost, isLoading: isDeleting } = useDeletePost();
   const handleDeletePost = (postId: string) => {
     deletePost(postId);
@@ -85,12 +93,26 @@ const PortCard = ({ post }: PostProps) => {
         <p>{post.content}</p>
       </div>
 
-      <div className="rounded-xl overflow-hidden my-3">
-        <img
-          src={post.image || avatar}
-          alt="post image"
-          className="post-card_img"
-        />
+      <div className="rounded-xl overflow-hidden my-2 gap-2 flex">
+        <div className="basis-2/3">
+          <img
+            src={images[0]}
+            alt="post-image"
+            className="post-card_img"
+            onClick={() => navigate(`/post/${post.id}`)}
+          />
+        </div>
+        <div className="flex flex-col justify-between basis-1/3 ">
+          {images.slice(1).map((image, index) => (
+            <img
+              key={index}
+              src={image}
+              alt="post-iamge"
+              className="h-[150px] object-cover w-full rounded-[10px]"
+              onClick={() => navigate(`/post/${post.id}`)}
+            />
+          ))}
+        </div>
       </div>
 
       <PostStats post={post} />

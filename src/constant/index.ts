@@ -1,41 +1,69 @@
-import friend from "@/assets/icons/friend.svg";
-import group from "@/assets/icons/group.svg";
-import wishlist from "@/assets/icons/wishlist.svg";
-import addFriend from "@/assets/icons/addFriend.svg";
-import suggestFriend from "@/assets/icons/suggestFriend.svg";
+export const navbarLink = [
+  {
+    label: "Trang chủ",
+    route: "/",
+    icon: "/home.svg",
+  },
+  {
+    label: "Bạn bè",
+    route: "/friends",
+    icon: "/friend.svg",
+  },
 
+  {
+    label: "Nhóm",
+    route: "/posts",
+    icon: "/posts.svg",
+  },
+];
 export const sidebarLink = [
   {
     label: "Bạn bè",
     route: "/friends",
-    icon: friend,
+    icon: "/friend.svg",
+  },
+
+  {
+    label: "Bài viết",
+    route: "/posts",
+    icon: "/posts.svg",
   },
   {
-    label: "Yêu thích",
-    route: "/wishlist",
-    icon: wishlist,
+    label: "Sự kiện",
+    route: "/event",
+    icon: "/event.svg",
   },
   {
-    label: "Nhóm",
-    route: "/groups",
-    icon: group,
+    label: "Kỉ niệm",
+    route: "/celebrate",
+    icon: "/celabrate.svg",
+  },
+  {
+    label: "Đã lưu",
+    route: "/saved",
+    icon: "/saved.svg",
   },
 ];
 
 export const sidebarFriendPage = [
   {
+    label: "Trang chủ",
+    route: "/",
+    icon: "/home.svg",
+  },
+  {
     label: "Danh sách bạn bè",
     route: "/friends",
-    icon: friend,
+    icon: "/add-friend.svg",
   },
   {
     label: "Lời mời kết bạn",
     route: "/add-friends",
-    icon: addFriend,
+    icon: "/friend.svg",
   },
   {
     label: "Gợi ý",
     route: "/suggest-friends",
-    icon: suggestFriend,
+    icon: "/suggestFriend.svg",
   },
 ];

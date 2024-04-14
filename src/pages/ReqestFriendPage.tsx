@@ -87,7 +87,7 @@ const RequestFriendPage = () => {
               {requestFriends.map((friend: any) => (
                 <div
                   key={friend.id}
-                  className="flex items-center gap-5 p-3 bg-white border border-light-2 rounded-xl"
+                  className="flex items-center gap-5 p-3 bg-white  rounded-xl"
                 >
                   <img
                     src={friend.avatar || "/person.jpg"}

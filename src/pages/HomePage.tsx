@@ -55,7 +55,7 @@ const HomePage = () => {
     }
   }, [inView, newFeedPagination]);
   return (
-    <div className="w-full grid grid-cols-[18vw_auto_20vw] gap-x-8 relative">
+    <div className="w-full grid grid-cols-[1fr_2fr_1fr] gap-x-8 relative">
       <Sidebar />
       <div className="">
         <SessionCreatePost />

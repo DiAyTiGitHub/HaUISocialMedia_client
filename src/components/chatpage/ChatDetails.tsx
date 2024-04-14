@@ -1,110 +1,43 @@
 import { useState, useEffect, useRef } from "react";
 import MessageBox from "./MessageBox";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Button } from "../ui/button";
 import { useAuth } from "@/context/AuthProvider";
-
-const chat = {
-  messages: [
-    {
-      text: "noi dung tin nhan",
-      sender: {
-        id: 1,
-        username: "nguoi gui",
-      },
-    },
-    {
-      text: "noi dung tin nhan",
-      sender: {
-        id: 1,
-        username: "nguoi gui",
-      },
-    },
-    {
-      text: "noi dung tin nhan",
-      sender: {
-        id: 1,
-        username: "nguoi gui",
-      },
-    },
-  ],
-};
+import { useGetChatById } from "@/react-query/message";
+import Loader from "../shared/Loader";
+import { IUser } from "@/types";
 
 const ChatDetails = () => {
-  //const [chat, setChat] = useState({});
-  const [otherMembers, setOtherMembers] = useState([]);
+  const { roomId } = useParams();
+  const { data: chat, isLoading: isChatLoading } = useGetChatById(
+    roomId as string
+  );
+
+  console.log(chat);
+  const [otherMembers, setOtherMembers] = useState<IUser[]>([]);
   const { currentUser } = useAuth();
   const [text, setText] = useState("");
 
-  // sock api
-
-  // const [userData, setUserData] = useState({
-  //   username: '',
-  //   receivername: '',
-  //   connected: false,
-  //   messageBody: ''
-  // });
-  // useEffect(() => {
-  // console.log(userData);
-  // }, [userData]);
-
-  // useEffect(() => {
-  //   if (currentUser && chatId) getChatDetails();
-  // }, [currentUser, chatId]);
-
-  // const sendText = async () => {
-  //   try {
-  //     const res = await fetch("/api/messages", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         chatId,
-  //         currentUserId: currentUser._id,
-  //         text,
-  //       }),
-  //     });
-
-  //     if (res.ok) {
-  //       setText("");
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   pusherClient.subscribe(chatId);
-
-  //   const handleMessage = async (newMessage) => {
-  //     setChat((prevChat) => {
-  //       return {
-  //         ...prevChat,
-  //         messages: [...prevChat.messages, newMessage],
-  //       };
-  //     });
-  //   };
-
-  //   pusherClient.bind("new-message", handleMessage);
-
-  //   return () => {
-  //     pusherClient.unsubscribe(chatId);
-  //     pusherClient.unbind("new-message", handleMessage);
-  //   };
-  // }, [chatId]);
-
   /* Scrolling down to the bottom when having the new message */
 
-  const bottomRef = useRef(null);
+  const bottomRef = useRef<null | HTMLDivElement>(null);
+  useEffect(() => {
+    const orther = chat?.participants?.filter(
+      (item: any) => item.id !== currentUser?.id
+    );
+    setOtherMembers(orther);
+  }, [chat]);
 
-  // useEffect(() => {
-  //   bottomRef.current?.scrollIntoView({
-  //     behavior: "smooth",
-  //   });
-  // }, [chat?.messages]);
+  console.log(otherMembers[0]);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({
+      behavior: "smooth",
+    });
+  }, [chat?.messages]);
 
   if (currentUser === null) return;
+  if (isChatLoading) return <Loader />;
   return (
     <div className="pb-20">
       <div className="chat-details">
@@ -136,14 +69,16 @@ const ChatDetails = () => {
                 className="profilePhoto"
               />
               <div className="text">
-                <p>order people</p>
+                <p>
+                  {otherMembers[0].lastName} {otherMembers[0].lastName}{" "}
+                </p>
               </div>
             </>
           )}
         </div>
 
         <div className="chat-body">
-          {chat?.messages?.map((message, index) => (
+          {chat?.messages?.map((message: any, index: number) => (
             <MessageBox
               key={index}
               message={message}
