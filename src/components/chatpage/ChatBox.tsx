@@ -19,10 +19,14 @@ const ChatBox = ({ chat }: ChatBoxProps) => {
     (member: any) => member.id === currentUser?.id
   );
 
+  const handleNavigate = () => {
+    navigate(`/chats/${chat.id}`);
+    window.location.href = `/chats/${chat.id}`;
+  };
   return (
     <div
       className={`chat-box ${chat.id === roomId ? "bg-blue-200" : ""}`}
-      onClick={() => navigate(`/chats/${chat.id}`)}
+      onClick={handleNavigate}
     >
       <div className="chat-info">
         {chat?.isGroup ? (

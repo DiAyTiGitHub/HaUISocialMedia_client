@@ -1,29 +1,10 @@
 import ChatDetails from "@/components/chatpage/ChatDetails";
 import ChatList from "@/components/chatpage/ChatList";
 import NavBar from "@/components/layout/NavBar";
-import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 const ChatDetailPage = () => {
-  // const seenMessages = async () => {
-  //   try {
-  //     await fetch(`/api/chats/${chatId}`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         currentUserId: currentUser._id,
-  //       }),
-  //     });
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (currentUser && chatId) seenMessages();
-  // }, [currentUser, chatId]);
+  const { roomId } = useParams();
 
   return (
     <>
@@ -33,8 +14,7 @@ const ChatDetailPage = () => {
           <ChatList />
         </div>
         <div className="w-2/3 max-lg:w-full">
-          {/* // chatId */}
-          <ChatDetails />
+          <ChatDetails roomId={roomId as string} />
         </div>
       </div>
     </>

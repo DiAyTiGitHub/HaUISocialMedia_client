@@ -2,76 +2,57 @@ import { Button } from "../ui/button";
 import { Loader, Pencil } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "@/context/AuthProvider";
-import { useGetUseById } from "@/react-query/user";
-import { format, parseISO } from "date-fns";
-const ProfileInfo = () => {
+
+type Props = {
+  userProfile: any;
+  isLoading: boolean;
+};
+const ProfileInfo = ({ userProfile, isLoading }: Props) => {
   const navigate = useNavigate();
   const { currentUser } = useAuth();
-  const { profileId } = useParams();
-  const { data: userProfile, isLoading } = useGetUseById(profileId as string);
-  console.log(userProfile);
+
   if (isLoading) return <Loader />;
   return (
-    <div className="bg-white h-fit p-5">
-      <div className="flex justify-between items-center border-b border-black pb-5">
-        <div className="flex items-center gap-2">
-          <div className="profile-photo">
-            <img
-              src={userProfile?.avatar || "/person.jpg"}
-              alt="avartar"
-              className="rounded-full"
-            />
-          </div>
-          <div>
-            <p className="text-base font-bold">
-              {userProfile?.lastName} {userProfile?.firstName}
-            </p>
-          </div>
-        </div>
-        {currentUser?.id === userProfile?.id ? (
-          <Button onClick={() => navigate("/profile/edit")}>
-            <Pencil />
-          </Button>
-        ) : (
-          <Button>Bạn bè</Button>
-        )}
+    <div className="flex flex-col">
+      <div className="w-full h-[200px]">
+        <img
+          src="/bg-haui.jpg"
+          alt="image"
+          className="w-full h-full object-cover"
+        />
       </div>
 
-      <div className="mt-5 flex flex-col ">
-        <p className="h3-bold mb-5">Giới thiệu</p>
-        <div className="flex flex-col gap-5 text-lg">
-          <p>
-            Giới tính: <span>{userProfile?.gender ? "Nữ" : "Nam"}</span>
-          </p>
-          <p className="font-medium">
-            Tên tài khoản:{" "}
-            <span className="font-normal">{userProfile?.username}</span>
-          </p>
-          <p className="flex gap-2">
-            Ngày sinh:{" "}
-            <span>
-              {" "}
-              {userProfile?.birthDate ? (
-                <>
-                  {format(
-                    parseISO(userProfile?.birthDate?.toString() || ""),
-                    "yyy-MM-dd"
-                  )}
-                </>
-              ) : (
-                <span>Chưa cập nhật</span>
-              )}
-            </span>
-          </p>
-          <p>
-            Email: <span>{userProfile?.email || "Chưa cập nhật"} </span>
-          </p>
-          <p>
-            SDT: <span>{userProfile?.phoneNumber || "Chưa cập nhật"}</span>
-          </p>
-          <p>
-            Địa chỉ: <span>{userProfile?.address || "Chưa cập nhật"}</span>
-          </p>
+      <div className="bg-white h-fit p-5">
+        <div className="flex justify-between items-center  pb-5">
+          <div className="flex items-center gap-2 -mt-14">
+            <div className="w-36 h-36">
+              <img
+                src={userProfile?.avatar || "/person.jpg"}
+                alt="avartar"
+                className="rounded-full"
+              />
+            </div>
+            <div>
+              <p className="text-[28px] font-bold">
+                {userProfile?.lastName} {userProfile?.firstName}
+              </p>
+            </div>
+          </div>
+          {currentUser?.id === userProfile?.id ? (
+            <div className="flex items-center gap-3">
+              <Button
+                onClick={() => navigate("/profile/edit")}
+                className="bg-light text-black"
+              >
+                <span>Cập nhật thành tích học tập</span>
+              </Button>
+              <Button onClick={() => navigate("/profile/edit")}>
+                <span>Cập nhật thông tin</span>
+              </Button>
+            </div>
+          ) : (
+            <Button>Bạn bè</Button>
+          )}
         </div>
       </div>
     </div>

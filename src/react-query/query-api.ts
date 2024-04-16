@@ -135,6 +135,30 @@ export const getSuggestFriends = async (
   if (!response.ok) throw Error(body.message);
   return body;
 };
+
+export const getFriendOfUser = async ({
+  paging,
+  userId,
+}: {
+  paging: any;
+  userId: string;
+}): Promise<IUser[]> => {
+  const token = localStorage.getItem("token");
+  const response = await fetch(
+    `${API_BASE_URL}/api/relationship/friends/${userId}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(paging),
+    }
+  );
+  const body = await response.json();
+  if (!response.ok) throw Error(body.message);
+  return body;
+};
 // ===============================================================
 
 // ======================== Post ================================

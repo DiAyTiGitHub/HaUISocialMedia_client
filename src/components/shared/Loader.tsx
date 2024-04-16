@@ -1,4 +1,4 @@
-import loader from "@/assets/icons/loader.svg";
+import loader from "/loader.svg";
 const Loader = () => (
   <div className="flex-center w-full">
     <img

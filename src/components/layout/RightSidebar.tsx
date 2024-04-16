@@ -62,7 +62,7 @@ const RightSidebar = () => {
                   key={friend.id}
                 >
                   <img
-                    src={friend.avatar}
+                    src={friend.avatar || "/person.jpg"}
                     alt="profile-img"
                     className="profilePhoto"
                   />
