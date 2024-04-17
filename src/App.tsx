@@ -15,6 +15,7 @@ import SuggestFriendPage from "./pages/SuggestFriendPage";
 import RequestFriendPage from "./pages/ReqestFriendPage";
 import PostDetail from "./pages/PostDetail";
 import LeaderBoard from "./pages/LeaderBoard";
+import ChatV2Index from "./components/ChatV2/ChatV2Index";
 
 const App = () => {
   return (
@@ -38,6 +39,9 @@ const App = () => {
         </Route>
         <Route path="/chats" element={<ChatPage />} />
         <Route path="/chats/:roomId" element={<ChatDetailPage />} />
+
+        <Route path="/messenger-v2" element={<ChatV2Index />} />
+
       </Route>
     </Routes>
   );
