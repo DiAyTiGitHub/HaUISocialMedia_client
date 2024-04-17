@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
-import reply from "@/assets/icons/reply.svg";
+import reply from "/reply.svg";
 import { useState } from "react";
 import Comment from "./Comment";
 import ReplyComment from "./ReplyComment";
 import { IComment } from "@/types";
 import { useGetSubComment } from "@/react-query/comment";
-import { spawn } from "child_process";
+
 import { multiFormatDateString } from "@/lib/utils";
 
 type CommentCardProps = {

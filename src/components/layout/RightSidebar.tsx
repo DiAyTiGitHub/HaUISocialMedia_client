@@ -14,7 +14,6 @@ const RightSidebar = () => {
     pageSize: 10,
   });
   const [friends, setFriends] = useState<IUser[]>([]);
-  console.log(friends);
 
   const mutation = useMutation(apiClient.getCurrentFriend, {
     onSuccess: async (data: any) => {
@@ -58,11 +57,11 @@ const RightSidebar = () => {
               {friends.map((friend: IUser) => (
                 <Link
                   to={`/profile/${friend.id}`}
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 bg-blue-2 p-2 rounded-lg"
                   key={friend.id}
                 >
                   <img
-                    src={friend.avatar}
+                    src={friend.avatar || "/person.jpg"}
                     alt="profile-img"
                     className="profilePhoto"
                   />

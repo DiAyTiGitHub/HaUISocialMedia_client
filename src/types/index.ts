@@ -53,3 +53,18 @@ export type NotificationType = {
   referenceId: string;
   post: string;
 };
+
+export type CourseType = {
+  id: string;
+  code: string;
+  name: string;
+  description: string;
+  userCourses: IUser[];
+};
+
+export type CourseResultType = {
+  id: string;
+  code: string;
+  name: string;
+  description: string;
+};

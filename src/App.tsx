@@ -9,13 +9,14 @@ import EditProfile from "./pages/EditProfile";
 import FriendPage from "./pages/FriendPage";
 import Wishlist from "./pages/Wishlist";
 import GroupPage from "./pages/GroupPage";
-import ProtectedRoute from "./context/ProtectedRoute";
+
 import ChatDetailPage from "./pages/ChatDetailPage";
 import SuggestFriendPage from "./pages/SuggestFriendPage";
 import RequestFriendPage from "./pages/ReqestFriendPage";
 import PostDetail from "./pages/PostDetail";
 import LeaderBoard from "./pages/LeaderBoard";
 import ChatV2Index from "./components/ChatV2/ChatV2Index";
+import SearchPage from "./pages/SearchPage";
 
 const App = () => {
   return (
@@ -36,6 +37,7 @@ const App = () => {
           <Route path="/profile/:profileId" element={<Profile />} />
           <Route path="/post/:postId" element={<PostDetail />} />
           <Route path="/leaderboard" element={<LeaderBoard />} />
+          <Route path="/search" element={<SearchPage />} />
         </Route>
         <Route path="/chats" element={<ChatPage />} />
         <Route path="/chats/:roomId" element={<ChatDetailPage />} />

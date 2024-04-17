@@ -1,5 +1,5 @@
 import { GraduationCap, MessageCircle, Search } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import hauiLogo from "@/assets/logo-haui.png";
 
 import UserDropdownMenu from "../shared/UserDropdownMenu";
@@ -7,8 +7,9 @@ import Notification from "../shared/Notification";
 import { navbarLink } from "@/constant";
 const NavBar = () => {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   return (
-    <nav className="w-full bg-white py-3 px-5 sticky top-0 z-10 shadow-lg">
+    <nav className="w-full bg-white py-3 px-5 sticky top-0 z-10 shadow-lg max-h-[88px]">
       <div className="flex-between ">
         <div className="flex gap-3">
           <Link to="/" className="flex items-center gap-5">
@@ -23,7 +24,10 @@ const NavBar = () => {
               placeholder="Tìm kiếm trên Haui Social..."
               className="outline-none  bg-transparent  ml-4 text-dark"
             />
-            <button className="px-4">
+            <button
+              className="px-4"
+              onClick={() => navigate("/search?name=thuan")}
+            >
               <Search />
             </button>
           </div>

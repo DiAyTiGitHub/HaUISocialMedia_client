@@ -89,20 +89,19 @@ const SuggestFriendPage = () => {
                   key={friend.id}
                   className="flex items-center gap-5 p-3 bg-blue-2 rounded-xl"
                 >
-                  <Link to={`/profile/${friend.id}`}>
-                    <img
-                      src={friend.avatar || "/person.jpg"}
-                      alt="avatar"
-                      className="w-10 h-10 rounded-full object-cover"
-                    />
-                  </Link>
+                  <Link to={`/profile/${friend.id}`}></Link>
                   <div className="flex justify-between flex-1">
-                    <Link
-                      to={`/profile/${friend.id}`}
-                      className="font-semibold"
-                    >
-                      {friend.lastName} {friend.firstName}
-                    </Link>
+                    <div className="flex items-center gap-3">
+                      <img
+                        src={friend.avatar || "/person.jpg"}
+                        alt="avatar"
+                        className="w-10 h-10 rounded-full object-cover"
+                      />
+                      <p className="font-medium">
+                        {friend.lastName} {friend.firstName}
+                      </p>
+                    </div>
+
                     <CustomButtonFriend
                       handleFn={(id: string) => handleSendRequestFriend(id)}
                       title="Thêm bạn bè"

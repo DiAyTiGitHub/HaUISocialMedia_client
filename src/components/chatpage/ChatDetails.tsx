@@ -7,12 +7,14 @@ import { useGetChatById } from "@/react-query/message";
 import Loader from "../shared/Loader";
 import { IUser } from "@/types";
 
-const ChatDetails = () => {
-  const { roomId } = useParams();
+type Props = {
+  roomId: string;
+};
+const ChatDetails = ({ roomId }: Props) => {
   const { data: chat, isLoading: isChatLoading } = useGetChatById(
     roomId as string
   );
-
+  console.log(roomId);
   console.log(chat);
   const [otherMembers, setOtherMembers] = useState<IUser[]>([]);
   const { currentUser } = useAuth();
@@ -22,10 +24,12 @@ const ChatDetails = () => {
 
   const bottomRef = useRef<null | HTMLDivElement>(null);
   useEffect(() => {
-    const orther = chat?.participants?.filter(
-      (item: any) => item.id !== currentUser?.id
-    );
-    setOtherMembers(orther);
+    if (chat) {
+      const orther = chat?.participants?.filter(
+        (item: any) => item.id !== currentUser?.id
+      );
+      setOtherMembers(orther);
+    }
   }, [chat]);
 
   console.log(otherMembers[0]);
@@ -36,7 +40,7 @@ const ChatDetails = () => {
     });
   }, [chat?.messages]);
 
-  if (currentUser === null) return;
+  if (currentUser === null || !chat) return;
   if (isChatLoading) return <Loader />;
   return (
     <div className="pb-20">
@@ -70,7 +74,7 @@ const ChatDetails = () => {
               />
               <div className="text">
                 <p>
-                  {otherMembers[0].lastName} {otherMembers[0].lastName}{" "}
+                  {otherMembers[0]?.lastName} {otherMembers[0]?.firstName}{" "}
                 </p>
               </div>
             </>
