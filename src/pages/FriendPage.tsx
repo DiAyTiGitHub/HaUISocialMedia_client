@@ -8,6 +8,7 @@ import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useMutation } from "react-query";
+import { useNavigate } from "react-router-dom";
 
 export type currentFriendsPagination = {
   pageIndex: number;
@@ -25,6 +26,8 @@ const FriendPage = () => {
       pageSize: 10,
       keyWord: search,
     });
+
+  const navigate = useNavigate();
   const [friends, setFriends] = useState<any[]>([]);
 
   const mutation = useMutation(apiClient.getCurrentFriend, {
@@ -91,17 +94,20 @@ const FriendPage = () => {
               {friends.map((friend: IUser) => (
                 <div
                   key={friend.id}
-                  className="flex items-center gap-5 p-3 bg-white  rounded-xl"
+                  className="flex items-center gap-5 p-3 bg-white  rounded-xl cursor-pointer"
+                  onClick={() => navigate(`/profile/${friend.id}`)}
                 >
-                  <img
-                    src={friend.avatar || "/person.jpg"}
-                    alt="avatar"
-                    className="w-10 h-10 rounded-full object-cover"
-                  />
                   <div className="flex justify-between flex-1">
-                    <p className="font-semibold">
-                      {friend.lastName} {friend.firstName}
-                    </p>
+                    <div className="flex items-center gap-3">
+                      <img
+                        src={friend.avatar || "/person.jpg"}
+                        alt="avatar"
+                        className="w-10 h-10 rounded-full object-cover"
+                      />
+                      <p className="font-medium">
+                        {friend.lastName} {friend.firstName}
+                      </p>
+                    </div>
 
                     <Button className="bg-blue-600 hover:bg-blue-500">
                       Bạn bè

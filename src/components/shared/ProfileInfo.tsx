@@ -2,6 +2,7 @@ import { Button } from "../ui/button";
 import { Loader, Pencil } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "@/context/AuthProvider";
+import UpdateResult from "./UpdateResult";
 
 type Props = {
   userProfile: any;
@@ -40,12 +41,12 @@ const ProfileInfo = ({ userProfile, isLoading }: Props) => {
           </div>
           {currentUser?.id === userProfile?.id ? (
             <div className="flex items-center gap-3">
-              <Button
-                onClick={() => navigate("/profile/edit")}
-                className="bg-light text-black"
-              >
-                <span>Cập nhật thành tích học tập</span>
-              </Button>
+              <UpdateResult>
+                <span className="cursor-pointer bg-blue-2 px-3 py-2 font-medium rounded-md">
+                  Cập nhật thành tích học tập
+                </span>
+              </UpdateResult>
+
               <Button onClick={() => navigate("/profile/edit")}>
                 <span>Cập nhật thông tin</span>
               </Button>

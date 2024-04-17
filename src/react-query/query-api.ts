@@ -99,9 +99,7 @@ export const denyFriendRequest = async (friendId: string) => {
   return response.json();
 };
 
-export const getRequestFriend = async (
-  currentFriendPagination: currentFriendsPagination
-) => {
+export const getRequestFriend = async (currentFriendPagination: any) => {
   const token = localStorage.getItem("token");
   const response = await fetch(
     `${API_BASE_URL}/api/relationship/friendRequest/pending`,

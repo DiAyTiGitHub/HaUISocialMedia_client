@@ -89,7 +89,7 @@ const PortCard = ({ post }: PostProps) => {
         )}
       </div>
 
-      <div className="small-medium lg:base-medium py-5">
+      <div className="small-regular lg:base-medium py-5">
         <p>{post.content}</p>
       </div>
 

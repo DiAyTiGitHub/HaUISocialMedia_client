@@ -11,6 +11,10 @@ import CustomButtonFriend from "./CustomButtonFriend";
 import { Loader } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
+type pagingType = {
+  pageIndex: number;
+  pageSize: number;
+};
 const FriendResquest = () => {
   const navigate = useNavigate();
   const { acceptFriend, isLoading: isAccpectLoading } = useAcceptFriend();
@@ -19,7 +23,7 @@ const FriendResquest = () => {
   const [requestFriends, setResquestFriends] = useState<any[]>([]);
 
   const [requestFriendPagination, setRequestFriendPagination] =
-    useState<requestFriendsPagination>({
+    useState<pagingType>({
       pageIndex: 0,
       pageSize: 3,
     });
@@ -55,7 +59,7 @@ const FriendResquest = () => {
           <h3 className="h3-bold text-gray my-1">Lời mời kết bạn</h3>
           {requestFriends.map((friend: any) => (
             <div className="bg-white p-4 rounded-xl mb-3" key={friend?.id}>
-              <div className="flex gap-4 mb-4">
+              <div className="flex items-center gap-4 mb-4">
                 <div className="profile-photo">
                   <img
                     src={friend.avatar || "/person.jpg"}
@@ -63,7 +67,7 @@ const FriendResquest = () => {
                   />
                 </div>
                 <div>
-                  <p className="font-semibold">
+                  <p className="font-medium">
                     {friend?.requestSender?.lastName}{" "}
                     {friend?.requestSender?.firstName}
                   </p>

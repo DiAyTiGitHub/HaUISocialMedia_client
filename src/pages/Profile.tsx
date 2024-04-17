@@ -14,6 +14,7 @@ import { Tabs } from "@radix-ui/react-tabs";
 import { TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { format, parseISO } from "date-fns";
 import FriendOfUser from "@/components/shared/FriendOfUser";
+import UserCourseResult from "@/components/shared/UserCourseResult";
 
 const Profile = () => {
   const { profileId } = useParams();
@@ -67,7 +68,7 @@ const Profile = () => {
 
       <div className="flex gap-3 mt-3">
         <div className="flex-1">
-          <Tabs defaultValue="all">
+          <Tabs defaultValue="all" className="w-full pb-10">
             <TabsList className="bg-white">
               <TabsTrigger value="all">Giới thiệu</TabsTrigger>
               <TabsTrigger value="private">Bạn bè</TabsTrigger>
@@ -131,7 +132,9 @@ const Profile = () => {
                 <FriendOfUser profileId={profileId as string} />
               </div>
             </TabsContent>
-            <TabsContent value="group"></TabsContent>
+            <TabsContent value="result" className="w-full">
+              <UserCourseResult />
+            </TabsContent>
           </Tabs>
         </div>
 

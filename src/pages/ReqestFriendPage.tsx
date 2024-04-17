@@ -2,11 +2,15 @@ import CustomButtonFriend from "@/components/shared/CustomButtonFriend";
 import Loader from "@/components/shared/Loader";
 import SidebarFriendPage from "@/components/shared/SidebarFriendPage";
 import * as apiClient from "@/react-query/query-api";
-import { useAcceptFriend } from "@/react-query/relationship";
+import {
+  useAcceptFriend,
+  useDenyRequestFriend,
+} from "@/react-query/relationship";
 import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useMutation } from "react-query";
+import { useNavigate } from "react-router-dom";
 
 export type requestFriendsPagination = {
   pageIndex: number;
@@ -14,8 +18,11 @@ export type requestFriendsPagination = {
 };
 
 const RequestFriendPage = () => {
+  const navigate = useNavigate();
   const { ref, inView } = useInView();
   const { acceptFriend, isLoading: isAccpectLoading } = useAcceptFriend();
+  const { mutate: denyFriend, isLoading: isDenyLoading } =
+    useDenyRequestFriend();
   const [requestFriends, setResquestFriends] = useState<any[]>([]);
   const [showLoadMore, setShowLoadMore] = useState<boolean>(true);
   const [requestFriendPagination, setRequestFriendPagination] =
@@ -54,6 +61,9 @@ const RequestFriendPage = () => {
   const handleAcceptFriend = (acceptFriendId: string) => {
     acceptFriend(acceptFriendId);
   };
+  const handleDenyFriend = (denyFriendId: string) => {
+    denyFriend(denyFriendId);
+  };
 
   useEffect(() => {
     if (inView) {
@@ -87,25 +97,39 @@ const RequestFriendPage = () => {
               {requestFriends.map((friend: any) => (
                 <div
                   key={friend.id}
-                  className="flex items-center gap-5 p-3 bg-white  rounded-xl"
+                  className="flex items-center gap-5 p-3 bg-white  rounded-xl cursor-pointer"
+                  onClick={() =>
+                    navigate(`/profile/${friend.requestSender.id}`)
+                  }
                 >
-                  <img
-                    src={friend.avatar || "/person.jpg"}
-                    alt="avatar"
-                    className="w-10 h-10 rounded-full object-cover"
-                  />
                   <div className="flex justify-between flex-1">
-                    <p className="font-semibold">
-                      {friend.requestSender.lastName}{" "}
-                      {friend.requestSender.firstName}
-                    </p>
-                    <CustomButtonFriend
-                      handleFn={(id: string) => handleAcceptFriend(id)}
-                      title="Chấp nhận"
-                      titleDisable="Đã chấp nhận"
-                      isLoading={isAccpectLoading}
-                      id={friend.id}
-                    />
+                    <div className="flex items-center gap-3">
+                      <img
+                        src={friend.avatar || "/person.jpg"}
+                        alt="avatar"
+                        className="w-10 h-10 rounded-full object-cover"
+                      />
+                      <p className="font-medium">
+                        {friend.requestSender.lastName}{" "}
+                        {friend.requestSender.firstName}
+                      </p>
+                    </div>
+                    <div className="flex gap-2">
+                      <CustomButtonFriend
+                        handleFn={(id: string) => handleDenyFriend(id)}
+                        title="Từ chối"
+                        titleDisable="Đã từ chối"
+                        isLoading={isDenyLoading}
+                        id={friend.id}
+                      />
+                      <CustomButtonFriend
+                        handleFn={(id: string) => handleAcceptFriend(id)}
+                        title="Chấp nhật"
+                        titleDisable="Đã chấp nhận"
+                        isLoading={isAccpectLoading}
+                        id={friend.id}
+                      />
+                    </div>
                   </div>
                 </div>
               ))}

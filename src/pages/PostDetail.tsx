@@ -51,9 +51,9 @@ const PostDetail = () => {
   if (!postDetail)
     return <p className="text-body-bold">Không tồn tại bài viết</p>;
   return (
-    <div className="max-w-[70%] mx-auto">
-      <div className="grid gap-x-10 grid-cols-2 max-h-screen ">
-        <div className="sticky top-[1rem] bg-white py-5 px-10 rounded-lg shadow-lg">
+    <div className="max-w-[70%] mx-auto my-auto">
+      <div className="grid grid-cols-2 overflow-hidden">
+        <div className="sticky top-[88px] bg-white py-5 px-5 rounded-lg shadow-lg  max-h-[calc(100vh_-_88px)] overflow-y-auto">
           <div className=" flex gap-3">
             <Link to="/" className="profile-photo">
               <img
@@ -76,7 +76,7 @@ const PostDetail = () => {
             </div>
           </div>
 
-          <div className=" mt-2 max-w-[40vw]">{postDetail?.content}</div>
+          <div className="mt-2 max-w-[40vw]">{postDetail?.content}</div>
           <div className="mt-10 relative">
             <div className="absolute top-1/2 flex items-center bg-white rounded-full">
               <img
@@ -105,7 +105,7 @@ const PostDetail = () => {
           </div>
         </div>
 
-        <div className="flex-1">
+        <div className="flex-1 bg-white p-5 rounded-lg shadow-sm  h-[calc(100vh_-_88px)] overflow-y-auto">
           <div className="mt-7">
             <p className="body-bold">Bình luận</p>
             <Comment postId={postDetail?.id || ""} />
