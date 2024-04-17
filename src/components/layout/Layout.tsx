@@ -6,7 +6,7 @@ const Layout = () => {
   return (
     <>
       <NavBar />
-      <main className="px-5 relative">
+      <main className="relative">
         <Outlet />
       </main>
     </>

@@ -38,9 +38,8 @@ const NavBar = () => {
             <Link
               key={link.route}
               to={link.route}
-              className={`flex items-center justify-center h-16 w-20 cursor-pointer relative ${
-                pathname === link.route && "navbar-active"
-              }`}
+              className={`flex items-center justify-center h-16 w-20 cursor-pointer relative ${pathname === link.route && "navbar-active"
+                }`}
             >
               <img src={link.icon} alt="icon" className="w-8 h-8 relative" />
             </Link>
@@ -52,6 +51,9 @@ const NavBar = () => {
             <GraduationCap className="hover:text-primary" />
           </Link>
           <Link to="/chats" className="bg-light p-3 rounded-full">
+            <MessageCircle className="hover:text-primary" />
+          </Link>
+          <Link to="/messenger-v2" className="bg-light p-3 rounded-full">
             <MessageCircle className="hover:text-primary" />
           </Link>
           <div className="bg-light p-3 rounded-full ">

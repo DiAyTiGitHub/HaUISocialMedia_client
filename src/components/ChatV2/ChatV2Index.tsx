@@ -6,7 +6,8 @@ import { useNavigate } from "react-router";
 import ConversationList from './ConversationList/ConversationList';
 import MessageList from './MessageList/MessageList';
 import InfoList from './InfoList/InfoListIndex';
-import './ChatV2Index.css';
+import './ChatV2Index.scss';
+import '@/common/CommonStyles.scss';
 
 function ChatIndex() {
     const { chatStore, authStore } = useStore();
@@ -22,9 +23,10 @@ function ChatIndex() {
     const navigate = useNavigate();
     useEffect(function () {
         if (!currentLoginUser) {
+            toast.dismiss();
             // if (!LocalStorage.getLoginUser()) {
             toast.info("You haven't logged in yet! Please login first!");
-            navigate("/login");
+            // navigate("/login");
         }
         else {
             setIsLoading(true);

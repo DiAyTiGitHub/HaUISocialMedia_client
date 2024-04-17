@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx';
 import { over } from 'stompjs';
 import SockJS from 'sockjs-client';
 import { toast } from "react-toastify";
-import LocalStorage from '@/services/LocalStorageService';
+import LocalStorage from '@/services/LocalStorageService'; 
 import { registerUser, authenticateUser } from "../../services/AuthService";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';

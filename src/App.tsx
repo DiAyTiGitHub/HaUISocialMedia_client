@@ -17,35 +17,53 @@ import PostDetail from "./pages/PostDetail";
 import LeaderBoard from "./pages/LeaderBoard";
 import ChatV2Index from "./components/ChatV2/ChatV2Index";
 import SearchPage from "./pages/SearchPage";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   return (
-    <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
+    <>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
-      {/* private routes */}
-      <Route>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<HomePage />} />
-          <Route path="/profile/edit" element={<EditProfile />} />
-          <Route path="/wishlist" element={<Wishlist />} />
-          <Route path="/groups" element={<GroupPage />} />
-          <Route path="/friends" element={<FriendPage />} />
-          <Route path="/suggest-friends" element={<SuggestFriendPage />} />
-          <Route path="/add-friends" element={<RequestFriendPage />} />
-          <Route path="/profile/:profileId" element={<Profile />} />
-          <Route path="/post/:postId" element={<PostDetail />} />
-          <Route path="/leaderboard" element={<LeaderBoard />} />
-          <Route path="/search" element={<SearchPage />} />
+        {/* private routes */}
+        <Route>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<HomePage />} />
+            <Route path="/profile/edit" element={<EditProfile />} />
+            <Route path="/wishlist" element={<Wishlist />} />
+            <Route path="/groups" element={<GroupPage />} />
+            <Route path="/friends" element={<FriendPage />} />
+            <Route path="/suggest-friends" element={<SuggestFriendPage />} />
+            <Route path="/add-friends" element={<RequestFriendPage />} />
+            <Route path="/profile/:profileId" element={<Profile />} />
+            <Route path="/post/:postId" element={<PostDetail />} />
+            <Route path="/leaderboard" element={<LeaderBoard />} />
+            <Route path="/search" element={<SearchPage />} />
+            <Route path="/messenger-v2" element={<ChatV2Index />} />
+          </Route>
+          <Route path="/chats" element={<ChatPage />} />
+          <Route path="/chats/:roomId" element={<ChatDetailPage />} />
+
+
         </Route>
-        <Route path="/chats" element={<ChatPage />} />
-        <Route path="/chats/:roomId" element={<ChatDetailPage />} />
+      </Routes>
 
-        <Route path="/messenger-v2" element={<ChatV2Index />} />
+      <ToastContainer
+        position="bottom-left"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
+    </>
 
-      </Route>
-    </Routes>
   );
 };
 
