@@ -2,17 +2,19 @@ import { makeAutoObservable } from 'mobx';
 import { over } from 'stompjs';
 import SockJS from 'sockjs-client';
 import { toast } from "react-toastify";
-import LocalStorage from '@/services/LocalStorageService'; 
+import LocalStorage from '@/services/LocalStorageService';
 import { registerUser, authenticateUser } from "../../services/AuthService";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import { getCurrentLoginUser } from "@/services/UserService";
 
 class AuthStore {
-    currentLoginUser: any = null;
-
     constructor() {
         makeAutoObservable(this);
+    }
+
+    getLoggedInUser() {
+        return LocalStorage.getLoggedInUser();
     }
 
     signUpUser = async (user: any) => {
@@ -36,21 +38,27 @@ class AuthStore {
         try {
             const { data } = await authenticateUser(user);
             const userData = data?.loggedInUser;
-            console.log("after login data: ", this.getAllClaimsFromJwt(data?.token));
-            this.setSession(data?.token);
+
             toast.dismiss();
-            toast.success("Login successfully!");
+            toast.success("Login successfully!", {
+                position: "top-left",
+            });
+
+            this.setSession(data?.accessToken);
             this.setUser(userData);
-            this.currentLoginUser = userData;
 
             this.connectToSocket();
             return data;
         }
         catch (error: any) {
             if (error?.response?.status === 401)
-                toast.error("The username or password is incorrect!");
+                toast.error("The username or password is incorrect!", {
+                    position: "top-left",
+                });
             else {
-                toast.error("Connection errors!");
+                toast.error("Connection errors!", {
+                    position: "top-left",
+                });
             }
             throw new Error(error);
         }
@@ -89,7 +97,12 @@ class AuthStore {
     }
 
     onConnected = () => {
-        this.stompClient.subscribe('/user/' + this.currentLoginUser.id + '/notification', this.onReceivedNotification);
+        const loggedInUser = this.getLoggedInUser();
+
+        //subscribe for channel notification
+        this.stompClient.subscribe('/user/' + loggedInUser?.id + '/notification', this.onReceivedNotification);
+        //subscribe for channel privateMessage
+        // this.stompClient.subscribe('/user/' + loggedInUser?.id + '/privateMessage', this.onReceivedNotification);
     }
 
     onError = (err: any) => {
@@ -97,16 +110,17 @@ class AuthStore {
 
         toast.error("Connect to messenger error, please login again! Auto redirect in 5 seconds...", { autoClose: 5000 });
 
-        setTimeout(function () {
-            window.location.href = "/login";
+        // setTimeout(function () {
+        //     window.location.href = "/login";
 
-            const navigate = useNavigate();
-            navigate('/login');
-        }, 5000);
+        //     const navigate = useNavigate();
+        //     navigate('/login');
+        // }, 5000);
     }
 
     onReceivedNotification = (payload: any) => {
         const payloadData = JSON.parse(payload.body);
+        console.log("notification: ", payloadData)
         toast.info(payloadData?.content);
     }
 
@@ -120,36 +134,51 @@ class AuthStore {
     setSession(token: any) {
         if (token) {
             LocalStorage.setItem("jwt_token", token);
+
+            //add field to compatible with Thanh Thuan code
+            localStorage.setItem("token", token);
+
             axios.defaults.headers.common["Authorization"] = "Bearer " + token;
         } else {
             LocalStorage.removeItem("jwt_token");
+
+            //add field to compatible with Thanh Thuan code
+            localStorage.removeItem("token");
+
             delete axios.defaults.headers.common["Authorization"];
         }
     }
 
-    getLoggedInUser() {
-        return LocalStorage.getLoggedInUser();
-    }
-
-    getCurrentUser = async () => {
+    loadCurrentUserByApi = async () => {
         // debugger
         try {
-          const { data } = await getCurrentLoginUser();
-    
-          this.setUser(data);
+            const { data } = await getCurrentLoginUser();
+
+            this.setUser(data);
         }
         catch (error: any) {
-          console.error(error);
-          toast.error("Có lỗi xảy ra khi tải dữ liệu người dùng, vui lòng thử lại sau");
+            console.error(error);
+            toast.error("Có lỗi xảy ra khi tải dữ liệu người dùng, vui lòng thử lại sau");
         }
-      };
+    };
 
-    //set token
-    setLoginToken = (data: any) => LocalStorage.setItem("auth_token", data);
-    setUser = (user: any) => LocalStorage.setItem("auth_user", user);
-    removeUser = () => LocalStorage.removeItem("auth_user");
+    setUser = (user: any) => {
+        LocalStorage.setItem("auth_user", user);
+        //add field to compatible with Thanh Thuan code
+        localStorage.setItem("user", user);
+    }
+    removeUser = () => {
+        LocalStorage.removeItem("auth_user");
+        //add field to compatible with Thanh Thuan code
+        localStorage.removeItem("user");
+    }
 
     getAllClaimsFromJwt = (token: any) => {
+        if (!token) {
+            console.error("No valid token!");
+            return;
+        }
+
         const base64Url = token.split('.')[1];
         const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
         const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {

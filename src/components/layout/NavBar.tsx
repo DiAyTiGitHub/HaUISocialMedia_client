@@ -5,11 +5,14 @@ import hauiLogo from "@/assets/logo-haui.png";
 import UserDropdownMenu from "../shared/UserDropdownMenu";
 import Notification from "../shared/Notification";
 import { navbarLink } from "@/constant";
+import { memo } from "react";
+import { observer } from "mobx-react";
 const NavBar = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
+
   return (
-    <nav className="w-full bg-white py-3 px-5 sticky top-0 z-10 shadow-lg max-h-[88px]">
+    <nav className="w-full bg-white py-3 px-5 sticky top-0 z-10 shadow-lg max-h-[88px] max-z-index">
       <div className="flex-between ">
         <div className="flex gap-3">
           <Link to="/" className="flex items-center gap-5">
@@ -66,4 +69,4 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+export default memo(observer(NavBar));
