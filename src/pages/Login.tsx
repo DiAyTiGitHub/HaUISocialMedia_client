@@ -14,8 +14,11 @@ import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "react-router-dom";
 import * as apiClient from "@/react-query/query-api";
 import { useMutation } from "react-query";
-import toast from "react-hot-toast";
 import { checkJWt } from "@/lib/utils";
+import { memo } from "react";
+import { observer } from "mobx-react";
+import { useStore } from "@/stores";
+
 const formSchema = z.object({
   username: z.string().min(1, {
     message: "Tên đăng nhập là bắt buộc",
@@ -25,6 +28,7 @@ const formSchema = z.object({
   }),
 });
 export type LoginForm = z.infer<typeof formSchema>;
+
 const Login = () => {
   const navigate = useNavigate();
   const form = useForm<LoginForm>({
@@ -35,29 +39,45 @@ const Login = () => {
     },
   });
 
-  const mutation = useMutation(apiClient.signIn, {
-    onSuccess: async (data: any) => {
-      const claim = checkJWt(data?.accessToken);
-      //console.log(claim);
-      if (claim.scope === "USER") {
-        localStorage.setItem("token", data.accessToken);
-        localStorage.setItem("user", JSON.stringify(data.loggedInUser));
+  //old login logic written by Thanh Thuan
+  // const mutation = useMutation(apiClient.signIn, {
+  //   onSuccess: async (data: any) => {
+  //     const claim = checkJWt(data?.accessToken);
+  //     //console.log(claim);
+  //     if (claim.scope === "USER") {
+  //       localStorage.setItem("token", data.accessToken);
+  //       localStorage.setItem("user", JSON.stringify(data.loggedInUser));
 
-        toast.success("Đăng nhập thành công");
-        window.location.href = "/";
-        navigate("/");
-      } else {
-        toast.error("Không có quyền truy cập");
-      }
-    },
-    onError: (error: any) => {
-      console.log(error);
-      toast.error("Đăng nhập thất bại");
-    },
-  });
-  const onSubmit = (values: LoginForm) => {
-    mutation.mutate(values);
-  };
+  //       toast.success("Đăng nhập thành công");
+  //       window.location.href = "/";
+  //       navigate("/");
+  //     } else {
+  //       toast.error("Không có quyền truy cập");
+  //     }
+  //   },
+  //   onError: (error: any) => {
+  //     console.log(error);
+  //     toast.error("Đăng nhập thất bại");
+  //   },
+  // });
+  // const onSubmit = (values: LoginForm) => {
+  //   mutation.mutate(values);
+  // };
+
+
+  const { authStore } = useStore();
+  const { authenticateUser } = authStore;
+  //login V2 written by diayti
+  async function handleLoginV2(values: LoginForm) {
+    try {
+      await authenticateUser(values);
+      navigate("/");
+    }
+    catch (error) {
+      console.error(error);
+    }
+  }
+
   return (
     <div className="bg-bgHaui h-screen ">
       <div className="bg-green-500 max-w-[1200px] mx-auto bg-transparent h-full flex items-center">
@@ -77,7 +97,7 @@ const Login = () => {
 
           <Form {...form}>
             <form
-              onSubmit={form.handleSubmit(onSubmit)}
+              onSubmit={form.handleSubmit(handleLoginV2)}
               className="space-y-8 w-full"
             >
               <FormField
@@ -125,4 +145,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default memo(observer(Login));

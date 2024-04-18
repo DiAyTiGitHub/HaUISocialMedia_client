@@ -5,18 +5,18 @@ import hauiLogo from "@/assets/logo-haui.png";
 import UserDropdownMenu from "../shared/UserDropdownMenu";
 import Notification from "../shared/Notification";
 import { navbarLink } from "@/constant";
-import { useState } from "react";
+import { ChangeEvent, memo, useState } from "react";
+import { observer } from "mobx-react";
 const NavBar = () => {
   const [search, setSearch] = useState("");
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
-
   return (
-    <nav className="w-full bg-white py-3 px-5 sticky top-0 z-10 shadow-lg max-h-[88px]">
+    <nav className="w-full bg-white py-3 px-5 sticky top-0 z-10 shadow-lg max-h-[88px] max-z-index">
       <div className="flex-between ">
         <div className="flex gap-3">
           <Link to="/" className="flex items-center gap-5">
@@ -62,6 +62,9 @@ const NavBar = () => {
           <Link to="/chats" className="bg-light p-3 rounded-full">
             <MessageCircle className="hover:text-primary" />
           </Link>
+          <Link to="/messenger-v2" className="bg-light p-3 rounded-full">
+            <MessageCircle className="hover:text-primary" />
+          </Link>
           <div className="bg-light p-3 rounded-full ">
             <Notification />
           </div>
@@ -72,4 +75,4 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+export default memo(observer(NavBar));

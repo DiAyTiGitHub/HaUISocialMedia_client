@@ -7,6 +7,10 @@ import {
 import { LogOut, Pencil } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthProvider";
+import { memo } from "react";
+import { observer } from "mobx-react";
+import { useStore } from "@/stores";
+
 const UserDropdownMenu = () => {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
@@ -16,6 +20,11 @@ const UserDropdownMenu = () => {
     localStorage.removeItem("user");
     navigate("/login");
   };
+
+  //new code base for storebase
+  const {authStore} = useStore();
+  const {getLoggedInUser, logout:handleLogoutV2} = authStore;
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -25,7 +34,7 @@ const UserDropdownMenu = () => {
           className="w-10 h-10 rounded-full object-cover"
         />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="relative right-[2vw] min-w-[300px] flex flex-col gap-3 p-3 border-none shadow-lg">
+      <DropdownMenuContent className="relative right-[2vw] min-w-[300px] flex flex-col gap-3 p-3 border-none shadow-lg max-z-index">
         <DropdownMenuItem className="hover:bg-blue-2 py-2 rounded-xl">
           <button
             className="flex gap-2 items-center"
@@ -35,7 +44,7 @@ const UserDropdownMenu = () => {
           </button>
         </DropdownMenuItem>
         <DropdownMenuItem className="hover:bg-blue-2 py-2 rouned-lg">
-          <button className="flex items-center gap-2" onClick={handleLogout}>
+          <button className="flex items-center gap-2" onClick={handleLogoutV2}>
             <LogOut /> Đăng xuất
           </button>
         </DropdownMenuItem>
@@ -44,4 +53,4 @@ const UserDropdownMenu = () => {
   );
 };
 
-export default UserDropdownMenu;
+export default memo(observer(UserDropdownMenu));
