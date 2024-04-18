@@ -1,8 +1,8 @@
 import { Button } from "../ui/button";
-import { Loader, Pencil } from "lucide-react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthProvider";
 import UpdateResult from "./UpdateResult";
+import ProfileInfoSkeletion from "../skeleton/ProfileInfoSkeletion";
 
 type Props = {
   userProfile: any;
@@ -12,7 +12,7 @@ const ProfileInfo = ({ userProfile, isLoading }: Props) => {
   const navigate = useNavigate();
   const { currentUser } = useAuth();
 
-  if (isLoading) return <Loader />;
+  if (isLoading) return <ProfileInfoSkeletion />;
   return (
     <div className="flex flex-col">
       <div className="w-full h-[200px]">

@@ -10,11 +10,12 @@ import { useParams } from "react-router-dom";
 import Loader from "@/components/shared/Loader";
 import PostList from "@/components/shared/PostList";
 import { useGetUseById } from "@/react-query/user";
-import { Tabs } from "@radix-ui/react-tabs";
-import { TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { format, parseISO } from "date-fns";
 import FriendOfUser from "@/components/shared/FriendOfUser";
 import UserCourseResult from "@/components/shared/UserCourseResult";
+import TableSkeleton from "@/components/skeleton/TableSkeleton";
 
 const Profile = () => {
   const { profileId } = useParams();
@@ -75,57 +76,66 @@ const Profile = () => {
               <TabsTrigger value="result">Thành tích</TabsTrigger>
             </TabsList>
             <TabsContent value="all">
-              <div className="chats h-max-content overflow-y-auto ">
-                <div className="mt-5 flex flex-col ">
-                  <p className="h3-bold mb-5">Giới thiệu</p>
-                  <div className="flex flex-col gap-5 text-lg">
-                    <p>
-                      Giới tính:{" "}
-                      <span>{userProfile?.gender ? "Nữ" : "Nam"}</span>
-                    </p>
-                    <p>
-                      Mã sinh viên:{" "}
-                      <span>{userProfile?.code || "Chưa cập nhật"}</span>
-                    </p>
-                    <p className="font-medium">
-                      Tên tài khoản:{" "}
-                      <span className="font-normal">
-                        {userProfile?.username}
-                      </span>
-                    </p>
-                    <p className="flex gap-2">
-                      Ngày sinh:{" "}
-                      <span>
-                        {" "}
-                        {userProfile?.birthDate ? (
-                          <>
-                            {format(
-                              parseISO(
-                                userProfile?.birthDate?.toString() || ""
-                              ),
-                              "yyy-MM-dd"
-                            )}
-                          </>
-                        ) : (
-                          <span>Chưa cập nhật</span>
-                        )}
-                      </span>
-                    </p>
-                    <p>
-                      Email:{" "}
-                      <span>{userProfile?.email || "Chưa cập nhật"} </span>
-                    </p>
-                    <p>
-                      SDT:{" "}
-                      <span>{userProfile?.phoneNumber || "Chưa cập nhật"}</span>
-                    </p>
-                    <p>
-                      Địa chỉ:{" "}
-                      <span>{userProfile?.address || "Chưa cập nhật"}</span>
-                    </p>
+              {isUserLoading ? (
+                <TableSkeleton
+                  styles="chats h-max-content w-full overflow-y-auto"
+                  length={5}
+                />
+              ) : (
+                <div className="chats h-max-content overflow-y-auto ">
+                  <div className="mt-5 flex flex-col ">
+                    <p className="h3-bold mb-5">Giới thiệu</p>
+                    <div className="flex flex-col gap-5 text-lg">
+                      <p>
+                        Giới tính:{" "}
+                        <span>{userProfile?.gender ? "Nữ" : "Nam"}</span>
+                      </p>
+                      <p>
+                        Mã sinh viên:{" "}
+                        <span>{userProfile?.code || "Chưa cập nhật"}</span>
+                      </p>
+                      <p className="font-medium">
+                        Tên tài khoản:{" "}
+                        <span className="font-normal">
+                          {userProfile?.username}
+                        </span>
+                      </p>
+                      <p className="flex gap-2">
+                        Ngày sinh:{" "}
+                        <span>
+                          {" "}
+                          {userProfile?.birthDate ? (
+                            <>
+                              {format(
+                                parseISO(
+                                  userProfile?.birthDate?.toString() || ""
+                                ),
+                                "yyy-MM-dd"
+                              )}
+                            </>
+                          ) : (
+                            <span>Chưa cập nhật</span>
+                          )}
+                        </span>
+                      </p>
+                      <p>
+                        Email:{" "}
+                        <span>{userProfile?.email || "Chưa cập nhật"} </span>
+                      </p>
+                      <p>
+                        SDT:{" "}
+                        <span>
+                          {userProfile?.phoneNumber || "Chưa cập nhật"}
+                        </span>
+                      </p>
+                      <p>
+                        Địa chỉ:{" "}
+                        <span>{userProfile?.address || "Chưa cập nhật"}</span>
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
             </TabsContent>
             <TabsContent value="private">
               <div className=" h-[100vh] overflow-y-auto ">

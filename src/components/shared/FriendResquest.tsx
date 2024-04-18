@@ -10,6 +10,7 @@ import * as apiClient from "@/react-query/query-api";
 import CustomButtonFriend from "./CustomButtonFriend";
 import { Loader } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import FriendListSkeleton from "../skeleton/FriendListSkeleton";
 
 type pagingType = {
   pageIndex: number;
@@ -49,14 +50,15 @@ const FriendResquest = () => {
     denyFriend(denyFriendId);
   };
 
-  if (isLoading) return <Loader />;
+  if (isLoading)
+    return <FriendListSkeleton length={3} styles="flex flex-col gap-2" />;
   return (
     <div className="mt-4">
+      <h2 className="text-body-medium mb-2">Lời mời kết bạn</h2>
       {requestFriends.length === 0 ? (
         <span>Không có hoạt động nào</span>
       ) : (
         <>
-          <h3 className="h3-bold text-gray my-1">Lời mời kết bạn</h3>
           {requestFriends.map((friend: any) => (
             <div className="bg-white p-4 rounded-xl mb-3" key={friend?.id}>
               <div className="flex items-center gap-4 mb-4">

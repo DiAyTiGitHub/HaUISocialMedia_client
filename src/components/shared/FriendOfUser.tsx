@@ -5,6 +5,7 @@ import { IPost, IUser } from "@/types";
 import { useInView } from "react-intersection-observer";
 import Loader from "./Loader";
 import FriendCard from "./FriendCard";
+import FriendListSkeleton from "../skeleton/FriendListSkeleton";
 
 type PagingType = {
   pageIndex: number;
@@ -55,15 +56,22 @@ const FriendOfUser = ({ profileId }: Props) => {
 
   return (
     <div className="bg-white p-3 rounded-md">
-      {!friends || friends.length === 0 ? (
-        <span>Chưa có bạn bè nào</span>
-      ) : (
-        <div className="grid grid-cols-3">
-          {friends.map((friends) => (
-            <FriendCard key={friends.id} friend={friends} />
-          ))}
-        </div>
-      )}{" "}
+      {isLoading && (
+        <FriendListSkeleton length={4} styles="grid grid-cols-2 gap-3" />
+      )}
+      {!isLoading && (
+        <>
+          {!friends || friends.length === 0 ? (
+            <span>Chưa có bạn bè nào</span>
+          ) : (
+            <div className="grid grid-cols-2 gap-3">
+              {friends.map((friends) => (
+                <FriendCard key={friends.id} friend={friends} />
+              ))}
+            </div>
+          )}{" "}
+        </>
+      )}
       {showLoadMore && (
         <div ref={ref}>
           <Loader />

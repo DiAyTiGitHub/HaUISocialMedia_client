@@ -1,6 +1,7 @@
 import CustomButtonFriend from "@/components/shared/CustomButtonFriend";
 import Loader from "@/components/shared/Loader";
 import SidebarFriendPage from "@/components/shared/SidebarFriendPage";
+import FriendListSkeleton from "@/components/skeleton/FriendListSkeleton";
 import * as apiClient from "@/react-query/query-api";
 import {
   useAcceptFriend,
@@ -70,7 +71,7 @@ const RequestFriendPage = () => {
       handleGetData(requestFriendPagination);
     }
   }, [inView, requestFriendPagination]);
-  if (isLoading) return <span>Loading</span>;
+
   return (
     <div className="grid grid-cols-[1fr_3fr] mt-5">
       <SidebarFriendPage />
@@ -89,51 +90,57 @@ const RequestFriendPage = () => {
               </button>
             </div>
           </div>
-
-          {!requestFriends || requestFriends.length === 0 ? (
-            <span>Không có lời mời</span>
-          ) : (
-            <div className="grid grid-cols-2 gap-5 my-10">
-              {requestFriends.map((friend: any) => (
-                <div
-                  key={friend.id}
-                  className="flex items-center gap-5 p-3 bg-white  rounded-xl cursor-pointer"
-                  onClick={() =>
-                    navigate(`/profile/${friend.requestSender.id}`)
-                  }
-                >
-                  <div className="flex justify-between flex-1">
-                    <div className="flex items-center gap-3">
-                      <img
-                        src={friend.avatar || "/person.jpg"}
-                        alt="avatar"
-                        className="w-10 h-10 rounded-full object-cover"
-                      />
-                      <p className="font-medium">
-                        {friend.requestSender.lastName}{" "}
-                        {friend.requestSender.firstName}
-                      </p>
+          {isLoading && (
+            <FriendListSkeleton length={12} styles="user-grid my-10" />
+          )}
+          {!isLoading && (
+            <>
+              {!requestFriends || requestFriends.length === 0 ? (
+                <span>Không có lời mời</span>
+              ) : (
+                <div className="grid grid-cols-2 gap-5 my-10">
+                  {requestFriends.map((friend: any) => (
+                    <div
+                      key={friend.id}
+                      className="flex items-center gap-5 p-3 bg-white  rounded-xl cursor-pointer"
+                      onClick={() =>
+                        navigate(`/profile/${friend.requestSender.id}`)
+                      }
+                    >
+                      <div className="flex justify-between flex-1">
+                        <div className="flex items-center gap-3">
+                          <img
+                            src={friend.avatar || "/person.jpg"}
+                            alt="avatar"
+                            className="w-10 h-10 rounded-full object-cover"
+                          />
+                          <p className="font-medium">
+                            {friend.requestSender.lastName}{" "}
+                            {friend.requestSender.firstName}
+                          </p>
+                        </div>
+                        <div className="flex gap-2">
+                          <CustomButtonFriend
+                            handleFn={(id: string) => handleDenyFriend(id)}
+                            title="Từ chối"
+                            titleDisable="Đã từ chối"
+                            isLoading={isDenyLoading}
+                            id={friend.id}
+                          />
+                          <CustomButtonFriend
+                            handleFn={(id: string) => handleAcceptFriend(id)}
+                            title="Chấp nhật"
+                            titleDisable="Đã chấp nhận"
+                            isLoading={isAccpectLoading}
+                            id={friend.id}
+                          />
+                        </div>
+                      </div>
                     </div>
-                    <div className="flex gap-2">
-                      <CustomButtonFriend
-                        handleFn={(id: string) => handleDenyFriend(id)}
-                        title="Từ chối"
-                        titleDisable="Đã từ chối"
-                        isLoading={isDenyLoading}
-                        id={friend.id}
-                      />
-                      <CustomButtonFriend
-                        handleFn={(id: string) => handleAcceptFriend(id)}
-                        title="Chấp nhật"
-                        titleDisable="Đã chấp nhận"
-                        isLoading={isAccpectLoading}
-                        id={friend.id}
-                      />
-                    </div>
-                  </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              )}
+            </>
           )}
           {showLoadMore && (
             <div ref={ref}>

@@ -11,6 +11,7 @@ import { NotificationType } from "@/types";
 import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
 import { multiFormatDateString } from "@/lib/utils";
+import FriendListSkeleton from "../skeleton/FriendListSkeleton";
 
 const Notification = () => {
   const { ref, inView } = useInView();
@@ -22,7 +23,7 @@ const Notification = () => {
     pageSize: 10,
   });
 
-  const mutation = useMutation(apiClient.getAllNotification, {
+  const { mutate, isLoading } = useMutation(apiClient.getAllNotification, {
     onSuccess: async (data: any) => {
       if (data && data.length > 0) {
         setPaging({
@@ -37,10 +38,11 @@ const Notification = () => {
     },
     onError: (error: Error) => {
       console.log(error);
+      setShowLoadMore(false);
     },
   });
   const handleGetData = (pagination: any) => {
-    mutation.mutate(pagination);
+    mutate(pagination);
   };
 
   useEffect(() => {
@@ -56,41 +58,49 @@ const Notification = () => {
       <PopoverContent className="min-w-[350px] mt-3 relative right-1/3 max-h-[70vh] overflow-y-auto border-none bg-white">
         <div>
           <p className="text-lg mb-2 font-bold">Thông báo</p>
-          {!notifications || notifications.length === 0 ? (
-            <p>Không có thông báo nào</p>
+          {isLoading ? (
+            <FriendListSkeleton length={5} styles="flex flex-col gap-2" />
           ) : (
-            <div className="flex flex-col gap-3">
-              {notifications.map((notification: NotificationType) => (
-                <Link
-                  key={notification.id}
-                  to={`${
-                    notification.notificationType.name === "Friend"
-                      ? "/profile/" + notification.actor?.id
-                      : `/post/${notification?.post}`
-                  }`}
-                  className="flex items-center gap-2 bg-blue-2 p-3 rounded-lg"
-                >
-                  <img
-                    className="profile-photo"
-                    src={notification.owner.avatar || "/person.jpg"}
-                    alt="profileImage"
-                  />
-                  <div>
-                    <p className="text-base-medium">{notification.content}</p>
-                    <span>
-                      {multiFormatDateString(
-                        notification.createDate.toString()
-                      )}
-                    </span>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          )}
-          {showLoadMore && (
-            <div ref={ref}>
-              <Loader />
-            </div>
+            <>
+              {!notifications || notifications.length === 0 ? (
+                <p>Không có thông báo nào</p>
+              ) : (
+                <div className="flex flex-col gap-3">
+                  {notifications.map((notification: NotificationType) => (
+                    <Link
+                      key={notification.id}
+                      to={`${
+                        notification.notificationType.name === "Friend"
+                          ? "/profile/" + notification.actor?.id
+                          : `/post/${notification?.post}`
+                      }`}
+                      className="flex items-center gap-2 bg-blue-2 p-3 rounded-lg"
+                    >
+                      <img
+                        className="profile-photo"
+                        src={notification.owner.avatar || "/person.jpg"}
+                        alt="profileImage"
+                      />
+                      <div>
+                        <p className="text-base-medium">
+                          {notification.content}
+                        </p>
+                        <span>
+                          {multiFormatDateString(
+                            notification.createDate.toString()
+                          )}
+                        </span>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              )}
+              {showLoadMore && (
+                <div ref={ref}>
+                  <Loader />
+                </div>
+              )}
+            </>
           )}
         </div>
       </PopoverContent>

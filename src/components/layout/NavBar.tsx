@@ -5,9 +5,16 @@ import hauiLogo from "@/assets/logo-haui.png";
 import UserDropdownMenu from "../shared/UserDropdownMenu";
 import Notification from "../shared/Notification";
 import { navbarLink } from "@/constant";
+import { useState } from "react";
 const NavBar = () => {
+  const [search, setSearch] = useState("");
   const { pathname } = useLocation();
   const navigate = useNavigate();
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
+
   return (
     <nav className="w-full bg-white py-3 px-5 sticky top-0 z-10 shadow-lg max-h-[88px]">
       <div className="flex-between ">
@@ -23,10 +30,11 @@ const NavBar = () => {
               type="text"
               placeholder="Tìm kiếm trên Haui Social..."
               className="outline-none  bg-transparent  ml-4 text-dark"
+              onChange={handleSearchChange}
             />
             <button
               className="px-4"
-              onClick={() => navigate("/search?name=thuan")}
+              onClick={() => navigate(`/search?name=${search}`)}
             >
               <Search />
             </button>

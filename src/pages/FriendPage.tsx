@@ -1,5 +1,6 @@
 import Loader from "@/components/shared/Loader";
 import SidebarFriendPage from "@/components/shared/SidebarFriendPage";
+import FriendListSkeleton from "@/components/skeleton/FriendListSkeleton";
 import { Button } from "@/components/ui/button";
 import * as apiClient from "@/react-query/query-api";
 import { IUser } from "@/types";
@@ -30,7 +31,7 @@ const FriendPage = () => {
   const navigate = useNavigate();
   const [friends, setFriends] = useState<any[]>([]);
 
-  const mutation = useMutation(apiClient.getCurrentFriend, {
+  const { mutate, isLoading } = useMutation(apiClient.getCurrentFriend, {
     onSuccess: async (data: any) => {
       if (data && data.length > 0) {
         setCurrentFriendPagination({
@@ -50,10 +51,11 @@ const FriendPage = () => {
     },
     onError: (error: Error) => {
       console.log(error);
+      setShowLoadMore(false);
     },
   });
   const handleGetData = (pagination: any) => {
-    mutation.mutate(pagination);
+    mutate(pagination);
   };
   const handleSearch = () => {
     setCurrentFriendPagination((prev) => ({
@@ -87,35 +89,43 @@ const FriendPage = () => {
               </button>
             </div>
           </div>
-          {!friends || friends.length === 0 ? (
-            <span>Không có bạn bè</span>
-          ) : (
-            <div className="user-grid my-10">
-              {friends.map((friend: IUser) => (
-                <div
-                  key={friend.id}
-                  className="flex items-center gap-5 p-3 bg-white  rounded-xl cursor-pointer"
-                  onClick={() => navigate(`/profile/${friend.id}`)}
-                >
-                  <div className="flex justify-between flex-1">
-                    <div className="flex items-center gap-3">
-                      <img
-                        src={friend.avatar || "/person.jpg"}
-                        alt="avatar"
-                        className="w-10 h-10 rounded-full object-cover"
-                      />
-                      <p className="font-medium">
-                        {friend.lastName} {friend.firstName}
-                      </p>
-                    </div>
+          {isLoading && (
+            <FriendListSkeleton length={12} styles="user-grid my-10" />
+          )}
 
-                    <Button className="bg-blue-600 hover:bg-blue-500">
-                      Bạn bè
-                    </Button>
-                  </div>
+          {!isLoading && (
+            <>
+              {!friends || friends.length === 0 ? (
+                <span>Không có bạn bè</span>
+              ) : (
+                <div className="user-grid my-10">
+                  {friends.map((friend: IUser) => (
+                    <div
+                      key={friend.id}
+                      className="flex items-center gap-5 p-3 bg-white  rounded-xl cursor-pointer"
+                      onClick={() => navigate(`/profile/${friend.id}`)}
+                    >
+                      <div className="flex justify-between flex-1">
+                        <div className="flex items-center gap-3">
+                          <img
+                            src={friend.avatar || "/person.jpg"}
+                            alt="avatar"
+                            className="w-10 h-10 rounded-full object-cover"
+                          />
+                          <p className="font-medium">
+                            {friend.lastName} {friend.firstName}
+                          </p>
+                        </div>
+
+                        <Button className="bg-blue-600 hover:bg-blue-500">
+                          Bạn bè
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              )}
+            </>
           )}
           {showLoadMore && (
             <div ref={ref}>

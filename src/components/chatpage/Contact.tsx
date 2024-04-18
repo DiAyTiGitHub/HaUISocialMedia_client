@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useMutation } from "react-query";
 import Loader from "../shared/Loader";
+import FriendListSkeleton from "../skeleton/FriendListSkeleton";
 
 type ContactType = {
   username: string;
@@ -22,7 +23,7 @@ const Contacts = () => {
   });
   const [contacts, setContacts] = useState<any[]>([]);
 
-  const mutation = useMutation(apiClient.getCurrentFriend, {
+  const { mutate, isLoading } = useMutation(apiClient.getCurrentFriend, {
     onSuccess: async (data: any) => {
       if (data && data.length > 0) {
         setCurrentFriendPagination({
@@ -44,7 +45,7 @@ const Contacts = () => {
     },
   });
   const handleGetData = (pagination: any) => {
-    mutation.mutate(pagination);
+    mutate(pagination);
   };
   useEffect(() => {
     if (inView) {
@@ -85,60 +86,67 @@ const Contacts = () => {
         <div className="contact-list">
           <p className="text-body-bold">Chọn người liên lạc</p>
 
-          <div className="flex flex-col flex-1 gap-5 overflow-y-scroll ">
-            {contacts.map((user, index) => (
-              <div
-                key={index}
-                className="contact"
-                onClick={() => handleSelect(user)}
-              >
-                {selectedContacts.find((item) => item === user) ? (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="w-6 h-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M6 18 18 6M6 6l12 12"
-                    />
-                  </svg>
-                ) : (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="w-6 h-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M12 4.5v15m7.5-7.5h-15"
-                    />
-                  </svg>
-                )}
-                <img
-                  src={user.avatar || "/person.jpg"}
-                  alt="profile"
-                  className="profilePhoto"
-                />
-                <p className="text-base-bold">
-                  {user.lastName} {user.firstName}
-                </p>
-              </div>
-            ))}
-            {showLoadMore && (
-              <div ref={ref}>
-                <Loader />
-              </div>
-            )}
-          </div>
+          {isLoading ? (
+            <FriendListSkeleton
+              styles="flex flex-col flex-1 gap-5 overflow-y-scroll"
+              length={5}
+            />
+          ) : (
+            <div className="flex flex-col flex-1 gap-5 overflow-y-scroll ">
+              {contacts.map((user, index) => (
+                <div
+                  key={index}
+                  className="contact"
+                  onClick={() => handleSelect(user)}
+                >
+                  {selectedContacts.find((item) => item === user) ? (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M6 18 18 6M6 6l12 12"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12 4.5v15m7.5-7.5h-15"
+                      />
+                    </svg>
+                  )}
+                  <img
+                    src={user.avatar || "/person.jpg"}
+                    alt="profile"
+                    className="profilePhoto"
+                  />
+                  <p className="text-base-bold">
+                    {user.lastName} {user.firstName}
+                  </p>
+                </div>
+              ))}
+              {showLoadMore && (
+                <div ref={ref}>
+                  <Loader />
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         <div className="create-chat">

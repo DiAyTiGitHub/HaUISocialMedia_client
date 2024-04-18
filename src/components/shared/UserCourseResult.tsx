@@ -1,3 +1,6 @@
+import { useState } from "react";
+import TableSkeleton from "../skeleton/TableSkeleton";
+
 const ItemTable = ({ data, stt }: { data: any; stt: number }) => {
   return (
     <tr>
@@ -67,25 +70,31 @@ const data = [
   },
 ];
 const UserCourseResult = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
   return (
     <div className="bg-white rounded-lg shadow-sm max-screen overflow-y-auto p-5">
       <div className="w-full overflow-hidden rounded-lg shadow-xs mt-5">
         <div className="w-full overflow-x-auto ">
-          <table className="w-full whitespace-nowrap">
-            <thead>
-              <tr className="text-xs tracking-wide font-bold text-left text-gray-500 uppercase border-b ">
-                <td className="px-4 py-3 text-center">STT</td>
-                <td className="px-4 py-3 text-center">Tên môn</td>
-                <td className="px-4 py-3 text-center">Kết quả</td>
-              </tr>
-            </thead>
+          {isLoading && <TableSkeleton length={5} styles="" />}
 
-            <tbody className="bg-white divide-y ">
-              {data.map((d: any, index: number) => (
-                <ItemTable key={d.id} data={d} stt={index + 1} />
-              ))}
-            </tbody>
-          </table>
+          {!isLoading && (
+            <table className="w-full whitespace-nowrap">
+              <thead>
+                <tr className="text-xs tracking-wide font-bold text-left text-gray-500 uppercase border-b ">
+                  <td className="px-4 py-3 text-center">STT</td>
+                  <td className="px-4 py-3 text-center">Tên môn</td>
+                  <td className="px-4 py-3 text-center">Kết quả</td>
+                </tr>
+              </thead>
+
+              <tbody className="bg-white divide-y ">
+                {data.map((d: any, index: number) => (
+                  <ItemTable key={d.id} data={d} stt={index + 1} />
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
     </div>

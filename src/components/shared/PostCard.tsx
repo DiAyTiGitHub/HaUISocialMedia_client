@@ -11,7 +11,7 @@ import { useDeletePost } from "@/react-query/post";
 import { multiFormatDateString } from "@/lib/utils";
 
 type PostProps = {
-  post: IPost;
+  post: IPost | any;
 };
 
 const images = [

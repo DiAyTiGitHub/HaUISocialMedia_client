@@ -24,25 +24,25 @@ const HomePage = () => {
   );
   const [posts, setPosts] = useState<IPost[]>([]);
 
-  const { mutate, isLoading } = useMutation(apiClient.getNewFeed, {
+  const { mutate, isLoading, isError } = useMutation(apiClient.getNewFeed, {
     onSuccess: async (data: any) => {
       if (data && data.length > 0) {
-        setNewFeedPagination((prev) => ({
-          ...prev,
-          pageIndex: prev.pageIndex + 1,
-        }));
+        setNewFeedPagination({
+          pageIndex: newFeedPagination.pageIndex + 1,
+          pageSize: newFeedPagination.pageSize,
+        });
         setPosts((prev) => [...prev, ...data]);
-      } else {
-        if (
-          !data ||
-          data.length === 0 ||
-          data.length < newFeedPagination.pageSize
-        )
-          setShowLoadMore(false);
       }
+      if (
+        !data ||
+        data.length === 0 ||
+        data.length < newFeedPagination.pageSize
+      )
+        setShowLoadMore(false);
     },
-    onError: (error: Error) => {
+    onError: async (error: Error) => {
       console.log(error);
+      setShowLoadMore(false);
     },
   });
   const handleGetData = (pagination: any) => {
@@ -54,6 +54,7 @@ const HomePage = () => {
       handleGetData(newFeedPagination);
     }
   }, [inView, newFeedPagination]);
+
   return (
     <div className="w-full grid grid-cols-[1fr_2fr_1fr] gap-x-8 relative mt-5">
       <Sidebar />
@@ -63,14 +64,13 @@ const HomePage = () => {
           <p className="mt-10 text-center">Không có bài viết nào </p>
         ) : (
           <>
-            <PostList posts={posts} isLoading={isLoading} />
-
-            {showLoadMore && (
-              <div ref={ref}>
-                <Loader />
-              </div>
-            )}
+            <PostList posts={posts} isLoading={isLoading} isError={isError} />
           </>
+        )}
+        {showLoadMore && (
+          <div ref={ref}>
+            <Loader />
+          </div>
         )}
       </div>
       <RightSidebar />

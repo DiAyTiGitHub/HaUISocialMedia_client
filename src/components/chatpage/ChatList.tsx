@@ -2,9 +2,10 @@ import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ChatBox from "./ChatBox";
 import { useGetAllJoinedRooms } from "@/react-query/message";
+import FriendListSkeleton from "../skeleton/FriendListSkeleton";
 
 const ChatList = () => {
-  const { data } = useGetAllJoinedRooms();
+  const { data, isLoading } = useGetAllJoinedRooms();
   const [search, setSearch] = useState("");
   return (
     <div className="chat-list">
@@ -21,27 +22,50 @@ const ChatList = () => {
           <TabsTrigger value="group">Nhóm</TabsTrigger>
         </TabsList>
         <TabsContent value="all">
-          <div className="chats h-[75vh] overflow-y-auto ">
-            {data?.map((chat: any) => (
-              <ChatBox chat={chat} key={chat.id} />
-            ))}
-          </div>
-        </TabsContent>
-        <TabsContent value="private">
-          <div className="chats h-[75vh] overflow-y-auto ">
-            {data
-              ?.filter((c: any) => c.roomType.name === "private")
-              .map((chat: any) => (
+          {isLoading ? (
+            <FriendListSkeleton
+              styles="chats h-[75vh] overflow-y-auto"
+              length={5}
+            />
+          ) : (
+            <div className="chats h-[75vh] overflow-y-auto ">
+              {data?.map((chat: any) => (
                 <ChatBox chat={chat} key={chat.id} />
               ))}
-          </div>
+            </div>
+          )}
+        </TabsContent>
+        <TabsContent value="private">
+          {isLoading ? (
+            <FriendListSkeleton
+              styles="chats h-[75vh] overflow-y-auto"
+              length={5}
+            />
+          ) : (
+            <div className="chats h-[75vh] overflow-y-auto ">
+              {data
+                ?.filter((c: any) => c.roomType.name === "private")
+                .map((chat: any) => (
+                  <ChatBox chat={chat} key={chat.id} />
+                ))}
+            </div>
+          )}
         </TabsContent>
         <TabsContent value="group">
-          {data
-            ?.filter((c: any) => c.roomType.name !== "private")
-            .map((chat: any) => (
-              <ChatBox chat={chat} key={chat.id} />
-            ))}
+          {isLoading ? (
+            <FriendListSkeleton
+              styles="chats h-[75vh] overflow-y-auto"
+              length={5}
+            />
+          ) : (
+            <div className="chats h-[75vh] overflow-y-auto ">
+              {data
+                ?.filter((c: any) => c.roomType.name !== "private")
+                .map((chat: any) => (
+                  <ChatBox chat={chat} key={chat.id} />
+                ))}
+            </div>
+          )}
         </TabsContent>
       </Tabs>
     </div>
