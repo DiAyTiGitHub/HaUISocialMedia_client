@@ -1,17 +1,17 @@
-import { useAuth } from "@/context/AuthProvider";
 import { useDislikePost, useLikePost } from "@/react-query/post";
-import { IPost, IUser } from "@/types";
+import { IPost } from "@/types";
 import { Heart, Loader, MessagesSquare } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { effect } from "zod";
+import LocalStorage from "@/services/LocalStorageService";
 
 type PostStatsProps = {
   post: IPost;
 };
 const PostStats = ({ post }: PostStatsProps) => {
   const navigate = useNavigate();
-  const { currentUser } = useAuth();
+
+  const currentUser = LocalStorage.getLoggedInUser();
   const { mutate: likePost, isLoading: isLikeing } = useLikePost();
   const { mutate: dislike } = useDislikePost();
   const likesList = post.likes.map((user: any) => user.userLike.id);

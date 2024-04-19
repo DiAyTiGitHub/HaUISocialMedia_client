@@ -1,7 +1,6 @@
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import {
   Form,
@@ -17,7 +16,6 @@ import { Button } from "@/components/ui/button";
 import ProfileUploader from "@/components/shared/ProfileUploader";
 import { CalendarIcon, Loader, Pencil } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useAuth } from "@/context/AuthProvider";
 import { useUpdateUser } from "@/react-query/user";
 import { handleUploadImage } from "@/lib";
 import {
@@ -25,6 +23,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+
+import LocalStorage from "@/services/LocalStorageService";
 
 const formSchema = z.object({
   firstname: z.string().min(1, { message: "Họ không được trống" }),
@@ -41,7 +41,7 @@ export type UpdateUserForm = z.infer<typeof formSchema>;
 
 const EditProfile = () => {
   const { mutate: updateUser, isLoading: isUpdating } = useUpdateUser();
-  const { currentUser } = useAuth();
+  const currentUser = LocalStorage.getLoggedInUser();
   const form = useForm<UpdateUserForm>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -62,6 +62,8 @@ const EditProfile = () => {
     let url;
     if (values.avatar[0]) {
       url = await handleUploadImage(values.avatar[0]);
+    } else {
+      url = currentUser.avatar;
     }
     updateUser({
       ...currentUser,

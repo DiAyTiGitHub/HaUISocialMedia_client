@@ -12,9 +12,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "react-router-dom";
-import * as apiClient from "@/react-query/query-api";
-import { useMutation } from "react-query";
-import { checkJWt } from "@/lib/utils";
 import { memo } from "react";
 import { observer } from "mobx-react";
 import { useStore } from "@/stores";
@@ -64,7 +61,6 @@ const Login = () => {
   //   mutation.mutate(values);
   // };
 
-
   const { authStore } = useStore();
   const { authenticateUser } = authStore;
   //login V2 written by diayti
@@ -72,8 +68,7 @@ const Login = () => {
     try {
       await authenticateUser(values);
       navigate("/");
-    }
-    catch (error) {
+    } catch (error) {
       console.error(error);
     }
   }

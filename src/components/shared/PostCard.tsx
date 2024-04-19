@@ -1,4 +1,3 @@
-import avatar from "@/assets/avatar.png";
 import { Ellipsis, Eraser, Pencil } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import PostForm from "@/pages/PostForm";
@@ -6,10 +5,10 @@ import PostStats from "./PostStats";
 import React, { useState } from "react";
 import Delete from "./Delete";
 import { IPost } from "@/types";
-import { useAuth } from "@/context/AuthProvider";
+
 import { useDeletePost } from "@/react-query/post";
 import { multiFormatDateString } from "@/lib/utils";
-
+import LocalStorage from "@/services/LocalStorageService";
 type PostProps = {
   post: IPost | any;
 };
@@ -20,9 +19,10 @@ const images = [
   "https://plus.unsplash.com/premium_photo-1669997804140-ecc75729b583?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyOHx8fGVufDB8fHx8fA%3D%3D",
   "https://images.unsplash.com/photo-1712839398283-5b5bc134d9dc?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzNXx8fGVufDB8fHx8fA%3D%3D",
 ];
+
 const PortCard = ({ post }: PostProps) => {
   const [dropdown, setdropDowm] = useState<boolean>(false);
-  const { currentUser } = useAuth();
+  const currentUser = LocalStorage.getLoggedInUser();
   const navigate = useNavigate();
   const { mutate: deletePost, isLoading: isDeleting } = useDeletePost();
   const handleDeletePost = (postId: string) => {

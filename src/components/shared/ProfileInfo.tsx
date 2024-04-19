@@ -1,16 +1,16 @@
 import { Button } from "../ui/button";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/context/AuthProvider";
 import UpdateResult from "./UpdateResult";
 import ProfileInfoSkeletion from "../skeleton/ProfileInfoSkeletion";
-
+import LocalStorage from "@/services/LocalStorageService";
 type Props = {
   userProfile: any;
   isLoading: boolean;
 };
 const ProfileInfo = ({ userProfile, isLoading }: Props) => {
   const navigate = useNavigate();
-  const { currentUser } = useAuth();
+
+  const currentUser = LocalStorage.getLoggedInUser();
 
   if (isLoading) return <ProfileInfoSkeletion />;
   return (
@@ -26,11 +26,11 @@ const ProfileInfo = ({ userProfile, isLoading }: Props) => {
       <div className="bg-white h-fit p-5">
         <div className="flex justify-between items-center  pb-5">
           <div className="flex items-center gap-2 -mt-14">
-            <div className="w-36 h-36">
+            <div className="">
               <img
                 src={userProfile?.avatar || "/person.jpg"}
                 alt="avartar"
-                className="rounded-full"
+                className=" w-36 h-36 object-cover rounded-full"
               />
             </div>
             <div>

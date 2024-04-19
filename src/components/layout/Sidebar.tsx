@@ -1,10 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
 import { sidebarLink } from "@/constant";
-import { useAuth } from "@/context/AuthProvider";
-
+import LocalStorage from "@/services/LocalStorageService";
 const Sidebar = () => {
   const { pathname } = useLocation();
-  const { currentUser } = useAuth();
+  const currentUser = LocalStorage.getLoggedInUser();
   return (
     <div className="sticky h-max top-[5.4rem] ">
       <Link

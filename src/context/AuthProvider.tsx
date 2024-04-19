@@ -38,7 +38,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     if (token) {
       const userFromLocalStorage = localStorage.getItem("user");
       if (userFromLocalStorage) {
-        setCurrentUser(JSON.parse(userFromLocalStorage) as IUser);
+        //setCurrentUser(userFromLocalStorage);
       }
     }
   }, []);

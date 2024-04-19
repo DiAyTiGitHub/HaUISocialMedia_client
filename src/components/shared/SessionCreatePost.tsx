@@ -1,20 +1,20 @@
-import { useAuth } from "@/context/AuthProvider";
 import { Input } from "../ui/input";
 import CreatePost from "@/pages/PostForm";
-
 import { Link } from "react-router-dom";
+import LocalStorage from "@/services/LocalStorageService";
 
 const SessionCreatePost = () => {
-  const { currentUser } = useAuth();
+  const currentUser = LocalStorage.getLoggedInUser();
+
   return (
     <div className="w-full bg-white py-3 px-2 rounded-lg">
       <div className="flex items-center gap-5 ">
         <Link to="/profile/1" className="flex items-center">
-          <div className="profile-photo">
+          <div className=" ">
             <img
               src={currentUser?.avatar || "/person.jpg"}
               alt="avatar"
-              className=" object-cover rounded-full"
+              className=" w-10 h-10 rounded-full object-cover"
             />
           </div>
         </Link>

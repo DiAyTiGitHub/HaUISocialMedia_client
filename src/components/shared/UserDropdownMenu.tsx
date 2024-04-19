@@ -6,24 +6,18 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { LogOut, Pencil } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/context/AuthProvider";
+import LocalStorage from "@/services/LocalStorageService";
 import { memo } from "react";
 import { observer } from "mobx-react";
 import { useStore } from "@/stores";
 
 const UserDropdownMenu = () => {
-  const { currentUser } = useAuth();
   const navigate = useNavigate();
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    navigate("/login");
-  };
+  const currentUser = LocalStorage.getLoggedInUser();
 
   //new code base for storebase
-  const {authStore} = useStore();
-  const {getLoggedInUser, logout:handleLogoutV2} = authStore;
+  const { authStore } = useStore();
+  const { logout: handleLogoutV2 } = authStore;
 
   return (
     <DropdownMenu>
