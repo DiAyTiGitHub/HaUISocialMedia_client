@@ -14,7 +14,7 @@ class UserStore {
     makeAutoObservable(this);
   }
 
-  getCurrentFriend = async (searchObject: any) => {
+  getSuggestFriend = async (searchObject: any) => {
     try {
       const { data } = await pagingSuggestFriend(searchObject);
       this.pagingCurrentFriend = data;

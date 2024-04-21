@@ -6,7 +6,7 @@ import LocalStorage from "@/services/LocalStorageService";
 import { registerUser, authenticateUser } from "../../services/AuthService";
 import axios from "axios";
 import { getCurrentLoginUser } from "@/services/UserService";
-
+import { useNavigate } from "react-router-dom";
 class AuthStore {
   constructor() {
     makeAutoObservable(this);
@@ -114,8 +114,6 @@ class AuthStore {
   logout = () => {
     this.setSession(null);
     this.removeUser();
-    // const navigate = useNavigate();
-    // navigate('/login');
     window.location.href = "/login";
   };
 

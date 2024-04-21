@@ -1,15 +1,26 @@
-import { User } from "lucide-react";
 import AuthStore from "./components/Auth/AuthStore";
 import ChatStore from "./components/ChatV2/ChatStore";
 import RelationshipStore from "./components/Relationship/RelationshipStore";
 import { createContext, useContext } from "react";
 import UserStore from "./components/User/UserStore";
+import PostStore from "./components/Post/PostStore";
+import NotificationStore from "./components/Notification/NotificationStore";
+import LikeStore from "./components/Like/LikeStore";
+import CommentStore from "./components/Comment/CommentStore";
+import CourseStore from "./components/Course/CourseStore";
+import CourseResultStore from "./components/CourseResult/CourseResultStore";
 
 export const stores = {
   chatStore: new ChatStore(),
   authStore: new AuthStore(),
   relationshipStore: new RelationshipStore(),
   userStore: new UserStore(),
+  postStore: new PostStore(),
+  notificationStore: new NotificationStore(),
+  likeStore: new LikeStore(),
+  commentStore: new CommentStore(),
+  courseStore: new CourseStore(),
+  courseResultStore: new CourseResultStore(),
 };
 
 export const StoreContext = createContext(stores);
