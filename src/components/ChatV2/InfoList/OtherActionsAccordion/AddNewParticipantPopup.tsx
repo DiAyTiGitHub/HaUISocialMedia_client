@@ -49,7 +49,7 @@ function AddNewParticipantPopup(props: any) {
             >
                 {(props) => (
                     <Form autoComplete='off'>
-                        <Box className='modal-container w-80 p-0 m-0' sx={{ border: 0, borderRadius: "10px" }}>
+                        <Box className='modal-container p-0 m-0' sx={{ border: 0, borderRadius: "10px" }}>
                             <div className="modalContainer flex-center justify-between appHeader" style={{ borderRadius: "10px 10px 0 0" }}>
                                 <Typography className="p-3" variant='h5' sx={{ fontWeight: 800, color: "#fff" }}>Add new participants</Typography>
                                 <Button

@@ -17,7 +17,8 @@ function InfoList() {
         isLoading,
     } = chatStore;
 
-    const { currentLoginUser } = authStore;
+    const { getLoggedInUser } = authStore;
+    const currentLoginUser = getLoggedInUser();
 
     function renderDescription() {
         if (!chosenRoom) return "No info";

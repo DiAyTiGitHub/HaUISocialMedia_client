@@ -65,7 +65,7 @@ const NavBar = () => {
           <Link to="/messenger-v2" className="bg-light p-3 rounded-full">
             <MessageCircle className="hover:text-primary" />
           </Link>
-          <div className="bg-light p-3 rounded-full ">
+          <div className="bg-light p-3 rounded-full flex ">
             <Notification />
           </div>
           <UserDropdownMenu />

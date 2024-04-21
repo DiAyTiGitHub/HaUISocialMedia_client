@@ -1,6 +1,7 @@
-import axios from "axios";
 import ConstantList from "@/appConfig";
+import HttpService from "./HttpService";
 
+const axios = HttpService.getAxiosClient();
 const API_PATH = ConstantList.API_ENPOINT + "/api/user";
 
 export function getCurrentLoginUser() {

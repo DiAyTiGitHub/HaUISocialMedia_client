@@ -86,7 +86,7 @@ class AuthStore {
       this.onReceivedNotification
     );
     //subscribe for channel privateMessage
-    // this.stompClient.subscribe('/user/' + loggedInUser?.id + '/privateMessage', this.onReceivedNotification);
+    this.stompClient.subscribe('/user/' + loggedInUser?.id + '/privateMessage', this.onReceivedNotification);
   };
 
   onError = (err: any) => {

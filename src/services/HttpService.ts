@@ -36,6 +36,7 @@ const configure = () => {
     },
     function (error) {
       toast.info("Phiên đăng nhập hết hạn, vui lòng đăng nhập để sử dụng phần mềm!");
+      window.location.href = "/login";
       return Promise.reject(error);
     }
   );

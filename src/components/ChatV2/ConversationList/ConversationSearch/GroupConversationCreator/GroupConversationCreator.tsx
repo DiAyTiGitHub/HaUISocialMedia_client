@@ -66,7 +66,7 @@ function GroupConversationCreator(props: any) {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box className="modal-container w-80 ">
+      <Box className="modal-container">
         <div
           className=" w-full flex-center justify-between p-3"
           style={{ background: "#0047ab", borderTopLeftRadius: "20px", borderTopRightRadius: "20px" }}
@@ -100,6 +100,9 @@ function GroupConversationCreator(props: any) {
           />
 
           <List dense sx={{ width: "100%" }} className="flex-column">
+            <p className="text-center">Choose participants</p>
+
+
             {isLoading && (
               <div className="flex-center w-100">
                 <FaceBookCircularProgress />

@@ -1,11 +1,13 @@
-import axios from "axios";
 import ConstantList from "@/appConfig";
+import HttpService from "./HttpService";
+
+const axios = HttpService.getAxiosClient();
 
 const API_PATH = ConstantList.API_ENPOINT + "/api/room";
 
 export function searchJoinedRooms(searchObject: any) {
     const url = API_PATH + '/search';
-    return axios.post(url, searchObject); 
+    return axios.post(url, searchObject);
 }
 
 export function createGroupChat(room: any) {
