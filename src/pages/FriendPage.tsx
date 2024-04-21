@@ -2,74 +2,41 @@ import Loader from "@/components/shared/Loader";
 import SidebarFriendPage from "@/components/shared/SidebarFriendPage";
 import FriendListSkeleton from "@/components/skeleton/FriendListSkeleton";
 import { Button } from "@/components/ui/button";
-import * as apiClient from "@/react-query/query-api";
-import { IUser } from "@/types";
+import { IUser, SearchObjectType } from "@/types";
 
 import { Search } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useInView } from "react-intersection-observer";
-import { useMutation } from "react-query";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-export type currentFriendsPagination = {
-  pageIndex: number;
-  pageSize: number;
-  keyWord: string;
-};
+import { useStore } from "@/stores";
+import useGetData from "@/lib";
 
 const FriendPage = () => {
-  const { ref, inView } = useInView();
-  const [showLoadMore, setShowLoadMore] = useState<boolean>(true);
   const [search, setSearch] = useState("");
-  const [currentFriendPagination, setCurrentFriendPagination] =
-    useState<currentFriendsPagination>({
-      pageIndex: 0,
-      pageSize: 10,
-      keyWord: search,
-    });
-
-  const navigate = useNavigate();
-  const [friends, setFriends] = useState<any[]>([]);
-
-  const { mutate, isLoading } = useMutation(apiClient.getCurrentFriend, {
-    onSuccess: async (data: any) => {
-      if (data && data.length > 0) {
-        setCurrentFriendPagination({
-          pageSize: currentFriendPagination.pageSize,
-          pageIndex: currentFriendPagination.pageIndex + 1,
-          keyWord: search,
-        });
-        setFriends((prev) => [...prev, ...data]);
-      } else {
-        if (
-          !data ||
-          data.length === 0 ||
-          data.length < currentFriendPagination.pageSize
-        )
-          setShowLoadMore(false);
-      }
-    },
-    onError: (error: Error) => {
-      console.log(error);
-      setShowLoadMore(false);
-    },
+  const [paging, setPaging] = useState<SearchObjectType>({
+    pageIndex: 0,
+    pageSize: 10,
   });
-  const handleGetData = (pagination: any) => {
-    mutate(pagination);
-  };
+  const navigate = useNavigate();
+  const { relationshipStore } = useStore();
+  const { getCurrentFriend } = relationshipStore;
+  const {
+    ref,
+    res: friends,
+    isLoading,
+    showLoadMore,
+  } = useGetData({
+    getRequest: getCurrentFriend,
+    paging: paging,
+    setPaging: setPaging,
+  });
+
   const handleSearch = () => {
-    setCurrentFriendPagination((prev) => ({
+    setPaging((prev) => ({
       ...prev,
       keyWord: search,
       pageIndex: 0,
     }));
   };
-  useEffect(() => {
-    if (inView) {
-      handleGetData(currentFriendPagination);
-    }
-  }, [inView, currentFriendPagination]);
-
   return (
     <div className="grid grid-cols-[1fr_3fr] mt-5">
       <SidebarFriendPage />

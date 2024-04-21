@@ -36,7 +36,7 @@ const PortCard = ({ post }: PostProps) => {
             <img
               src={post.creator.avatar || "/person.jpg"}
               alt="creator"
-              className="rounded-full"
+              className=" w-10 h-10 object-cover rounded-full"
             />
           </Link>
 

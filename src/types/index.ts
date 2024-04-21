@@ -35,7 +35,7 @@ export type IComment = {
   repliedComment: any;
 };
 
-export type RequestFriendType = {};
+export type RelatetionshipType = {};
 
 export type NotificationType = {
   id: string;
@@ -67,4 +67,12 @@ export type CourseResultType = {
   code: string;
   name: string;
   description: string;
+};
+
+export type SearchObjectType = {
+  pageIndex: number;
+  pageSize: number;
+  keyWord?: string;
+  mileStoneId?: string;
+  type?: number;
 };

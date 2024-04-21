@@ -22,7 +22,7 @@ import { Textarea } from "@/components/ui/textarea";
 import FileUploader from "@/components/shared/FileUploader";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { handleUploadImage } from "@/lib";
+import { handleUploadImage } from "@/lib/utils";
 import { useCreatePost, useUpdatePost } from "@/react-query/post";
 import { IPost } from "@/types";
 

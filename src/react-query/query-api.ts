@@ -1,5 +1,5 @@
 import { CreateCommentType } from "@/components/shared/Comment";
-import { currentFriendsPagination } from "@/pages/FriendPage";
+
 import { LoginForm } from "@/pages/Login";
 import { CreatePostType } from "@/pages/PostForm";
 import { suggestFriendsPagination } from "@/pages/SuggestFriendPage";
@@ -42,9 +42,7 @@ export const register = async (formData: any) => {
 /// ========================================================
 
 // ================== Relationship =========================
-export const getCurrentFriend = async (
-  currentFriendPagination: currentFriendsPagination
-) => {
+export const getCurrentFriend = async (currentFriendPagination: any) => {
   const token = localStorage.getItem("token");
   const response = await fetch(
     `${API_BASE_URL}/api/relationship/currentFriends`,

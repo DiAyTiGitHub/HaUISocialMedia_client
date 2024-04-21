@@ -17,7 +17,7 @@ import ProfileUploader from "@/components/shared/ProfileUploader";
 import { CalendarIcon, Loader, Pencil } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useUpdateUser } from "@/react-query/user";
-import { handleUploadImage } from "@/lib";
+import { handleUploadImage } from "@/lib/utils";
 import {
   Popover,
   PopoverContent,

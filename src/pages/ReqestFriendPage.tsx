@@ -2,15 +2,12 @@ import CustomButtonFriend from "@/components/shared/CustomButtonFriend";
 import Loader from "@/components/shared/Loader";
 import SidebarFriendPage from "@/components/shared/SidebarFriendPage";
 import FriendListSkeleton from "@/components/skeleton/FriendListSkeleton";
-import * as apiClient from "@/react-query/query-api";
-import {
-  useAcceptFriend,
-  useDenyRequestFriend,
-} from "@/react-query/relationship";
+import useGetData from "@/lib";
+import { useStore } from "@/stores";
+import { SearchObjectType } from "@/types";
 import { Search } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useInView } from "react-intersection-observer";
-import { useMutation } from "react-query";
+import { useState } from "react";
+
 import { useNavigate } from "react-router-dom";
 
 export type requestFriendsPagination = {
@@ -20,58 +17,24 @@ export type requestFriendsPagination = {
 
 const RequestFriendPage = () => {
   const navigate = useNavigate();
-  const { ref, inView } = useInView();
-  const { acceptFriend, isLoading: isAccpectLoading } = useAcceptFriend();
-  const { mutate: denyFriend, isLoading: isDenyLoading } =
-    useDenyRequestFriend();
-  const [requestFriends, setResquestFriends] = useState<any[]>([]);
-  const [showLoadMore, setShowLoadMore] = useState<boolean>(true);
-  const [requestFriendPagination, setRequestFriendPagination] =
-    useState<requestFriendsPagination>({
-      pageIndex: 0,
-      pageSize: 10,
-    });
-
-  const { mutate, isLoading } = useMutation(apiClient.getRequestFriend, {
-    onSuccess: async (data: any) => {
-      if (data && data.length > 0) {
-        setRequestFriendPagination({
-          pageSize: requestFriendPagination.pageSize,
-          pageIndex: requestFriendPagination.pageIndex + 1,
-        });
-        setResquestFriends((prev) => [...prev, ...data]);
-      } else {
-        if (
-          !data ||
-          data.length === 0 ||
-          data.length < requestFriendPagination.pageSize
-        )
-          setShowLoadMore(false);
-      }
-    },
-    onError: (error: Error) => {
-      console.log(error);
-    },
+  const { relationshipStore } = useStore();
+  const { getPendingFriendRequests, acceptFriend, unAcceptFriend } =
+    relationshipStore;
+  const [paging, setPaging] = useState<SearchObjectType>({
+    pageIndex: 0,
+    pageSize: 10,
   });
 
-  const handleGetData = (pagination: any) => {
-    mutate(pagination);
-  };
-
-  console.log(requestFriends);
-  const handleAcceptFriend = (acceptFriendId: string) => {
-    acceptFriend(acceptFriendId);
-  };
-  const handleDenyFriend = (denyFriendId: string) => {
-    denyFriend(denyFriendId);
-  };
-
-  useEffect(() => {
-    if (inView) {
-      handleGetData(requestFriendPagination);
-    }
-  }, [inView, requestFriendPagination]);
-
+  const {
+    ref,
+    res: requestFriends,
+    isLoading,
+    showLoadMore,
+  } = useGetData({
+    getRequest: getPendingFriendRequests,
+    paging: paging,
+    setPaging: setPaging,
+  });
   return (
     <div className="grid grid-cols-[1fr_3fr] mt-5">
       <SidebarFriendPage />
@@ -121,17 +84,15 @@ const RequestFriendPage = () => {
                         </div>
                         <div className="flex gap-2">
                           <CustomButtonFriend
-                            handleFn={(id: string) => handleDenyFriend(id)}
+                            handleFn={unAcceptFriend}
                             title="Từ chối"
-                            titleDisable="Đã từ chối"
-                            isLoading={isDenyLoading}
+                            message="Đã từ chối"
                             id={friend.id}
                           />
                           <CustomButtonFriend
-                            handleFn={(id: string) => handleAcceptFriend(id)}
+                            handleFn={acceptFriend}
                             title="Chấp nhật"
-                            titleDisable="Đã chấp nhận"
-                            isLoading={isAccpectLoading}
+                            message="Đã chấp nhận"
                             id={friend.id}
                           />
                         </div>
