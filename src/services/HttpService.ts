@@ -32,11 +32,15 @@ const configure = () => {
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
+      else {
+        reForwardToLogin();
+      }
+
       return config;
     },
     function (error) {
-      toast.info("Phiên đăng nhập hết hạn, vui lòng đăng nhập để sử dụng phần mềm!");
-      window.location.href = "/login";
+      // reForwardToLogin();
+
       return Promise.reject(error);
     }
   );
@@ -45,14 +49,22 @@ const configure = () => {
   _axios.interceptors.response.use(
     function (response) {
       // Handle responses
+
       return response;
     },
     function (error) {
       // Handle errors
+      // reForwardToLogin();
+
       return Promise.reject(error);
     }
   );
 };
+
+function reForwardToLogin() {
+  toast.warning("Phiên đăng nhập hết hạn, vui lòng đăng nhập để sử dụng phần mềm!");
+  window.location.href = "/login";
+}
 
 const getAxiosClient = () => _axios;
 

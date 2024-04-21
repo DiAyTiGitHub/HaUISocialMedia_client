@@ -3,11 +3,13 @@ import { useNavigate } from "react-router-dom";
 import UpdateResult from "../CourseResult/UpdateResult";
 import ProfileInfoSkeletion from "../skeleton/ProfileInfoSkeletion";
 import LocalStorage from "@/services/LocalStorageService";
+import { memo } from "react";
+import { observer } from "mobx-react";
 type Props = {
   userProfile: any;
   isLoading: boolean;
 };
-const ProfileInfo = ({ userProfile, isLoading }: Props) => {
+function ProfileInfo({ userProfile, isLoading }: Props) {
   const navigate = useNavigate();
 
   const currentUser = LocalStorage.getLoggedInUser();
@@ -60,4 +62,4 @@ const ProfileInfo = ({ userProfile, isLoading }: Props) => {
   );
 };
 
-export default ProfileInfo;
+export default memo(observer(ProfileInfo));

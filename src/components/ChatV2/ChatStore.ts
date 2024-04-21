@@ -48,7 +48,7 @@ class ChatStore {
       console.log("msg content: " + (messageContent));
 
       this?.stompClient?.send(
-        "/app/privateMessage",
+        "/messenger/privateMessage",
         {},
         JSON.stringify(chatMessage)
       );
@@ -73,9 +73,9 @@ class ChatStore {
     this.connect();
   };
 
-  disconnectStompClient = () => {
+  resetStore = () => {
     if (this.stompClient)
-      this.stompClient.disconnect();
+      this.stompClient = null;
 
     this.joinedRooms = [];
     this.chosenRoom = null;

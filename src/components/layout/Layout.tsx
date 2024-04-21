@@ -1,8 +1,28 @@
+import { memo, useEffect } from "react";
 import NavBar from "./NavBar";
 
 import { Outlet } from "react-router-dom";
+import { observer } from "mobx-react";
+import { useStore } from "@/stores";
 
-const Layout = () => {
+function Layout() {
+  const { authStore } = useStore();
+  const { getLoggedInUser, connectToSocket, stompClient } = authStore;
+
+  useEffect(function () {
+    async function initializeSocket() {
+      const currentUser = getLoggedInUser();
+
+      if (currentUser && currentUser?.id && currentUser?.role === "USER" && !stompClient) {
+        //start connecting to socket
+        await connectToSocket();
+      }
+    }
+
+    initializeSocket();
+
+  }, [getLoggedInUser()?.id]);
+
   return (
     <>
       <NavBar />
@@ -13,4 +33,4 @@ const Layout = () => {
   );
 };
 
-export default Layout;
+export default memo(observer(Layout));

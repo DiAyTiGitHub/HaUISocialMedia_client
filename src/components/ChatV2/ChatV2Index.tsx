@@ -13,7 +13,7 @@ function ChatIndex() {
     const { chatStore, authStore } = useStore();
 
     const {
-        registerUser,
+        resetStore,
         getAllJoinedRooms,
         setIsLoading
     } = chatStore;
@@ -27,13 +27,16 @@ function ChatIndex() {
         //     // navigate("/login");
         // }
         // else {
+            
             setIsLoading(true);
-            registerUser();
+            // registerUser();
             getAllJoinedRooms()
                 .finally(function () {
                     setIsLoading(false);
                 })
         // }
+
+        return resetStore;
     }, []);
 
     return (

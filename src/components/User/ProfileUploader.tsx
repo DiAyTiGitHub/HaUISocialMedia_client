@@ -1,14 +1,15 @@
-import { useCallback, useState } from "react";
+import { memo, useCallback, useState } from "react";
 import { FileWithPath, useDropzone } from "react-dropzone";
 
 import { convertFileToUrl } from "@/lib/utils";
+import { observer } from "mobx-react";
 
 type ProfileUploaderProps = {
   fieldChange: (files: File[]) => void;
   mediaUrl: string;
 };
 
-const ProfileUploader = ({ fieldChange, mediaUrl }: ProfileUploaderProps) => {
+function ProfileUploader({ fieldChange, mediaUrl }: ProfileUploaderProps) {
   const [file, setFile] = useState<File[]>([]);
   const [fileUrl, setFileUrl] = useState<string>(mediaUrl);
 
@@ -45,4 +46,4 @@ const ProfileUploader = ({ fieldChange, mediaUrl }: ProfileUploaderProps) => {
   );
 };
 
-export default ProfileUploader;
+export default memo(observer(ProfileUploader));

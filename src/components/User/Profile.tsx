@@ -1,6 +1,6 @@
 import ProfileInfo from "@/components/User/ProfileInfo";
 import SessionCreatePost from "@/components/Post/SessionCreatePost";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { IUser, SearchObjectType } from "@/types";
 import { useParams } from "react-router-dom";
 import Loader from "@/components/shared/Loader";
@@ -13,8 +13,9 @@ import UserCourseResult from "../CourseResult/UserCourseResult";
 import TableSkeleton from "@/components/skeleton/TableSkeleton";
 import { useStore } from "@/stores";
 import { useGetDataByUserId } from "@/lib";
+import { observer } from "mobx-react";
 
-const Profile = () => {
+function Profile() {
   const { profileId } = useParams();
   const { postStore, userStore } = useStore();
   const [paging, setPaging] = useState<SearchObjectType>({
@@ -157,4 +158,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default memo(observer(Profile));

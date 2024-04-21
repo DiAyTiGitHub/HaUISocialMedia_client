@@ -45,7 +45,7 @@ class AuthStore {
       this.setSession(data?.accessToken);
       this.setUser(userData);
 
-      this.connectToSocket();
+      // this.connectToSocket();
       return data;
     } catch (error: any) {
       if (error?.response?.status === 401)
@@ -68,13 +68,23 @@ class AuthStore {
   };
 
   disconnectStompClient = () => {
-    if (this.stompClient) this.stompClient.disconnect();
+    if (this.stompClient) {
+      this.stompClient.disconnect();
+      // toast.success("Disconnected from stomp");
+    }
   };
 
   connectToSocket = async () => {
-    let Sock = new SockJS("http://localhost:8000/ws");
-    this.stompClient = over(Sock);
-    this.stompClient.connect({}, this.onConnected, this.onError);
+    if (!this.stompClient) {
+      console.log("Connecting new Socket...");
+
+      let Sock = new SockJS("http://localhost:8000/ws");
+      this.stompClient = over(Sock);
+      this.stompClient.connect({}, this.onConnected, this.onError);
+    }
+    else {
+      console.log("Already connected to Socket...");
+    }
   };
 
   onConnected = () => {
@@ -82,8 +92,7 @@ class AuthStore {
 
     //subscribe for channel notification
     this.stompClient.subscribe(
-      "/user/" + loggedInUser?.id + "/notification",
-      this.onReceivedNotification
+      "/user/" + loggedInUser?.id + "/notification", this.onReceivedNotification
     );
     //subscribe for channel privateMessage
     this.stompClient.subscribe('/user/' + loggedInUser?.id + '/privateMessage', this.onReceivedNotification);
@@ -114,6 +123,7 @@ class AuthStore {
   logout = () => {
     this.setSession(null);
     this.removeUser();
+    this.disconnectStompClient();
     window.location.href = "/login";
   };
 

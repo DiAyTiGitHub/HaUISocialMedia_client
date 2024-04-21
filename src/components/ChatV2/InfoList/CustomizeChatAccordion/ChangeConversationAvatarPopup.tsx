@@ -3,7 +3,6 @@ import React, { memo, useState } from "react";
 import { Modal, Box, Typography, Button, styled } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useStore } from "@/stores";
-import LogoutIcon from '@mui/icons-material/Logout';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { toast } from "react-toastify";
 import FaceBookCircularProgress from "../../FaceBookCircularProgress";

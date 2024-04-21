@@ -27,7 +27,7 @@ const formSchema = z.object({
 });
 export type LoginForm = z.infer<typeof formSchema>;
 
-const Login = () => {
+function Login() {
   const navigate = useNavigate();
   const form = useForm<LoginForm>({
     resolver: zodResolver(formSchema),
@@ -64,6 +64,7 @@ const Login = () => {
 
   const { authStore } = useStore();
   const { authenticateUser, getAllClaimsFromJwt } = authStore;
+  
   //login V2 written by diayti
   async function handleLoginV2(values: LoginForm) {
     try {

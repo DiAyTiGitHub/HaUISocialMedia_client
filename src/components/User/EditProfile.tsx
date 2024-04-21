@@ -25,9 +25,10 @@ import {
 
 import LocalStorage from "@/services/LocalStorageService";
 import { useStore } from "@/stores";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { observer } from "mobx-react";
 
 const formSchema = z.object({
   firstname: z.string().min(1, { message: "Họ không được trống" }),
@@ -42,8 +43,9 @@ const formSchema = z.object({
 
 export type UpdateUserForm = z.infer<typeof formSchema>;
 
-const EditProfile = () => {
+function EditProfile(){
   const navigate = useNavigate();
+  
   const { userStore, authStore } = useStore();
   const { setUser } = authStore;
   const { updateUser } = userStore;
@@ -276,4 +278,4 @@ const EditProfile = () => {
   );
 };
 
-export default EditProfile;
+export default memo(observer(EditProfile));

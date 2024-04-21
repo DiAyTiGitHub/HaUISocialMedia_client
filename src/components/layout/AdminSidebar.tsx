@@ -3,8 +3,10 @@ import { sidebarAdmin } from "@/constant";
 import LocalStorage from "@/services/LocalStorageService";
 import { LogOut } from "lucide-react";
 import { useStore } from "@/stores";
+import { memo } from "react";
+import { observer } from "mobx-react";
 
-const AdminSidebar = () => {
+function AdminSidebar() {
   const { pathname } = useLocation();
   const currentUser = LocalStorage.getLoggedInUser();
   const { authStore } = useStore();
@@ -40,9 +42,8 @@ const AdminSidebar = () => {
                 <Link
                   key={link.route}
                   to={link.route}
-                  className={`flex items-center h-12 cursor-pointer hover:bg-blue-2 relative ${
-                    pathname === link.route && "sidebar-active"
-                  }`}
+                  className={`flex items-center h-12 cursor-pointer hover:bg-blue-2 relative ${pathname === link.route && "sidebar-active"
+                    }`}
                 >
                   <img
                     src={link.icon}
@@ -67,4 +68,4 @@ const AdminSidebar = () => {
   );
 };
 
-export default AdminSidebar;
+export default memo(observer(AdminSidebar));
