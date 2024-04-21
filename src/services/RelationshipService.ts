@@ -1,4 +1,3 @@
-import axios from "axios";
 import ConstantList from "@/appConfig";
 import httpService from "./HttpService";
 
@@ -26,6 +25,16 @@ export function pagingPendingFriendRequests(searchObject: any) {
   return _axios.post(url, searchObject);
 }
 
+export function pagingFriendsOfUser({
+  searchObject,
+  userId,
+}: {
+  searchObject: any;
+  userId: String;
+}) {
+  const url = API_PATH + `/friends/${userId}`;
+  return _axios.post(url, searchObject);
+}
 export function acceptFriendRequest(relationshipId: string) {
   const url = API_PATH + `/acceptRequest/${relationshipId}`;
 

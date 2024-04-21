@@ -15,11 +15,11 @@ export function pagingSuggestFriend(searchObject: any) {
 }
 
 export function getUserByIdRequest(userId: string) {
-  const url = API_PATH + `/${userId}`;
+  const url = API_PATH + `/id/${userId}`;
   return axios.get(url);
 }
 
 export function updateUserRequest(data: any) {
-  const url = API_PATH + "update";
+  const url = API_PATH + "/update";
   return axios.put(url, data);
 }

@@ -1,22 +1,18 @@
 import { Routes, Route } from "react-router-dom";
-import HomePage from "./pages/HomePage";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+import HomePage from "./components/HomeClient/HomePage";
+import Login from "./components/Auth/Login";
+import Register from "./components/Auth/Register";
 import Layout from "./components/layout/Layout";
-import Profile from "./pages/Profile";
-import ChatPage from "./pages/ChatPage";
-import EditProfile from "./pages/EditProfile";
-import FriendPage from "./pages/FriendPage";
-import Wishlist from "./pages/Wishlist";
-import GroupPage from "./pages/GroupPage";
+import Profile from "./components/User/Profile";
+import EditProfile from "./components/User/EditProfile";
+import FriendPage from "./components/Relationship/FriendPage";
 
-import ChatDetailPage from "./pages/ChatDetailPage";
-import SuggestFriendPage from "./pages/SuggestFriendPage";
-import RequestFriendPage from "./pages/ReqestFriendPage";
-import PostDetail from "./pages/PostDetail";
-import LeaderBoard from "./pages/LeaderBoard";
+import SuggestFriendPage from "./components/Relationship/SuggestFriendPage";
+import RequestFriendPage from "./components/Relationship/ReqestFriendPage";
+import PostDetail from "./components/Post/PostDetail";
+import LeaderBoard from "./components/LeaderBoard/LeaderBoard";
 import ChatV2Index from "./components/ChatV2/ChatV2Index";
-import SearchPage from "./pages/SearchPage";
+import SearchPage from "./components/Search/SearchPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -32,8 +28,7 @@ const App = () => {
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />} />
             <Route path="/profile/edit" element={<EditProfile />} />
-            <Route path="/wishlist" element={<Wishlist />} />
-            <Route path="/groups" element={<GroupPage />} />
+
             <Route path="/friends" element={<FriendPage />} />
             <Route path="/suggest-friends" element={<SuggestFriendPage />} />
             <Route path="/add-friends" element={<RequestFriendPage />} />
@@ -43,10 +38,6 @@ const App = () => {
             <Route path="/search" element={<SearchPage />} />
             <Route path="/messenger-v2" element={<ChatV2Index />} />
           </Route>
-          <Route path="/chats" element={<ChatPage />} />
-          <Route path="/chats/:roomId" element={<ChatDetailPage />} />
-
-
         </Route>
       </Routes>
 
@@ -63,7 +54,6 @@ const App = () => {
         theme="colored"
       />
     </>
-
   );
 };
 

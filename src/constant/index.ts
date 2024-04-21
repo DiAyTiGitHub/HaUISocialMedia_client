@@ -67,3 +67,31 @@ export const sidebarFriendPage = [
     icon: "/suggestFriend.svg",
   },
 ];
+
+export const sidebarAdmin = [
+  {
+    label: "Trang chủ",
+    route: "/",
+    icon: "/home.svg",
+  },
+  {
+    label: "Quản lý người dùng",
+    route: "/admin/users",
+    icon: "/add-friend.svg",
+  },
+  {
+    label: "Quản lý bài viết",
+    route: "/admin/post",
+    icon: "/friend.svg",
+  },
+  {
+    label: "Quản lý lớp học",
+    route: "/admin/classes",
+    icon: "/suggestFriend.svg",
+  },
+  {
+    label: "Quản lý kết quả học tập",
+    route: "/admin/course-results",
+    icon: "/suggestFriend.svg",
+  },
+];

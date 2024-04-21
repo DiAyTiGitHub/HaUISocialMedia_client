@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import hauiLogo from "@/assets/logo-haui.png";
 
 import UserDropdownMenu from "../shared/UserDropdownMenu";
-import Notification from "../shared/Notification";
+import Notification from "../Notification/Notification";
 import { navbarLink } from "@/constant";
 import { ChangeEvent, memo, useState } from "react";
 import { observer } from "mobx-react";
@@ -59,13 +59,11 @@ const NavBar = () => {
           <Link to="/leaderboard" className="bg-light p-3 rounded-full">
             <GraduationCap className="hover:text-primary" />
           </Link>
-          <Link to="/chats" className="bg-light p-3 rounded-full">
-            <MessageCircle className="hover:text-primary" />
-          </Link>
+
           <Link to="/messenger-v2" className="bg-light p-3 rounded-full">
             <MessageCircle className="hover:text-primary" />
           </Link>
-          <div className="bg-light p-3 rounded-full flex ">
+          <div className="bg-light p-3 rounded-full flex z-10 ">
             <Notification />
           </div>
           <UserDropdownMenu />
