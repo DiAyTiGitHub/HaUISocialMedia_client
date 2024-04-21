@@ -6,18 +6,18 @@ import { Button } from "../ui/button";
 
 type FileUploaderProps = {
   fieldChange: (files: File[]) => void;
-  mediaUrl: string;
+  mediaUrl: string[];
 };
 
 const FileUploader = ({ fieldChange, mediaUrl }: FileUploaderProps) => {
   const [file, setFile] = useState<File[]>([]);
-  const [fileUrl, setFileUrl] = useState<string>(mediaUrl);
+  const [fileUrls, setFileUrls] = useState<string[]>(mediaUrl);
 
   const onDrop = useCallback(
     (acceptedFiles: FileWithPath[]) => {
       setFile(acceptedFiles);
       fieldChange(acceptedFiles);
-      setFileUrl(convertFileToUrl(acceptedFiles[0]));
+      setFileUrls((prev) => [...prev, convertFileToUrl(acceptedFiles[0])]);
     },
     [file]
   );
@@ -36,10 +36,17 @@ const FileUploader = ({ fieldChange, mediaUrl }: FileUploaderProps) => {
     >
       <input {...getInputProps()} className="cursor-pointer" />
 
-      {fileUrl ? (
+      {fileUrls ? (
         <>
           <div className="flex flex-1 ">
-            <img src={fileUrl} alt="image" className="file_uploader-img" />
+            {fileUrls.map((url, index) => (
+              <img
+                key={index}
+                src={url}
+                alt="image"
+                className="w-12 h-12 object-cover"
+              />
+            ))}
           </div>
           <p className="file_uploader-label">Kéo thả vào đây</p>
         </>

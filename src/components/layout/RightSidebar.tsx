@@ -1,8 +1,6 @@
-import { useMutation } from "react-query";
 import FriendResquest from "../Relationship/FriendResquest";
-import { useEffect, useState } from "react";
-import * as apiClient from "@/react-query/query-api";
-import { useInView } from "react-intersection-observer";
+import { useState } from "react";
+
 import { Loader } from "lucide-react";
 import { IUser, SearchObjectType } from "@/types";
 import { Link } from "react-router-dom";
@@ -13,9 +11,9 @@ import { useStore } from "@/stores";
 
 const RightSidebar = () => {
   const { relationshipStore } = useStore();
-  const { getCurrentFriend, acceptFriend, unAcceptFriend } = relationshipStore;
+  const { getCurrentFriend } = relationshipStore;
   const [paging, setPaging] = useState<SearchObjectType>({
-    pageIndex: 0,
+    pageIndex: 1,
     pageSize: 10,
   });
 

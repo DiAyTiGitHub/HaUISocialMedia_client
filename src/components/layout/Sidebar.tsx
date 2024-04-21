@@ -42,35 +42,3 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
-
-{
-  /* <Link to="/profile/1" className="flex items-center gap-2 mb-5">
-        <img
-          src={avatar}
-          alt="avartar"
-          className="w-10 h-10 rounded-full object-cover"
-        />
-        <p className="text-xl font-semibold">Nguyen Thanh Thuan</p>
-      </Link>
-      <Link
-        to="/"
-        className="flex items-center gap-5 hover:text-blue-600 hover:border-b pb-2 border-blue-600"
-      >
-        <Contact className="text-blue-600" />
-        <span className="text-xl"></span>
-      </Link>
-      <Link
-        to="/"
-        className="flex items-center gap-5 hover:text-blue-600 hover:border-b pb-2 border-blue-600"
-      >
-        <Notebook className="text-blue-600" />
-        <span className="text-xl"></span>
-      </Link>
-      <Link
-        to="/"
-        className="flex items-center gap-5 hover:text-blue-600 hover:border-b pb-2 border-blue-600"
-      >
-        <Handshake className="text-blue-600" />
-        <span className="text-xl">Nhóm</span>
-      </Link> */
-}

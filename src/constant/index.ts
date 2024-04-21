@@ -71,7 +71,7 @@ export const sidebarFriendPage = [
 export const sidebarAdmin = [
   {
     label: "Trang chủ",
-    route: "/",
+    route: "/admin",
     icon: "/home.svg",
   },
   {
@@ -81,7 +81,7 @@ export const sidebarAdmin = [
   },
   {
     label: "Quản lý bài viết",
-    route: "/admin/post",
+    route: "/admin/posts",
     icon: "/friend.svg",
   },
   {

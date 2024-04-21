@@ -15,7 +15,7 @@ export function pagingSuggestFriend(searchObject: any) {
 }
 
 export function getUserByIdRequest(userId: string) {
-  const url = API_PATH + `/id/${userId}`;
+  const url = API_PATH + `/${userId}`;
   return axios.get(url);
 }
 

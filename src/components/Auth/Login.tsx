@@ -15,6 +15,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { memo } from "react";
 import { observer } from "mobx-react";
 import { useStore } from "@/stores";
+import { toast } from "react-toastify";
 
 const formSchema = z.object({
   username: z.string().min(1, {
@@ -62,12 +63,18 @@ const Login = () => {
   // };
 
   const { authStore } = useStore();
-  const { authenticateUser } = authStore;
+  const { authenticateUser, getAllClaimsFromJwt } = authStore;
   //login V2 written by diayti
   async function handleLoginV2(values: LoginForm) {
     try {
       await authenticateUser(values);
-      navigate("/");
+      const data = getAllClaimsFromJwt(localStorage.getItem("token"));
+      console.log(data.scope);
+      if (data.scope === "USER") navigate("/");
+      else if (data.scope === "ADMIN") navigate("/admin");
+      else {
+        toast.error("Bạn không có quyền truy cập");
+      }
     } catch (error) {
       console.error(error);
     }

@@ -11,7 +11,7 @@ import SidebarFriendPage from "./SidebarFriendPage";
 
 const SuggestFriendPage = () => {
   const [paging, setPaging] = useState<SearchObjectType>({
-    pageIndex: 0,
+    pageIndex: 1,
     pageSize: 20,
   });
   const { userStore, relationshipStore } = useStore();

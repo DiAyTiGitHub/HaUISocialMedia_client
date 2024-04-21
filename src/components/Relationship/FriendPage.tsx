@@ -14,8 +14,8 @@ import SidebarFriendPage from "@/components/Relationship/SidebarFriendPage";
 const FriendPage = () => {
   const [search, setSearch] = useState("");
   const [paging, setPaging] = useState<SearchObjectType>({
-    pageIndex: 0,
-    pageSize: 10,
+    pageIndex: 1,
+    pageSize: 20,
   });
   const navigate = useNavigate();
   const { relationshipStore } = useStore();

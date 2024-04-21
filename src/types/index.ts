@@ -18,7 +18,7 @@ export type IUser = {
 export type IPost = {
   id: string;
   comments: [];
-  image: string;
+  images: [];
   createDate: Date;
   creator: IUser;
   content: string;

@@ -14,7 +14,7 @@ const FriendResquest = () => {
   const [requestFriends, setRequestFriends] = useState<any[]>([]);
 
   const [paging] = useState<SearchObjectType>({
-    pageIndex: 0,
+    pageIndex: 1,
     pageSize: 3,
   });
 

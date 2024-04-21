@@ -26,10 +26,11 @@ import { toast } from "react-toastify";
 import { IPost } from "@/types";
 import { useStore } from "@/stores";
 import { useNavigate } from "react-router-dom";
+import { handleUploadImage } from "@/lib/utils";
 
 export type CreatePostType = {
-  content: String;
-  images: File[];
+  content: string;
+  images: any[];
 };
 
 const formSchema = z.object({
@@ -62,22 +63,33 @@ const PostForm = ({ children, post }: PostFormProps) => {
     console.log(values);
     try {
       setIsLoading(true);
+
+      let urls = [];
+      let url;
+      for (let i = 0; i < values.file.length; i++) {
+        if (values.file[i]) {
+          url = await handleUploadImage(values.file[i]);
+          urls.push(url);
+        }
+      }
+      if (values.file.length === 0) url = post?.images;
+
       const newPost: CreatePostType = {
         content: values.content,
-        images: values.file,
+        images: urls,
       };
 
       if (post) {
         await updatePost({
           ...post,
           content: values.content,
-          images: values.file,
+          images: url,
         });
-        window.location.reload();
+        //window.location.reload();
       } else {
         await createPost(newPost);
         toast.success("Đã tạo bài viết");
-        window.location.reload();
+        // window.location.reload();
       }
     } catch (error) {
       console.log("[Create_Post]", error);
@@ -128,7 +140,7 @@ const PostForm = ({ children, post }: PostFormProps) => {
                       <FormControl>
                         <FileUploader
                           fieldChange={field.onChange}
-                          mediaUrl={post?.image || ""}
+                          mediaUrl={post?.images || []}
                         />
                       </FormControl>
                       <FormMessage />

@@ -32,6 +32,7 @@ class UserStore {
       toast.error("Something went wrong :(");
     }
   };
+
   updateUser = async (fromData: any) => {
     try {
       const { data } = await updateUserRequest(fromData);

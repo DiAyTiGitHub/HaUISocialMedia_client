@@ -22,8 +22,8 @@ const RequestFriendPage = () => {
   const { getPendingFriendRequests, acceptFriend, unAcceptFriend } =
     relationshipStore;
   const [paging, setPaging] = useState<SearchObjectType>({
-    pageIndex: 0,
-    pageSize: 10,
+    pageIndex: 1,
+    pageSize: 20,
   });
 
   const {
