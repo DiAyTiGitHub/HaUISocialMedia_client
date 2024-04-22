@@ -19,7 +19,7 @@ const PortCard = ({ post }: PostProps) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const currentUser = LocalStorage.getLoggedInUser();
   const images: string[] =
-    (post && post?.images.map((i: IImage) => i.image)) || [];
+    (post && post?.images?.map((i: IImage) => i.image)) || [];
   const navigate = useNavigate();
   const { postStore } = useStore();
   const { deletePost } = postStore;
@@ -150,7 +150,7 @@ const PortCard = ({ post }: PostProps) => {
           </div>
           {images.length > 1 && (
             <div className="flex flex-col justify-start gap-3 basis-1/3">
-              {images.slice(1, 3).map((image, index) => (
+              {images.slice(1, 3)?.map((image, index) => (
                 <img
                   key={index}
                   src={image}
