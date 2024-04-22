@@ -1,3 +1,4 @@
+import { set } from "date-fns";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 
@@ -118,6 +119,50 @@ const useGetAllData = ({ getRequest }: GetAllDataProps) => {
   return { res, isLoading, isError };
 };
 
-export { useGetDataByUserId, useGetAllData };
+type GetDataPagingType = {
+  getRequest: any;
+  paging: any;
+};
+const useGetDataPagination = ({ getRequest, paging }: GetDataPagingType) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLeftDisable, setIsLeftDisable] = useState<boolean>(false);
+  const [isRightDisable, setIsRightDisable] = useState<boolean>(false);
+  const [isError, setIdError] = useState<any>();
+
+  const [res, setRes] = useState<any[]>([]);
+  const handleGetData = async (paging: any) => {
+    setIsLoading(true);
+    if (paging?.pageIndex === 1) setIsLeftDisable(true);
+    else {
+      setIsLeftDisable(false);
+    }
+    try {
+      const data = await getRequest(paging);
+      if (data && data.length > 0) {
+        setRes(data);
+        if (data.length < paging.pageSize) setIsRightDisable(true);
+        else setIsRightDisable(false);
+      }
+      if (!data || data.length === 0 || data.length < paging.pageSize)
+        setIsRightDisable(true);
+    } catch (error) {
+      setIsRightDisable(true);
+      console.log(error);
+      setIdError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (paging) {
+      handleGetData(paging);
+    }
+  }, [paging]);
+
+  return { res, isLoading, isLeftDisable, isRightDisable, isError };
+};
+
+export { useGetDataByUserId, useGetAllData, useGetDataPagination };
 
 export default useGetData;

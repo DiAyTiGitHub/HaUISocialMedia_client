@@ -104,10 +104,14 @@ const PostForm = ({ children, post }: PostFormProps) => {
           images: images,
         });
         toast.success("Đã cập nhật bài viết");
-        navigate(0);
+        setTimeout(() => {
+          navigate(0);
+        }, 500);
       } else {
         await createPost(newPost);
-        toast.success("Đã tạo bài viết");
+        setTimeout(() => {
+          toast.success("Đã tạo bài viết");
+        }, 500);
         navigate(0);
       }
     } catch (error) {

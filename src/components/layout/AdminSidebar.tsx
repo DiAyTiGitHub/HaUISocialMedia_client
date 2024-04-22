@@ -42,8 +42,9 @@ function AdminSidebar() {
                 <Link
                   key={link.route}
                   to={link.route}
-                  className={`flex items-center h-12 cursor-pointer hover:bg-blue-2 relative ${pathname === link.route && "sidebar-active"
-                    }`}
+                  className={`flex items-center h-12 cursor-pointer hover:bg-blue-2 relative ${
+                    pathname === link.route && "sidebar-active"
+                  }`}
                 >
                   <img
                     src={link.icon}
@@ -66,6 +67,6 @@ function AdminSidebar() {
       </div>
     </div>
   );
-};
+}
 
 export default memo(observer(AdminSidebar));
