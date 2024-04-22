@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
-import { useMutation } from "react-query";
-import * as apiClient from "@/react-query/query-api";
+import { useState } from "react";
+
 import { IUser, SearchObjectType } from "@/types";
-import { useInView } from "react-intersection-observer";
+
 import Loader from "../shared/Loader";
 import FriendCard from "../shared/FriendCard";
 import FriendListSkeleton from "../skeleton/FriendListSkeleton";
@@ -21,7 +20,7 @@ const FriendOfUser = ({ profileId }: Props) => {
   const { relationshipStore } = useStore();
   const { getFriendOfUser } = relationshipStore;
   const [paging, setPaging] = useState<SearchObjectType>({
-    pageIndex: 0,
+    pageIndex: 1,
     pageSize: 20,
   });
   const {

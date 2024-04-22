@@ -37,6 +37,7 @@ function Profile() {
     setPaging: setPaging,
     userId: profileId,
   });
+  console.log(posts);
 
   useEffect(() => {
     const getUser = async () => {
@@ -52,6 +53,8 @@ function Profile() {
     };
     getUser();
   }, []);
+
+  console.log(userProfile);
 
   return (
     <div className="max-w-[80%] mx-auto">
@@ -156,6 +159,6 @@ function Profile() {
       </div>
     </div>
   );
-};
+}
 
 export default memo(observer(Profile));

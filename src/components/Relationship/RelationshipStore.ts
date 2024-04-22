@@ -28,7 +28,8 @@ class RelationshipStore {
 
       return data;
     } catch (error) {
-      toast.error("Something went wrong :(");
+      toast.error("Có lỗi xảy ra");
+      throw new Error("Có lỗi xảy ra ");
     }
   };
 
@@ -38,7 +39,8 @@ class RelationshipStore {
 
       return data;
     } catch (error) {
-      toast.error("Something went wrong :(");
+      toast.error("Có lỗi xảy ra");
+      throw new Error("Có lỗi xảy ra ");
     }
   };
   getSuggestFriend = async (searchObject: any) => {
@@ -47,7 +49,8 @@ class RelationshipStore {
 
       return data;
     } catch (error) {
-      toast.error("Something went wrong :(");
+      toast.error("Có lỗi xảy ra");
+      throw new Error("Có lỗi xảy ra ");
     }
   };
 
@@ -60,7 +63,8 @@ class RelationshipStore {
 
       return data;
     } catch (error) {
-      toast.error("Something went wrong :(");
+      toast.error("Có lỗi xảy ra");
+      throw new Error("Có lỗi xảy ra ");
     }
   };
 
@@ -69,7 +73,8 @@ class RelationshipStore {
       const { data } = await pagingPendingFriendRequests(searchObject);
       return data;
     } catch (error) {
-      toast.error("Something went wrong :(");
+      toast.error("Có lỗi xảy ra");
+      throw new Error("Có lỗi xảy ra ");
     }
   };
   acceptFriend = async (relationshipId: string) => {
@@ -77,7 +82,8 @@ class RelationshipStore {
       const { data } = await acceptFriendRequest(relationshipId);
       return data;
     } catch (error) {
-      toast.error("Something went wrong :(");
+      toast.error("Có lỗi xảy ra");
+      throw new Error("Có lỗi xảy ra ");
     }
   };
 
@@ -86,7 +92,8 @@ class RelationshipStore {
       const { data } = await sendAddFriendRequest(receiverId);
       return data;
     } catch (error) {
-      toast.error("Something went wrong :(");
+      toast.error("Có lỗi xảy ra");
+      throw new Error("Có lỗi xảy ra ");
     }
   };
   unAcceptFriend = async (relationshipId: string) => {
@@ -94,7 +101,8 @@ class RelationshipStore {
       const { data } = await unAcceptFriendRequest(relationshipId);
       return data;
     } catch (error) {
-      toast.error("Something went wrong :(");
+      toast.error("Có lỗi xảy ra");
+      throw new Error("Có lỗi xảy ra ");
     }
   };
   unFriend = async (relationshipId: string) => {
@@ -102,7 +110,8 @@ class RelationshipStore {
       const { data } = await unFriendRequest(relationshipId);
       return data;
     } catch (error) {
-      toast.error("Something went wrong :(");
+      toast.error("Có lỗi xảy ra");
+      throw new Error("Có lỗi xảy ra ");
     }
   };
 }

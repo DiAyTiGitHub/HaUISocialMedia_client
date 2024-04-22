@@ -19,7 +19,8 @@ class PostStore {
       const { data } = await pagingNewsFeed(searchObject);
       return data;
     } catch (error) {
-      toast.error("Something went wrong :(");
+      toast.error("Có lỗi xảy ra");
+      throw new Error("Có lỗi xảy ra ");
     }
   };
 
@@ -28,7 +29,8 @@ class PostStore {
       const { data } = await getById(postId);
       return data;
     } catch (error) {
-      toast.error("Something went wrong :(");
+      toast.error("Có lỗi xảy ra");
+      throw new Error("Có lỗi xảy ra ");
     }
   };
 
@@ -40,7 +42,8 @@ class PostStore {
       });
       return data;
     } catch (error) {
-      toast.error("Something went wrong :(");
+      toast.error("Có lỗi xảy ra");
+      throw new Error("Có lỗi xảy ra ");
     }
   };
 
@@ -49,7 +52,8 @@ class PostStore {
       const { data } = await createPostRequest(formData);
       return data;
     } catch (error) {
-      toast.error("Something went wrong :(");
+      toast.error("Có lỗi xảy ra");
+      throw new Error("Có lỗi xảy ra ");
     }
   };
 
@@ -58,7 +62,8 @@ class PostStore {
       const { data } = await updatePostRequest(formData);
       return data;
     } catch (error) {
-      toast.error("Something went wrong :(");
+      toast.error("Có lỗi xảy ra");
+      throw new Error("Có lỗi xảy ra ");
     }
   };
 
@@ -67,7 +72,8 @@ class PostStore {
       const { data } = await deletePostRequest(postId);
       return data;
     } catch (error) {
-      toast.error("Something went wrong :(");
+      toast.error("Có lỗi xảy ra");
+      throw new Error("Có lỗi xảy ra ");
     }
   };
 }

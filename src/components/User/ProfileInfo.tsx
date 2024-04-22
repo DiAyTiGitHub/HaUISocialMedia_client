@@ -3,16 +3,75 @@ import { useNavigate } from "react-router-dom";
 import UpdateResult from "../CourseResult/UpdateResult";
 import ProfileInfoSkeletion from "../skeleton/ProfileInfoSkeletion";
 import LocalStorage from "@/services/LocalStorageService";
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
 import { observer } from "mobx-react";
+import { useStore } from "@/stores";
+import CustomButtonFriend from "../Relationship/CustomButtonFriend";
 type Props = {
   userProfile: any;
   isLoading: boolean;
 };
+type RelationshipType = {
+  title: string;
+  handleFn: any;
+  message: string;
+  id: string;
+};
 function ProfileInfo({ userProfile, isLoading }: Props) {
+  const [relationship, setRelationship] = useState<RelationshipType>({
+    title: "",
+    handleFn: () => {},
+    message: "",
+    id: "",
+  });
+  const { relationshipStore } = useStore();
+  const { acceptFriend, unFriend, addFriend } = relationshipStore;
   const navigate = useNavigate();
-
   const currentUser = LocalStorage.getLoggedInUser();
+
+  const handleCheckFriend = () => {
+    if (userProfile?.relationship) {
+      if (userProfile.relationship.state) {
+        setRelationship((prev) => ({
+          ...prev,
+          title: "Bạn bè",
+          message: "Đã huỷ kết bạn",
+          handleFn: unFriend,
+          id: userProfile.relationship.id,
+        }));
+      } else {
+        if (userProfile.relationship.requestSender.id === currentUser?.id) {
+          setRelationship((prev) => ({
+            ...prev,
+            title: "Đã gửi lời mời",
+            message: "Thêm bạn bè",
+            handleFn: () => {},
+            id: userProfile.relationship.id,
+          }));
+        } else {
+          setRelationship((prev) => ({
+            ...prev,
+            title: "Chấp nhận",
+            message: "Bạn bè",
+            handleFn: acceptFriend,
+            id: userProfile.relationship.id,
+          }));
+        }
+      }
+    } else {
+      setRelationship((prev) => ({
+        ...prev,
+        title: "Thêm bạn bè",
+        message: "Đã gửi lời mời",
+        handleFn: addFriend,
+        id: userProfile?.id,
+      }));
+    }
+  };
+
+  useEffect(() => {
+    handleCheckFriend();
+  }, [userProfile]);
 
   if (isLoading) return <ProfileInfoSkeletion />;
   return (
@@ -54,12 +113,12 @@ function ProfileInfo({ userProfile, isLoading }: Props) {
               </Button>
             </div>
           ) : (
-            <Button>Bạn bè</Button>
+            <CustomButtonFriend {...relationship} />
           )}
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default memo(observer(ProfileInfo));

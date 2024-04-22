@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import { Button } from "../ui/button";
 import { toast } from "react-toastify";
 import { Loader } from "lucide-react";
+import { observer } from "mobx-react";
 
 type CustomButtonFriendProps = {
   title: string;
@@ -20,13 +21,13 @@ const CustomButtonFriend = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const handleClick = async (e: MouseEvent) => {
     const button = e.target as HTMLButtonElement;
-    e.stopPropagation();
+    e.preventDefault();
     setIsLoading(true);
     try {
       await handleFn(id || "");
       setIsDisable(true);
       toast.success(message);
-    } catch (error: any) {
+    } catch (error) {
       console.log(error);
     } finally {
       setIsLoading(false);
@@ -48,4 +49,4 @@ const CustomButtonFriend = ({
   );
 };
 
-export default CustomButtonFriend;
+export default memo(observer(CustomButtonFriend));

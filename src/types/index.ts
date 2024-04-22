@@ -1,4 +1,9 @@
-import { string } from "zod";
+export type IRelationship = {
+  id: string;
+  receiver: IUser;
+  requestSender: IUser;
+  state: boolean;
+};
 
 export type IUser = {
   address: string;
@@ -15,6 +20,7 @@ export type IUser = {
   phoneNumber: string;
   role: string;
   username: string;
+  relationship: IRelationship;
 };
 
 export type IImage = {

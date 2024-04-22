@@ -28,6 +28,8 @@ const SuggestFriendPage = () => {
     setPaging: setPaging,
   });
 
+  console.log(suggestFriends);
+
   return (
     <div className="grid grid-cols-[1fr_3fr] mt-5">
       <SidebarFriendPage />
@@ -64,26 +66,30 @@ const SuggestFriendPage = () => {
                     key={friend.id}
                     className="flex items-center gap-5 p-3 bg-blue-2 rounded-xl"
                   >
-                    <Link to={`/profile/${friend.id}`}></Link>
-                    <div className="flex justify-between flex-1">
-                      <div className="flex items-center gap-3">
-                        <img
-                          src={friend.avatar || "/person.jpg"}
-                          alt="avatar"
-                          className="w-10 h-10 rounded-full object-cover"
-                        />
-                        <p className="font-medium">
-                          {friend.lastName} {friend.firstName}
-                        </p>
-                      </div>
+                    <Link
+                      to={`/profile/${friend?.id}`}
+                      className="cursor-pointer"
+                    >
+                      <div className="flex justify-between flex-1">
+                        <div className="flex items-center gap-3">
+                          <img
+                            src={friend.avatar || "/person.jpg"}
+                            alt="avatar"
+                            className="w-10 h-10 rounded-full object-cover"
+                          />
+                          <p className="font-medium">
+                            {friend.lastName} {friend.firstName}
+                          </p>
+                        </div>
 
-                      <CustomButtonFriend
-                        handleFn={addFriend}
-                        title="Thêm bạn bè"
-                        message="Đã gửi lời mời"
-                        id={friend.id}
-                      />
-                    </div>
+                        <CustomButtonFriend
+                          handleFn={addFriend}
+                          title="Thêm bạn bè"
+                          message="Đã gửi lời mời"
+                          id={friend.id}
+                        />
+                      </div>
+                    </Link>
                   </div>
                 ))
               )}
