@@ -25,9 +25,7 @@ const CustomButtonFriend = ({
     try {
       await handleFn(id || "");
       setIsDisable(true);
-      toast.success(message, {
-        position: "top-left",
-      });
+      toast.success(message);
     } catch (error: any) {
       console.log(error);
     } finally {

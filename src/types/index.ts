@@ -1,3 +1,5 @@
+import { string } from "zod";
+
 export type IUser = {
   address: string;
   avatar: string;
@@ -15,10 +17,14 @@ export type IUser = {
   username: string;
 };
 
+export type IImage = {
+  image: string;
+  description: string;
+};
 export type IPost = {
   id: string;
   comments: [];
-  images: [];
+  images: IImage[];
   createDate: Date;
   creator: IUser;
   content: string;

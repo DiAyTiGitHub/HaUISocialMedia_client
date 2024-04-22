@@ -24,6 +24,10 @@ export function pagingPendingFriendRequests(searchObject: any) {
   const url = API_PATH + "/friendRequest/pending";
   return _axios.post(url, searchObject);
 }
+export function pagingNewUser(searchObject: any) {
+  const url = API_PATH + "/suggesting-users";
+  return _axios.post(url, searchObject);
+}
 
 export function pagingFriendsOfUser({
   searchObject,

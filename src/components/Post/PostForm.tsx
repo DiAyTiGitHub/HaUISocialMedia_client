@@ -47,6 +47,8 @@ type PostFormProps = {
 };
 
 const PostForm = ({ children, post }: PostFormProps) => {
+  const images = post && post?.images.map((i) => i.image);
+  //console.log(images);
   const { postStore } = useStore();
   const { createPost, updatePost } = postStore;
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -60,36 +62,53 @@ const PostForm = ({ children, post }: PostFormProps) => {
   });
 
   async function handleSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
     try {
       setIsLoading(true);
+      let images = [];
+      let imgItem = {
+        image: "",
+        description: "",
+      };
 
-      let urls = [];
       let url;
+
+      console.log(values.file.length);
+      if (post) {
+        if (images.length + values.file.length > 6) {
+          toast.warning("Bạn đã đăng quá số ảnh cho phép");
+          return;
+        }
+      } else if (values.file.length > 6) {
+        toast.warning("Bạn đã đăng quá số ảnh cho phép");
+        return;
+      }
       for (let i = 0; i < values.file.length; i++) {
         if (values.file[i]) {
           url = await handleUploadImage(values.file[i]);
-          urls.push(url);
+          imgItem = { ...imgItem, image: url as string };
+          images.push(imgItem);
         }
       }
-      if (values.file.length === 0) url = post?.images;
+      //console.log(images);
+      if (post && values.file.length > 0) images = [...post.images, images];
 
       const newPost: CreatePostType = {
         content: values.content,
-        images: urls,
+        images: images,
       };
 
       if (post) {
         await updatePost({
           ...post,
           content: values.content,
-          images: url,
+          images: images,
         });
-        //window.location.reload();
+        toast.success("Đã cập nhật bài viết");
+        navigate(0);
       } else {
         await createPost(newPost);
         toast.success("Đã tạo bài viết");
-        // window.location.reload();
+        navigate(0);
       }
     } catch (error) {
       console.log("[Create_Post]", error);
@@ -140,7 +159,7 @@ const PostForm = ({ children, post }: PostFormProps) => {
                       <FormControl>
                         <FileUploader
                           fieldChange={field.onChange}
-                          mediaUrl={post?.images || []}
+                          mediaUrl={images || []}
                         />
                       </FormControl>
                       <FormMessage />

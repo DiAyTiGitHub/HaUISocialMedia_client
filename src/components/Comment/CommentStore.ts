@@ -3,7 +3,6 @@ import {
   getParentCommentOfPostRequest,
   getSubCommentsRequest,
 } from "@/services/CommentService";
-import { dislikeAPostRequest, likeAPostRequest } from "@/services/LikeService";
 
 import { makeAutoObservable } from "mobx";
 import { toast } from "react-toastify";

@@ -14,9 +14,9 @@ const SuggestFriendPage = () => {
     pageIndex: 1,
     pageSize: 20,
   });
-  const { userStore, relationshipStore } = useStore();
-  const { getSuggestFriend } = userStore;
-  const { addFriend } = relationshipStore;
+  const { relationshipStore } = useStore();
+
+  const { addFriend, getSuggestFriend } = relationshipStore;
   const {
     ref,
     res: suggestFriends,

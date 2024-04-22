@@ -9,6 +9,7 @@ import {
   unAcceptFriendRequest,
   unFriendRequest,
   pagingFriendsOfUser,
+  pagingNewUser,
 } from "@/services/RelationshipService";
 
 class RelationshipStore {
@@ -34,6 +35,15 @@ class RelationshipStore {
   getCurrentFriend = async (searchObject: any) => {
     try {
       const { data } = await pagingCurrentFriends(searchObject);
+
+      return data;
+    } catch (error) {
+      toast.error("Something went wrong :(");
+    }
+  };
+  getSuggestFriend = async (searchObject: any) => {
+    try {
+      const { data } = await pagingNewUser(searchObject);
 
       return data;
     } catch (error) {

@@ -439,11 +439,11 @@ body {
   }
 
   .file_uploader-label {
-    @apply text-light text-center small-regular w-full p-4 border-t border-t-dark;
+    @apply text-black text-center small-regular w-full p-4 border-t border-t-dark;
   }
 
   .file_uploader-box {
-    @apply flex-center flex-col p-7 h-80;
+    @apply flex-center flex-col p-7 h-64;
   }
 
   /* Grid Post List */

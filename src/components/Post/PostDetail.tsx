@@ -7,25 +7,17 @@ import { IComment, IPost } from "@/types";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
-const images = [
-  "https://images.unsplash.com/photo-1712992510624-3bb00e23fe76?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxN3x8fGVufDB8fHx8fA%3D%3D",
-  "https://plus.unsplash.com/premium_photo-1712171314766-4087f2e84711?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyNHx8fGVufDB8fHx8fA%3D%3D",
-  "https://plus.unsplash.com/premium_photo-1669997804140-ecc75729b583?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyOHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1712839398283-5b5bc134d9dc?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzNXx8fGVufDB8fHx8fA%3D%3D",
-];
-
 const PostDetail = () => {
   const { postStore, commentStore } = useStore();
   const { getPostById } = postStore;
   const { getParentCommentOfPost } = commentStore;
-
   const { postId } = useParams();
 
   const [isLoading, setIsLoading] = useState(false);
   const [postDetail, setPostDetail] = useState<IPost>();
   const [comments, setComments] = useState<IComment[]>([]);
   const [imageIndex, setImageIndex] = useState(0);
-
+  const images = (postDetail && postDetail?.images.map((i) => i.image)) || [];
   useEffect(() => {
     const getPost = async () => {
       setIsLoading(true);
@@ -58,6 +50,7 @@ const PostDetail = () => {
       }
     }
   };
+
   if (isLoading) return <span>Đang tải...</span>;
   if (!postDetail)
     return <p className="text-body-bold">Không tồn tại bài viết</p>;

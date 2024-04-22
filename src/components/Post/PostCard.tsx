@@ -4,7 +4,7 @@ import PostForm from "./PostForm";
 import PostStats from "./PostStats";
 import React, { useState } from "react";
 import Delete from "./Delete";
-import { IPost } from "@/types";
+import { IImage, IPost } from "@/types";
 
 import { multiFormatDateString } from "@/lib/utils";
 import LocalStorage from "@/services/LocalStorageService";
@@ -14,17 +14,12 @@ type PostProps = {
   post: IPost | any;
 };
 
-const images = [
-  "https://images.unsplash.com/photo-1712992510624-3bb00e23fe76?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxN3x8fGVufDB8fHx8fA%3D%3D",
-  "https://plus.unsplash.com/premium_photo-1712171314766-4087f2e84711?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyNHx8fGVufDB8fHx8fA%3D%3D",
-  "https://plus.unsplash.com/premium_photo-1669997804140-ecc75729b583?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyOHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1712839398283-5b5bc134d9dc?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzNXx8fGVufDB8fHx8fA%3D%3D",
-];
-
 const PortCard = ({ post }: PostProps) => {
   const [dropdown, setdropDowm] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const currentUser = LocalStorage.getLoggedInUser();
+  const images: string[] =
+    (post && post?.images.map((i: IImage) => i.image)) || [];
   const navigate = useNavigate();
   const { postStore } = useStore();
   const { deletePost } = postStore;
@@ -105,27 +100,84 @@ const PortCard = ({ post }: PostProps) => {
         <p>{post.content}</p>
       </div>
 
-      <div className="rounded-xl overflow-hidden my-2 gap-2 flex">
-        <div className="basis-2/3">
-          <img
-            src={images[0]}
-            alt="post-image"
-            className="post-card_img"
-            onClick={() => navigate(`/post/${post.id}`)}
-          />
-        </div>
-        <div className="flex flex-col justify-between basis-1/3 ">
-          {images.slice(1).map((image, index) => (
+      {/* {images && images.length > 0 && (
+        <div className="rounded-xl overflow-hidden my-2 gap-2 flex">
+          <div className="basis-2/3">
             <img
-              key={index}
-              src={image}
-              alt="post-iamge"
-              className="h-[150px] object-cover w-full rounded-[10px]"
+              src={images[0]}
+              alt="post-image"
+              className="post-card_img"
               onClick={() => navigate(`/post/${post.id}`)}
             />
-          ))}
+          </div>
+          {images.length > 1 && (
+            <div className="flex flex-col justify-start gap-3 basis-1/3">
+              {images.slice(1, 4).map(
+                (
+                  image,
+                  index // Chỉ hiển thị 4 ảnh còn lại
+                ) => (
+                  <img
+                    key={index}
+                    src={image}
+                    alt="post-image"
+                    className="h-[150px] object-cover w-full rounded-[10px]"
+                    onClick={() => navigate(`/post/${post.id}`)}
+                  />
+                )
+              )}
+              {images.length > 5 && (
+                <div className="h-[150px] w-full bg-gray-200 flex items-center justify-center text-gray-500 font-semibold rounded-[10px] cursor-pointer">
+                  +{images.length - 5} ảnh khác
+                </div>
+              )}
+            </div>
+          )}
         </div>
-      </div>
+      )} */}
+
+      {images && images.length > 0 && (
+        <div className="rounded-xl overflow-hidden my-2 gap-2 flex relative">
+          {" "}
+          {/* Đặt position: relative */}
+          <div className={`${images.length === 1 ? "flex-1" : "basis-2/3"}`}>
+            <img
+              src={images[0]}
+              alt="post-image"
+              className="post-card_img"
+              onClick={() => navigate(`/post/${post.id}`)}
+            />
+          </div>
+          {images.length > 1 && (
+            <div className="flex flex-col justify-start gap-3 basis-1/3">
+              {images.slice(1, 3).map((image, index) => (
+                <img
+                  key={index}
+                  src={image}
+                  alt="post-image"
+                  className="h-[150px] object-cover w-full rounded-[10px]"
+                  onClick={() => navigate(`/post/${post.id}`)}
+                />
+              ))}
+              {images.length >= 4 && (
+                <div className="h-[150px] w-full bg-gray-200 flex items-center justify-center text-gray-500 font-semibold rounded-[10px] cursor-pointer">
+                  <img
+                    src={images[3]}
+                    alt="post-image"
+                    className="h-[150px] object-cover w-full rounded-[10px]"
+                    onClick={() => navigate(`/post/${post.id}`)}
+                  />
+                </div>
+              )}
+              {images.length >= 5 && (
+                <div className="absolute bg-blue-2 bottom-10 right-1 bg-gray-200 text-gray-500 px-2 py-1 rounded-[10px] cursor-pointer">
+                  +{images.length - 4} ảnh khác
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
 
       <PostStats post={post} />
     </div>
