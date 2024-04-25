@@ -124,7 +124,7 @@ const PostForm = ({ children, post }: PostFormProps) => {
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="min-w-[1024px] overflow-y-auto ">
+      <DialogContent className="mt-10 min-w-[1024px] overflow-y-auto ">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSubmit)}

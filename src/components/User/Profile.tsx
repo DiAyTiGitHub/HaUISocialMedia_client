@@ -37,7 +37,6 @@ function Profile() {
     setPaging: setPaging,
     userId: profileId,
   });
-  console.log(posts);
 
   useEffect(() => {
     const getUser = async () => {
@@ -53,8 +52,6 @@ function Profile() {
     };
     getUser();
   }, []);
-
-  console.log(userProfile);
 
   return (
     <div className="max-w-[80%] mx-auto">
@@ -136,7 +133,7 @@ function Profile() {
               </div>
             </TabsContent>
             <TabsContent value="result" className="w-full">
-              <UserCourseResult />
+              <UserCourseResult userId={profileId as string} />
             </TabsContent>
           </Tabs>
         </div>

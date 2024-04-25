@@ -10,6 +10,8 @@ import CommentStore from "./components/Comment/CommentStore";
 import CourseStore from "./components/Course/CourseStore";
 import CourseResultStore from "./components/CourseResult/CourseResultStore";
 import ClassStore from "./components/Class/ClassStore";
+import UserCourseStore from "./components/UserCourse/UserCourseStore";
+import LeaderBoardStore from "./components/LeaderBoard/LeaderBoardStore";
 
 export const stores = {
   chatStore: new ChatStore(),
@@ -23,6 +25,8 @@ export const stores = {
   courseStore: new CourseStore(),
   courseResultStore: new CourseResultStore(),
   classStore: new ClassStore(),
+  userCourseStore: new UserCourseStore(),
+  leaderBoardStore: new LeaderBoardStore(),
 };
 
 export const StoreContext = createContext(stores);

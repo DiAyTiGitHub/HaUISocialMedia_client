@@ -1,5 +1,5 @@
 import { Button } from "../ui/button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import UpdateResult from "../CourseResult/UpdateResult";
 import ProfileInfoSkeletion from "../skeleton/ProfileInfoSkeletion";
 import LocalStorage from "@/services/LocalStorageService";
@@ -18,6 +18,8 @@ type RelationshipType = {
   id: string;
 };
 function ProfileInfo({ userProfile, isLoading }: Props) {
+  const { profileId } = useParams();
+  console.log(userProfile);
   const [relationship, setRelationship] = useState<RelationshipType>({
     title: "",
     handleFn: () => {},
@@ -30,23 +32,23 @@ function ProfileInfo({ userProfile, isLoading }: Props) {
   const currentUser = LocalStorage.getLoggedInUser();
 
   const handleCheckFriend = () => {
-    if (userProfile?.relationship) {
-      if (userProfile.relationship.state) {
+    if (userProfile?.relationshipDto) {
+      if (userProfile.relationshipDto.state) {
         setRelationship((prev) => ({
           ...prev,
           title: "Bạn bè",
           message: "Đã huỷ kết bạn",
           handleFn: unFriend,
-          id: userProfile.relationship.id,
+          id: userProfile.relationshipDto.id,
         }));
       } else {
-        if (userProfile.relationship.requestSender.id === currentUser?.id) {
+        if (userProfile.relationshipDto.requestSender.id === currentUser?.id) {
           setRelationship((prev) => ({
             ...prev,
             title: "Đã gửi lời mời",
             message: "Thêm bạn bè",
             handleFn: () => {},
-            id: userProfile.relationship.id,
+            id: userProfile.relationshipDto.id,
           }));
         } else {
           setRelationship((prev) => ({
@@ -54,7 +56,7 @@ function ProfileInfo({ userProfile, isLoading }: Props) {
             title: "Chấp nhận",
             message: "Bạn bè",
             handleFn: acceptFriend,
-            id: userProfile.relationship.id,
+            id: userProfile.relationshipDto.id,
           }));
         }
       }
@@ -71,7 +73,7 @@ function ProfileInfo({ userProfile, isLoading }: Props) {
 
   useEffect(() => {
     handleCheckFriend();
-  }, [userProfile]);
+  }, [userProfile, profileId]);
 
   if (isLoading) return <ProfileInfoSkeletion />;
   return (

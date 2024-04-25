@@ -4,6 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Filter } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import TableSkeleton from "@/components/skeleton/TableSkeleton";
+import { useStore } from "@/stores";
+import { useGetDataObjectPagination, useGetDataPagination } from "@/lib";
+import Pagination from "./Pagination";
 
 const dataLeaderBoard = [
   {
@@ -67,7 +70,12 @@ const dataLeaderBoard = [
 const ItemTable = ({ data, stt }: { data: any; stt: number }) => {
   const navigate = useNavigate();
   return (
-    <tr onClick={() => navigate("/")}>
+    <tr
+      onClick={() => {
+        navigate(`/profile/${data.user.id}`);
+        window.location.href = `/profile/${data.user.id}`;
+      }}
+    >
       <td className={`px-3 py-2 text-sm text-center `}>
         <span>{stt}</span>
       </td>
@@ -77,33 +85,30 @@ const ItemTable = ({ data, stt }: { data: any; stt: number }) => {
           <div className="relative hidden w-8 h-8 mr-3 rounded-full md:block">
             <img
               className="object-cover w-full h-full rounded-full"
-              src={
-                data.avatar ||
-                "https://images.unsplash.com/photo-1712924312776-e935a60b8b98?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzNHx8fGVufDB8fHx8fA%3D%3D"
-              }
+              src={data?.user?.avatar || "/person.jpg"}
               alt="image"
             />
           </div>
         </div>
       </td>
 
-      <td className="px-4 py-3 text-sm text-center">{data.code}</td>
-      <td className="px-4 py-3 text-sm text-center">{data.lastName}</td>
-      <td className="px-4 py-3 text-sm text-center">{data.firstName}</td>
+      <td className="px-4 py-3 text-sm text-center">{data?.user?.code}</td>
+      <td className="px-4 py-3 text-sm text-center">{data?.user?.lastName}</td>
+      <td className="px-4 py-3 text-sm text-center">{data.user.firstName}</td>
 
       <td className="px-4 py-3 text-sm text-center">
         <p className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full">
-          {data.username}
+          {data.user.username}
         </p>
       </td>
 
-      <td className="px-4 py-3 text-sm text-center">{data.totalB}</td>
-      <td className="px-4 py-3 text-sm text-center">{data.totalB}</td>
-      <td className="px-4 py-3 text-sm text-center">{data.totalB}</td>
-      <td className="px-4 py-3 text-sm text-center">{data.totalB}</td>
-      <td className="px-4 py-3 text-sm text-center">{data.totalB}</td>
-      <td className="px-4 py-3 text-sm text-center">{data.totalB}</td>
-      <td className="px-4 py-3 text-sm text-center">{data.totalB}</td>
+      <td className="px-4 py-3 text-sm text-center">{data.numsOfA}</td>
+      <td className="px-4 py-3 text-sm text-center">{data.numsOfBPlus}</td>
+      <td className="px-4 py-3 text-sm text-center">{data.numsOfB}</td>
+      <td className="px-4 py-3 text-sm text-center">{data.numsOfCPlus}</td>
+      <td className="px-4 py-3 text-sm text-center">{data.numsOfC}</td>
+      <td className="px-4 py-3 text-sm text-center">{data.numsOfDPlus}</td>
+      <td className="px-4 py-3 text-sm text-center">{data.numsOfD}</td>
     </tr>
   );
 };
@@ -113,15 +118,27 @@ type PagingType = {
   pageIndex: number;
 };
 const LeaderBoard = () => {
+  const { leaderBoardStore } = useStore();
+  const { getLeadingDashBoard } = leaderBoardStore;
+
   const [paging, setPaging] = useState<PagingType>({
     pageSize: 20,
-    pageIndex: 0,
+    pageIndex: 1,
   });
 
-  const [isLoading, setIsLoading] = useState(true);
+  const {
+    res: leaderBoardData,
+    isLoading,
+    isLeftDisable,
+    isRightDisable,
+  } = useGetDataObjectPagination({
+    getRequest: getLeadingDashBoard,
+    paging: paging,
+  });
 
+  console.log(leaderBoardData);
   const handleSTT = (index: number) => {
-    return paging.pageSize * paging.pageIndex + index + 1;
+    return paging.pageSize * (paging.pageIndex - 1) + index + 1;
   };
 
   return (
@@ -144,39 +161,51 @@ const LeaderBoard = () => {
         <div className="w-full overflow-x-auto ">
           {isLoading && <TableSkeleton length={5} styles="" />}
           {!isLoading && (
-            <table className="w-full whitespace-nowrap">
-              <thead>
-                <tr className="text-xs tracking-wide font-bold text-left text-gray-500 uppercase border-b ">
-                  <td className="px-4 py-3 text-center">STT</td>
-                  <td className="px-4 py-3 text-center">Ảnh</td>
-                  <td className="px-4 py-3 text-center">Mã SV</td>
-                  <td className="px-4 py-3 text-center">Họ</td>
-                  <td className="px-4 py-3 text-center">Tên</td>
-                  <td className="px-4 py-3 text-center">Tên người dùng</td>
-                  <td className="px-4 py-3 text-center">A</td>
-                  <td className="px-4 py-3 text-center">B+</td>
-                  <td className="px-4 py-3 text-center">B</td>
-                  <td className="px-4 py-3 text-center">C+</td>
-                  <td className="px-4 py-3 text-center">C</td>
-                  <td className="px-4 py-3 text-center">D+</td>
-                  <td className="px-4 py-3 text-center">D</td>
-                </tr>
-              </thead>
+            <>
+              <table className="w-full whitespace-nowrap">
+                <thead>
+                  <tr className="text-xs tracking-wide font-bold text-left text-gray-500 uppercase border-b ">
+                    <td className="px-4 py-3 text-center">STT</td>
+                    <td className="px-4 py-3 text-center">Ảnh</td>
+                    <td className="px-4 py-3 text-center">Mã SV</td>
+                    <td className="px-4 py-3 text-center">Họ</td>
+                    <td className="px-4 py-3 text-center">Tên</td>
+                    <td className="px-4 py-3 text-center">Tên người dùng</td>
+                    <td className="px-4 py-3 text-center">A</td>
+                    <td className="px-4 py-3 text-center">B+</td>
+                    <td className="px-4 py-3 text-center">B</td>
+                    <td className="px-4 py-3 text-center">C+</td>
+                    <td className="px-4 py-3 text-center">C</td>
+                    <td className="px-4 py-3 text-center">D+</td>
+                    <td className="px-4 py-3 text-center">D</td>
+                  </tr>
+                </thead>
 
-              <tbody className="bg-white divide-y ">
-                {dataLeaderBoard.map((data: any, index: number) => (
-                  <ItemTable key={data.id} data={data} stt={handleSTT(index)} />
-                ))}
-              </tbody>
-            </table>
+                <tbody className="bg-white divide-y ">
+                  {leaderBoardData?.data?.map((data: any, index: number) => (
+                    <ItemTable
+                      key={data.id}
+                      data={data}
+                      stt={handleSTT(index)}
+                    />
+                  ))}
+                </tbody>
+              </table>
+              {leaderBoardData?.data?.length === 0 && (
+                <span className="flex justify-center mt-5">
+                  Chưa có dữ liệu
+                </span>
+              )}
+            </>
           )}
         </div>
       </div>
 
-      <div className="mt-5 flex justify-center flex-wrap gap-5">
-        <Button>Trước</Button>
-        <Button>Sau</Button>
-      </div>
+      <Pagination
+        isLeftDisable={isLeftDisable}
+        isRightDisable={isRightDisable}
+        setPaging={setPaging}
+      />
     </div>
   );
 };

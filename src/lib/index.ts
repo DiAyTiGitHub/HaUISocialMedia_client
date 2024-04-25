@@ -91,8 +91,9 @@ const useGetDataByUserId = ({
 
 type GetAllDataProps = {
   getRequest: any;
+  userId?: string;
 };
-const useGetAllData = ({ getRequest }: GetAllDataProps) => {
+const useGetAllData = ({ getRequest, userId }: GetAllDataProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [isError, setIdError] = useState<any>();
@@ -100,8 +101,13 @@ const useGetAllData = ({ getRequest }: GetAllDataProps) => {
   const [res, setRes] = useState<any[]>([]);
   const handleGetData = async () => {
     setIsLoading(true);
+    let data;
     try {
-      const data = await getRequest();
+      if (userId) {
+        data = await getRequest(userId);
+      } else {
+        data = await getRequest();
+      }
 
       setRes(data);
     } catch (error) {
@@ -132,8 +138,10 @@ const useGetDataPagination = ({ getRequest, paging }: GetDataPagingType) => {
   const [res, setRes] = useState<any[]>([]);
   const handleGetData = async (paging: any) => {
     setIsLoading(true);
-    if (paging?.pageIndex === 1) setIsLeftDisable(true);
-    else {
+    if (paging?.pageIndex === 1) {
+      setIsLeftDisable(true);
+      setIsRightDisable(false);
+    } else {
       setIsLeftDisable(false);
     }
     try {
@@ -163,6 +171,66 @@ const useGetDataPagination = ({ getRequest, paging }: GetDataPagingType) => {
   return { res, isLoading, isLeftDisable, isRightDisable, isError };
 };
 
-export { useGetDataByUserId, useGetAllData, useGetDataPagination };
+type GetDataObjectPagingType = {
+  getRequest: any;
+  paging: any;
+};
+const useGetDataObjectPagination = ({
+  getRequest,
+  paging,
+}: GetDataObjectPagingType) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLeftDisable, setIsLeftDisable] = useState<boolean>(false);
+  const [isRightDisable, setIsRightDisable] = useState<boolean>(false);
+  const [isError, setIdError] = useState<any>();
+
+  const [res, setRes] = useState<any>({});
+  const handleGetData = async (paging: any) => {
+    setIsLoading(true);
+    if (paging?.pageIndex === 1) {
+      setIsLeftDisable(true);
+      setIsRightDisable(false);
+    } else {
+      setIsLeftDisable(false);
+    }
+    try {
+      const data = await getRequest(paging);
+      if (data.data && data.data.length > 0) {
+        setRes({ ...data });
+        if (data.data.length < paging.pageSize) setIsRightDisable(true);
+        else setIsRightDisable(false);
+      }
+      if (!data || data.data.length < paging.pageSize || data.data.length === 0)
+        setIsRightDisable(true);
+    } catch (error) {
+      setIsRightDisable(true);
+      console.log(error);
+      setIdError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (paging) {
+      handleGetData(paging);
+    }
+  }, [paging]);
+
+  return {
+    res,
+    isLoading,
+    isLeftDisable,
+    isRightDisable,
+    isError,
+  };
+};
+
+export {
+  useGetDataByUserId,
+  useGetAllData,
+  useGetDataPagination,
+  useGetDataObjectPagination,
+};
 
 export default useGetData;
