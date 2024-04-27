@@ -30,7 +30,7 @@ const UserCourseResult = ({ userId }: Props) => {
   const { getAllCourseAdminAllow } = userCourseStore;
   const { res: userCourseData, isLoading } = useGetAllData({
     getRequest: getAllCourseAdminAllow,
-    userId: userId,
+    requestId: userId,
   });
   return (
     <div className="bg-white rounded-lg shadow-sm max-screen overflow-y-auto p-5">

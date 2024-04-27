@@ -1,3 +1,5 @@
+import LocalStorageService from "@/services/LocalStorageService";
+import { useStore } from "@/stores";
 import { set } from "date-fns";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
@@ -32,6 +34,7 @@ const useGetData = ({ getRequest, paging, setPaging }: Props) => {
     } catch (error) {
       console.log(error);
       setIdError(error);
+      setShowLoadMore(false);
     } finally {
       setIsLoading(false);
     }
@@ -91,9 +94,9 @@ const useGetDataByUserId = ({
 
 type GetAllDataProps = {
   getRequest: any;
-  userId?: string;
+  requestId?: string;
 };
-const useGetAllData = ({ getRequest, userId }: GetAllDataProps) => {
+const useGetAllData = ({ getRequest, requestId }: GetAllDataProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [isError, setIdError] = useState<any>();
@@ -103,8 +106,8 @@ const useGetAllData = ({ getRequest, userId }: GetAllDataProps) => {
     setIsLoading(true);
     let data;
     try {
-      if (userId) {
-        data = await getRequest(userId);
+      if (requestId) {
+        data = await getRequest(requestId);
       } else {
         data = await getRequest();
       }
@@ -224,6 +227,19 @@ const useGetDataObjectPagination = ({
     isRightDisable,
     isError,
   };
+};
+
+export const useCheckUserSendRequestJoinGroup = (groupId: any) => {
+  const currentUser = LocalStorageService.getLoggedInUser();
+  const { groupStore } = useStore();
+  const { getAllWait } = groupStore;
+  const { res: data } = useGetAllData({
+    getRequest: getAllWait,
+    requestId: groupId,
+  });
+  const user = data?.find((user) => user?.id === currentUser?.id);
+  if (user) return true;
+  else return false;
 };
 
 export {

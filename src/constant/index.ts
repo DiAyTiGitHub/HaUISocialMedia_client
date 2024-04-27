@@ -12,8 +12,8 @@ export const navbarLink = [
 
   {
     label: "Nhóm",
-    route: "/posts",
-    icon: "/posts.svg",
+    route: "/group",
+    icon: "/group.svg",
   },
 ];
 export const sidebarLink = [
@@ -24,9 +24,9 @@ export const sidebarLink = [
   },
 
   {
-    label: "Bài viết",
-    route: "/posts",
-    icon: "/posts.svg",
+    label: "Nhóm",
+    route: "/group",
+    icon: "/group.svg",
   },
   {
     label: "Sự kiện",
@@ -93,5 +93,23 @@ export const sidebarAdmin = [
     label: "Quản lý kết quả học tập",
     route: "/admin/course-results",
     icon: "/suggestFriend.svg",
+  },
+];
+
+export const groupMenu = [
+  {
+    label: "Bảng feed của bạn",
+    route: "/group/feed",
+    icon: "/feed.svg",
+  },
+  {
+    label: "Khám phá",
+    route: "/group/discover",
+    icon: "/discover.svg",
+  },
+  {
+    label: "Nhóm của bạn",
+    route: "/group/my-group",
+    icon: "/add-friend.svg",
   },
 ];

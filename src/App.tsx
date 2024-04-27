@@ -21,6 +21,13 @@ import AdminPostPage from "./components/Post/AdminPostPage";
 import AdminCourseResult from "./components/CourseResult/AdminCourseResult";
 import AdminUserPage from "./components/User/AdminUserPage";
 import AdminClassPage from "./components/Class/AdminClassPage";
+import CreateGroup from "./components/Group/CreateGroup";
+import DiscoverGroup from "./components/Group/DiscoverGroup";
+import MyGroup from "./components/Group/MyGroup";
+import PostOfGroup from "./components/Group/PostOfGroup";
+import GroupLayout from "./components/Group/GroupLayout";
+import GroupDetail from "./components/Group/GroupDetail";
+import GroupJoined from "./components/Group/GroupJoined";
 
 const App = () => {
   return (
@@ -43,6 +50,16 @@ const App = () => {
             <Route path="/leaderboard" element={<LeaderBoard />} />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/messenger-v2" element={<ChatV2Index />} />
+
+            {/* Group Route */}
+            <Route path="/group" element={<GroupLayout />}>
+              <Route path="/group/create" element={<CreateGroup />} />
+              <Route path="/group/discover" element={<DiscoverGroup />} />
+              <Route path="/group/my-group" element={<MyGroup />} />
+              <Route path="/group/feed" element={<PostOfGroup />} />
+              <Route path="/group/joined" element={<GroupJoined />} />
+              <Route path="/group/:groupId" element={<GroupDetail />} />
+            </Route>
           </Route>
 
           {/* Admin Route */}

@@ -5,6 +5,7 @@ import imageDb from "@/config/firepage";
 import { getDownloadURL, uploadBytes } from "firebase/storage";
 import { ref as storageRef } from "firebase/storage";
 import { v4 } from "uuid";
+import LocalStorageService from "@/services/LocalStorageService";
 
 export const handleUploadImage = (image: File) => {
   return new Promise((resolve, reject) => {
@@ -85,4 +86,31 @@ export const multiFormatDateString = (timestamp: string = ""): string => {
     default:
       return "Vừa xong";
   }
+};
+
+export const handleCheckUserIsAdmin = (groupData: any) => {
+  const currentUser = LocalStorageService.getLoggedInUser();
+  let isAdmin = false;
+  if (groupData && groupData.user) {
+    const checkUserIsAdmin = groupData?.userJoins?.find(
+      (menber: any) =>
+        menber?.user?.id === currentUser?.id && menber.role === "ADMIN"
+    );
+    if (checkUserIsAdmin) isAdmin = true;
+    else isAdmin = false;
+  }
+
+  return isAdmin;
+};
+export const handleCheckUserJoinedGroup = (groupData: any) => {
+  const currentUser = LocalStorageService.getLoggedInUser();
+  let isAdmin = false;
+  if (groupData && groupData.user) {
+    const checkUserIsAdmin = groupData?.userJoins?.find(
+      (menber: any) => menber?.user?.id === currentUser?.id && menber.approved
+    );
+    if (checkUserIsAdmin) isAdmin = true;
+    else isAdmin = false;
+  }
+  return isAdmin;
 };

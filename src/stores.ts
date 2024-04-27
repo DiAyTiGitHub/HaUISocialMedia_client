@@ -12,6 +12,7 @@ import CourseResultStore from "./components/CourseResult/CourseResultStore";
 import ClassStore from "./components/Class/ClassStore";
 import UserCourseStore from "./components/UserCourse/UserCourseStore";
 import LeaderBoardStore from "./components/LeaderBoard/LeaderBoardStore";
+import GroupStore from "./components/Group/GroupStore";
 
 export const stores = {
   chatStore: new ChatStore(),
@@ -27,6 +28,7 @@ export const stores = {
   classStore: new ClassStore(),
   userCourseStore: new UserCourseStore(),
   leaderBoardStore: new LeaderBoardStore(),
+  groupStore: new GroupStore(),
 };
 
 export const StoreContext = createContext(stores);

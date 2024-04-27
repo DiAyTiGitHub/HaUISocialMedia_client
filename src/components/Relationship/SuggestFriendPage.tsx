@@ -62,35 +62,31 @@ const SuggestFriendPage = () => {
                 <span>Không có bạn bè gợi ý</span>
               ) : (
                 suggestFriends.map((friend: IUser) => (
-                  <div
-                    key={friend.id}
-                    className="flex items-center gap-5 p-3 bg-blue-2 rounded-xl"
+                  <Link
+                    key={friend?.id}
+                    to={`/profile/${friend?.id}`}
+                    className="cursor-pointer flex items-center gap-5 p-3 bg-blue-2 rounded-xl w-full"
                   >
-                    <Link
-                      to={`/profile/${friend?.id}`}
-                      className="cursor-pointer"
-                    >
-                      <div className="flex justify-between flex-1">
-                        <div className="flex items-center gap-3">
-                          <img
-                            src={friend.avatar || "/person.jpg"}
-                            alt="avatar"
-                            className="w-10 h-10 rounded-full object-cover"
-                          />
-                          <p className="font-medium">
-                            {friend.lastName} {friend.firstName}
-                          </p>
-                        </div>
-
-                        <CustomButtonFriend
-                          handleFn={addFriend}
-                          title="Thêm bạn bè"
-                          message="Đã gửi lời mời"
-                          id={friend.id}
+                    <div className="flex justify-between flex-1 ">
+                      <div className="flex items-center gap-3">
+                        <img
+                          src={friend.avatar || "/person.jpg"}
+                          alt="avatar"
+                          className="w-10 h-10 rounded-full object-cover"
                         />
+                        <p className="font-medium">
+                          {friend.lastName} {friend.firstName}
+                        </p>
                       </div>
-                    </Link>
-                  </div>
+
+                      <CustomButtonFriend
+                        handleFn={addFriend}
+                        title="Thêm bạn bè"
+                        message="Đã gửi lời mời"
+                        id={friend.id}
+                      />
+                    </div>
+                  </Link>
                 ))
               )}
             </div>
