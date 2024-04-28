@@ -50,6 +50,9 @@ class SocketService {
     }
 
     onReceivedNotification = (notification: any) => {
+        const currentLocation = window.location.href;
+        if (currentLocation.includes("messenger-v2")) return;
+
         const data = JSON.parse(notification?.body);
         console.log("notification: ", data);
         toast.info(data?.content);

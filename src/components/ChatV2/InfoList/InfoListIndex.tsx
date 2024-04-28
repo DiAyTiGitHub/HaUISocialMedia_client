@@ -35,7 +35,7 @@ function InfoList() {
             for (let i = 0; i < chosenRoom.participants.length; i++) {
                 const participant = chosenRoom.participants[i];
                 if (participant.id !== currentUser.id) {
-                    return "Conversation with " + participant.username;
+                    return "Cuộc trò chuyện với " + participant.username;
                 }
             }
             return "No name conversation";
@@ -103,14 +103,14 @@ function InfoList() {
     return (
         <>
             <div className="info-list d-lg-flex">
-                <Toolbar title="Info"></Toolbar>
+                <Toolbar title=""></Toolbar>
                 {isLoading ? (
                     <InfoListLoadingSkeleton />
                 ) : (
                     <>
                         {!chosenRoom && (
                             <div className="no-info">
-                                <p>No conversation chosen</p>
+                                <p>Chưa chọn cuộc trò chuyện nào</p>
                             </div>
                         )}
 

@@ -37,7 +37,7 @@ function ConversationSearch() {
       <input
         type="text"
         className="conversation-search-input"
-        placeholder="Search Messages"
+        placeholder="Tìm kiếm cuộc trò chuyện..."
         value={searchKeyword}
         onChange={handleChange}
         onKeyDown={handleOnKeyDown}

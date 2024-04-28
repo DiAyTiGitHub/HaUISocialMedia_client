@@ -54,10 +54,10 @@ class ChatStore {
 
     } catch (err: any) {
       if (err?.response?.status === 401)
-        toast.error("You don't have permission to access this conversation anymore :(");
+        toast.error("Bạn không còn quyền truy cập vào cuộc hội thoại này");
       else {
         console.log(err);
-        toast.error("Error occured when sending message, please try again :(");
+        toast.error("Có lỗi xảy ra khi gửi tin nhắn, vui lòng thử lại sau");
       }
       throw new Error(err);
     }
@@ -77,7 +77,7 @@ class ChatStore {
     const payloadData = JSON.parse(payload.body);
     const roomId = payloadData?.room?.id;
     if (!roomId) {
-      toast.error("Received message errors!");
+      toast.error("Tin nhắn nhận được không hợp lệ!");
       return;
     }
 
@@ -117,7 +117,7 @@ class ChatStore {
 
   onError = (err: any) => {
     console.log(err);
-    toast.error("Connect to chat server error, please try again!");
+    toast.error("Không kết nối được với hệ thống tin nhắn!");
   };
 
   chosenRoom: any = null;
@@ -138,7 +138,7 @@ class ChatStore {
 
     } catch (error) {
       console.log(error);
-      toast.error("Load conversation fail, please try again!");
+      toast.error("Tải thông tin cuộc các cuộc trò chuyện có lỗi, vui lòng thử lại sau");
     }
   };
 
@@ -151,13 +151,13 @@ class ChatStore {
       this.joinedRooms = data;
     } catch (err: any) {
       console.log(err);
-      toast.error("Find conversation errors :( Please try again!");
+      toast.error("Tìm kiếm cuộc trò chuyện có lỗi, vui lòng thử lại sau");
       throw new Error(err);
     }
   };
 
   createGroupChat = async (room: any) => {
-    toast.info("Please wait, we're handling your request!");
+    toast.info("Vui lòng đợi! Yêu cầu đang được xử lí");
     try {
       this.setIsLoading(true);
       const { data } = await createGroupChat(room);
@@ -168,7 +168,7 @@ class ChatStore {
       return data;
     } catch (err: any) {
       console.log(err);
-      toast.error("Create new group chat fail, please try again!");
+      toast.error("Có lỗi xảy ra khi tạo cuộc trò chuyện mới! Vui lòng thử lại sau");
       throw new Error(err);
     }
   }

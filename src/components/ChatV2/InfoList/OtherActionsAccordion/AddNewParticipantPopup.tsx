@@ -28,11 +28,11 @@ function AddNewParticipantPopup(props: any) {
 
     async function handleConfirmLeave() {
         setIsUpdating(true);
-        toast.info("Please await! We're handling your requirement");
+        toast.info("Vui lòng đợi! Yêu cầu đang được xử lí");
 
         await addMultipleUsersIntoGroupChat(joinUserIds);
 
-        toast.success("Your conversation have new users!");
+        toast.success("Cuộc trò chuyện đã có người tham gia mới!");
         setIsUpdating(false);
         handleClose();
     }
@@ -51,7 +51,7 @@ function AddNewParticipantPopup(props: any) {
                     <Form autoComplete='off'>
                         <Box className='modal-container p-0 m-0' sx={{ border: 0, borderRadius: "10px" }}>
                             <div className="modalContainer flex-center justify-between appHeader" style={{ borderRadius: "10px 10px 0 0" }}>
-                                <Typography className="p-3" variant='h5' sx={{ fontWeight: 800, color: "#fff" }}>Add new participants</Typography>
+                                <Typography className="p-3" variant='h5' sx={{ fontWeight: 800, color: "#fff" }}>Thêm người tham gia</Typography>
                                 <Button
                                     className="btnClose m-0 p-2 br-50p mw-unset"
                                     sx={{ color: "#fff" }}
@@ -72,7 +72,9 @@ function AddNewParticipantPopup(props: any) {
                                     <List dense sx={{ width: '100%' }}>
                                         {(!notJoinedFriends || notJoinedFriends.length <= 0) && (
                                             <div className="flex-center w-100">
-                                                <p className="p-0 m-0 w-100 text-center">All your friends have joined this conversation! Let's get more friends</p>
+                                                <p className="p-0 m-0 w-100 text-center">
+                                                    Tất cả bạn của bạn đã ở trong cuộc trò chuyện này rồi! Hãy tìm thêm bạn nào!
+                                                </p>
                                             </div>
                                         )}
 
@@ -105,7 +107,7 @@ function AddNewParticipantPopup(props: any) {
                                     <ClearIcon
                                         className=""
                                     />
-                                    Cancel
+                                    Hủy bỏ
                                 </Button>
 
                                 <Button
@@ -118,7 +120,7 @@ function AddNewParticipantPopup(props: any) {
                                     <GroupAddIcon
                                         className="mr-2"
                                     />
-                                    Add new participants
+                                    Thêm người tham gia
                                 </Button>
                             </div>
                         </Box>

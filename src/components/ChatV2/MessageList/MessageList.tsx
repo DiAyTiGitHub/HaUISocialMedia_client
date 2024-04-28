@@ -2,7 +2,6 @@ import { useEffect, memo, useRef } from 'react';
 import Compose from './Compose/Compose';
 import Toolbar from '../Toolbar/Toolbar';
 import Message from './Message/Message';
-import LocalStorage from '@/services/LocalStorageService';
 import './MessageList.css';
 import { observer } from 'mobx-react';
 import { useStore } from '@/stores';
@@ -35,6 +34,7 @@ function MessageList(props: any) {
     while (i < messageCount) {
       let previous = messages[i - 1];
       let current = messages[i];
+      console.log("current", current);
       let next = messages[i + 1];
       let prevType = previous && previous?.messageType?.name;
       let type = current?.messageType?.name;
@@ -46,7 +46,7 @@ function MessageList(props: any) {
       let startsSequence = true;
       let endsSequence = false;
       let photo = !isMine && current?.user?.avatar != null
-        ? current.user.avatar : 'https://www.treasury.gov.ph/wp-content/uploads/2022/01/male-placeholder-image.jpeg';
+        ? current?.user?.avatar : 'https://www.treasury.gov.ph/wp-content/uploads/2022/01/male-placeholder-image.jpeg';
       let sendDate = current?.sendDate;
       if (previous && prevUser === currUser) {
         startsSequence = false
@@ -81,7 +81,7 @@ function MessageList(props: any) {
 
   return (
     <div className="message-list">
-      <Toolbar title="Conversation Title" />
+      <Toolbar title="" />
 
       <div className="message-list-container" id="messageListContainer" ref={ref}>
         {isLoading ? (

@@ -38,25 +38,25 @@ function CustomizeChatIndex(props: any) {
                     style={{ minHeight: "0" }}
                 >
                     <Typography>
-                        Customzie Chat
+                        Tùy chỉnh
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails className="m-1 p-0">
                     <div className='list-item w-100' onClick={() => { setOpenChangeName(true) }}>
                         <BorderColorIcon className='mr-2' />
-                        Change conversation name
+                        Tên cuộc trò chuyện
                     </div>
                     <div className='list-item w-100' onClick={() => { setOpenChangeTheme(true) }}>
                         <TripOriginIcon className='mr-2' style={{ color: "#1A8BDF" }} />
-                        Change conversation theme
+                        Chủ đề cuộc trò chuyện
                     </div>
                     <div className='list-item w-100' onClick={() => { setOpenChangeAvatar(true) }}>
                         <PhotoIcon className='mr-2' />
-                        Change conversation photo
+                        Ảnh cuộc trò chuyện
                     </div>
                     <div className='list-item w-100' onClick={() => { setOpenChangeDescription(true) }}>
                         <FormatQuoteIcon className='mr-2' />
-                        Change conversation description
+                        Ghi chú
                     </div>
                 </AccordionDetails>
             </Accordion>
@@ -88,14 +88,14 @@ function CustomizeChatIndex(props: any) {
                 />
             )}
             {
-            openChangeDescription && (
-                <ChangeConversationDescriptionPopup
-                    open={openChangeDescription}
-                    handleClose={() => {
-                        setOpenChangeDescription(false);
-                    }}
-                />
-            )
+                openChangeDescription && (
+                    <ChangeConversationDescriptionPopup
+                        open={openChangeDescription}
+                        handleClose={() => {
+                            setOpenChangeDescription(false);
+                        }}
+                    />
+                )
             }
         </>
     );

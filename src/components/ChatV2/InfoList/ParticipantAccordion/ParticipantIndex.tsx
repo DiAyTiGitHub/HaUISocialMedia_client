@@ -30,7 +30,7 @@ function ParticipantIndex(props: any) {
                 id="panel1a-header"
                 style={{minHeight: "0"}}
             >
-                <Typography>Participants</Typography>
+                <Typography>Người tham gia</Typography>
             </AccordionSummary>
             <AccordionDetails className="m-0 p-0">
                 {

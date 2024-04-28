@@ -16,7 +16,7 @@ function ConversationList() {
   } = chatStore;
   return (
     <div>
-      <Toolbar title="Chat">
+      <Toolbar title="">
         <ConversationSearch />
       </Toolbar>
       <div className="conversation-list flex-column">
