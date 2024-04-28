@@ -4,10 +4,7 @@
   align-items: center;
   background: white;
   border-top: 1px solid #eeeef1;
-  position: fixed;
-  bottom: 0px;
-  width: calc(100% - 700px);
-
+  width: 100%;
 }
 
 @supports (backdrop-filter: blur(20px)) {

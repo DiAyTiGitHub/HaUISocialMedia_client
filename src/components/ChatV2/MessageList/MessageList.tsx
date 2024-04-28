@@ -83,7 +83,7 @@ function MessageList(props: any) {
     <div className="message-list">
       <Toolbar title="" />
 
-      <div className="message-list-container" id="messageListContainer" ref={ref}>
+      <div className="message-list-container flex-1" id="messageListContainer" ref={ref}>
         {isLoading ? (
           <MessageListLoadingSkeleton />
         ) : (
