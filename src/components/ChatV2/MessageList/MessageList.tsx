@@ -21,8 +21,8 @@ function MessageList(props: any) {
   const MY_USER_ID = getLoggedInUser()?.username;
 
   const scrollToBottom = () => {
-    if (ref.current) {
-      ref.current.scrollTop = ref.current.scrollHeight;
+    if (ref?.current) {
+      ref.current.scrollTop = ref?.current?.scrollHeight;
       // console.log(ref.current.scrollHeight)
     }
   };
@@ -30,24 +30,24 @@ function MessageList(props: any) {
   const renderMessages = () => {
     const messages = chosenRoom?.messages || [];
     let i = 0;
-    let messageCount = messages.length;
+    let messageCount = messages?.length;
     let tempArray = [];
     while (i < messageCount) {
       let previous = messages[i - 1];
       let current = messages[i];
       let next = messages[i + 1];
-      let prevType = previous && previous.messageType.name;
-      let type = current.messageType.name;
-      let nextType = next && next.messageType.name;
-      let prevUser = previous && prevType == "chat" ? previous.user.username : null;
-      let currUser = type == "chat" ? current.user.username : null;
-      let nextUser = next && nextType == "chat" ? next.user.username : null;
-      let isMine = current.user.username === MY_USER_ID;
+      let prevType = previous && previous?.messageType?.name;
+      let type = current?.messageType?.name;
+      let nextType = next && next?.messageType?.name;
+      let prevUser = previous && prevType == "chat" ? previous?.user?.username : null;
+      let currUser = type == "chat" ? current?.user?.username : null;
+      let nextUser = next && nextType == "chat" ? next?.user?.username : null;
+      let isMine = current?.user?.username === MY_USER_ID;
       let startsSequence = true;
       let endsSequence = false;
-      let photo = !isMine && current.user.avatar != null
+      let photo = !isMine && current?.user?.avatar != null
         ? current.user.avatar : 'https://www.treasury.gov.ph/wp-content/uploads/2022/01/male-placeholder-image.jpeg';
-      let sendDate = current.sendDate;
+      let sendDate = current?.sendDate;
       if (previous && prevUser === currUser) {
         startsSequence = false
       }
@@ -63,8 +63,8 @@ function MessageList(props: any) {
           type={type}
           startsSequence={startsSequence}
           endsSequence={endsSequence}
-          data={current.content}
-          author={current.user.username}
+          data={current?.content}
+          author={current?.user?.username}
           photo={photo}
           sendDate={sendDate}
         />

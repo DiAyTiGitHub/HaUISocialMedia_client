@@ -91,7 +91,7 @@ function InfoList() {
         setImageSkeleton(false);
     }
 
-    useEffect(renderAvatar, [chosenRoom, chosenRoom?.avatar]);
+    useEffect(renderAvatar, [chosenRoom, chosenRoom?.avatar, chosenRoom?.id]);
 
     const [expanded, setExpanded] = React.useState<string | false>(false);
 

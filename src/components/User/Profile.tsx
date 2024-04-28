@@ -51,7 +51,7 @@ function Profile() {
       }
     };
     getUser();
-  }, []);
+  }, [profileId]);
 
   return (
     <div className="max-w-[80%] mx-auto">
