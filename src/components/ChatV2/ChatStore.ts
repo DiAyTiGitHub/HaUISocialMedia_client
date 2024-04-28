@@ -1,7 +1,5 @@
 import { makeAutoObservable } from "mobx";
 import { toast } from "react-toastify";
-import { over } from "stompjs";
-import SockJS from "sockjs-client";
 import LocalStorage from "@/services/LocalStorageService";
 import {
   searchJoinedRooms,
@@ -13,6 +11,7 @@ import {
   addMultipleUsersIntoGroupChat,
   getAllJoinedRooms
 } from "@/services/RoomService";
+import { sendMessage } from "@/services/MessageService";
 
 class ChatStore {
   isLoading: boolean = true;
@@ -22,17 +21,11 @@ class ChatStore {
       this.isLoading = state;
   }
 
-  stompClient: any = null;
-
-  setStompClient = (stompClient: any) => {
-    this.stompClient = stompClient;
-  };
-
   constructor() {
     makeAutoObservable(this);
   }
 
-  sendMessage = (messageContent: string) => {
+  sendMessage = async (messageContent: string) => {
     if (!messageContent || messageContent.length === 0 || messageContent.trim().length <= 0) {
       return;
     }
@@ -47,11 +40,17 @@ class ChatStore {
       };
       console.log("msg content: " + (messageContent));
 
-      this?.stompClient?.send(
-        "/messenger/privateMessage",
-        {},
-        JSON.stringify(chatMessage)
-      );
+      //send message via stompclient
+      // this?.stompClient?.send(
+      //   "/messenger/privateMessage",
+      //   {},
+      //   JSON.stringify(chatMessage)
+      // );
+
+
+      //send message via api
+      const { data: sentMessage } = await sendMessage(chatMessage);
+      console.log("sent message: ", sentMessage);
 
     } catch (err: any) {
       if (err?.response?.status === 401)
@@ -68,32 +67,11 @@ class ChatStore {
 
 
 
-  registerUser = () => {
-    if (this.stompClient) return;
-    this.connect();
-  };
 
   resetStore = () => {
-    if (this.stompClient)
-      this.stompClient = null;
-
     this.joinedRooms = [];
     this.chosenRoom = null;
   }
-
-  connect = () => {
-    let Sock = new SockJS("http://localhost:8000/ws");
-    this.stompClient = over(Sock);
-    this.stompClient.connect({}, this.onConnected, this.onError);
-  };
-
-  onConnected = () => {
-    const currenUser = LocalStorage.getLoggedInUser();
-    this.stompClient.subscribe(
-      "/user/" + currenUser.id + "/privateMessage",
-      this.onReceiveRoomMessage
-    );
-  };
 
   onReceiveRoomMessage = (payload: any) => {
     const payloadData = JSON.parse(payload.body);
@@ -149,13 +127,6 @@ class ChatStore {
 
   joinedRooms: any = [];
   getAllJoinedRooms = async () => {
-    if (!this.stompClient) {
-      toast.error(
-        "You haven't connected to chat server! Please login again!"
-      );
-      return;
-    }
-
     this.joinedRooms = [];
     this.chosenRoom = null;
 
@@ -173,13 +144,6 @@ class ChatStore {
 
   searchJoinedRooms = async (keyword: string) => {
     try {
-      if (!this.stompClient) {
-        toast.error(
-          "You haven't connected to chat server! Please login again!"
-        );
-        return;
-      }
-
       const searchObject = {
         keyword: keyword,
       };
@@ -196,14 +160,6 @@ class ChatStore {
     toast.info("Please wait, we're handling your request!");
     try {
       this.setIsLoading(true);
-      if (!this.stompClient) {
-        toast.error(
-          "You haven't connected to chat server! Please login again!"
-        );
-        this.setIsLoading(false);
-        return;
-      }
-
       const { data } = await createGroupChat(room);
       // console.log("new group chat: ", data);
       await this.getAllJoinedRooms();
@@ -221,14 +177,6 @@ class ChatStore {
 
     try {
       this.setIsLoading(true);
-
-      if (!this.stompClient) {
-        toast.error(
-          "You haven't connected to chat server! Please login again!"
-        );
-        this.setIsLoading(false);
-        return;
-      }
 
       const incomingRoom = { ...this.chosenRoom };
 
@@ -258,14 +206,6 @@ class ChatStore {
     try {
       this.setIsLoading(true);
 
-      if (!this.stompClient) {
-        toast.error(
-          "You haven't connected to chat server! Please login again!"
-        );
-        this.setIsLoading(false);
-        return;
-      }
-
       const { data } = await unjoinAnGroupChat(this.chosenRoom?.id);
 
       console.log("updated group chat: ", data);
@@ -286,14 +226,6 @@ class ChatStore {
     try {
       this.setIsLoading(true);
 
-      if (!this.stompClient) {
-        toast.error(
-          "You haven't connected to chat server! Please login again!"
-        );
-        this.setIsLoading(false);
-        return;
-      }
-
       const { data } = await addSingleUserIntoGroupChat(userId, this.chosenRoom?.id);
 
       console.log("updated group chat: ", data);
@@ -313,13 +245,6 @@ class ChatStore {
   notJoinedFriends: any = [];
   getListFriendNotInRoom = async () => {
     try {
-      if (!this.stompClient) {
-        toast.error(
-          "You haven't connected to chat server! Please login again!"
-        );
-        return;
-      }
-
       const { data } = await getListFriendNotInRoom(this.chosenRoom?.id);
 
       this.notJoinedFriends = data;
@@ -335,14 +260,6 @@ class ChatStore {
   addMultipleUsersIntoGroupChat = async (userIds: any) => {
     try {
       this.setIsLoading(true);
-
-      if (!this.stompClient) {
-        toast.error(
-          "You haven't connected to chat server! Please login again!"
-        );
-        this.setIsLoading(false);
-        return;
-      }
 
       const { data } = await addMultipleUsersIntoGroupChat(userIds, this.chosenRoom?.id);
 
@@ -389,3 +306,7 @@ class ChatStore {
 }
 
 export default ChatStore;
+
+
+
+

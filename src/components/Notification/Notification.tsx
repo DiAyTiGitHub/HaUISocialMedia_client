@@ -5,10 +5,7 @@ import {
 } from "@/components/ui/popover";
 import { Bell, Loader } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useMutation } from "react-query";
-import * as apiClient from "@/react-query/query-api";
 import { NotificationType } from "@/types";
-import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
 import { multiFormatDateString } from "@/lib/utils";
 import FriendListSkeleton from "../skeleton/FriendListSkeleton";

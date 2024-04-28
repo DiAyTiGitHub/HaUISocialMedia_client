@@ -1,12 +1,11 @@
 import { makeAutoObservable } from "mobx";
-import { over } from "stompjs";
-import SockJS from "sockjs-client";
 import { toast } from "react-toastify";
 import LocalStorage from "@/services/LocalStorageService";
 import { registerUser, authenticateUser } from "../../services/AuthService";
 import axios from "axios";
 import { getCurrentLoginUser } from "@/services/UserService";
-import { useNavigate } from "react-router-dom";
+import SocketService from "@/services/SocketService";
+
 class AuthStore {
   constructor() {
     makeAutoObservable(this);
@@ -61,69 +60,10 @@ class AuthStore {
     }
   };
 
-  stompClient: any = null;
-
-  setStompClient = (sc: any) => {
-    this.stompClient = sc;
-  };
-
-  disconnectStompClient = () => {
-    if (this.stompClient) {
-      this.stompClient.disconnect();
-      // toast.success("Disconnected from stomp");
-    }
-  };
-
-  connectToSocket = async () => {
-    if (!this.stompClient) {
-      console.log("Connecting new Socket...");
-
-      let Sock = new SockJS("http://localhost:8000/ws");
-      this.stompClient = over(Sock);
-      this.stompClient.connect({}, this.onConnected, this.onError);
-    }
-    else {
-      console.log("Already connected to Socket...");
-    }
-  };
-
-  onConnected = () => {
-    const loggedInUser = this.getLoggedInUser();
-
-    //subscribe for channel notification
-    this.stompClient.subscribe(
-      "/user/" + loggedInUser?.id + "/notification", this.onReceivedNotification
-    );
-    //subscribe for channel privateMessage
-    this.stompClient.subscribe('/user/' + loggedInUser?.id + '/privateMessage', this.onReceivedNotification);
-  };
-
-  onError = (err: any) => {
-    console.error(err);
-
-    toast.error(
-      "Connect to messenger error, please login again! Auto redirect in 5 seconds...",
-      { autoClose: 5000 }
-    );
-
-    // setTimeout(function () {
-    //     window.location.href = "/login";
-
-    //     const navigate = useNavigate();
-    //     navigate('/login');
-    // }, 5000);
-  };
-
-  onReceivedNotification = (payload: any) => {
-    const payloadData = JSON.parse(payload.body);
-    console.log("notification: ", payloadData);
-    toast.info(payloadData?.content);
-  };
-
   logout = () => {
     this.setSession(null);
     this.removeUser();
-    this.disconnectStompClient();
+    SocketService.disconnectStompClient();
     window.location.href = "/login";
   };
 

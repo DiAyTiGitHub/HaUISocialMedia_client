@@ -20,21 +20,13 @@ function ChatIndex() {
 
     const navigate = useNavigate();
     useEffect(function () {
-        // if (!currentLoginUser) {
-        //     toast.dismiss();
-        //     // if (!LocalStorage.getLoginUser()) {
-        //     toast.info("You haven't logged in yet! Please login first!");
-        //     // navigate("/login");
-        // }
-        // else {
-            
-            setIsLoading(true);
-            // registerUser();
-            getAllJoinedRooms()
-                .finally(function () {
-                    setIsLoading(false);
-                })
-        // }
+
+        setIsLoading(true);
+        // registerUser();
+        getAllJoinedRooms()
+            .finally(function () {
+                setIsLoading(false);
+            })
 
         return resetStore;
     }, []);

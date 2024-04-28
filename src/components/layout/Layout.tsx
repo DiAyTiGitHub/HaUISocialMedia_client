@@ -1,27 +1,32 @@
-import { memo, useEffect } from "react";
+import { memo, useEffect, useState } from "react";
 import NavBar from "./NavBar";
-
 import { Outlet } from "react-router-dom";
 import { observer } from "mobx-react";
 import { useStore } from "@/stores";
+import SocketService from "@/services/SocketService";
 
 function Layout() {
-  const { authStore } = useStore();
-  const { getLoggedInUser, connectToSocket, stompClient } = authStore;
+  const { authStore, chatStore } = useStore();
+  const {
+    getLoggedInUser
+  } = authStore;
+  const {
+    onReceiveRoomMessage
+  } = chatStore;
 
   useEffect(function () {
     async function initializeSocket() {
       const currentUser = getLoggedInUser();
 
-      if (currentUser && currentUser?.id && currentUser?.role === "USER" && !stompClient) {
-        //start connecting to socket
-        await connectToSocket();
+      if (currentUser && currentUser?.id && currentUser?.role === "USER" && !SocketService.stompClient) {
+        //inject onReceiveRoomMessage
+        SocketService.initializeSocket(onReceiveRoomMessage);
       }
     }
 
-    initializeSocket();
-
-  }, [getLoggedInUser()?.id]);
+    if (!SocketService.stompClient)
+      initializeSocket();
+  }, []);
 
   return (
     <>
