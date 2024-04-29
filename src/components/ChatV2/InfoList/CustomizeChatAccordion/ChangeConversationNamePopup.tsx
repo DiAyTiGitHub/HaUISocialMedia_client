@@ -40,7 +40,7 @@ function ChangeConversationNamePopup(props: any) {
                     <Form autoComplete='off'>
                         <Box className='modal-container w-80 p-0 m-0' sx={{ border: 0, borderRadius: "10px" }}>
                             <div className="modalContainer flex-center justify-between appHeader" style={{ borderRadius: "10px 10px 0 0" }}>
-                                <Typography className="p-3" variant='h5' sx={{ fontWeight: 800, color: "#fff" }}>Change conversation's name</Typography>
+                                <Typography className="p-3" variant='h5' sx={{ fontWeight: 800, color: "#fff" }}>Tên cuộc trò chuyện</Typography>
                                 <Button
                                     className="btnClose m-0 p-2 br-50p mw-unset"
                                     sx={{ color: "#fff" }}
@@ -77,7 +77,7 @@ function ChangeConversationNamePopup(props: any) {
                                     <ClearIcon
                                         className=""
                                     />
-                                    Cancel
+                                    Hủy bỏ
                                 </Button>
 
                                 <Button
@@ -90,7 +90,7 @@ function ChangeConversationNamePopup(props: any) {
                                     <LogoutIcon
                                         className="mr-2"
                                     />
-                                    Update
+                                    Cập nhật
                                 </Button>
                             </div>
                         </Box>

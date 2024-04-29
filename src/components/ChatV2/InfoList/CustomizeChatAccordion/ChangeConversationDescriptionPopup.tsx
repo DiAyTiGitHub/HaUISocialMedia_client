@@ -40,7 +40,7 @@ function ChangeConversationDescriptionPopup(props: any) {
                     <Form autoComplete='off'>
                         <Box className='modal-container w-80 p-0 m-0' sx={{ border: 0, borderRadius: "10px" }}>
                             <div className="modalContainer flex-center justify-between appHeader" style={{ borderRadius: "10px 10px 0 0" }}>
-                                <Typography className="p-3" variant='h5' sx={{ fontWeight: 800, color: "#fff" }}>Change conversation's description</Typography>
+                                <Typography className="p-3" variant='h5' sx={{ fontWeight: 800, color: "#fff" }}>Ghi chú cuộc trò chuyện</Typography>
                                 <Button
                                     className="btnClose m-0 p-2 br-50p mw-unset"
                                     sx={{ color: "#fff" }}
@@ -75,9 +75,9 @@ function ChangeConversationDescriptionPopup(props: any) {
                                     disabled={isUpdating}
                                 >
                                     <ClearIcon
-                                        className=""
+                                        className="mr-1"
                                     />
-                                    Cancel
+                                    Hủy bỏ
                                 </Button>
 
                                 <Button
@@ -88,9 +88,9 @@ function ChangeConversationDescriptionPopup(props: any) {
                                     type="submit"
                                 >
                                     <LogoutIcon
-                                        className="mr-2"
+                                        className="mr-1"
                                     />
-                                    Update
+                                    Cập nhật
                                 </Button>
                             </div>
                         </Box>

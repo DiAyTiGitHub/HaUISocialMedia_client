@@ -48,7 +48,7 @@ function CustomizeChatIndex(props: any) {
                     </div>
                     <div className='list-item w-100' onClick={() => { setOpenChangeTheme(true) }}>
                         <TripOriginIcon className='mr-2' style={{ color: "#1A8BDF" }} />
-                        Chủ đề cuộc trò chuyện
+                        Màu sắc cuộc trò chuyện
                     </div>
                     <div className='list-item w-100' onClick={() => { setOpenChangeAvatar(true) }}>
                         <PhotoIcon className='mr-2' />

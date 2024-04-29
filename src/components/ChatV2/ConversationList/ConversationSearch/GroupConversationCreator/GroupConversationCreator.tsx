@@ -43,14 +43,14 @@ function GroupConversationCreator(props: any) {
     };
 
     if (sendData.joinUserIds.length < 2) {
-      toast.info("Please choose at least 2 other people to use this feature");
+      toast.info("Chọn ít nhất 2 người bạn để sử dụng tính năng này");
       setIsUpdating(false);
       setIsLoading(false);
       return;
     }
 
     const data = await createGroupChat(sendData);
-    toast.success("Create group chat " + data.name + " successfully");
+    toast.success("Tạo cuộc trò chuyện " + data?.name + " thành công!");
 
     setIsUpdating(false);
     setIsLoading(false);
@@ -76,7 +76,7 @@ function GroupConversationCreator(props: any) {
               variant="h5"
               sx={{ fontWeight: 800, color: "#fff" }}
             >
-              Create new group chat
+              Tạo cuộc trò chuyện nhóm mới
             </Typography>
           </div>
           <Button
@@ -134,7 +134,7 @@ function GroupConversationCreator(props: any) {
               disabled={isUpdating}
             >
               <ClearIcon className="mr-2" />
-              Cancel
+              Hủy bỏ
             </Button>
 
             <Button
@@ -144,7 +144,7 @@ function GroupConversationCreator(props: any) {
               disabled={isUpdating}
             >
               <SendTimeExtensionIcon className="mr-2" />
-              Confirm
+              Xác nhận
             </Button>
           </div>
         </div>

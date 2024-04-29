@@ -4,7 +4,7 @@
   align-items: center;
   background: white;
   border-top: 1px solid #eeeef1;
-  width: 100%;
+  width: 100% !important;
 }
 
 @supports (backdrop-filter: blur(20px)) {

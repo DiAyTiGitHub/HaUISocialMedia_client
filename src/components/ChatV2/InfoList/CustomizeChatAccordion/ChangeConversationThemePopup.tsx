@@ -18,12 +18,11 @@ function ChangeConversationNamePopup(props: any) {
 
     async function handleChangeConversationTheme(values: any) {
         setIsUpdating(true);
-        toast.info("Please await! We're updating this conversation");
-        console.log("submit values: ", values)
+        toast.info("Vui lòng đợi, cuộc trò chuyện đang được cập nhật!");
 
         await updateRoomInfo(values);
 
-        toast.success("This conversation is updated!");
+        toast.success("Cuộc trò chuyện đã được cập nhật!");
         setIsUpdating(false);
         handleClose();
     }
@@ -43,7 +42,7 @@ function ChangeConversationNamePopup(props: any) {
                     <Form autoComplete='off'>
                         <Box className='modal-container w-80 p-0 m-0' sx={{ border: 0, borderRadius: "10px" }}>
                             <div className="modalContainer flex-center justify-between appHeader" style={{ borderRadius: "10px 10px 0 0" }}>
-                                <Typography className="p-3" variant='h5' sx={{ fontWeight: 800, color: "#fff" }}>Change conversation's theme</Typography>
+                                <Typography className="p-3" variant='h5' sx={{ fontWeight: 800, color: "#fff" }}>Màu sắc cuộc trò chuyện</Typography>
                                 <Button
                                     className="btnClose m-0 p-2 br-50p mw-unset"
                                     sx={{ color: "#fff" }}
@@ -61,7 +60,7 @@ function ChangeConversationNamePopup(props: any) {
 
                                 <div className="value" style={{ borderLeftColor: values?.color }}>
                                     <h5 className="m-0 pt-2" style={{ color: values?.color }}>
-                                        Conversation's color will be "{values?.color}"
+                                        Màu sắc cuộc trò chuyện sẽ là "{values?.color}"
                                     </h5>
                                 </div>
                             </div>
@@ -75,9 +74,9 @@ function ChangeConversationNamePopup(props: any) {
                                     disabled={isUpdating}
                                 >
                                     <ClearIcon
-                                        className=""
+                                        className="mr-1"
                                     />
-                                    Cancel
+                                    Hủy bỏ
                                 </Button>
 
                                 <Button
@@ -88,9 +87,9 @@ function ChangeConversationNamePopup(props: any) {
                                     type="submit"
                                 >
                                     <LogoutIcon
-                                        className="mr-2"
+                                        className="mr-1"
                                     />
-                                    Update
+                                    Cập nhật
                                 </Button>
                             </div>
                         </Box>

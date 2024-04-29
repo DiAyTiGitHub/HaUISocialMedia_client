@@ -15,11 +15,11 @@ function ConfirmLeavePopup(props: any) {
 
     async function handleConfirmLeave() {
         setIsUpdating(true);
-        toast.info("Please await! We're handling your requirement");
+        toast.info("Vui lòng đợi, yêu cầu của bạn đang được xử lí");
 
         await leaveConversation();
 
-        toast.success("You left this conversation!");
+        toast.success("Bạn đã rời khỏi cuộc trò chuyện!");
         setIsUpdating(false);
         handleClose();
     }
@@ -38,7 +38,7 @@ function ConfirmLeavePopup(props: any) {
                     <Form autoComplete='off'>
                         <Box className='modal-container w-80 p-0 m-0' sx={{ border: 0, borderRadius: "10px" }}>
                             <div className="modalContainer flex-center justify-between appHeader" style={{ borderRadius: "10px 10px 0 0" }}>
-                                <Typography className="p-3" variant='h5' sx={{ fontWeight: 800, color: "#fff" }}>Confirm!!!</Typography>
+                                <Typography className="p-3" variant='h5' sx={{ fontWeight: 800, color: "#fff" }}>XÁC NHẬN!!!</Typography>
                                 <Button
                                     className="btnClose m-0 p-2 br-50p mw-unset"
                                     sx={{ color: "#fff" }}
@@ -52,9 +52,9 @@ function ConfirmLeavePopup(props: any) {
 
                             <div className="flex-center w-100 p-3">
                                 <h6 className="m-0 p-0 text-center">
-                                    Are you sure you want to leave this conversation?
+                                    Bạn có chắc chắn muốn rời khỏi cuộc trò chuyện?
                                     <br></br>
-                                    You can't go back until your friends in this conversation add you back.
+                                    Bạn sẽ không thể quay lại cho đến khi bạn của bạn thêm bạn vào lại
                                 </h6>
                             </div>
 
@@ -70,7 +70,7 @@ function ConfirmLeavePopup(props: any) {
                                     <ClearIcon
                                         className=""
                                     />
-                                    Cancel
+                                    Hủy bỏ
                                 </Button>
 
                                 <Button
@@ -83,8 +83,7 @@ function ConfirmLeavePopup(props: any) {
                                     <LogoutIcon
                                         className="mr-2"
                                     />
-                                    Still
-                                    Leave
+                                    Vẫn rời đi
                                 </Button>
                             </div>
                         </Box>
