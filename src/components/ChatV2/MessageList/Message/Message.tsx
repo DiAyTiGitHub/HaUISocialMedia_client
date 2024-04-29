@@ -1,5 +1,5 @@
 import React, { memo, useState, useEffect } from "react";
-import "./Message.css";
+import "./Message.scss";
 import { format, parseISO } from "date-fns";
 import { observer } from "mobx-react";
 import { useStore } from "@/stores";

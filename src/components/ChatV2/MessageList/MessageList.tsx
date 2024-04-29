@@ -49,11 +49,11 @@ function MessageList(props: any) {
         ? current?.user?.avatar : 'https://www.treasury.gov.ph/wp-content/uploads/2022/01/male-placeholder-image.jpeg';
       let sendDate = current?.sendDate;
       if (previous && prevUser === currUser) {
-        startsSequence = false
+        startsSequence = false;
       }
 
       if (next && nextUser !== currUser) {
-        endsSequence = true
+        endsSequence = true;
       }
 
       tempArray.push(

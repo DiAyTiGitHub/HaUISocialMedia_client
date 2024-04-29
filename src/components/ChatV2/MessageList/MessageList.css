@@ -1,22 +1,22 @@
 .message-list-container {
   overflow-y: auto;
   padding-left: 6px;
-  padding-bottom: 24px;
   background-color: #f4f7ff;
   border-radius: 10px;
   width: 100%;
   overflow-x: hidden;
   box-shadow: inset -5px -5px 9px rgba(255, 255, 255, 0.45), inset 5px 5px 9px rgba(94, 104, 121, 0.3);
+  padding-bottom: 4px;
 }
 
 /* Define a style for the track */
 .message-list-container::-webkit-scrollbar {
-  width: 8px;
+  width: 4px;
 }
 
 /* Define a style for the handle or thumb */
 .message-list-container::-webkit-scrollbar-thumb {
-  background-color: #43a4ff;
+  background-color: #73bbff;
   /* Change the color as needed */
   border-radius: 4px;
 }
@@ -29,7 +29,7 @@
 
 /* Optional: Change the appearance on hover */
 .message-list-container::-webkit-scrollbar-thumb:hover {
-  background-color: #006bb3;
+  background-color: #0c8fe6;
   /* Change the color as needed */
 }
 
