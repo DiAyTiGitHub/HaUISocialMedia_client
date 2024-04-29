@@ -60,7 +60,9 @@ function Message(props: any) {
         }
       }
     })
-  }, []);
+  }, [chosenRoom?.id]);
+
+  console.log(chosenRoom?.id)
 
   return (
     <div

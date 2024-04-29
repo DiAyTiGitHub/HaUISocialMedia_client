@@ -3,6 +3,7 @@ import SockJS from "sockjs-client";
 import LocalStorageService from "./LocalStorageService";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { toastInfo } from "@/common/ToastNotification/ToastInfoNotification";
 
 class SocketService {
     stompClient: any = null;
@@ -55,7 +56,8 @@ class SocketService {
 
         const data = JSON.parse(notification?.body);
         console.log("notification: ", data);
-        toast.info(data?.content);
+        // toast.info(data?.content);
+        toastInfo(data);
     }
 
     onError = (err: any) => {
