@@ -4,7 +4,7 @@ import { format, parseISO } from "date-fns";
 import { observer } from "mobx-react";
 import { useStore } from "@/stores";
 
-function lightOrDark(color:any) {
+function lightOrDark(color: any) {
 
   var r: any, g: any, b: any, hsp: any;
 
@@ -42,9 +42,9 @@ function Message(props: any) {
     photo,
     sendDate,
   } = props;
-  const { authStore, chatStore} = useStore();
+  const { authStore, chatStore } = useStore();
   const { chosenRoom } = chatStore;
-  const [imagePath, setImagePath] = useState('https://www.treasury.gov.ph/wp-content/uploads/2022/01/male-placeholder-image.jpeg');
+  const imagePath = photo || 'https://www.treasury.gov.ph/wp-content/uploads/2022/01/male-placeholder-image.jpeg';
   const [bubbleBackground, setBubbleBackground] = useState(chosenRoom?.color);
 
   useEffect(() => {
@@ -61,17 +61,6 @@ function Message(props: any) {
       }
     })
   }, []);
-
-  function renderPhoto() {
-    if (photo && photo != "") {
-      // const imageSrcPromise = getAvatarSrc(photo);
-      // imageSrcPromise.then(function (data) {
-      //   setImagePath(data);
-      // });
-    }
-  }
-
-  useEffect(renderPhoto, [])
 
   return (
     <div

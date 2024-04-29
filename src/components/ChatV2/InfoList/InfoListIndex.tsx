@@ -22,7 +22,7 @@ function InfoList() {
 
     function renderDescription() {
         if (!chosenRoom) return "No info";
-        if (!chosenRoom?.description || chosenRoom?.description.length === 0 || chosenRoom?.description.trim() === '') {
+        if (!chosenRoom?.description || chosenRoom?.description?.length === 0 || chosenRoom?.description?.trim() === '') {
             return "";
         }
         return chosenRoom.description;
@@ -30,12 +30,12 @@ function InfoList() {
 
     function renderRoomName() {
         if (!chosenRoom) return "No info";
-        if (!chosenRoom?.name || chosenRoom?.name.length === 0 || chosenRoom?.name.trim() === '') {
+        if (!chosenRoom?.name || chosenRoom?.name?.length === 0 || chosenRoom?.name?.trim() === '') {
             const currentUser = currentLoginUser;
-            for (let i = 0; i < chosenRoom.participants.length; i++) {
-                const participant = chosenRoom.participants[i];
-                if (participant.id !== currentUser.id) {
-                    return "Cuộc trò chuyện với " + participant.username;
+            for (let i = 0; i < chosenRoom?.participants?.length; i++) {
+                const participant = chosenRoom?.participants[i];
+                if (participant?.id !== currentUser?.id) {
+                    return "Cuộc trò chuyện với " + participant?.username;
                 }
             }
             return "No name conversation";
@@ -45,13 +45,14 @@ function InfoList() {
 
     const [imagePath, setImagePath] = useState('https://www.treasury.gov.ph/wp-content/uploads/2022/01/male-placeholder-image.jpeg');
     const [imgSkeleton, setImageSkeleton] = useState(true);
+
     function renderAvatar() {
         setImageSkeleton(true);
 
         if (chosenRoom) {
             const { participants } = chosenRoom;
 
-            if (participants && participants.length > 0 && participants.length === 2) {
+            if (participants && participants?.length > 0 && participants?.length === 2) {
                 let chattingPerson = null;
 
                 for (let i = 0; i < participants.length; i++) {
@@ -62,25 +63,19 @@ function InfoList() {
                     }
                 }
 
-                if (chattingPerson && chattingPerson.avatar && chattingPerson.avatar != "") {
-                    // const imageSrcPromise = getAvatarSrc(chattingPerson.avatar);
-                    // imageSrcPromise.then(function (data) {
-                    //     setImagePath(data);
-                    // })
-                    setImagePath("https://www.treasury.gov.ph/wp-content/uploads/2022/01/male-placeholder-image.jpeg");
+                //handle render for private chat
+                if (chattingPerson && chattingPerson?.avatar && chattingPerson?.avatar != "") {
+                    setImagePath(chattingPerson?.avatar);
                 }
                 else {
                     setImagePath("https://www.treasury.gov.ph/wp-content/uploads/2022/01/male-placeholder-image.jpeg");
                 }
             }
 
-            if (participants && participants.length > 0 && participants.length >= 3) {
-                if (chosenRoom?.avatar && chosenRoom.avatar.length > 0) {
-                    // const imageSrcPromise = getAvatarSrc(chosenRoom.avatar);
-                    // imageSrcPromise.then(function (data) {
-                    //     setImagePath(data);
-                    // })
-                    setImagePath("https://cdn.pixabay.com/photo/2020/05/29/13/26/icons-5235125_1280.png");
+            //handle render for group chat
+            if (participants && participants?.length > 0 && participants?.length >= 3) {
+                if (chosenRoom?.avatar && chosenRoom?.avatar?.length > 0) {
+                    setImagePath(chosenRoom?.avatar);
                 }
                 else {
                     setImagePath("https://cdn.pixabay.com/photo/2020/05/29/13/26/icons-5235125_1280.png");

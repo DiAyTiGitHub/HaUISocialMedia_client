@@ -15,10 +15,10 @@ function ConversationListItem(props: any) {
   function renderConversationName() {
     if (!name || name.trim() === '') {
       const currentUser = LocalStorage.getLoggedInUser();
-      for (let i = 0; i < participants.length; i++) {
+      for (let i = 0; i < participants?.length; i++) {
         const participant = participants[i];
-        if (participant.id !== currentUser.id) {
-          return participant.username;
+        if (participant?.id !== currentUser?.id) {
+          return participant?.username;
         }
       }
       return "No name conversation";
@@ -27,10 +27,10 @@ function ConversationListItem(props: any) {
   }
 
   function renderLastMessageInConversation() {
-    if (messages && messages.length > 0) {
+    if (messages && messages?.length > 0) {
 
-      const lastMessage = messages[messages.length - 1];
-      return lastMessage.content;
+      const lastMessage = messages[messages?.length - 1];
+      return lastMessage?.content;
     }
     return "";
   }
@@ -38,34 +38,30 @@ function ConversationListItem(props: any) {
   const [imagePath, setImagePath] = useState('https://www.treasury.gov.ph/wp-content/uploads/2022/01/male-placeholder-image.jpeg');
 
   function renderAvatar() {
-    if (participants && participants.length > 0 && participants.length === 2) {
+    if (participants && participants?.length > 0 && participants?.length === 2) {
       let chattingPerson = null;
 
-      for (let i = 0; i < participants.length; i++) {
+      for (let i = 0; i < participants?.length; i++) {
         const participant = participants[i];
-        if (participant.id !== currentUser.id) {
+        if (participant?.id !== currentUser?.id) {
           chattingPerson = participant;
           break;
         }
       }
 
-      if (chattingPerson && chattingPerson.avatar && chattingPerson.avatar != "") {
-        // const imageSrcPromise = getAvatarSrc(chattingPerson.avatar);
-        // imageSrcPromise.then(function (data) {
-        //   setImagePath(data);
-        // })
+      //handle if it is private chat (for 2 people)
+      if (chattingPerson && chattingPerson?.avatar && chattingPerson?.avatar != "") {
+        setImagePath(chattingPerson.avatar);
       }
       else {
         setImagePath("https://www.treasury.gov.ph/wp-content/uploads/2022/01/male-placeholder-image.jpeg");
       }
     }
 
-    if (participants && participants.length > 0 && participants.length >= 3) {
-      if (avatar && avatar.length > 0) {
-        // const imageSrcPromise = getAvatarSrc(avatar);
-        // imageSrcPromise.then(function (data) {
-        //   setImagePath(data);
-        // })
+    //handle if is group chat
+    if (participants && participants?.length > 0 && participants?.length >= 3) {
+      if (avatar && avatar?.length > 0) {
+        setImagePath(avatar);
       }
       else {
         setImagePath("https://cdn.pixabay.com/photo/2020/05/29/13/26/icons-5235125_1280.png");
