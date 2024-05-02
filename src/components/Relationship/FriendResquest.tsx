@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import CustomButtonFriend from "./CustomButtonFriend";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import FriendListSkeleton from "../skeleton/FriendListSkeleton";
 import { SearchObjectType } from "@/types";
 import { useStore } from "@/stores";
@@ -43,36 +43,38 @@ const FriendResquest = () => {
       ) : (
         <>
           {requestFriends.map((friend: any) => (
-            <div className="bg-white p-4 rounded-xl mb-3" key={friend?.id}>
-              <div className="flex items-center gap-4 mb-4">
-                <div className="profile-photo">
-                  <img
-                    src={friend.avatar || "/person.jpg"}
-                    alt="profile-photo"
+            <Link to={`/profile/${friend?.requestSender?.id}`} key={friend?.id}>
+              <div className="bg-white p-4 rounded-xl mb-3">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="profile-photo">
+                    <img
+                      src={friend.avatar || "/person.jpg"}
+                      alt="profile-photo"
+                    />
+                  </div>
+                  <div>
+                    <p className="font-medium">
+                      {friend?.requestSender?.lastName}{" "}
+                      {friend?.requestSender?.firstName}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <CustomButtonFriend
+                    handleFn={acceptFriend}
+                    title="Chấp nhận"
+                    message="Đã chấp nhận"
+                    id={friend.id}
+                  />
+                  <CustomButtonFriend
+                    handleFn={unAcceptFriend}
+                    title="Từ chối"
+                    message="Đã từ chối"
+                    id={friend.id}
                   />
                 </div>
-                <div>
-                  <p className="font-medium">
-                    {friend?.requestSender?.lastName}{" "}
-                    {friend?.requestSender?.firstName}
-                  </p>
-                </div>
               </div>
-              <div className="flex gap-4">
-                <CustomButtonFriend
-                  handleFn={acceptFriend}
-                  title="Chấp nhật"
-                  message="Đã chấp nhận"
-                  id={friend.id}
-                />
-                <CustomButtonFriend
-                  handleFn={unAcceptFriend}
-                  title="Từ chối"
-                  message="Đã từ chối"
-                  id={friend.id}
-                />
-              </div>
-            </div>
+            </Link>
           ))}
           <div
             className="body-bold text-center hover:text-primary cursor-pointer"

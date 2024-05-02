@@ -7,6 +7,7 @@ import { memo, useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import { useStore } from "@/stores";
 import CustomButtonFriend from "../Relationship/CustomButtonFriend";
+import FriendDropdown from "./ui/FrienDropDown";
 type Props = {
   userProfile: any;
   isLoading: boolean;
@@ -115,7 +116,13 @@ function ProfileInfo({ userProfile, isLoading }: Props) {
               </Button>
             </div>
           ) : (
-            <CustomButtonFriend {...relationship} />
+            <>
+              {relationship.title === "Bạn bè" ? (
+                <FriendDropdown friend={userProfile} />
+              ) : (
+                <CustomButtonFriend {...relationship} />
+              )}
+            </>
           )}
         </div>
       </div>
