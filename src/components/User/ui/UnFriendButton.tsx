@@ -29,9 +29,9 @@ const UnFriendButton = ({ id }: Props) => {
       setIsDeleting(true);
       await unFriend(id);
       toast.success("Đã huỷ kết bạn");
-      // setTimeout(() => {
-      //   navigate(0);
-      // }, 500);
+      setTimeout(() => {
+        navigate(0);
+      }, 500);
     } catch (error) {
       console.log(error);
     } finally {

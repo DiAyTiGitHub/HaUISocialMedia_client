@@ -44,11 +44,12 @@ const formSchema = z.object({
 type PostFormProps = {
   children: ReactNode;
   post?: IPost;
+  groupId?: any;
 };
 
-const PostForm = ({ children, post }: PostFormProps) => {
+const PostForm = ({ children, post, groupId }: PostFormProps) => {
   const images = post && post?.images.map((i) => i.image);
-  //console.log(images);
+
   const { postStore } = useStore();
   const { createPost, updatePost } = postStore;
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -92,9 +93,17 @@ const PostForm = ({ children, post }: PostFormProps) => {
       //console.log(images);
       if (post && values.file.length > 0) images = [...post.images, images];
 
+      let group = {
+        id: "",
+      };
+      if (groupId) {
+        group.id = groupId;
+      }
+
       const newPost: CreatePostType = {
         content: values.content,
         images: images,
+        ...(groupId && { group }),
       };
 
       if (post) {

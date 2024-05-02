@@ -1,9 +1,11 @@
 import { Input } from "../ui/input";
 import PostForm from "./PostForm";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import LocalStorage from "@/services/LocalStorageService";
 
 const SessionCreatePost = () => {
+  const { groupId } = useParams();
+  console.log(groupId);
   const currentUser = LocalStorage.getLoggedInUser();
 
   return (
@@ -18,7 +20,7 @@ const SessionCreatePost = () => {
             />
           </div>
         </Link>
-        <PostForm>
+        <PostForm groupId={groupId}>
           <Input
             type="text"
             placeholder="Bạn đăng nghĩ gì thế?"
