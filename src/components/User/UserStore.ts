@@ -2,6 +2,7 @@ import {
   getUserByIdRequest,
   pagingSuggestFriend,
   updateUserRequest,
+  getAllUsers
 } from "@/services/UserService";
 import { makeAutoObservable } from "mobx";
 import { toast } from "react-toastify";
@@ -36,6 +37,14 @@ class UserStore {
   updateUser = async (fromData: any) => {
     try {
       const { data } = await updateUserRequest(fromData);
+      return data;
+    } catch (error) {
+      toast.error("Something went wrong :(");
+    }
+  };
+  getAllUsers = async () => {
+    try {
+      const { data } = await getAllUsers();
       return data;
     } catch (error) {
       toast.error("Something went wrong :(");

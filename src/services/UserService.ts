@@ -23,3 +23,7 @@ export function updateUserRequest(data: any) {
   const url = API_PATH + "/update";
   return axios.put(url, data);
 }
+export function getAllUsers() {
+  const url = API_PATH + "/all";
+  return axios.get(url);
+}
