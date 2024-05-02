@@ -32,7 +32,12 @@ function ProfileInfo({ userProfile, isLoading }: Props) {
   const { acceptFriend, unFriend, addFriend } = relationshipStore;
   const navigate = useNavigate();
   const currentUser = LocalStorage.getLoggedInUser();
+  const [isCurrentUser, setIsCurrentUser] = useState(false);
 
+  const handleCheckIsCurrentUser = () => {
+    if (userProfile?.id === currentUser?.id) setIsCurrentUser(true);
+    else setIsCurrentUser(false);
+  };
   const handleCheckFriend = () => {
     if (userProfile?.relationshipDto) {
       if (userProfile.relationshipDto.state) {
@@ -75,6 +80,7 @@ function ProfileInfo({ userProfile, isLoading }: Props) {
 
   useEffect(() => {
     handleCheckFriend();
+    handleCheckIsCurrentUser();
   }, [userProfile, profileId]);
 
   if (isLoading) return <ProfileInfoSkeletion />;
@@ -86,11 +92,13 @@ function ProfileInfo({ userProfile, isLoading }: Props) {
           alt="image"
           className="w-full h-full object-cover"
         />
-        <div className="absolute bottom-0  right-0">
-          <UpdateBackgroupImg
-            backgroundImg={userProfile?.backgroudImg || "/bg-haui.jpg"}
-          />
-        </div>
+        {isCurrentUser && (
+          <div className="absolute bottom-0  right-0">
+            <UpdateBackgroupImg
+              backgroundImg={userProfile?.backgroudImg || "/bg-haui.jpg"}
+            />
+          </div>
+        )}
       </div>
 
       <div className="bg-white h-fit p-5">
