@@ -19,7 +19,7 @@ function Profile() {
   const { profileId } = useParams();
   const { postStore, userStore } = useStore();
   const [paging, setPaging] = useState<SearchObjectType>({
-    pageIndex: 0,
+    pageIndex: 1,
     pageSize: 10,
   });
   const [userProfile, setUserProfile] = useState<IUser>();

@@ -1,8 +1,12 @@
 import { Link } from "react-router-dom";
 import DeleteGroup from "./DeleteGroup";
-import { handleCheckUserIsAdmin } from "@/lib/utils";
+import {
+  handleCheckUserIsAdmin,
+  handleCheckUserJoinedGroup,
+} from "@/lib/utils";
 import CustomButtonGroup from "./CustomButtonGroup";
 import { useStore } from "@/stores";
+import LeaveGroup from "./LeaveGroup";
 
 type Props = {
   group: any;
@@ -12,6 +16,7 @@ const GroupCard = ({ group }: Props) => {
   const isAdmin = handleCheckUserIsAdmin(group);
   const { groupStore } = useStore();
   const { joinGroup } = groupStore;
+  const isJoinedGroup = handleCheckUserJoinedGroup(group);
   return (
     <div className="basis-1/3 flex flex-col bg-white p-5 rounded-md ">
       <div className="flex gap-3">
@@ -48,15 +53,19 @@ const GroupCard = ({ group }: Props) => {
             Xem Nhóm
           </Link>
 
-          <CustomButtonGroup
-            message="Đã yêu cầu tham gia"
-            handleFn={joinGroup}
-            id={group?.id}
-            style="border border-green-500"
-            variant="outline"
-          >
-            Tham Gia Nhóm
-          </CustomButtonGroup>
+          {isJoinedGroup ? (
+            <LeaveGroup id={group?.id} />
+          ) : (
+            <CustomButtonGroup
+              message="Đã yêu cầu tham gia"
+              handleFn={joinGroup}
+              id={group?.id}
+              style="border border-green-500"
+              variant="outline"
+            >
+              Tham Gia Nhóm
+            </CustomButtonGroup>
+          )}
         </div>
       )}
     </div>

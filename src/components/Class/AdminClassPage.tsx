@@ -11,7 +11,7 @@ import { SearchObjectType } from "@/types";
 const AdminClassPage = () => {
   const [paging, setPaging] = useState<SearchObjectType>({
     pageSize: 5,
-    pageIndex: 0,
+    pageIndex: 1,
     keyWord: "",
   });
   const [searchValue, setSearchValue] = useState("");

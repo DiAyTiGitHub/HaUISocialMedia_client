@@ -41,7 +41,7 @@ const GroupDetail = () => {
       else setIsAdmin(false);
     }
   }, [groupData]);
-  console.log(groupData);
+
   return (
     <div className="w-full flex flex-col ">
       <GroupDetailHeader group={groupData} isAdmin={isAdmin} />

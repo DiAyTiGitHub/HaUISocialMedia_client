@@ -20,6 +20,7 @@ type RelationshipType = {
   id: string;
 };
 function ProfileInfo({ userProfile, isLoading }: Props) {
+  console.log(userProfile);
   const { profileId } = useParams();
 
   const [relationship, setRelationship] = useState<RelationshipType>({
@@ -88,14 +89,14 @@ function ProfileInfo({ userProfile, isLoading }: Props) {
     <div className="flex flex-col">
       <div className="w-full h-[200px] relative">
         <img
-          src="/bg-haui.jpg"
+          src={userProfile?.background || "/bg-haui.jpg"}
           alt="image"
           className="w-full h-full object-cover"
         />
         {isCurrentUser && (
           <div className="absolute bottom-0  right-0">
             <UpdateBackgroupImg
-              backgroundImg={userProfile?.backgroudImg || "/bg-haui.jpg"}
+              backgroundImg={userProfile?.background || "/bg-haui.jpg"}
             />
           </div>
         )}

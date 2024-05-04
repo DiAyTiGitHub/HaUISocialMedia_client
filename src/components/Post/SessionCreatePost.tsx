@@ -5,7 +5,7 @@ import LocalStorage from "@/services/LocalStorageService";
 
 const SessionCreatePost = () => {
   const { groupId } = useParams();
-  console.log(groupId);
+
   const currentUser = LocalStorage.getLoggedInUser();
 
   return (

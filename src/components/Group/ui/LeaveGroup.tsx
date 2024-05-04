@@ -20,7 +20,7 @@ type Props = {
   id: string;
   isDetail?: boolean;
 };
-const LeaveGroup = ({ id, isDetail }: Props) => {
+const LeaveGroup = ({ id }: Props) => {
   const navigate = useNavigate();
   const { groupStore } = useStore();
   const [isLeaving, setIsLeaving] = useState(false);
@@ -43,18 +43,9 @@ const LeaveGroup = ({ id, isDetail }: Props) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        {isDetail ? (
-          <span className="max-w-max bg-red-500 text-white cursor-pointer flex items-center p-2  justify-center rounded-md">
-            Thoát Nhóm
-          </span>
-        ) : (
-          <DropdownMenuItem
-            onSelect={(e) => e.preventDefault()}
-            className="outline-none"
-          >
-            <span className="text-red-600 cursor-pointer">Thoát Nhóm</span>
-          </DropdownMenuItem>
-        )}
+        <span className="max-w-max bg-red-500 text-white cursor-pointer flex items-center p-2  justify-center rounded-md">
+          Thoát Nhóm
+        </span>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

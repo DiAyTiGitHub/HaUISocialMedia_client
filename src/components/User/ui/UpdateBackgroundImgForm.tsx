@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 import Loader from "@/components/shared/Loader";
 
 import { handleUploadImage } from "@/lib/utils";
-import LocalStorageService from "@/services/LocalStorageService";
+
 import BackGroupUpload from "./BackGroupUpload";
 
 const formSchema = z.object({
@@ -31,10 +31,10 @@ type Props = {
 };
 
 const UpdateBackgroundImgForm = ({ backgroundImg }: Props) => {
-  const currentUser = LocalStorageService.getLoggedInUser();
   const navigate = useNavigate();
-  const [isCreating, setIsCreating] = useState(false);
-  const { groupStore } = useStore();
+  const [isUpdating, setIsUpdating] = useState(false);
+  const { postStore } = useStore();
+  const { updateBackgroundUser } = postStore;
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -44,7 +44,20 @@ const UpdateBackgroundImgForm = ({ backgroundImg }: Props) => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    try {
+      setIsUpdating(true);
+
+      const url = await handleUploadImage(values.backGroundImage[0]);
+      console.log(url);
+
+      const data = await updateBackgroundUser(url as string);
+      toast.success("Đã cập nhật");
+      navigate(0);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsUpdating(false);
+    }
   }
   return (
     <Form {...form}>
@@ -65,8 +78,8 @@ const UpdateBackgroundImgForm = ({ backgroundImg }: Props) => {
           )}
         />
         <div className="flex justify-end">
-          <Button disabled={isCreating} type="submit">
-            {isCreating ? <Loader /> : "Cập nhật ảnh bìa"}
+          <Button disabled={isUpdating} type="submit">
+            {isUpdating ? <Loader /> : "Cập nhật ảnh bìa"}
           </Button>
         </div>
       </form>

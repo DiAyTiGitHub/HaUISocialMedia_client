@@ -1,6 +1,5 @@
 import LocalStorageService from "@/services/LocalStorageService";
 import { useStore } from "@/stores";
-import { set } from "date-fns";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 
@@ -31,6 +30,47 @@ const useGetData = ({ getRequest, paging, setPaging }: Props) => {
         if (!data || data.length === 0 || data.length < paging.pageSize)
           setShowLoadMore(false);
       }
+    } catch (error) {
+      console.log(error);
+      setIdError(error);
+      setShowLoadMore(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (inView) {
+      handleGetData(paging);
+    }
+  }, [inView, paging]);
+
+  return { ref, res, isLoading, showLoadMore, isError };
+};
+
+const useGetDataNewFeed = ({ getRequest, paging, setPaging }: Props) => {
+  const { ref, inView } = useInView();
+  const [isLoading, setIsLoading] = useState(false);
+  const [showLoadMore, setShowLoadMore] = useState<boolean>(true);
+  const [isError, setIdError] = useState<any>();
+
+  const [res, setRes] = useState<any[]>([]);
+  const handleGetData = async (paging: any) => {
+    setIsLoading(true);
+    try {
+      const data = await getRequest(paging);
+      if (data && data.length > 0) {
+        if (data.length === paging.pageSize) {
+          setRes((prev) => [...prev, ...data]);
+          setPaging({
+            pageSize: paging.pageSize,
+            pageIndex: paging.pageIndex + 1,
+            mileStoneId: data[0]?.id,
+          });
+        }
+      }
+      if (!data || data.length === 0 || data.length < paging.pageSize)
+        setShowLoadMore(false);
     } catch (error) {
       console.log(error);
       setIdError(error);
@@ -247,6 +287,7 @@ export {
   useGetAllData,
   useGetDataPagination,
   useGetDataObjectPagination,
+  useGetDataNewFeed,
 };
 
 export default useGetData;

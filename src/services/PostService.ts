@@ -39,3 +39,7 @@ export function deletePostRequest(postId: any) {
   const url = API_PATH + `/${postId}`;
   return _axios.delete(url);
 }
+export function updateBackgroundUserRequest(backroundUrl: any) {
+  const url = API_PATH + `/BackgroundImage?backgroundImage=${backroundUrl}`;
+  return _axios.post(url);
+}

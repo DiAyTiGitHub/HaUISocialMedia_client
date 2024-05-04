@@ -17,9 +17,9 @@ const GroupDetailHeader = ({ group, isAdmin }: Props) => {
   const { groupId } = useParams();
   const { groupStore } = useStore();
   const { joinGroup } = groupStore;
-  const isSendRequest = false;
+
   const isJoined = handleCheckUserJoinedGroup(group);
-  console.log(isJoined);
+
   // const isSendRequest = useCheckUserSendRequestJoinGroup(groupId);
   // console.log(isSendRequest);
 
@@ -79,7 +79,7 @@ const GroupDetailHeader = ({ group, isAdmin }: Props) => {
                 ) : (
                   <div>
                     {isJoined ? (
-                      <LeaveGroup id={group?.id} isDetail />
+                      <LeaveGroup id={group?.id} />
                     ) : (
                       <CustomButtonGroup
                         message="Đã yêu cầu tham gia"

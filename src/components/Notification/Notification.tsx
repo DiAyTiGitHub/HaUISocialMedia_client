@@ -6,7 +6,7 @@ import {
 import { Bell, Loader } from "lucide-react";
 import { useState } from "react";
 import { NotificationType } from "@/types";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { multiFormatDateString } from "@/lib/utils";
 import FriendListSkeleton from "../skeleton/FriendListSkeleton";
 import { useStore } from "@/stores";
@@ -63,6 +63,7 @@ const Notification = () => {
 
     return handleFn;
   };
+
   return (
     <Popover>
       <PopoverTrigger>

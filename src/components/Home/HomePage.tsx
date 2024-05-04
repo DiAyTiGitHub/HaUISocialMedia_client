@@ -6,7 +6,7 @@ import { useState } from "react";
 
 import { SearchObjectType } from "@/types";
 import { Loader } from "lucide-react";
-import useGetData from "@/lib";
+import useGetData, { useGetDataNewFeed } from "@/lib";
 import { useStore } from "@/stores";
 
 export type newFeedPagination = {
@@ -34,6 +34,7 @@ const HomePage = () => {
     setPaging: setPaging,
   });
 
+  console.log(posts);
   return (
     <div className="w-full grid grid-cols-[1fr_2fr_1fr] gap-x-8 relative mt-5">
       <Sidebar />
