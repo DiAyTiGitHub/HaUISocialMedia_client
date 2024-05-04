@@ -34,11 +34,12 @@ class PostStore {
     }
   };
 
-  getPostOfUser = async (searchObject: any, userId: string) => {
+  getPostOfUser = async (searchObject: any) => {
     try {
+      const user = JSON.parse(localStorage.getItem('auth_user') || "");
       const { data } = await pagingPostsOfUser({
         searchObject: searchObject,
-        userId: userId,
+        userId: user.id,
       });
       return data;
     } catch (error) {

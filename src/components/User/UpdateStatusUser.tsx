@@ -1,7 +1,7 @@
 type Props = {
-  classData: any;
+  userData: any;
 };
-const UpdateStatusUser = ({ classData }: Props) => {
+const UpdateStatusUser = ({ userData }: Props) => {
   return <div>hãy cập nhật trạng thái của user này ở đây</div>;
 };
 

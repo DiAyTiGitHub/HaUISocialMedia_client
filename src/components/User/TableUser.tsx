@@ -1,45 +1,48 @@
 import {
   Table,
   TableBody,
-  TableCaption,
+  // TableCaption,
   TableCell,
-  TableFooter,
+  // TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import UpdateClass from "./UpdateStatusUser";
-
-const TableUser = ({ classData, isLoading }: Props) => {
+// import UpdateClass from "./UpdateStatusUser";
+type Props = {
+  userData: any;
+  isLoading: boolean;
+};
+const TableUser = ({ userData, isLoading }: Props) => {
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[100px]">Mã Lớp</TableHead>
-          <TableHead>Tên Lớp</TableHead>
-          <TableHead>Mô Tả</TableHead>
-          <TableHead className="text-center">Sinh Viên</TableHead>
-          <TableHead></TableHead>
+          <TableHead className="w-[100px]">Mã User</TableHead>
+          <TableHead>username </TableHead>
+          <TableHead>Họ </TableHead>
+          <TableHead>Tên </TableHead>
+          <TableHead>email </TableHead>
+          <TableHead>Địa chỉ </TableHead>
+          <TableHead>Giới tính</TableHead>
+          <TableHead>Ngày sinh</TableHead>
         </TableRow>
       </TableHeader>
       <>
-        {!classData ? (
-          <span>Chưa có lơp học nào</span>
+        {!userData ? (
+          <span>Chưa có tài khoản nào được tạo</span>
         ) : (
           <TableBody>
-            {classData.map((item: any) => (
+            {userData.map((item: any) => (
               <TableRow key={item.id}>
-                <TableCell className="font-medium">{item.code}</TableCell>
-                <TableCell>{item.name}</TableCell>
-                <TableCell>{item.description}</TableCell>
-                <TableCell className="text-center">
-                  {item.students ? item.students.lenght : 0}
-                </TableCell>
-                <TableCell className="text-right">
-                  <div className="flex gap-5 justify-end">
-                    <UpdateClass classData={item} />
-                  </div>
-                </TableCell>
+                <TableCell>{item.code}</TableCell>
+                <TableCell>{item.username}</TableCell>
+                <TableCell>{item.lastName}</TableCell>
+                <TableCell>{item.firstName}</TableCell>
+                <TableCell>{item.email}</TableCell>
+                <TableCell>{item.address}</TableCell>
+                <TableCell>{item.gender ? "Nam" : "Nữ"}</TableCell>
+                <TableCell>{item.birthDate}</TableCell>
               </TableRow>
             ))}
           </TableBody>

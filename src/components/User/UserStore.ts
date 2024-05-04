@@ -45,6 +45,7 @@ class UserStore {
   getAllUsers = async () => {
     try {
       const { data } = await getAllUsers();
+      console.log(data);
       return data;
     } catch (error) {
       toast.error("Something went wrong :(");

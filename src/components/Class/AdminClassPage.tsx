@@ -10,9 +10,23 @@ import { SearchObjectType } from "@/types";
 
 const AdminClassPage = () => {
   const [paging, setPaging] = useState<SearchObjectType>({
-    pageIndex: 1,
-    pageSize: 10,
+    pageSize: 5,
+    pageIndex: 0,
+    keyWord: "",
   });
+  const [searchValue, setSearchValue] = useState("");
+
+  const handleChange = (event: any) => {
+    setSearchValue(event.target.value);
+  };
+
+  const handleClick = () => {
+    setPaging((prevPaging) => ({
+      ...prevPaging,
+      keyWord: searchValue,
+    }));
+    // Thực hiện các thao tác khác với giá trị searchValue ở đây
+  };
   const { classStore } = useStore();
   const { pagingClass } = classStore;
 
@@ -34,8 +48,9 @@ const AdminClassPage = () => {
                 type="search"
                 className="px-5"
                 placeholder="Tìm lớp học..."
+                onChange={handleChange}
               />
-              <button className="bg-primary p-2">
+              <button className="bg-primary p-2" onClick={handleClick}>
                 <Search color="#fff" />
               </button>
             </div>

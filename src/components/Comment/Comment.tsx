@@ -65,7 +65,6 @@ const Comment = ({ postId, repliCommentId }: CommentProps) => {
         },
       };
     }
-
     try {
       setIsCreateConmment(true);
       await createComment(newComment);
