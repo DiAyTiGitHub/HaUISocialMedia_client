@@ -29,6 +29,8 @@ import GroupLayout from "./components/Group/GroupLayout";
 import GroupDetail from "./components/Group/GroupDetail";
 import GroupJoined from "./components/Group/GroupJoined";
 
+import './DiAyTiOverridingStyles.scss';
+
 const App = () => {
   return (
     <>

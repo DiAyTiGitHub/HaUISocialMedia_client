@@ -91,7 +91,7 @@ function GroupConversationCreator(props: any) {
         <div className="modal-container-content p-3">
           <TextField
             id="standard-basic"
-            label="Enter new conversation name..."
+            label="Nhập tên cuộc trò chuyện mới..."
             variant="standard"
             onChange={handleChangeConversationName}
             value={conversationName}
@@ -100,7 +100,7 @@ function GroupConversationCreator(props: any) {
           />
 
           <List dense sx={{ width: "100%" }} className="flex-column">
-            <p className="text-center">Choose participants</p>
+            <p className="text-center">Chọn người tham gia</p>
 
 
             {isLoading && (

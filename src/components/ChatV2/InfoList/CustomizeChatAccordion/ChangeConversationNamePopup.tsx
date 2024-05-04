@@ -56,9 +56,9 @@ function ChangeConversationNamePopup(props: any) {
 
                                 <Field
                                     as={TextField}
-                                    label="New conversation name"
+                                    label="Tên cuộc trò chuyên mới"
                                     name="name"
-                                    placeholder="Enter new conversation name"
+                                    placeholder="Nhập tên cuộc trò chuyện mới..."
                                     fullWidth
                                     required
                                     disabled={isUpdating}
