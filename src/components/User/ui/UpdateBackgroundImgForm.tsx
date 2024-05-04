@@ -22,6 +22,7 @@ import { handleUploadImage } from "@/lib/utils";
 
 import BackGroupUpload from "./BackGroupUpload";
 
+import LocalStorage from "@/services/LocalStorageService";
 const formSchema = z.object({
   backGroundImage: z.custom<File[]>(),
 });
@@ -31,10 +32,12 @@ type Props = {
 };
 
 const UpdateBackgroundImgForm = ({ backgroundImg }: Props) => {
+  const currentUser = LocalStorage.getLoggedInUser();
   const navigate = useNavigate();
   const [isUpdating, setIsUpdating] = useState(false);
-  const { postStore } = useStore();
-  const { updateBackgroundUser } = postStore;
+  const { userStore, authStore } = useStore();
+  const { setUser } = authStore;
+  const { updateUser } = userStore;
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -47,11 +50,20 @@ const UpdateBackgroundImgForm = ({ backgroundImg }: Props) => {
     try {
       setIsUpdating(true);
 
-      const url = await handleUploadImage(values.backGroundImage[0]);
+      let url;
+      if (values && values.backGroundImage[0]) {
+        url = await handleUploadImage(values.backGroundImage[0]);
+      } else {
+        url = currentUser.background;
+      }
       console.log(url);
 
-      const data = await updateBackgroundUser(url as string);
-      toast.success("Đã cập nhật");
+      const data = await updateUser({
+        ...currentUser,
+        background: url,
+      });
+      toast.success("Đã cập nhật ảnh bìa");
+      setUser(data);
       navigate(0);
     } catch (error) {
       console.log(error);

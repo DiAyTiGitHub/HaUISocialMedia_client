@@ -43,9 +43,9 @@ const formSchema = z.object({
 
 export type UpdateUserForm = z.infer<typeof formSchema>;
 
-function EditProfile(){
+function EditProfile() {
   const navigate = useNavigate();
-  
+
   const { userStore, authStore } = useStore();
   const { setUser } = authStore;
   const { updateUser } = userStore;
@@ -276,6 +276,6 @@ function EditProfile(){
       </div>
     </div>
   );
-};
+}
 
 export default memo(observer(EditProfile));
