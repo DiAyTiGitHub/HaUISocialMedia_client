@@ -1,4 +1,3 @@
-import { useDislikePost, useLikePost } from "@/react-query/post";
 import { IPost } from "@/types";
 import { Heart, Loader, MessagesSquare } from "lucide-react";
 import { useState } from "react";
@@ -16,7 +15,7 @@ const PostStats = ({ post }: PostStatsProps) => {
   const { likeStore } = useStore();
   const { likePost, dislikePost } = likeStore;
 
-  const likesList = post.likes.map((user: any) => user.userLike.id);
+  const likesList = post?.likes?.map((user: any) => user.userLike.id) || [];
   const [likes, setLikes] = useState<string[]>(likesList);
 
   const handleLike = async () => {
@@ -40,7 +39,7 @@ const PostStats = ({ post }: PostStatsProps) => {
   };
 
   const checkIsLiked = (likeList: string[], userId: string) => {
-    return likeList.includes(userId);
+    return likeList?.includes(userId);
   };
   const handleDislike = async () => {
     let likesArray = [...likes];
@@ -67,14 +66,14 @@ const PostStats = ({ post }: PostStatsProps) => {
             <Heart />
           </button>
         )}
-        <p className="small-medium lg:base-medium">{likes.length}</p>
+        <p className="small-medium lg:base-medium">{likes?.length || 0}</p>
       </div>
 
       <div className="flex gap-2">
         <button onClick={() => navigate(`/post/${post.id}`)}>
           <MessagesSquare />
         </button>
-        <p className="small-medium lg:base-medium">{post.comments.length}</p>
+        <p className="small-medium lg:base-medium">{post?.comments?.length}</p>
       </div>
     </div>
   );

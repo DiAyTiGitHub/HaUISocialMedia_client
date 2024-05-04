@@ -4,9 +4,9 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Bell, Loader } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { NotificationType } from "@/types";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { multiFormatDateString } from "@/lib/utils";
 import FriendListSkeleton from "../skeleton/FriendListSkeleton";
 import { useStore } from "@/stores";
@@ -32,6 +32,37 @@ const Notification = () => {
     setPaging: setPaging,
   });
 
+  const navigate = useNavigate();
+
+  const handleNavigateNotification = (notify: any) => {
+    let handleFn = () => {
+      alert("co loi");
+    };
+    switch (notify?.notificationType.name) {
+      case "Group":
+        handleFn = () => {
+          navigate("/group/" + notify.groupDto?.id);
+          window.location.href = "/group/" + notify.groupDto?.id;
+        };
+        break;
+
+      case "Friend":
+        handleFn = () => {
+          navigate("/profile/" + notify.actor?.id);
+        };
+        break;
+
+      case "Post":
+        handleFn = () => {
+          navigate("/post/" + notify.post?.id);
+        };
+        break;
+      default:
+        break;
+    }
+
+    return handleFn;
+  };
   return (
     <Popover>
       <PopoverTrigger>
@@ -50,14 +81,10 @@ const Notification = () => {
               ) : (
                 <div className="flex flex-col gap-3">
                   {notifications.map((notification: NotificationType) => (
-                    <Link
+                    <div
+                      onClick={handleNavigateNotification(notification)}
                       key={notification.id}
-                      to={`${
-                        notification.notificationType.name === "Friend"
-                          ? "/profile/" + notification.actor?.id
-                          : `/post/${notification?.post}`
-                      }`}
-                      className="flex items-center gap-2 bg-blue-2 p-3 rounded-lg"
+                      className="flex items-center gap-2 bg-blue-2 p-3 rounded-lg cursor-pointer"
                     >
                       <img
                         className="profile-photo"
@@ -74,7 +101,7 @@ const Notification = () => {
                           )}
                         </span>
                       </div>
-                    </Link>
+                    </div>
                   ))}
                 </div>
               )}
