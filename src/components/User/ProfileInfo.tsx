@@ -25,7 +25,7 @@ function ProfileInfo({ userProfile, isLoading }: Props) {
 
   const [relationship, setRelationship] = useState<RelationshipType>({
     title: "",
-    handleFn: () => {},
+    handleFn: () => { },
     message: "",
     id: "",
   });
@@ -55,7 +55,7 @@ function ProfileInfo({ userProfile, isLoading }: Props) {
             ...prev,
             title: "Đã gửi lời mời",
             message: "Thêm bạn bè",
-            handleFn: () => {},
+            handleFn: () => { },
             id: userProfile.relationshipDto.id,
           }));
         } else {
@@ -102,7 +102,10 @@ function ProfileInfo({ userProfile, isLoading }: Props) {
         )}
       </div>
 
-      <div className="bg-white h-fit p-5">
+      <div className="bg-white h-fit p-5" style={{
+        borderBottomLeftRadius: "8px",
+        borderBottomRightRadius: "8px",
+      }}>
         <div className="flex justify-between items-center  pb-5">
           <div className="flex items-center gap-2 -mt-14">
             <div className="z-10">
