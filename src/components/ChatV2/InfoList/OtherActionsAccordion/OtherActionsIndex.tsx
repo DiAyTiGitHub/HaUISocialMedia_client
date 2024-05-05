@@ -32,16 +32,16 @@ function ParticipantIndex(props: any) {
                     id="panel1a-header"
                     style={{ minHeight: "0" }}
                 >
-                    <Typography>Other Actions</Typography>
+                    <Typography>Khác</Typography>
                 </AccordionSummary>
                 <AccordionDetails className="m-1 p-0">
                     <div className='list-item w-100' onClick={() => { setAddNewParticipants(true) }}>
                         <PersonAddIcon className='mr-2' />
-                        Add new participant
+                        Thêm người tham gia
                     </div>
                     <div className='list-item w-100' onClick={() => { setConfirmLeave(true) }}>
                         <LogoutIcon className='mr-2' />
-                        Leave this conversation
+                        Rời cuộc trò chuyện
                     </div>
                 </AccordionDetails>
             </Accordion>

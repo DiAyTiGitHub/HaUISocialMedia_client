@@ -76,7 +76,8 @@ function ConversationListItem(props: any) {
 
       const lastMessage = messages[messages.length - 1];
 
-      return format(parseISO(lastMessage.sendDate), 'd/M/yyyy');
+      if (lastMessage?.sendDate)
+        return format(parseISO(lastMessage?.sendDate), 'd/M/yyyy');
     }
     return "";
   }

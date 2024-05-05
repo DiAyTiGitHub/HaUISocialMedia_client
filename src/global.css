@@ -30,6 +30,7 @@
     --sticky-top-right: -18rem;
   }
 }
+
 * {
   margin: 0;
   padding: 0;
@@ -38,9 +39,11 @@
   text-decoration: none;
   list-style: none;
 }
+
 .linearGradient {
   background: linear-gradient(180deg, #fde1ff, #e1ffea22, 60%);
 }
+
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -48,13 +51,16 @@
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #888;
   border-radius: 5px;
 }
+
 ::-webkit-scrollbar:hover {
   background: #555;
 }
+
 body {
   color: var(--color-dark);
   background: var(--color-light);
@@ -234,6 +240,7 @@ body {
 }
 
 @layer utilities {
+
   /* TYPOGRAPHY */
   .h1-bold {
     @apply text-[36px] font-bold leading-[140%] tracking-tighter;
@@ -331,29 +338,39 @@ body {
   .common-container {
     @apply w-[80%] mx-auto;
   }
+
   .search-padding {
     @apply px-2 py-2;
   }
+
   .card-padding {
     @apply p-2;
   }
+
   .sidebar-active {
     @apply before:block before:w-1 before:h-full before:absolute before:bg-primary;
   }
+
   .navbar-active {
     @apply before:block before:h-1 before:w-full before:absolute before:bottom-0 before:bg-primary;
   }
 
   .profile-photo {
     @apply w-[2.7rem] overflow-hidden h-[2.7rem];
+    border-radius: 50%;
+    min-width: 44px;
+    max-width: 44px;
+    height: 44px;
   }
 
   .btn {
     @apply inline-block py-2 px-8 font-medium rounded-xl cursor-pointer hover:opacity-80;
   }
+
   .btn-primary {
     @apply bg-primary text-white;
   }
+
   /* All Users */
   .user-container {
     @apply max-w-5xl flex flex-col items-start w-full gap-6 md:gap-9;
@@ -386,7 +403,7 @@ body {
   }
 
   .home-creators {
-    @apply hidden xl:flex flex-col w-72 2xl:w-465 px-6 py-10 gap-10  overflow-scroll custom-scrollbar;
+    @apply hidden xl:flex flex-col w-72 2xl:w-465 px-6 py-10 gap-10 overflow-scroll custom-scrollbar;
   }
 
   /* Post Details */
@@ -407,7 +424,7 @@ body {
   }
 
   .post_details-delete_btn {
-    @apply p-0 flex gap-3 hover:bg-transparent hover:text-light-1  text-light-1 small-medium lg:base-medium;
+    @apply p-0 flex gap-3 hover:bg-transparent hover:text-light-1 text-light-1 small-medium lg:base-medium;
   }
 
   /* Profile */
@@ -420,7 +437,7 @@ body {
   }
 
   .profile-tab {
-    @apply flex-center gap-3 py-4 w-48 bg-dark-2  transition flex-1 xl:flex-initial;
+    @apply flex-center gap-3 py-4 w-48 bg-dark-2 transition flex-1 xl:flex-initial;
   }
 
   /* Saved */
@@ -491,5 +508,5 @@ body {
 .thread-card_bar {
   @apply relative mt-2 w-0.5 grow rounded-full bg-neutral-800;
 }
-@layer components {
-}
+
+@layer components {}

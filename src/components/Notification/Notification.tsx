@@ -80,19 +80,21 @@ const Notification = () => {
               {!notifications || notifications.length === 0 ? (
                 <p>Không có thông báo nào</p>
               ) : (
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-2">
                   {notifications.map((notification: NotificationType) => (
                     <div
                       onClick={handleNavigateNotification(notification)}
-                      key={notification.id}
-                      className="flex items-center gap-2 bg-blue-2 p-3 rounded-lg cursor-pointer"
+                      key={notification?.id}
+                      className="flex items-center bg-blue-2 p-2 rounded-lg cursor-pointer"
                     >
-                      <img
-                        className="profile-photo"
-                        src={notification.owner.avatar || "/person.jpg"}
-                        alt="profileImage"
-                      />
-                      <div>
+                      <div className="profilePhotoWrapper pr-2">
+                        <img
+                          className="profile-photo"
+                          src={notification?.owner?.avatar || "/person.jpg"}
+                          alt="profileImage"
+                        />
+                      </div>
+                      <div className="flex-1">
                         <p className="text-base-medium">
                           {notification.content}
                         </p>

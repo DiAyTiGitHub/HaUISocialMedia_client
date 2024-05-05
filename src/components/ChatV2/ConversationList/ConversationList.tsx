@@ -51,7 +51,7 @@ function ConversationList() {
                   {
                     ((!joinedRooms || (joinedRooms.length === 0)) && !isLoading) && (
                       <div className="no-conversation">
-                        <p>You don't have any conversation, lets add friends and start chatting!</p>
+                        <p>Bạn chưa có cuộc trò chuyện nào <br /> Hãy tìm kiếm thêm bạn bè</p>
                       </div>
                     )
                   }

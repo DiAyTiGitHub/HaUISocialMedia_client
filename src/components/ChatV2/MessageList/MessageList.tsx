@@ -89,7 +89,7 @@ function MessageList(props: any) {
         ) : (
           <>
             {!chosenRoom ? (
-              <div className="no-message">No conversation was chosen</div>
+              <div className="no-message">Chưa có cuộc trò chuyện nào được chọn</div>
             )
               :
               (
