@@ -60,12 +60,12 @@ const useGetDataNewFeed = ({ getRequest, paging, setPaging }: Props) => {
     try {
       const data = await getRequest(paging);
       if (data && data.length > 0) {
+        setRes((prev) => [...prev, ...data]);
         if (data.length === paging.pageSize) {
-          setRes((prev) => [...prev, ...data]);
           setPaging({
             pageSize: paging.pageSize,
             pageIndex: paging.pageIndex + 1,
-            mileStoneId: data[0]?.id,
+            mileStoneId: data[length - 1]?.id,
           });
         }
       }
@@ -85,6 +85,55 @@ const useGetDataNewFeed = ({ getRequest, paging, setPaging }: Props) => {
       handleGetData(paging);
     }
   }, [inView, paging]);
+
+  console.log(res);
+
+  return { ref, res, isLoading, showLoadMore, isError };
+};
+
+const useGetDataPostByUserId = ({
+  getRequest,
+  paging,
+  setPaging,
+  userId,
+}: Props) => {
+  const { ref, inView } = useInView();
+  const [isLoading, setIsLoading] = useState(false);
+  const [showLoadMore, setShowLoadMore] = useState<boolean>(true);
+  const [isError, setIdError] = useState<any>();
+
+  const [res, setRes] = useState<any[]>([]);
+  const handleGetData = async (paging: any) => {
+    setIsLoading(true);
+    try {
+      const data = await getRequest(paging, userId);
+      if (data && data.length > 0) {
+        setRes((prev) => [...prev, ...data]);
+        if (data.length === paging.pageSize) {
+          setPaging({
+            pageSize: paging.pageSize,
+            pageIndex: paging.pageIndex + 1,
+            mileStoneId: data[length - 1]?.id,
+          });
+        }
+      }
+
+      if (!data || data.length === 0 || data.length < paging.pageSize)
+        setShowLoadMore(false);
+    } catch (error) {
+      console.log(error);
+      setIdError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (inView) {
+      handleGetData(paging);
+    }
+  }, [inView, paging]);
+  console.log(res);
 
   return { ref, res, isLoading, showLoadMore, isError };
 };
@@ -288,6 +337,7 @@ export {
   useGetDataPagination,
   useGetDataObjectPagination,
   useGetDataNewFeed,
+  useGetDataPostByUserId,
 };
 
 export default useGetData;

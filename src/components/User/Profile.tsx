@@ -12,11 +12,11 @@ import FriendOfUser from "@/components/Relationship/FriendOfUser";
 import UserCourseResult from "../CourseResult/UserCourseResult";
 import TableSkeleton from "@/components/skeleton/TableSkeleton";
 import { useStore } from "@/stores";
-import { useGetDataByUserId } from "@/lib";
+import { useGetDataByUserId, useGetDataPostByUserId } from "@/lib";
 import { observer } from "mobx-react";
 import { Grid } from "@mui/material";
 
-import './ProfileStyle.scss';
+import "./ProfileStyle.scss";
 
 function Profile() {
   const { profileId } = useParams();
@@ -24,6 +24,7 @@ function Profile() {
   const [paging, setPaging] = useState<SearchObjectType>({
     pageIndex: 1,
     pageSize: 10,
+    mileStoneId: "",
   });
   const [userProfile, setUserProfile] = useState<IUser>();
   const [isLoadingUser, setIsLoadingUser] = useState(false);
@@ -34,7 +35,7 @@ function Profile() {
     res: posts,
     isLoading,
     showLoadMore,
-  } = useGetDataByUserId({
+  } = useGetDataPostByUserId({
     getRequest: getPostOfUser,
     paging: paging,
     setPaging: setPaging,
@@ -64,7 +65,6 @@ function Profile() {
         <Grid container spacing={1}>
           <Grid item xs={12} md={5} lg={4}>
             <div className="">
-
               <Tabs defaultValue="all" className="w-full pb-10 chats tabStyle">
                 <TabsList className="bg-white">
                   <TabsTrigger value="all">Giới thiệu</TabsTrigger>
@@ -116,7 +116,9 @@ function Profile() {
                           </p>
                           <p>
                             Email:{" "}
-                            <span>{userProfile?.email || "Chưa cập nhật"} </span>
+                            <span>
+                              {userProfile?.email || "Chưa cập nhật"}{" "}
+                            </span>
                           </p>
                           <p>
                             SDT:{" "}
@@ -126,7 +128,9 @@ function Profile() {
                           </p>
                           <p>
                             Địa chỉ:{" "}
-                            <span>{userProfile?.address || "Chưa cập nhật"}</span>
+                            <span>
+                              {userProfile?.address || "Chưa cập nhật"}
+                            </span>
                           </p>
                         </div>
                       </div>

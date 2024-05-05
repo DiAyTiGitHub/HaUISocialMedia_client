@@ -20,6 +20,7 @@ const HomePage = () => {
   const [paging, setPaging] = useState<SearchObjectType>({
     pageIndex: 0,
     pageSize: 20,
+    mileStoneId: "",
   });
 
   const {
@@ -28,7 +29,7 @@ const HomePage = () => {
     isLoading,
     showLoadMore,
     isError,
-  } = useGetData({
+  } = useGetDataNewFeed({
     getRequest: getNewFeed,
     paging: paging,
     setPaging: setPaging,
