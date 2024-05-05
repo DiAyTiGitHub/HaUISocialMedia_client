@@ -67,6 +67,7 @@ const FriendResquest = () => {
                     id={friend.id}
                   />
                   <CustomButtonFriend
+                    isSecondary
                     handleFn={unAcceptFriend}
                     title="Từ chối"
                     message="Đã từ chối"

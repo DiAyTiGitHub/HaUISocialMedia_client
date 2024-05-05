@@ -14,23 +14,25 @@ type Props = {
   isLoading: boolean;
 };
 type RelationshipType = {
+  type: "IsFriend" | "IsSend" | "IsAccept" | "None" | "";
   title: string;
   handleFn: any;
   message: string;
   id: string;
 };
 function ProfileInfo({ userProfile, isLoading }: Props) {
-  console.log(userProfile);
   const { profileId } = useParams();
 
   const [relationship, setRelationship] = useState<RelationshipType>({
+    type: "",
     title: "",
-    handleFn: () => { },
+    handleFn: () => {},
     message: "",
     id: "",
   });
   const { relationshipStore } = useStore();
-  const { acceptFriend, unFriend, addFriend } = relationshipStore;
+  const { acceptFriend, unFriend, addFriend, unAcceptFriend } =
+    relationshipStore;
   const navigate = useNavigate();
   const currentUser = LocalStorage.getLoggedInUser();
   const [isCurrentUser, setIsCurrentUser] = useState(false);
@@ -44,6 +46,7 @@ function ProfileInfo({ userProfile, isLoading }: Props) {
       if (userProfile.relationshipDto.state) {
         setRelationship((prev) => ({
           ...prev,
+          type: "IsFriend",
           title: "Bạn bè",
           message: "Đã huỷ kết bạn",
           handleFn: unFriend,
@@ -53,14 +56,16 @@ function ProfileInfo({ userProfile, isLoading }: Props) {
         if (userProfile.relationshipDto.requestSender.id === currentUser?.id) {
           setRelationship((prev) => ({
             ...prev,
+            type: "IsSend",
             title: "Đã gửi lời mời",
             message: "Thêm bạn bè",
-            handleFn: () => { },
+            handleFn: () => {},
             id: userProfile.relationshipDto.id,
           }));
         } else {
           setRelationship((prev) => ({
             ...prev,
+            type: "IsAccept",
             title: "Chấp nhận",
             message: "Bạn bè",
             handleFn: acceptFriend,
@@ -71,6 +76,7 @@ function ProfileInfo({ userProfile, isLoading }: Props) {
     } else {
       setRelationship((prev) => ({
         ...prev,
+        type: "None",
         title: "Thêm bạn bè",
         message: "Đã gửi lời mời",
         handleFn: addFriend,
@@ -102,10 +108,13 @@ function ProfileInfo({ userProfile, isLoading }: Props) {
         )}
       </div>
 
-      <div className="bg-white h-fit p-5" style={{
-        borderBottomLeftRadius: "8px",
-        borderBottomRightRadius: "8px",
-      }}>
+      <div
+        className="bg-white h-fit p-5"
+        style={{
+          borderBottomLeftRadius: "8px",
+          borderBottomRightRadius: "8px",
+        }}
+      >
         <div className="flex justify-between items-center  pb-5">
           <div className="flex items-center gap-2 -mt-14">
             <div className="z-10">
@@ -135,10 +144,42 @@ function ProfileInfo({ userProfile, isLoading }: Props) {
             </div>
           ) : (
             <>
-              {relationship.title === "Bạn bè" ? (
-                <FriendDropdown friend={userProfile} />
-              ) : (
-                <CustomButtonFriend {...relationship} />
+              {relationship.type === "IsFriend" && (
+                <div className="flex gap-2 items-center">
+                  <div className="px-3 py-2 rounded-lg text-white bg-blue-500">
+                    Bạn bè
+                  </div>
+                  <FriendDropdown friend={userProfile} />
+                </div>
+              )}
+
+              {relationship.type === "IsSend" && (
+                <div className="flex gap-2 items-center">
+                  <CustomButtonFriend
+                    title="Huỷ gửi lời mời"
+                    message="Đã huỷ mời mời"
+                    id={relationship.id}
+                    handleFn={unAcceptFriend}
+                  />
+                  <CustomButtonFriend {...relationship} />
+                </div>
+              )}
+              {relationship.type === "IsAccept" && (
+                <div className="flex gap-2 items-center">
+                  <CustomButtonFriend
+                    isSecondary
+                    title="Từ chối"
+                    message="Đã từ chối"
+                    id={relationship.id}
+                    handleFn={unAcceptFriend}
+                  />
+                  <CustomButtonFriend {...relationship} />
+                </div>
+              )}
+              {relationship.type === "None" && (
+                <div className="flex gap-2 items-center">
+                  <CustomButtonFriend {...relationship} />
+                </div>
               )}
             </>
           )}

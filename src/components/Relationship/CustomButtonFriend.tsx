@@ -5,6 +5,7 @@ import { Loader } from "lucide-react";
 import { observer } from "mobx-react";
 
 type CustomButtonFriendProps = {
+  isSecondary?: boolean;
   title: string;
   message: string;
   handleFn: any;
@@ -16,6 +17,7 @@ const CustomButtonFriend = ({
   message,
   handleFn,
   id,
+  isSecondary = false,
 }: CustomButtonFriendProps) => {
   const [isDisable, setIsDisable] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -37,7 +39,7 @@ const CustomButtonFriend = ({
     <Button
       disabled={isDisable}
       className={`${
-        title === "Từ chối"
+        isSecondary
           ? "bg-white text-black hover:bg-grey-2"
           : "bg-blue-600 hover:bg-blue-500"
       }`}
