@@ -1,4 +1,4 @@
-import { useSearchParams } from "react-router-dom";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import FriendCard from "@/components/shared/FriendCard";
 import { Button } from "@/components/ui/button";
@@ -71,13 +71,14 @@ const data = {
     },
   ],
 };
+
 const SearchPage = () => {
   const [searchParams] = useSearchParams();
 
   return (
-    <div className="flex flex-col  bg-white max-w-[70%] mx-auto mt-3 rounded-lg">
+    <div className="flex  flex-col  bg-white w-full mx-auto mt-3 rounded-lg">
       <div className="p-5">
-        <h3 className="text-[24px]">
+        <h3 className="body-bold">
           Thông tin tìm kiếm:{" "}
           <span className="text-primary font-medium">
             {searchParams.get("name")}
@@ -85,57 +86,36 @@ const SearchPage = () => {
         </h3>
 
         <div className="mt-3">
-          <Tabs defaultValue="all" className="w-full">
-            <TabsList className="bg-white">
-              <TabsTrigger value="all">Tất cả</TabsTrigger>
-              <TabsTrigger value="users">Mọi người</TabsTrigger>
-              <TabsTrigger value="posts">Bài viết</TabsTrigger>
-            </TabsList>
-            <TabsContent value="all">
-              <div>
-                <div className="w-full">
-                  <p className="text-body-bold ">Mọi người</p>
-                  <div className="flex flex-col gap-3 my-3">
-                    {data.users.map((user) => (
-                      <FriendCard
-                        friend={user}
-                        isShowButton={true}
-                        key={user.id}
-                      />
-                    ))}
-                  </div>
-                  <Button className="w-full">Xem thêm</Button>
-                </div>
-
-                {/* // POSTS */}
-                <div className="w-full">
-                  <p className="text-body-bold ">Bài viết</p>
-                  {/* <div className="flex flex-col gap-3 my-3">
-                    {data.posts.map((post) => (
-                      <PortCard key={post.id} post={post} />
-                    ))}
-                  </div> */}
-                  <Button className="w-full">Xem thêm</Button>
-                </div>
-              </div>
-            </TabsContent>
-
-            <TabsContent value="users">
-              <div className="w-full">
-                <p className="text-body-bold ">Mọi người</p>
-                <div className="flex flex-col gap-3 my-3">
-                  {data.users.map((user) => (
-                    <FriendCard
-                      friend={user}
-                      isShowButton={true}
-                      key={user.id}
-                    />
-                  ))}
-                </div>
-              </div>
-            </TabsContent>
-            <TabsContent value="post" className="w-full"></TabsContent>
-          </Tabs>
+          <div>
+            <p className="body-bold">Mọi người</p>
+            <div>list user</div>
+            <Link
+              to={`/search/users?name=${searchParams.get("name")}`}
+              className="flex gap-2 justify-center bg-slate-300 text-black py-2 mt-5 rounded-md hover:bg-slate-200 font-semibold"
+            >
+              Xem thêm
+            </Link>
+          </div>
+          <div>
+            <p className="body-bold">Bài viết</p>
+            <div>list post</div>
+            <Link
+              to={`/search/posts?name=${searchParams.get("name")}`}
+              className="flex gap-2 justify-center bg-slate-300 text-black py-2 mt-5 rounded-md hover:bg-slate-200 font-semibold"
+            >
+              Xem thêm
+            </Link>
+          </div>
+          <div>
+            <p className="body-bold">Nhóm</p>
+            <div>list bài viết</div>
+            <Link
+              to={`/search/groups?name=${searchParams.get("name")}`}
+              className="flex gap-2 justify-center bg-slate-300 text-black py-2 mt-5 rounded-md hover:bg-slate-200 font-semibold"
+            >
+              Xem thêm
+            </Link>
+          </div>
         </div>
       </div>
     </div>

@@ -85,6 +85,7 @@ const RequestFriendPage = () => {
                         </div>
                         <div className="flex gap-2">
                           <CustomButtonFriend
+                            isSecondary
                             handleFn={unAcceptFriend}
                             title="Từ chối"
                             message="Đã từ chối"

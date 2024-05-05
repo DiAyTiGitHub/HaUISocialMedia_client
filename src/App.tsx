@@ -29,7 +29,11 @@ import GroupLayout from "./components/Group/GroupLayout";
 import GroupDetail from "./components/Group/GroupDetail";
 import GroupJoined from "./components/Group/GroupJoined";
 
-import './DiAyTiOverridingStyles.scss';
+import "./DiAyTiOverridingStyles.scss";
+import SearchLayout from "./components/Search/SearchLayout";
+import SearchGroupList from "./components/Search/SearchGroupList";
+import SearchUserList from "./components/Search/SearchUserList";
+import SearchPostList from "./components/Search/SearchPostList";
 
 const App = () => {
   return (
@@ -61,6 +65,13 @@ const App = () => {
               <Route path="/group/feed" element={<PostOfGroup />} />
               <Route path="/group/joined" element={<GroupJoined />} />
               <Route path="/group/:groupId" element={<GroupDetail />} />
+            </Route>
+            {/* Search Route */}
+            <Route path="/search" element={<SearchLayout />}>
+              <Route path="/search" element={<SearchPage />} />
+              <Route path="/search/posts" element={<SearchPostList />} />
+              <Route path="/search/users" element={<SearchUserList />} />
+              <Route path="/search/groups" element={<SearchGroupList />} />
             </Route>
           </Route>
 

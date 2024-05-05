@@ -44,7 +44,7 @@ const DeleteGroup = ({ id, isDetail }: Props) => {
     <AlertDialog>
       <AlertDialogTrigger asChild>
         {isDetail ? (
-          <span className="text-red-600 cursor-pointer flex items-center border w-1/3 justify-center rounded-md">
+          <span className="text-red-600 cursor-pointer flex items-center border p-2 w-1/3 justify-center rounded-md min-w-max">
             Xoá Nhóm
           </span>
         ) : (
@@ -52,7 +52,9 @@ const DeleteGroup = ({ id, isDetail }: Props) => {
             onSelect={(e) => e.preventDefault()}
             className="outline-none"
           >
-            <span className="text-red-600 cursor-pointer">Xoá Nhóm</span>
+            <span className="text-red-600 cursor-pointer max-w-max">
+              Xoá Nhóm
+            </span>
           </DropdownMenuItem>
         )}
       </AlertDialogTrigger>
