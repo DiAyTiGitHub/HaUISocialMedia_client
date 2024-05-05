@@ -9,7 +9,7 @@ import {
   addSingleUserIntoGroupChat,
   getListFriendNotInRoom,
   addMultipleUsersIntoGroupChat,
-  getAllJoinedRooms
+  getAllJoinedRooms,
 } from "@/services/RoomService";
 import { sendMessage } from "@/services/MessageService";
 
@@ -17,28 +17,31 @@ class ChatStore {
   isLoading: boolean = true;
 
   setIsLoading = (state: boolean) => {
-    if (this.isLoading != state)
-      this.isLoading = state;
-  }
+    if (this.isLoading != state) this.isLoading = state;
+  };
 
   constructor() {
     makeAutoObservable(this);
   }
 
   sendMessage = async (messageContent: string) => {
-    if (!messageContent || messageContent.length === 0 || messageContent.trim().length <= 0) {
+    if (
+      !messageContent ||
+      messageContent.length === 0 ||
+      messageContent.trim().length <= 0
+    ) {
       return;
     }
     try {
       const currentUser = LocalStorage.getLoggedInUser();
 
       const chatMessage = {
-        content: (messageContent),
+        content: messageContent,
         room: { id: this?.chosenRoom?.id },
         messageType: { name: "chat" },
         user: currentUser,
       };
-      console.log("msg content: " + (messageContent));
+      console.log("msg content: " + messageContent);
 
       //send message via stompclient
       // this?.stompClient?.send(
@@ -47,11 +50,9 @@ class ChatStore {
       //   JSON.stringify(chatMessage)
       // );
 
-
       //send message via api
       const { data: sentMessage } = await sendMessage(chatMessage);
       console.log("sent message: ", sentMessage);
-
     } catch (err: any) {
       if (err?.response?.status === 401)
         toast.error("Bạn không còn quyền truy cập vào cuộc hội thoại này");
@@ -63,15 +64,10 @@ class ChatStore {
     }
   };
 
-
-
-
-
-
   resetStore = () => {
     this.joinedRooms = [];
     this.chosenRoom = null;
-  }
+  };
 
   onReceiveRoomMessage = (payload: any) => {
     const payloadData = JSON.parse(payload.body);
@@ -107,7 +103,7 @@ class ChatStore {
       const newRoom = payloadData.room;
       const firstMessage = {
         ...payloadData,
-        room: null
+        room: null,
       };
       newRoom.messages = [firstMessage];
       this.joinedRooms.unshift(newRoom);
@@ -131,14 +127,14 @@ class ChatStore {
     this.chosenRoom = null;
 
     try {
-
       const { data } = await getAllJoinedRooms();
       this.joinedRooms = data;
       this.chosenRoom = data[0];
-
     } catch (error) {
       console.log(error);
-      toast.error("Tải thông tin cuộc các cuộc trò chuyện có lỗi, vui lòng thử lại sau");
+      toast.error(
+        "Tải thông tin cuộc các cuộc trò chuyện có lỗi, vui lòng thử lại sau"
+      );
     }
   };
 
@@ -168,13 +164,14 @@ class ChatStore {
       return data;
     } catch (err: any) {
       console.log(err);
-      toast.error("Có lỗi xảy ra khi tạo cuộc trò chuyện mới! Vui lòng thử lại sau");
+      toast.error(
+        "Có lỗi xảy ra khi tạo cuộc trò chuyện mới! Vui lòng thử lại sau"
+      );
       throw new Error(err);
     }
-  }
+  };
 
   updateRoomInfo = async (room: any) => {
-
     try {
       this.setIsLoading(true);
 
@@ -200,7 +197,7 @@ class ChatStore {
       toast.error("Update this conversation info fail, please try again!");
       throw new Error(err);
     }
-  }
+  };
 
   leaveConversation = async () => {
     try {
@@ -220,13 +217,16 @@ class ChatStore {
       toast.error("Update this conversation info fail, please try again!");
       throw new Error(err);
     }
-  }
+  };
 
   addNewParticipant = async (userId: string) => {
     try {
       this.setIsLoading(true);
 
-      const { data } = await addSingleUserIntoGroupChat(userId, this.chosenRoom?.id);
+      const { data } = await addSingleUserIntoGroupChat(
+        userId,
+        this.chosenRoom?.id
+      );
 
       console.log("updated group chat: ", data);
 
@@ -240,7 +240,7 @@ class ChatStore {
       toast.error("Update this conversation info fail, please try again!");
       throw new Error(err);
     }
-  }
+  };
 
   notJoinedFriends: any = [];
   getListFriendNotInRoom = async () => {
@@ -255,13 +255,16 @@ class ChatStore {
       toast.error("Cannot get list unjoined friends, please try again!");
       throw new Error(err);
     }
-  }
+  };
 
   addMultipleUsersIntoGroupChat = async (userIds: any) => {
     try {
       this.setIsLoading(true);
 
-      const { data } = await addMultipleUsersIntoGroupChat(userIds, this.chosenRoom?.id);
+      const { data } = await addMultipleUsersIntoGroupChat(
+        userIds,
+        this.chosenRoom?.id
+      );
 
       await this.getAllJoinedRooms();
       this.setIsLoading(false);
@@ -273,40 +276,39 @@ class ChatStore {
       toast.error("Update this conversation info fail, please try again!");
       throw new Error(err);
     }
-  }
+  };
 
   uploadRoomAvatar = async (image: any) => {
     try {
       this.setIsLoading(true);
 
+      const incomingRoom = { ...this.chosenRoom };
+      incomingRoom.avatar = image;
 
-
+      const { data } = await updateRoomInfo(incomingRoom);
+      await this.getAllJoinedRooms();
+      console.log(data);
       this.setIsLoading(false);
 
       return null;
     } catch (error: any) {
       this.setIsLoading(false);
-      console.error('Error updating user info in AccountStore:', error);
+      console.error("Error updating user info in AccountStore:", error);
       // Xử lý lỗi nếu cần thiết
       throw error;
     }
-  }
+  };
 
   getAvatarSrc = async (avatarUrl: string) => {
     if (!avatarUrl) return;
 
     try {
-
       return null;
     } catch (error: any) {
-      console.error('Error getting avatar:', error);
+      console.error("Error getting avatar:", error);
       // Handle errors as needed
     }
-  }
+  };
 }
 
 export default ChatStore;
-
-
-
-

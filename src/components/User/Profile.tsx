@@ -42,6 +42,7 @@ function Profile() {
     userId: profileId,
   });
 
+  console.log(userProfile);
   useEffect(() => {
     const getUser = async () => {
       try {
@@ -56,7 +57,7 @@ function Profile() {
     };
     getUser();
   }, [profileId]);
-
+  console.log(userProfile);
   return (
     <div className="max-w-[80%] mx-auto">
       <ProfileInfo userProfile={userProfile} isLoading={isLoadingUser} />

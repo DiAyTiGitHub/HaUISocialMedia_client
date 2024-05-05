@@ -34,10 +34,9 @@ const Notification = () => {
 
   const navigate = useNavigate();
 
+  console.log(notifications);
   const handleNavigateNotification = (notify: any) => {
-    let handleFn = () => {
-      alert("co loi");
-    };
+    let handleFn = () => {};
     switch (notify?.notificationType.name) {
       case "Group":
         handleFn = () => {
@@ -90,7 +89,7 @@ const Notification = () => {
                       <div className="profilePhotoWrapper pr-2">
                         <img
                           className="profile-photo"
-                          src={notification?.owner?.avatar || "/person.jpg"}
+                          src={notification?.actor?.avatar || "/person.jpg"}
                           alt="profileImage"
                         />
                       </div>
