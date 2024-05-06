@@ -10,6 +10,8 @@ import { useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 import SidebarFriendPage from "./SidebarFriendPage";
+import NoData from "../shared/NoData";
+import { Button } from "../ui/button";
 
 export type requestFriendsPagination = {
   pageIndex: number;
@@ -43,15 +45,15 @@ const RequestFriendPage = () => {
         <div className="flex-1 p-5">
           <div className="mb-5">
             <h3 className="h3-bold mb-5">Danh sách lời mời kết bạn</h3>
-            <div className="flex items-center bg-white max-w-max  rounded-xl">
+            <div className="flex items-center bg-white max-w-max px-2 rounded-xl">
               <input
                 type="text"
                 placeholder="Tìm bạn bè..."
                 className="input input-field"
               />
-              <button className="btn btn-primary">
+              <Button disabled>
                 <Search />
-              </button>
+              </Button>
             </div>
           </div>
           {isLoading && (
@@ -60,7 +62,10 @@ const RequestFriendPage = () => {
           {!isLoading && (
             <>
               {!requestFriends || requestFriends.length === 0 ? (
-                <span>Không có lời mời</span>
+                <NoData
+                  title="Không có lời mời kết bạn nào"
+                  style="h-[100px] w-[100px]"
+                />
               ) : (
                 <div className="grid grid-cols-2 gap-5 my-10">
                   {requestFriends.map((friend: any) => (

@@ -29,7 +29,7 @@ const SearchGroupList = () => {
   console.log(dataGroup);
   return (
     <div className="mt-5">
-      {dataGroup.length === 0 ? (
+      {!dataGroup || dataGroup.length === 0 ? (
         <NoData title="Không có kết quả tìm kiếm nhóm này" />
       ) : (
         <GroupListSearch groups={dataGroup} />

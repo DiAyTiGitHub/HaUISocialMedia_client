@@ -3,6 +3,7 @@ import LocalStorageService from "@/services/LocalStorageService";
 import { useStore } from "@/stores";
 import GroupItem from "./GroupItem";
 import { Link } from "react-router-dom";
+import NoData from "@/components/shared/NoData";
 
 const ListGroupJoined = () => {
   const currentUser = LocalStorageService.getLoggedInUser();
@@ -16,7 +17,7 @@ const ListGroupJoined = () => {
   return (
     <>
       {!groups || groups.length === 0 ? (
-        <span className="small-normal capitalize">Chưa Tham gia nhóm nào</span>
+        <NoData title="Tạo nhóm hoặc tham gia nhóm" style="h-[80px] w-[80px]" />
       ) : (
         <div className="flex flex-col gap-2">
           {groups?.slice(0, 3)?.map((group) => (

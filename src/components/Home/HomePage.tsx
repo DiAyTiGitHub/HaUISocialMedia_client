@@ -1,6 +1,6 @@
 import RightSidebar from "@/components/layout/RightSidebar";
 import Sidebar from "@/components/layout/Sidebar";
-import PostList from "@/components/Post/PostList";
+import PostList, { LoadingPost } from "@/components/Post/PostList";
 import SessionCreatePost from "@/components/Post/SessionCreatePost";
 import { useState } from "react";
 
@@ -8,6 +8,7 @@ import { SearchObjectType } from "@/types";
 import { Loader } from "lucide-react";
 import useGetData, { useGetDataNewFeed } from "@/lib";
 import { useStore } from "@/stores";
+import NoData from "../shared/NoData";
 
 export type newFeedPagination = {
   pageIndex: number;
@@ -35,23 +36,34 @@ const HomePage = () => {
     setPaging: setPaging,
   });
 
-  console.log(posts);
   return (
     <div className="w-full grid grid-cols-[1fr_2fr_1fr] gap-x-8 relative mt-5">
       <Sidebar />
       <div className="">
         <SessionCreatePost />
-        {!posts ? (
-          <p className="mt-10 text-center">Không có bài viết nào </p>
+        {isLoading ? (
+          <LoadingPost />
         ) : (
           <>
-            <PostList posts={posts} isLoading={isLoading} isError={isError} />
+            {!posts || posts.length === 0 ? (
+              <div className="bg-white w-full rounded-md h-full mt-5">
+                <NoData title="Bạn chưa có bài viết nào, hãy kết nối với bạn bè để cùng chia sẻ những khoản khắc !!!" />
+              </div>
+            ) : (
+              <>
+                <PostList
+                  posts={posts}
+                  isLoading={isLoading}
+                  isError={isError}
+                />
+              </>
+            )}
+            {showLoadMore && (
+              <div ref={ref} className="flex justify-center">
+                <Loader />
+              </div>
+            )}
           </>
-        )}
-        {showLoadMore && (
-          <div ref={ref}>
-            <Loader />
-          </div>
         )}
       </div>
       <RightSidebar />

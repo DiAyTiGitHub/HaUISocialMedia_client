@@ -8,7 +8,7 @@ type PostListProps = {
   isError?: boolean;
 };
 
-const LoadingPost = () => {
+export const LoadingPost = () => {
   return (
     <div>
       {"1234567".split("").map((i) => (

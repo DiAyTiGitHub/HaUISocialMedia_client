@@ -5,7 +5,7 @@ import GroupCard from "./ui/GroupCard";
 const DiscoverGroup = () => {
   const { groupStore } = useStore();
   const { getAllGroupUserNotYeJoin } = groupStore;
-  const { res: dataGroup, isLoading } = useGetAllData({
+  const { res: dataGroup } = useGetAllData({
     getRequest: getAllGroupUserNotYeJoin,
   });
   return (

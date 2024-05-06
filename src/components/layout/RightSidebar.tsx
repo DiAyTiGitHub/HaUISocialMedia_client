@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import FriendListSkeleton from "../skeleton/FriendListSkeleton";
 import useGetData from "@/lib";
 import { useStore } from "@/stores";
+import NoData from "../shared/NoData";
 
 const RightSidebar = () => {
   const { relationshipStore } = useStore();
@@ -39,7 +40,7 @@ const RightSidebar = () => {
         ) : (
           <>
             {!friends || friends.length === 0 ? (
-              <span>Chưa có bạn bè nào</span>
+              <NoData title="Chưa có bạn bè nào" style="h-[80px] w-[80px]" />
             ) : (
               <>
                 <div className="flex flex-col gap-2">

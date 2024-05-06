@@ -30,9 +30,10 @@ const SearchPostList = () => {
     paging: paging,
     setPaging: setPaging,
   });
+  console.log(posts);
   return (
     <div>
-      {!posts ? (
+      {!posts || posts.length === 0 ? (
         <NoData title="Không có kết quả tìm kiếm bài viết" />
       ) : (
         <>

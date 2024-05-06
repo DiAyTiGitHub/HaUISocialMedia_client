@@ -17,6 +17,7 @@ import { observer } from "mobx-react";
 import { Grid } from "@mui/material";
 
 import "./ProfileStyle.scss";
+import NoData from "../shared/NoData";
 
 function Profile() {
   const { profileId } = useParams();
@@ -57,7 +58,7 @@ function Profile() {
     };
     getUser();
   }, [profileId]);
-  console.log(userProfile);
+
   return (
     <div className="max-w-[80%] mx-auto">
       <ProfileInfo userProfile={userProfile} isLoading={isLoadingUser} />
@@ -153,7 +154,9 @@ function Profile() {
             <div className="flex-1 flex flex-col">
               <SessionCreatePost />
               {!posts || posts.length === 0 ? (
-                <p>Chưa có bài viết nào</p>
+                <div className="bg-white w-full rounded-md h-full mt-5">
+                  <NoData title="Bạn chưa có bài viết nào, hãy kết nối với bạn bè để cùng chia sẻ những khoản khắc !!!" />
+                </div>
               ) : (
                 <>
                   <PostList posts={posts} isLoading={isLoading} />

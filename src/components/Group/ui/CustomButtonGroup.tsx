@@ -12,6 +12,7 @@ type CustomButtonFriendProps = {
   children: ReactNode;
   style: string;
   variant?: "default" | "outline";
+  isDisable?: boolean;
 };
 
 const CustomButtonGroup = ({
@@ -21,8 +22,9 @@ const CustomButtonGroup = ({
   style,
   children,
   variant,
+  isDisable,
 }: CustomButtonFriendProps) => {
-  const [isDisable, setIsDisable] = useState<boolean>(false);
+  const [isDisabling, setIsDisabling] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const handleClick = async (e: MouseEvent) => {
     const button = e.target as HTMLButtonElement;
@@ -30,7 +32,7 @@ const CustomButtonGroup = ({
     setIsLoading(true);
     try {
       await handleFn(id || "");
-      setIsDisable(true);
+      setIsDisabling(true);
       toast.success(message);
     } catch (error) {
       console.log(error);
@@ -41,7 +43,7 @@ const CustomButtonGroup = ({
   return (
     <Button
       variant={variant || "default"}
-      disabled={isDisable}
+      disabled={isDisabling || isDisable}
       className={style}
       onClick={(e: any) => handleClick(e)}
     >

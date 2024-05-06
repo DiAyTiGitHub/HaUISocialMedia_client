@@ -1,11 +1,12 @@
 import { useGetAllData } from "@/lib";
 import { useStore } from "@/stores";
 import GroupCard from "./ui/GroupCard";
+import NoData from "../shared/NoData";
 
 const MyGroup = () => {
   const { groupStore } = useStore();
   const { getAllGroupUserIsAdmin } = groupStore;
-  const { res: dataGroup, isLoading } = useGetAllData({
+  const { res: dataGroup } = useGetAllData({
     getRequest: getAllGroupUserIsAdmin,
   });
   return (
@@ -13,7 +14,7 @@ const MyGroup = () => {
       <div>
         <h2 className="h3-bold my-5 ">Quản lý nhóm</h2>
         {!dataGroup || dataGroup.length === 0 ? (
-          <p className="small-regular">Chưa có nhóm nào</p>
+          <NoData title="Bạn chưa tạo nào nào" style="h-[100px] w-[100px]" />
         ) : (
           <div className="flex flex-wrap gap-5">
             {dataGroup.map((group) => (

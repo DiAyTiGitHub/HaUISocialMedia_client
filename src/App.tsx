@@ -34,6 +34,8 @@ import SearchLayout from "./components/Search/SearchLayout";
 import SearchGroupList from "./components/Search/SearchGroupList";
 import SearchUserList from "./components/Search/SearchUserList";
 import SearchPostList from "./components/Search/SearchPostList";
+import NoData from "./components/shared/NoData";
+import Developing from "./components/shared/Developing";
 
 const App = () => {
   return (
@@ -56,6 +58,9 @@ const App = () => {
             <Route path="/leaderboard" element={<LeaderBoard />} />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/messenger-v2" element={<ChatV2Index />} />
+            <Route path="/event" element={<Developing />} />
+            <Route path="/celebrate" element={<Developing />} />
+            <Route path="/saved" element={<Developing />} />
 
             {/* Group Route */}
             <Route path="/group" element={<GroupLayout />}>

@@ -8,6 +8,8 @@ import FriendListSkeleton from "@/components/skeleton/FriendListSkeleton";
 import useGetData from "@/lib";
 import { useStore } from "@/stores";
 import SidebarFriendPage from "./SidebarFriendPage";
+import NoData from "../shared/NoData";
+import { Button } from "../ui/button";
 
 const SuggestFriendPage = () => {
   const [paging, setPaging] = useState<SearchObjectType>({
@@ -37,15 +39,16 @@ const SuggestFriendPage = () => {
         <div className="flex-1 p-5">
           <div className="mb-5">
             <h3 className="h3-bold mb-5">Danh sách gợi ý</h3>
-            <div className="flex items-center bg-white max-w-max  rounded-xl">
+            <div className="flex items-center bg-white max-w-max px-2 rounded-xl">
               <input
                 type="text"
                 placeholder="Tìm bạn bè..."
                 className="input input-field"
+                disabled
               />
-              <button className="btn btn-primary">
+              <Button disabled>
                 <Search />
-              </button>
+              </Button>
             </div>
           </div>
 
@@ -59,7 +62,10 @@ const SuggestFriendPage = () => {
           {!isLoading && (
             <div className=" grid grid-cols-2 gap-5 my-10">
               {!suggestFriends || suggestFriends.length === 0 ? (
-                <span>Không có bạn bè gợi ý</span>
+                <NoData
+                  title="Chưa có bạn bè gợi ý"
+                  style="h-[100px] w-[100px]"
+                />
               ) : (
                 suggestFriends.map((friend: IUser) => (
                   <Link

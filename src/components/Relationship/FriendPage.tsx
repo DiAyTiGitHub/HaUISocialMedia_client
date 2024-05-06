@@ -45,16 +45,17 @@ const FriendPage = () => {
         <div className="flex-1 p-5">
           <div className="mb-5">
             <h3 className="h3-bold mb-5">Danh sách bạn bè</h3>
-            <div className="flex items-center bg-white max-w-max  rounded-xl">
+            <div className="flex items-center bg-white max-w-max px-2  rounded-xl">
               <input
                 type="text"
                 placeholder="Tìm bạn bè..."
                 className="input input-field"
                 onChange={(e) => setSearch(e.target.value)}
+                disabled
               />
-              <button className="btn btn-primary" onClick={handleSearch}>
+              <Button onClick={handleSearch} disabled={true}>
                 <Search />
-              </button>
+              </Button>
             </div>
           </div>
           {isLoading && (

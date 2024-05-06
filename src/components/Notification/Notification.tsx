@@ -11,6 +11,7 @@ import { multiFormatDateString } from "@/lib/utils";
 import FriendListSkeleton from "../skeleton/FriendListSkeleton";
 import { useStore } from "@/stores";
 import useGetData from "@/lib";
+import NoData from "../shared/NoData";
 
 const Notification = () => {
   const { notificationStore } = useStore();
@@ -34,7 +35,6 @@ const Notification = () => {
 
   const navigate = useNavigate();
 
-  console.log(notifications);
   const handleNavigateNotification = (notify: any) => {
     let handleFn = () => {};
     switch (notify?.notificationType.name) {
@@ -77,7 +77,10 @@ const Notification = () => {
           ) : (
             <>
               {!notifications || notifications.length === 0 ? (
-                <p>Không có thông báo nào</p>
+                <NoData
+                  title="Chưa có thông báo nào"
+                  style="h-[80px] w-[80px]"
+                />
               ) : (
                 <div className="flex flex-col gap-2">
                   {notifications.map((notification: NotificationType) => (

@@ -7,13 +7,16 @@ import Notification from "../Notification/Notification";
 import { navbarLink } from "@/constant";
 import { ChangeEvent, memo, useState } from "react";
 import { observer } from "mobx-react";
+
 const NavBar = () => {
   const [search, setSearch] = useState("");
   const { pathname } = useLocation();
-  const navigate = useNavigate();
-
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
+  };
+
+  const handleNavigateSearchPage = () => {
+    window.location.href = `/search?name=${search}`;
   };
   return (
     <nav className="w-full bg-white py-3 px-5 sticky top-0 z-10 shadow-lg max-h-[88px] max-z-index">
@@ -25,7 +28,7 @@ const NavBar = () => {
             </div>
           </Link>
 
-          <div className="bg-light rounded-full search-padding flex items-center">
+          <div className="flex gap-3 bg-light rounded-full px-4 py-2 justify-between items-center">
             <input
               type="text"
               placeholder="Tìm kiếm trên Haui Social..."
@@ -33,8 +36,9 @@ const NavBar = () => {
               onChange={handleSearchChange}
             />
             <button
-              className="px-4"
-              onClick={() => navigate(`/search?name=${search}`)}
+              className="max-w-max disabled:cursor-text"
+              onClick={handleNavigateSearchPage}
+              disabled={search.length === 0}
             >
               <Search />
             </button>

@@ -20,28 +20,28 @@ export const sidebarLink = [
   {
     label: "Bạn bè",
     route: "/friends",
-    icon: "/friend.svg",
+    icon: "User",
   },
 
   {
     label: "Nhóm",
     route: "/group",
-    icon: "/group.svg",
+    icon: "UsersRound",
   },
   {
     label: "Sự kiện",
     route: "/event",
-    icon: "/event.svg",
+    icon: "Calendar",
   },
   {
     label: "Kỉ niệm",
     route: "/celebrate",
-    icon: "/celabrate.svg",
+    icon: "CalendarSearch",
   },
   {
     label: "Đã lưu",
     route: "/saved",
-    icon: "/saved.svg",
+    icon: "Save",
   },
 ];
 

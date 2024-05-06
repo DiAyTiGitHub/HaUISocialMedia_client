@@ -3,10 +3,11 @@ import DropdoownMenuAdmin from "./DropdoownMenuAdmin";
 import UserWaitList from "./UserWaitList";
 import CustomButtonGroup from "./CustomButtonGroup";
 import { useStore } from "@/stores";
-import { useCheckUserSendRequestJoinGroup } from "@/lib";
+
 import { useParams } from "react-router-dom";
 import { handleCheckUserJoinedGroup } from "@/lib/utils";
 import LeaveGroup from "./LeaveGroup";
+import { useEffect, useState } from "react";
 
 type Props = {
   group: any;
@@ -14,14 +15,24 @@ type Props = {
 };
 
 const GroupDetailHeader = ({ group, isAdmin }: Props) => {
-  const { groupId } = useParams();
   const { groupStore } = useStore();
   const { joinGroup } = groupStore;
 
   const isJoined = handleCheckUserJoinedGroup(group);
 
-  // const isSendRequest = useCheckUserSendRequestJoinGroup(groupId);
-  // console.log(isSendRequest);
+  const [isSendRequestJoinedGroup, setIsSendRequestJoinedGroup] =
+    useState(false);
+  const checkIsSendRequestJoindedGroup = () => {
+    if (group?.relationship && !group.relationship?.approved) {
+      setIsSendRequestJoinedGroup(true);
+    } else {
+      setIsSendRequestJoinedGroup(false);
+    }
+  };
+
+  useEffect(() => {
+    checkIsSendRequestJoindedGroup();
+  }, [group]);
 
   return (
     <div className="w-full bg-white pb-10">
@@ -86,8 +97,11 @@ const GroupDetailHeader = ({ group, isAdmin }: Props) => {
                         handleFn={joinGroup}
                         id={group?.id}
                         style="bg-blue-500"
+                        isDisable={isSendRequestJoinedGroup}
                       >
-                        Tham Gia Nhóm
+                        {isSendRequestJoinedGroup
+                          ? "Đã Gửi Yêu Cầu"
+                          : "Tham Gia Nhóm"}
                       </CustomButtonGroup>
                     )}
                   </div>

@@ -3,7 +3,6 @@ import { Plus, Search } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import GroupItem from "./ui/GroupItem";
 import ListGroupJoined from "./ui/ListGroupJoined";
 
 const GroupMenu = () => {
@@ -17,8 +16,9 @@ const GroupMenu = () => {
             type="text"
             placeholder="Tìm kiếm nhóm"
             className="border-none rounded-s-full"
+            disabled
           />
-          <Button className="rounded-e-full h-full">
+          <Button className="rounded-e-full h-full" disabled>
             <Search />
           </Button>
         </div>

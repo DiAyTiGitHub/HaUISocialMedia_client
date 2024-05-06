@@ -7,6 +7,7 @@ import FriendCard from "../shared/FriendCard";
 import FriendListSkeleton from "../skeleton/FriendListSkeleton";
 import { useStore } from "@/stores";
 import { useGetDataByUserId } from "@/lib";
+import NoData from "../shared/NoData";
 
 type PagingType = {
   pageIndex: number;
@@ -43,7 +44,7 @@ const FriendOfUser = ({ profileId }: Props) => {
       {!isLoading && (
         <>
           {!friends || friends.length === 0 ? (
-            <span>Chưa có bạn bè nào</span>
+            <NoData title="Chưa có bạn bè nào" style="h-[100px] w-[100px]" />
           ) : (
             <div className="grid grid-cols-2 gap-3">
               {friends.map((friends) => (

@@ -23,6 +23,8 @@ const UserSearchCard = ({ user }: Props) => {
     message: "",
     id: "",
   });
+  const [isCurrentUser, setIsCurrentUser] = useState(false);
+
   const navigate = useNavigate();
   const currentUser = LocalStorage.getLoggedInUser();
   const { relationshipStore } = useStore();
@@ -72,18 +74,20 @@ const UserSearchCard = ({ user }: Props) => {
     }
   };
 
+  const handleCheckIsCurrentUser = () => {
+    if (user?.id === currentUser?.id) setIsCurrentUser(true);
+    else setIsCurrentUser(false);
+  };
   useEffect(() => {
     handleCheckFriend();
+    handleCheckIsCurrentUser();
   }, [user]);
   const handleNavigate = () => {
     navigate(`/profile/${user.id}`);
     window.location.href = `/profile/${user.id}`;
   };
   return (
-    <div
-      onClick={handleNavigate}
-      className={`cursor-pointer bg-white px-5 py-3`}
-    >
+    <div className={`cursor-pointer bg-white px-5 py-3`}>
       <div className={`flex items-center justify-between`}>
         <div className="flex items-center gap-3">
           <img
@@ -91,48 +95,60 @@ const UserSearchCard = ({ user }: Props) => {
             alt="avatar"
             className="profile-photo rounded-full "
           />
-          <p className="font-semibold">
+          <p
+            className="font-semibold cursor-pointer hover:underline"
+            onClick={handleNavigate}
+          >
             {user?.lastName} {user?.firstName}
           </p>
         </div>
 
         <div>
-          <>
-            {relationship.type === "IsFriend" && (
-              <div className="px-3 py-2 rounded-lg text-white bg-blue-500">
-                Trang cá nhân
-              </div>
-            )}
+          {isCurrentUser ? (
+            <div
+              className="px-4 py-2 rounded-lg text-black border border-blue-600 cursor-pointer"
+              onClick={handleNavigate}
+            >
+              Trang cá nhân
+            </div>
+          ) : (
+            <>
+              {relationship.type === "IsFriend" && (
+                <div className="px-4 py-2 rounded-lg text-black border border-blue-600">
+                  Trang cá nhân
+                </div>
+              )}
 
-            {relationship.type === "IsSend" && (
-              <div className="flex gap-2 items-center">
-                <CustomButtonFriend
-                  title="Huỷ gửi lời mời"
-                  message="Đã huỷ mời mời"
-                  id={relationship.id}
-                  handleFn={unAcceptFriend}
-                />
-                <CustomButtonFriend {...relationship} />
-              </div>
-            )}
-            {relationship.type === "IsAccept" && (
-              <div className="flex gap-2 items-center">
-                <CustomButtonFriend
-                  isSecondary
-                  title="Từ chối"
-                  message="Đã từ chối"
-                  id={relationship.id}
-                  handleFn={unAcceptFriend}
-                />
-                <CustomButtonFriend {...relationship} />
-              </div>
-            )}
-            {relationship.type === "None" && (
-              <div className="flex gap-2 items-center">
-                <CustomButtonFriend {...relationship} />
-              </div>
-            )}
-          </>
+              {relationship.type === "IsSend" && (
+                <div className="flex gap-2 items-center">
+                  <CustomButtonFriend
+                    title="Huỷ gửi lời mời"
+                    message="Đã huỷ mời mời"
+                    id={relationship.id}
+                    handleFn={unAcceptFriend}
+                  />
+                  <CustomButtonFriend {...relationship} />
+                </div>
+              )}
+              {relationship.type === "IsAccept" && (
+                <div className="flex gap-2 items-center">
+                  <CustomButtonFriend
+                    isSecondary
+                    title="Từ chối"
+                    message="Đã từ chối"
+                    id={relationship.id}
+                    handleFn={unAcceptFriend}
+                  />
+                  <CustomButtonFriend {...relationship} />
+                </div>
+              )}
+              {relationship.type === "None" && (
+                <div className="flex gap-2 items-center">
+                  <CustomButtonFriend {...relationship} />
+                </div>
+              )}
+            </>
+          )}
         </div>
       </div>
     </div>
