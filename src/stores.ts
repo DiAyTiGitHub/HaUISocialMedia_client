@@ -13,6 +13,7 @@ import ClassStore from "./components/Class/ClassStore";
 import UserCourseStore from "./components/UserCourse/UserCourseStore";
 import LeaderBoardStore from "./components/LeaderBoard/LeaderBoardStore";
 import GroupStore from "./components/Group/GroupStore";
+import LoadingTotalStore from "./components/Search/LoadingTotalStore";
 
 export const stores = {
   chatStore: new ChatStore(),
@@ -29,6 +30,7 @@ export const stores = {
   userCourseStore: new UserCourseStore(),
   leaderBoardStore: new LeaderBoardStore(),
   groupStore: new GroupStore(),
+  loadingTotalStore: new LoadingTotalStore(),
 };
 
 export const StoreContext = createContext(stores);

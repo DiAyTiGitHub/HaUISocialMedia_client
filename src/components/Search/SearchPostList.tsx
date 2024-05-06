@@ -1,18 +1,22 @@
-import { useGetDataNewFeed } from "@/lib";
+import useGetData, { useGetDataNewFeed } from "@/lib";
 import { useStore } from "@/stores";
 import { SearchObjectType } from "@/types";
-import React, { useState } from "react";
+import { useState } from "react";
 import PostList from "../Post/PostList";
 import Loader from "../shared/Loader";
+import { useSearchParams } from "react-router-dom";
+import NoData from "../shared/NoData";
 
 const SearchPostList = () => {
-  const { postStore } = useStore();
-  const { getNewFeed } = postStore;
+  const [searchParams] = useSearchParams();
+  const { loadingTotalStore } = useStore();
+  const { pagingPostByKeyword } = loadingTotalStore;
 
   const [paging, setPaging] = useState<SearchObjectType>({
-    pageIndex: 0,
+    pageIndex: 1,
     pageSize: 20,
     mileStoneId: "",
+    keyWord: searchParams.get("name") as string,
   });
 
   const {
@@ -22,14 +26,14 @@ const SearchPostList = () => {
     showLoadMore,
     isError,
   } = useGetDataNewFeed({
-    getRequest: getNewFeed,
+    getRequest: pagingPostByKeyword,
     paging: paging,
     setPaging: setPaging,
   });
   return (
     <div>
       {!posts ? (
-        <p className="mt-10 text-center">Không có bài viết nào </p>
+        <NoData title="Không có kết quả tìm kiếm bài viết" />
       ) : (
         <>
           <PostList posts={posts} isLoading={isLoading} isError={isError} />

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 
 const searchMenu = [
@@ -24,6 +24,9 @@ const MenuSearch = () => {
   const [searchParams] = useSearchParams();
   const [searchText, setSearchText] = useState(searchParams.get("name"));
   const { pathname } = useLocation();
+  useEffect(() => {
+    setSearchText(searchParams.get("name"));
+  }, []);
   return (
     <div className="sticky top-0 bg-white h-screen basis-1/5 p-3">
       <div className="flex flex-col h-full">

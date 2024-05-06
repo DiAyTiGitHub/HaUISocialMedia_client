@@ -24,6 +24,7 @@ const useGetData = ({ getRequest, paging, setPaging }: Props) => {
         setPaging({
           pageSize: paging.pageSize,
           pageIndex: paging.pageIndex + 1,
+          ...(paging?.keyWord && { keyWord: paging.keyWord }),
         });
         setRes((prev) => [...prev, ...data]);
       } else {
@@ -66,6 +67,7 @@ const useGetDataNewFeed = ({ getRequest, paging, setPaging }: Props) => {
             pageSize: paging.pageSize,
             pageIndex: paging.pageIndex + 1,
             mileStoneId: data[length - 1]?.id,
+            ...(paging?.keyWord && { keyWord: paging.keyWord }),
           });
         }
       }
@@ -217,6 +219,44 @@ const useGetAllData = ({ getRequest, requestId }: GetAllDataProps) => {
   return { res, isLoading, isError };
 };
 
+type GetAllDataByKeywordProps = {
+  getRequest: any;
+  paging?: any;
+};
+const useGetAllDataByKeyword = ({
+  getRequest,
+  paging,
+}: GetAllDataByKeywordProps) => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [isError, setIdError] = useState<any>();
+
+  const [res, setRes] = useState<any>({});
+  const handleGetData = async () => {
+    setIsLoading(true);
+    let data;
+    try {
+      if (paging) {
+        data = await getRequest(paging);
+      } else {
+        data = await getRequest();
+      }
+
+      setRes(data);
+    } catch (error) {
+      console.log(error);
+      setIdError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    handleGetData();
+  }, []);
+
+  return { res, isLoading, isError };
+};
 type GetDataPagingType = {
   getRequest: any;
   paging: any;
@@ -338,6 +378,7 @@ export {
   useGetDataObjectPagination,
   useGetDataNewFeed,
   useGetDataPostByUserId,
+  useGetAllDataByKeyword,
 };
 
 export default useGetData;
