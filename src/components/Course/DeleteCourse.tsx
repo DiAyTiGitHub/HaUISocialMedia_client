@@ -13,22 +13,22 @@ import { useStore } from "@/stores";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import Loader from "../../shared/Loader";
+import Loader from "../shared/Loader";
 
 type Props = {
   id: string;
 };
-const UnFriendButton = ({ id }: Props) => {
+const DeleteCourse = ({ id }: Props) => {
   const navigate = useNavigate();
-  const { relationshipStore } = useStore();
+  const { courseStore } = useStore();
   const [isDeleting, setIsDeleting] = useState(false);
-  const { unFriend } = relationshipStore;
+  const { deleteCourse } = courseStore;
 
-  const handleUnFriend = async () => {
+  const handleDeleteClass = async () => {
     try {
       setIsDeleting(true);
-      await unFriend(id);
-      toast.success("Đã huỷ kết bạn");
+      await deleteCourse(id);
+      toast.success("Đã xoá lơp học này");
       setTimeout(() => {
         navigate(0);
       }, 500);
@@ -40,25 +40,24 @@ const UnFriendButton = ({ id }: Props) => {
   };
   return (
     <AlertDialog>
-      <AlertDialogTrigger asChild className="right-0">
-        <span className="text-red-600 cursor-pointer p-2">Huỷ kết bạn</span>
+      <AlertDialogTrigger asChild>
+        <span className="text-red-600 cursor-pointer">Xoá</span>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Bạn có chắc chắn muốn huỷ kết bạn</AlertDialogTitle>
+          <AlertDialogTitle>Bạn có chắc chắn muốn xoá</AlertDialogTitle>
           <AlertDialogDescription>
-            Bạn không thế nhận các thông tin về người dùng này sau khi thực hiện
-            hành động
+            Bạn không thế khôi phục lại lớp học sau khi xoá
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Huỷ</AlertDialogCancel>
-          <AlertDialogAction className="bg-red-500" onClick={handleUnFriend}>
-            {isDeleting ? <Loader /> : "Huỷ kết bạn"}
+          <AlertDialogAction className="bg-red-500" onClick={handleDeleteClass}>
+            {isDeleting ? <Loader /> : "Xoá"}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
   );
 };
-export default UnFriendButton;
+export default DeleteCourse;

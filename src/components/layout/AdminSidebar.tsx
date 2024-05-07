@@ -5,7 +5,6 @@ import { LogOut } from "lucide-react";
 import { useStore } from "@/stores";
 import { memo } from "react";
 import { observer } from "mobx-react";
-import LogoutButton from "../Auth/ui/LogoutButton";
 
 function AdminSidebar() {
   const { pathname } = useLocation();
@@ -61,7 +60,9 @@ function AdminSidebar() {
           </div>
         </div>
         <div className="mb-5">
-          <LogoutButton isAdminPage />
+          <button className="flex items-center gap-2" onClick={handleLogoutV2}>
+            <LogOut /> Đăng xuất
+          </button>
         </div>
       </div>
     </div>

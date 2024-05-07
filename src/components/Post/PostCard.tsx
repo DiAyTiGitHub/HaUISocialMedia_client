@@ -10,7 +10,6 @@ import { multiFormatDateString } from "@/lib/utils";
 import LocalStorage from "@/services/LocalStorageService";
 import { useStore } from "@/stores";
 import { toast } from "react-toastify";
-
 type PostProps = {
   post: IPost | any;
 };
@@ -49,14 +48,6 @@ const PortCard = ({ post }: PostProps) => {
           </Link>
 
           <div className="flex flex-col">
-            {post?.group && (
-              <Link
-                to={`/group/${post?.group?.id}`}
-                className="base-medium text-primary hover:underline"
-              >
-                {post?.group?.name}
-              </Link>
-            )}
             <p className="base-medium lg:body-bold text-dark-1">
               {post.creator.lastName} {post.creator.firstName}
             </p>

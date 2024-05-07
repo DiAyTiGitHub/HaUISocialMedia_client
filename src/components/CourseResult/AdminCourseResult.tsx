@@ -29,7 +29,6 @@ const AdminCourseResult = () => {
       ...prevPaging,
       keyWord: searchValue,
     }));
-    // Perform other operations with the searchValue here
   };
 
   useEffect(() => {

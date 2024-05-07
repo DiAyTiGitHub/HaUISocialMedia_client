@@ -94,6 +94,11 @@ export const sidebarAdmin = [
     route: "/admin/course-results",
     icon: "/suggestFriend.svg",
   },
+  {
+    label: "Quản lý môn học",
+    route: "/admin/course",
+    icon: "/subjects.svg",
+  },
 ];
 
 export const groupMenu = [

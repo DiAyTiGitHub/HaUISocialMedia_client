@@ -28,6 +28,7 @@ import PostOfGroup from "./components/Group/PostOfGroup";
 import GroupLayout from "./components/Group/GroupLayout";
 import GroupDetail from "./components/Group/GroupDetail";
 import GroupJoined from "./components/Group/GroupJoined";
+import AdminCoursePage from "./components/Course/AdminCoursePage";
 
 const App = () => {
   return (
@@ -68,6 +69,7 @@ const App = () => {
             <Route path="/admin/users" element={<AdminUserPage />} />
             <Route path="/admin/posts" element={<AdminPostPage />} />
             <Route path="/admin/classes" element={<AdminClassPage />} />
+            <Route path="/admin/course" element={<AdminCoursePage />} />
             <Route
               path="/admin/course-results"
               element={<AdminCourseResult />}

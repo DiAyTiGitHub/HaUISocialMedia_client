@@ -1,52 +1,62 @@
 import { Input } from "@mui/material";
 import { Search } from "lucide-react";
-import TableClass from "./TableClass";
 import Pagination from "./Pagination";
-import CreateClass from "./CreateClass";
 import { useStore } from "@/stores";
 import { useGetDataPagination } from "@/lib";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SearchObjectType } from "@/types";
+import CreateCourse from "./CreateCourse";
+import TableCourse from "./TableCourse";
 
-const AdminClassPage = () => {
+const AdminCoursePage = () => {
   const [paging, setPaging] = useState<SearchObjectType>({
+    pageSize: 5,
     pageIndex: 1,
-    pageSize: 10,
   });
-  const { classStore } = useStore();
-  const { pagingClass } = classStore;
+  const { courseStore } = useStore();
+  const { pagingCourse } = courseStore;
+  const [filteredData, setFilteredData] = useState<SearchObjectType[]>([]);
+  const [searchValue, setSearchValue] = useState("");
 
   const {
-    res: dataClass,
+    res: dataclass,
     isLoading,
     isLeftDisable,
     isRightDisable,
-  } = useGetDataPagination({ getRequest: pagingClass, paging: paging });
-
-  const [searchValue, setSearchValue] = useState("");
-
+  } = useGetDataPagination({ getRequest: pagingCourse, paging: paging });
   const handleChange = (event: any) => {
     setSearchValue(event.target.value);
   };
 
+  useEffect(() => {
+    setFilteredData(dataclass);
+  }, [dataclass]);
+
   const handleClick = () => {
-    setPaging((prevPaging) => ({
-      ...prevPaging,
-      keyWord: searchValue,
-    }));
-    // Thực hiện các thao tác khác với giá trị searchValue ở đây
+    if (searchValue) {
+      const filtered = dataclass.filter((item) => {
+        const itemName = item.name.toLowerCase();
+        const searchKeyword = searchValue.toLowerCase();
+        return itemName.includes(searchKeyword);
+      });
+      setFilteredData(filtered);
+      console.log(filtered);
+    } else {
+      setFilteredData(dataclass);
+    }
   };
+
   return (
     <div className="px-5 bg-blue-2 h-screen w-full mr-5 rounded-md">
       <div className="flex flex-col w-full">
         <div className="mt-5 w-full px-5">
-          <h2 className="text-body-medium">Danh sách lớp học</h2>
+          <h2 className="text-body-medium">Danh sách Học phần</h2>
           <div className="w-full flex justify-between mt-2">
             <div className="flex items-end">
               <Input
                 type="search"
                 className="px-5"
-                placeholder="Tìm lớp học..."
+                placeholder="Tìm Học phần..."
                 onChange={handleChange}
               />
               <button className="bg-primary p-2" onClick={handleClick}>
@@ -54,13 +64,13 @@ const AdminClassPage = () => {
               </button>
             </div>
             <div>
-              <CreateClass />
+              <CreateCourse />
             </div>
           </div>
         </div>
 
         <div className="mt-10 px-10 bg-white shadow-lg py-10 rounded-sm">
-          <TableClass classData={dataClass} isLoading={isLoading} />
+          <TableCourse classData={filteredData} isLoading={isLoading} />
         </div>
 
         <Pagination
@@ -73,4 +83,4 @@ const AdminClassPage = () => {
   );
 };
 
-export default AdminClassPage;
+export default AdminCoursePage;

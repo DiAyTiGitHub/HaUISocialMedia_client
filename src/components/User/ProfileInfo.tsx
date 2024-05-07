@@ -7,8 +7,6 @@ import { memo, useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import { useStore } from "@/stores";
 import CustomButtonFriend from "../Relationship/CustomButtonFriend";
-import FriendDropdown from "./ui/FrienDropDown";
-import UpdateBackgroupImg from "./ui/UpdateBackgroupImg";
 type Props = {
   userProfile: any;
   isLoading: boolean;
@@ -21,7 +19,7 @@ type RelationshipType = {
 };
 function ProfileInfo({ userProfile, isLoading }: Props) {
   const { profileId } = useParams();
-
+  console.log(userProfile);
   const [relationship, setRelationship] = useState<RelationshipType>({
     title: "",
     handleFn: () => {},
@@ -32,12 +30,7 @@ function ProfileInfo({ userProfile, isLoading }: Props) {
   const { acceptFriend, unFriend, addFriend } = relationshipStore;
   const navigate = useNavigate();
   const currentUser = LocalStorage.getLoggedInUser();
-  const [isCurrentUser, setIsCurrentUser] = useState(false);
 
-  const handleCheckIsCurrentUser = () => {
-    if (userProfile?.id === currentUser?.id) setIsCurrentUser(true);
-    else setIsCurrentUser(false);
-  };
   const handleCheckFriend = () => {
     if (userProfile?.relationshipDto) {
       if (userProfile.relationshipDto.state) {
@@ -80,31 +73,23 @@ function ProfileInfo({ userProfile, isLoading }: Props) {
 
   useEffect(() => {
     handleCheckFriend();
-    handleCheckIsCurrentUser();
   }, [userProfile, profileId]);
 
   if (isLoading) return <ProfileInfoSkeletion />;
   return (
     <div className="flex flex-col">
-      <div className="w-full h-[200px] relative">
+      <div className="w-full h-[200px]">
         <img
           src="/bg-haui.jpg"
           alt="image"
           className="w-full h-full object-cover"
         />
-        {isCurrentUser && (
-          <div className="absolute bottom-0  right-0">
-            <UpdateBackgroupImg
-              backgroundImg={userProfile?.backgroudImg || "/bg-haui.jpg"}
-            />
-          </div>
-        )}
       </div>
 
       <div className="bg-white h-fit p-5">
         <div className="flex justify-between items-center  pb-5">
           <div className="flex items-center gap-2 -mt-14">
-            <div className="z-10">
+            <div className="">
               <img
                 src={userProfile?.avatar || "/person.jpg"}
                 alt="avartar"
@@ -130,13 +115,7 @@ function ProfileInfo({ userProfile, isLoading }: Props) {
               </Button>
             </div>
           ) : (
-            <>
-              {relationship.title === "Bạn bè" ? (
-                <FriendDropdown friend={userProfile} />
-              ) : (
-                <CustomButtonFriend {...relationship} />
-              )}
-            </>
+            <CustomButtonFriend {...relationship} />
           )}
         </div>
       </div>
