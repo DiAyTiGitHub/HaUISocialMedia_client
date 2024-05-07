@@ -30,7 +30,7 @@ const DeleteGroup = ({ id, isDetail }: Props) => {
     try {
       setIsDeleting(true);
       await deleteGroup(id);
-      toast.success("Đã xoá nhóm học này");
+      toast.success("Đã xoá nhóm  này");
       setTimeout(() => {
         navigate(0);
       }, 500);

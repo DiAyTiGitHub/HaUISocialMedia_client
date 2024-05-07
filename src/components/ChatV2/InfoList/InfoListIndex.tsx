@@ -40,7 +40,7 @@ function InfoList() {
       for (let i = 0; i < chosenRoom?.participants?.length; i++) {
         const participant = chosenRoom?.participants[i];
         if (participant?.id !== currentUser?.id) {
-          return "Cuộc trò chuyện với " + participant?.username;
+          return "Cuộc trò chuyện với " + participant?.firstName;
         }
       }
       return "No name conversation";

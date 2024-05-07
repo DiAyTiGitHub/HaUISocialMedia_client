@@ -1,9 +1,9 @@
-import React, { useEffect, memo, useState } from 'react';
-import './ConversationListItem.css';
-import LocalStorage from '@/services/LocalStorageService';
-import { useStore } from '@/stores';
-import { observer } from 'mobx-react';
-import { format, parseISO } from 'date-fns';
+import React, { useEffect, memo, useState } from "react";
+import "./ConversationListItem.css";
+import LocalStorage from "@/services/LocalStorageService";
+import { useStore } from "@/stores";
+import { observer } from "mobx-react";
+import { format, parseISO } from "date-fns";
 
 function ConversationListItem(props: any) {
   const { authStore, chatStore } = useStore();
@@ -13,12 +13,12 @@ function ConversationListItem(props: any) {
   const { id, avatar, name, code, participants, messages } = props.room;
 
   function renderConversationName() {
-    if (!name || name.trim() === '') {
+    if (!name || name.trim() === "") {
       const currentUser = LocalStorage.getLoggedInUser();
       for (let i = 0; i < participants?.length; i++) {
         const participant = participants[i];
         if (participant?.id !== currentUser?.id) {
-          return participant?.username;
+          return `${participant?.lastName} ${participant?.firstName}`;
         }
       }
       return "No name conversation";
@@ -28,17 +28,22 @@ function ConversationListItem(props: any) {
 
   function renderLastMessageInConversation() {
     if (messages && messages?.length > 0) {
-
       const lastMessage = messages[messages?.length - 1];
       return lastMessage?.content;
     }
     return "";
   }
 
-  const [imagePath, setImagePath] = useState('https://www.treasury.gov.ph/wp-content/uploads/2022/01/male-placeholder-image.jpeg');
+  const [imagePath, setImagePath] = useState(
+    "https://www.treasury.gov.ph/wp-content/uploads/2022/01/male-placeholder-image.jpeg"
+  );
 
   function renderAvatar() {
-    if (participants && participants?.length > 0 && participants?.length === 2) {
+    if (
+      participants &&
+      participants?.length > 0 &&
+      participants?.length === 2
+    ) {
       let chattingPerson = null;
 
       for (let i = 0; i < participants?.length; i++) {
@@ -50,11 +55,16 @@ function ConversationListItem(props: any) {
       }
 
       //handle if it is private chat (for 2 people)
-      if (chattingPerson && chattingPerson?.avatar && chattingPerson?.avatar != "") {
+      if (
+        chattingPerson &&
+        chattingPerson?.avatar &&
+        chattingPerson?.avatar != ""
+      ) {
         setImagePath(chattingPerson.avatar);
-      }
-      else {
-        setImagePath("https://www.treasury.gov.ph/wp-content/uploads/2022/01/male-placeholder-image.jpeg");
+      } else {
+        setImagePath(
+          "https://www.treasury.gov.ph/wp-content/uploads/2022/01/male-placeholder-image.jpeg"
+        );
       }
     }
 
@@ -62,9 +72,10 @@ function ConversationListItem(props: any) {
     if (participants && participants?.length > 0 && participants?.length >= 3) {
       if (avatar && avatar?.length > 0) {
         setImagePath(avatar);
-      }
-      else {
-        setImagePath("https://cdn.pixabay.com/photo/2020/05/29/13/26/icons-5235125_1280.png");
+      } else {
+        setImagePath(
+          "https://cdn.pixabay.com/photo/2020/05/29/13/26/icons-5235125_1280.png"
+        );
       }
     }
   }
@@ -73,11 +84,10 @@ function ConversationListItem(props: any) {
 
   function renderSentDate() {
     if (messages && messages.length > 0) {
-
       const lastMessage = messages[messages.length - 1];
 
       if (lastMessage?.sendDate)
-        return format(parseISO(lastMessage?.sendDate), 'd/M/yyyy');
+        return format(parseISO(lastMessage?.sendDate), "d/M/yyyy");
     }
     return "";
   }
@@ -87,11 +97,18 @@ function ConversationListItem(props: any) {
   }
 
   return (
-    <div className={`conversation-list-item ${chosenRoom?.id === id && " conversation-list-item--chosen"}`} onClick={handleChooseConversation}>
+    <div
+      className={`conversation-list-item ${
+        chosenRoom?.id === id && " conversation-list-item--chosen"
+      }`}
+      onClick={handleChooseConversation}
+    >
       <img className="conversation-photo" src={imagePath} alt="" />
       <div className="conversation-info flex-1">
         <h1 className="conversation-title">{renderConversationName()}</h1>
-        <p className="conversation-snippet">{renderLastMessageInConversation()}</p>
+        <p className="conversation-snippet">
+          {renderLastMessageInConversation()}
+        </p>
       </div>
       <div className="conversation-timestamp"> {renderSentDate()} </div>
     </div>

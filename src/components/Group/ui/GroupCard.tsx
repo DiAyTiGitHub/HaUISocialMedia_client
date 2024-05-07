@@ -26,7 +26,9 @@ const GroupCard = ({ group }: Props) => {
           className="w-20 h-20 object-cover rounded-md"
         />
         <div className="flex flex-col justify-between">
-          <p className="small-medium max-w-40 capitalize">{group?.name}</p>
+          <p className="small-medium max-w-[400px] text-wrap capitalize">
+            {group?.name}
+          </p>
           <p>
             Thành viên: <span>{group?.userJoins?.length}</span>
           </p>

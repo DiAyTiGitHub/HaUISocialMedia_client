@@ -19,7 +19,7 @@ const GroupJoined = () => {
         {!groups || groups.length === 0 ? (
           <NoData title="Chưa tham gia nhóm nào" style="h-[80px] w-[80px]" />
         ) : (
-          <div className="flex flex-wrap gap-5">
+          <div className="grid md:grid-cols-2 gap-5">
             {groups.map((group) => (
               <GroupCard key={group.id} group={group} />
             ))}

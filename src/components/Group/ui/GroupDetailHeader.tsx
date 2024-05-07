@@ -34,7 +34,7 @@ const GroupDetailHeader = ({ group, isAdmin }: Props) => {
   }, [group]);
 
   return (
-    <div className="w-full bg-white pb-10">
+    <div className="w-full bg-white pb-10 rounded-md">
       <div className="max-w-[95%] mx-auto  ">
         <div className="flex flex-col">
           <div className="w-full h-[350px] flex justify-center relative ">

@@ -13,7 +13,7 @@ const GroupContent = ({ group }: Props) => {
     window.location.href = `/profile/${id}`;
   };
   return (
-    <div className="w-[95%] mx-auto mt-5 pb-10">
+    <div className="w-full mx-auto mt-5 pb-10">
       <div className=" w-full grid grid-cols-[2fr_1fr] gap-8">
         <div className="flex gap-5 flex-col">
           <SessionCreatePost />

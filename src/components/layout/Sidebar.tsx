@@ -28,7 +28,7 @@ const Sidebar = () => {
           <Link
             key={link.route}
             to={link.route}
-            className={`flex items-center ml-3 h-16 cursor-pointer hover:bg-blue-2 relative ${
+            className={`flex items-center ml-3 h-16 cursor-pointer hover:bg-blue-2 relative rounded-md ${
               pathname === link.route && "sidebar-active"
             }`}
           >

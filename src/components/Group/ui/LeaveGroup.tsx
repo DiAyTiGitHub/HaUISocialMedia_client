@@ -44,9 +44,9 @@ const LeaveGroup = ({ id }: Props) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <div className="gap-2 max-w-max bg-red-500 text-white cursor-pointer flex items-center p-2  justify-center rounded-md">
+        <div className="gap-2 flex-1 text-center justify-center bg-red-500 text-white cursor-pointer flex items-center p-2  rounded-md">
           <Icon name="LogOut" />
-          <span>Thoát Nhóm</span>
+          <span className="text-[12px] w-full">Rời Nhóm</span>
         </div>
       </AlertDialogTrigger>
       <AlertDialogContent>
