@@ -15,10 +15,9 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
+
 import FileUploader from "./FileUploader";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,6 +26,8 @@ import { IPost } from "@/types";
 import { useStore } from "@/stores";
 import { useNavigate } from "react-router-dom";
 import { handleUploadImage } from "@/lib/utils";
+import { Input } from "../ui/input";
+import LocalStorageService from "@/services/LocalStorageService";
 
 export type CreatePostType = {
   content: string;
@@ -34,10 +35,8 @@ export type CreatePostType = {
 };
 
 const formSchema = z.object({
-  content: z
-    .string()
-    .min(5, { message: "Minimum 5 characters." })
-    .max(2200, { message: "Maximum 2,200 caracters" }),
+  content: z.string().min(1, { message: "Hãy chia sẻ suy nghĩ của bạn" }),
+
   file: z.custom<File[]>(),
 });
 
@@ -48,6 +47,7 @@ type PostFormProps = {
 };
 
 const PostForm = ({ children, post, groupId }: PostFormProps) => {
+  const currentUser = LocalStorageService.getLoggedInUser();
   const images = post && post?.images.map((i) => i.image);
 
   const { postStore } = useStore();
@@ -90,7 +90,7 @@ const PostForm = ({ children, post, groupId }: PostFormProps) => {
           images.push(imgItem);
         }
       }
-      //console.log(images);
+
       if (post && values.file.length > 0) images = [...post.images, images];
 
       let group = {
@@ -133,58 +133,73 @@ const PostForm = ({ children, post, groupId }: PostFormProps) => {
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="mt-10 min-w-[1024px] overflow-y-auto ">
+      <DialogContent className="w-3xl overflow-y-auto ">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSubmit)}
             className="flex flex-col gap-9 w-full"
           >
             <DialogHeader>
-              <DialogTitle>Tạo bài viết</DialogTitle>
-              <DialogDescription>
-                Hãy chia sẽ suy nghĩ,tâm trạng của bạn hôm nay đến với mọi người
-              </DialogDescription>
+              <DialogTitle className="text-center h3-bold">
+                Tạo bài viết
+              </DialogTitle>
+
+              <div className="flex gap-2 items-center mt-2">
+                <img
+                  src={currentUser?.avatar || "/person.jpg"}
+                  alt="profile-img"
+                  className="w-12 h-12 object-cover rounded-full"
+                />
+                <div>
+                  <p className="base-semibold">
+                    {currentUser?.lastName} {currentUser?.firstName}
+                  </p>
+                </div>
+              </div>
             </DialogHeader>
 
-            <div className="flex gap-8">
-              <div className="flex flex-1 flex-col gap-5">
-                <FormField
-                  control={form.control}
-                  name="content"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Nội dung</FormLabel>
-                      <FormControl>
-                        <Textarea {...field} rows={10} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className="flex-1">
-                <FormField
-                  control={form.control}
-                  name="file"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Thêm ảnh</FormLabel>
-                      <FormControl>
-                        <FileUploader
-                          fieldChange={field.onChange}
-                          mediaUrl={images || []}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+            <div className="flex gap-8 flex-col">
+              <FormField
+                control={form.control}
+                name="content"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        placeholder={`${currentUser?.firstName} ơi, bạn đang nghỉ gì thế?`}
+                        className="border-none py-4  shadow-none text-[16px] focus-visible:ring-0"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="file"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <FileUploader
+                        fieldChange={field.onChange}
+                        mediaUrl={images || []}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
 
-            <DialogFooter>
-              <Button disabled={isLoading} type="submit">
-                {isLoading ? "Đang tạo..." : "Tạo bài viết "}
+            <DialogFooter className="w-full">
+              <Button
+                disabled={isLoading}
+                type="submit"
+                className="w-full capitalize"
+              >
+                {isLoading ? "Đang đăng..." : "Đăng "}
               </Button>
             </DialogFooter>
           </form>

@@ -1,3 +1,4 @@
+import Icon from "@/components/shared/Icon";
 import Loader from "@/components/shared/Loader";
 import {
   AlertDialog,
@@ -10,7 +11,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
+
 import { useStore } from "@/stores";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -43,9 +44,10 @@ const LeaveGroup = ({ id }: Props) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <span className="max-w-max bg-red-500 text-white cursor-pointer flex items-center p-2  justify-center rounded-md">
-          Thoát Nhóm
-        </span>
+        <div className="gap-2 max-w-max bg-red-500 text-white cursor-pointer flex items-center p-2  justify-center rounded-md">
+          <Icon name="LogOut" />
+          <span>Thoát Nhóm</span>
+        </div>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

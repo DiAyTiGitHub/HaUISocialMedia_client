@@ -37,34 +37,9 @@ function Login() {
     },
   });
 
-  //old login logic written by Thanh Thuan
-  // const mutation = useMutation(apiClient.signIn, {
-  //   onSuccess: async (data: any) => {
-  //     const claim = checkJWt(data?.accessToken);
-  //     //console.log(claim);
-  //     if (claim.scope === "USER") {
-  //       localStorage.setItem("token", data.accessToken);
-  //       localStorage.setItem("user", JSON.stringify(data.loggedInUser));
-
-  //       toast.success("Đăng nhập thành công");
-  //       window.location.href = "/";
-  //       navigate("/");
-  //     } else {
-  //       toast.error("Không có quyền truy cập");
-  //     }
-  //   },
-  //   onError: (error: any) => {
-  //     console.log(error);
-  //     toast.error("Đăng nhập thất bại");
-  //   },
-  // });
-  // const onSubmit = (values: LoginForm) => {
-  //   mutation.mutate(values);
-  // };
-
   const { authStore } = useStore();
   const { authenticateUser, getAllClaimsFromJwt } = authStore;
-  
+
   //login V2 written by diayti
   async function handleLoginV2(values: LoginForm) {
     try {
@@ -146,6 +121,6 @@ function Login() {
       </div>
     </div>
   );
-};
+}
 
 export default memo(observer(Login));

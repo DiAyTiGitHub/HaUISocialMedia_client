@@ -2,18 +2,18 @@ export const navbarLink = [
   {
     label: "Trang chủ",
     route: "/",
-    icon: "/home.svg",
+    icon: "Home",
   },
   {
     label: "Bạn bè",
     route: "/friends",
-    icon: "/friend.svg",
+    icon: "User",
   },
 
   {
     label: "Nhóm",
     route: "/group",
-    icon: "/group.svg",
+    icon: "Users",
   },
 ];
 export const sidebarLink = [
@@ -100,16 +100,16 @@ export const groupMenu = [
   {
     label: "Bảng feed của bạn",
     route: "/group/feed",
-    icon: "/feed.svg",
+    icon: "StickyNote",
   },
   {
     label: "Khám phá",
     route: "/group/discover",
-    icon: "/discover.svg",
+    icon: "FileSearch",
   },
   {
     label: "Nhóm của bạn",
     route: "/group/my-group",
-    icon: "/add-friend.svg",
+    icon: "UsersRound",
   },
 ];

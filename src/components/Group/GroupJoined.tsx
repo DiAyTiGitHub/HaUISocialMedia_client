@@ -2,6 +2,7 @@ import { useGetAllData } from "@/lib";
 import LocalStorageService from "@/services/LocalStorageService";
 import { useStore } from "@/stores";
 import GroupCard from "./ui/GroupCard";
+import NoData from "../shared/NoData";
 
 const GroupJoined = () => {
   const currentUser = LocalStorageService.getLoggedInUser();
@@ -16,7 +17,7 @@ const GroupJoined = () => {
       <div>
         <h2 className="h3-bold my-5 capitalize ">Nhóm đã tham gia</h2>
         {!groups || groups.length === 0 ? (
-          <p className="small-regular">Chưa có nhóm nào</p>
+          <NoData title="Chưa tham gia nhóm nào" style="h-[80px] w-[80px]" />
         ) : (
           <div className="flex flex-wrap gap-5">
             {groups.map((group) => (

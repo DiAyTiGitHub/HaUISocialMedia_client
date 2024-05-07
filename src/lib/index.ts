@@ -9,6 +9,7 @@ type Props = {
   setPaging: any;
   userId?: string;
 };
+// GET DATA INFINITY
 const useGetData = ({ getRequest, paging, setPaging }: Props) => {
   const { ref, inView } = useInView();
   const [isLoading, setIsLoading] = useState(false);
@@ -49,6 +50,7 @@ const useGetData = ({ getRequest, paging, setPaging }: Props) => {
   return { ref, res, isLoading, showLoadMore, isError };
 };
 
+// GET DATA NEW FEED
 const useGetDataNewFeed = ({ getRequest, paging, setPaging }: Props) => {
   const { ref, inView } = useInView();
   const [isLoading, setIsLoading] = useState(false);
@@ -88,17 +90,17 @@ const useGetDataNewFeed = ({ getRequest, paging, setPaging }: Props) => {
     }
   }, [inView, paging]);
 
-  console.log(res);
-
   return { ref, res, isLoading, showLoadMore, isError };
 };
 
+// GET POST OF USER
 const useGetDataPostByUserId = ({
   getRequest,
   paging,
   setPaging,
   userId,
 }: Props) => {
+  console.log(userId);
   const { ref, inView } = useInView();
   const [isLoading, setIsLoading] = useState(false);
   const [showLoadMore, setShowLoadMore] = useState<boolean>(true);
@@ -108,7 +110,7 @@ const useGetDataPostByUserId = ({
   const handleGetData = async (paging: any) => {
     setIsLoading(true);
     try {
-      const data = await getRequest(paging, userId);
+      const data = await getRequest({ searchObject: paging, userId: userId });
       if (data && data.length > 0) {
         setRes((prev) => [...prev, ...data]);
         if (data.length === paging.pageSize) {
@@ -261,6 +263,8 @@ type GetDataPagingType = {
   getRequest: any;
   paging: any;
 };
+
+// GET DATA PAGINATION
 const useGetDataPagination = ({ getRequest, paging }: GetDataPagingType) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isLeftDisable, setIsLeftDisable] = useState<boolean>(false);
@@ -307,6 +311,8 @@ type GetDataObjectPagingType = {
   getRequest: any;
   paging: any;
 };
+
+// GET DATA RETURN OBJECT
 const useGetDataObjectPagination = ({
   getRequest,
   paging,

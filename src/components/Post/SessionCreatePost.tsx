@@ -29,7 +29,7 @@ const SessionCreatePost = () => {
         </PostForm>
       </div>
 
-      <div className="grid grid-cols-3 mt-4">
+      <div className="grid grid-cols-3 mt-4 opacity-50">
         <div className="flex gap-3 items-center p-2 rounded-full hover:bg-gray-200 cursor-pointer">
           <img src="/video.svg" alt="icon" className="w-8 h-8 relative" />
           <p className="font-bold text-center">Video trực tiếp</p>

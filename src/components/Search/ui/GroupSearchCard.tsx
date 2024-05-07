@@ -8,6 +8,7 @@ import CustomButtonGroup from "../../Group/ui/CustomButtonGroup";
 import { useStore } from "@/stores";
 import LeaveGroup from "../../Group/ui/LeaveGroup";
 import { useEffect, useState } from "react";
+import Icon from "@/components/shared/Icon";
 
 type Props = {
   group: any;
@@ -42,8 +43,8 @@ const GroupSearchCard = ({ group }: Props) => {
         />
       </div>
       <div className="flex flex-1 flex-col justify-start mx-2">
-        <p className="small-medium max-w-40 capitalize">{group?.name}</p>
-        <p className="small-normal text-nowrap my-1 overflow-hidden">
+        <p className="small-medium max-w-[300px]  capitalize">{group?.name}</p>
+        <p className="small-normal  max-h-[100px]  max-w-[300px] text-wrap my-1 overflow-hidden">
           {group?.description}
         </p>
         <p>
@@ -55,8 +56,9 @@ const GroupSearchCard = ({ group }: Props) => {
         <div className="flex items-center gap-2 mt-4">
           <Link
             to={`/group/${group.id}`}
-            className="bg-blue-100 font-medium hover:bg-opacity-80 text-blue-700 p-2  text-center rounded-md"
+            className="bg-blue-100 font-medium hover:bg-opacity-80 text-blue-700 p-2  text-center rounded-md text-[12px]"
           >
+            <Icon name="Eye" />
             Xem Nhóm
           </Link>
 
@@ -66,8 +68,9 @@ const GroupSearchCard = ({ group }: Props) => {
         <div className="flex items-center gap-2 mt-4">
           <Link
             to={`/group/${group.id}`}
-            className="bg-blue-100 font-medium hover:bg-opacity-80 text-blue-700 p-2  text-center rounded-md"
+            className="flex items-center gap-2 bg-blue-100 font-medium hover:bg-opacity-80 text-blue-700 p-2  text-center rounded-md text-[12px]"
           >
+            <Icon name="Eye" />
             Xem Nhóm
           </Link>
 
@@ -75,10 +78,11 @@ const GroupSearchCard = ({ group }: Props) => {
             <LeaveGroup id={group?.id} />
           ) : (
             <CustomButtonGroup
+              icon="SquarePlus"
               message="Đã yêu cầu tham gia"
               handleFn={joinGroup}
               id={group?.id}
-              style="border border-green-500"
+              style="border border-green-500 text-[12px] text-slate-700"
               variant="outline"
               isDisable={isSendRequestJoinedGroup}
             >

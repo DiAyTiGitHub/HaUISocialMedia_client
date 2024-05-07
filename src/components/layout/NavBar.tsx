@@ -7,6 +7,7 @@ import Notification from "../Notification/Notification";
 import { navbarLink } from "@/constant";
 import { ChangeEvent, memo, useState } from "react";
 import { observer } from "mobx-react";
+import Icon, { IconName } from "../shared/Icon";
 
 const NavBar = () => {
   const [search, setSearch] = useState("");
@@ -19,7 +20,7 @@ const NavBar = () => {
     window.location.href = `/search?name=${search}`;
   };
   return (
-    <nav className="w-full bg-white py-3 px-5 sticky top-0 z-10 shadow-lg max-h-[88px] max-z-index">
+    <nav className="w-full bg-white py-3 px-5 sticky top-0 z-10 shadow-lg max-h-[88px] ">
       <div className="flex-between ">
         <div className="flex gap-3">
           <Link to="/" className="flex items-center gap-5">
@@ -50,11 +51,11 @@ const NavBar = () => {
             <Link
               key={link.route}
               to={link.route}
-              className={`flex items-center justify-center h-16 w-20 cursor-pointer relative ${
-                pathname === link.route && "navbar-active"
+              className={`flex items-center justify-center h-16 w-20 cursor-pointer relative text-slate-500 ${
+                pathname === link.route && "navbar-active text-primary"
               }`}
             >
-              <img src={link.icon} alt="icon" className="w-8 h-8 relative" />
+              <Icon name={link.icon as IconName} size={28} />
             </Link>
           ))}
         </div>

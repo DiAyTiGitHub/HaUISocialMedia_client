@@ -4,11 +4,12 @@ import { Link, useLocation } from "react-router-dom";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import ListGroupJoined from "./ui/ListGroupJoined";
+import Icon, { IconName } from "../shared/Icon";
 
 const GroupMenu = () => {
   const { pathname } = useLocation();
   return (
-    <div className="sticky top-[88px] bg-white max-h-screen basis-1/5 p-3 overflow-y-auto">
+    <div className="sticky top-[88px] bg-white  max-h-screen h-screen basis-1/5 p-3 overflow-y-auto">
       <div className="flex flex-col h-full">
         <h1 className="h3-bold">Nhóm</h1>
         <div className="flex items-center my-3">
@@ -28,16 +29,17 @@ const GroupMenu = () => {
             <Link
               key={link.route}
               to={link.route}
-              className={`flex items-center h-12 cursor-pointer hover:bg-blue-2 relative ${
-                pathname === link.route && "sidebar-active"
+              className={`flex items-center h-12 cursor-pointer hover:bg-blue-2 relative px-3 ${
+                pathname === link.route && "bg-blue-2"
               }`}
             >
-              <img
-                src={link.icon}
-                alt="icon"
-                className="ml-4 w-6 h-6  relative"
-              />
-              <h3 className="ml-2 text-base-medium relative">{link.label}</h3>
+              <div className="flex gap-3 items-center">
+                <div>
+                  <Icon name={link.icon as IconName} />
+                </div>
+
+                <h3 className="ml-2 text-base-medium relative">{link.label}</h3>
+              </div>
             </Link>
           ))}
 

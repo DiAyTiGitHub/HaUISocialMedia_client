@@ -6,6 +6,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import UpdateBackgroundImgForm from "./UpdateBackgroundImgForm";
+import Icon from "@/components/shared/Icon";
 
 type Props = {
   backgroundImg: any;
@@ -14,9 +15,10 @@ const UpdateBackgroupImg = ({ backgroundImg }: Props) => {
   return (
     <Dialog>
       <DialogTrigger className="outline-none">
-        <p className="small-medium text-black bg-slate-400 px-10 py-3 rounded-lg">
-          Cập nhật ảnh bìa
-        </p>
+        <div className="flex items-center gap-2 small-medium text-slate-700 bg-white px-8 py-2 rounded-md">
+          <Icon name="Camera" />
+          <span>Cập nhật ảnh bìa</span>
+        </div>
       </DialogTrigger>
       <DialogContent className="mt-10 max-w-4xl max-h-[80vh] overflow-y-auto">
         <DialogHeader>

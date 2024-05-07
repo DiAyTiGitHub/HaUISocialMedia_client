@@ -3,8 +3,10 @@ import { Button } from "../ui/button";
 import { toast } from "react-toastify";
 import { Loader } from "lucide-react";
 import { observer } from "mobx-react";
+import Icon, { IconName } from "../shared/Icon";
 
 type CustomButtonFriendProps = {
+  icon?: string;
   isSecondary?: boolean;
   title: string;
   message: string;
@@ -13,6 +15,7 @@ type CustomButtonFriendProps = {
 };
 
 const CustomButtonFriend = ({
+  icon,
   title,
   message,
   handleFn,
@@ -40,12 +43,13 @@ const CustomButtonFriend = ({
       disabled={isDisable}
       className={`${
         isSecondary
-          ? "bg-white text-black hover:bg-grey-2"
+          ? "bg-grey-2 text-black hover:bg-blue-2"
           : "bg-blue-600 hover:bg-blue-500"
-      }`}
+      } flex items-center gap-3`}
       onClick={(e: any) => handleClick(e)}
     >
       {isLoading && <Loader />}
+      {icon && <Icon name={icon as IconName} />}
       {isDisable ? message : title}
     </Button>
   );

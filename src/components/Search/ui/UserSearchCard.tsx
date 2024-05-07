@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import LocalStorage from "@/services/LocalStorageService";
 import { useStore } from "@/stores";
 import CustomButtonFriend from "@/components/Relationship/CustomButtonFriend";
+import { Button } from "@/components/ui/button";
+import Icon from "@/components/shared/Icon";
 type Props = {
   user: IUser | any;
 };
@@ -83,8 +85,8 @@ const UserSearchCard = ({ user }: Props) => {
     handleCheckIsCurrentUser();
   }, [user]);
   const handleNavigate = () => {
-    navigate(`/profile/${user.id}`);
-    window.location.href = `/profile/${user.id}`;
+    navigate(`/profile/${user?.id}`);
+    window.location.href = `/profile/${user?.id}`;
   };
   return (
     <div className={`cursor-pointer bg-white px-5 py-3`}>
@@ -114,7 +116,10 @@ const UserSearchCard = ({ user }: Props) => {
           ) : (
             <>
               {relationship.type === "IsFriend" && (
-                <div className="px-4 py-2 rounded-lg text-black border border-blue-600">
+                <div
+                  className="px-4 py-2 rounded-lg text-black border border-blue-600 cursor-pointer"
+                  onClick={handleNavigate}
+                >
                   Trang cá nhân
                 </div>
               )}
@@ -122,12 +127,18 @@ const UserSearchCard = ({ user }: Props) => {
               {relationship.type === "IsSend" && (
                 <div className="flex gap-2 items-center">
                   <CustomButtonFriend
+                    icon="UserMinus"
                     title="Huỷ gửi lời mời"
                     message="Đã huỷ mời mời"
                     id={relationship.id}
                     handleFn={unAcceptFriend}
+                    isSecondary
                   />
-                  <CustomButtonFriend {...relationship} />
+                  <Button className=" flex gap-2 items-center cursor-text">
+                    {" "}
+                    <Icon name="UserPlus" />
+                    {relationship.title}
+                  </Button>
                 </div>
               )}
               {relationship.type === "IsAccept" && (
@@ -139,12 +150,12 @@ const UserSearchCard = ({ user }: Props) => {
                     id={relationship.id}
                     handleFn={unAcceptFriend}
                   />
-                  <CustomButtonFriend {...relationship} />
+                  <CustomButtonFriend {...relationship} icon="UserRoundCheck" />
                 </div>
               )}
               {relationship.type === "None" && (
                 <div className="flex gap-2 items-center">
-                  <CustomButtonFriend {...relationship} />
+                  <CustomButtonFriend {...relationship} icon="UserPlus" />
                 </div>
               )}
             </>

@@ -9,6 +9,7 @@ import { useStore } from "@/stores";
 import CustomButtonFriend from "../Relationship/CustomButtonFriend";
 import FriendDropdown from "./ui/FrienDropDown";
 import UpdateBackgroupImg from "./ui/UpdateBackgroupImg";
+import Icon from "../shared/Icon";
 type Props = {
   userProfile: any;
   isLoading: boolean;
@@ -93,14 +94,14 @@ function ProfileInfo({ userProfile, isLoading }: Props) {
   if (isLoading) return <ProfileInfoSkeletion />;
   return (
     <div className="flex flex-col">
-      <div className="w-full h-[200px] relative">
+      <div className="w-full h-[250px] relative">
         <img
           src={userProfile?.background || "/bg-haui.jpg"}
           alt="image"
           className="w-full h-full object-cover"
         />
         {isCurrentUser && (
-          <div className="absolute bottom-0  right-0">
+          <div className="absolute bottom-2  right-2">
             <UpdateBackgroupImg
               backgroundImg={userProfile?.background || "/bg-haui.jpg"}
             />
@@ -133,12 +134,17 @@ function ProfileInfo({ userProfile, isLoading }: Props) {
           {currentUser?.id === userProfile?.id ? (
             <div className="flex items-center gap-3">
               <UpdateResult>
-                <span className="cursor-pointer bg-blue-2 px-3 py-2 font-medium rounded-md">
-                  Cập nhật thành tích học tập
-                </span>
+                <div className="flex items-center gap-2 cursor-pointer bg-blue-2 px-3 py-2 font-medium rounded-md">
+                  <Icon name="BookOpen" size={16} />
+                  <span className="">Cập nhật thành tích học tập</span>
+                </div>
               </UpdateResult>
 
-              <Button onClick={() => navigate("/profile/edit")}>
+              <Button
+                onClick={() => navigate("/profile/edit")}
+                className="flex gap-2 items-center text-[15px]"
+              >
+                <Icon name="Pencil" size={16} />
                 <span>Cập nhật thông tin</span>
               </Button>
             </div>
@@ -146,7 +152,8 @@ function ProfileInfo({ userProfile, isLoading }: Props) {
             <>
               {relationship.type === "IsFriend" && (
                 <div className="flex gap-2 items-center">
-                  <div className="px-3 py-2 rounded-lg text-white bg-blue-500">
+                  <div className="flex gap-2 items-center px-3 py-2 rounded-lg text-white bg-blue-500">
+                    <Icon name="UserCheck" />
                     Bạn bè
                   </div>
                   <FriendDropdown friend={userProfile} />
@@ -156,29 +163,36 @@ function ProfileInfo({ userProfile, isLoading }: Props) {
               {relationship.type === "IsSend" && (
                 <div className="flex gap-2 items-center">
                   <CustomButtonFriend
+                    icon="UserMinus"
                     title="Huỷ gửi lời mời"
                     message="Đã huỷ mời mời"
                     id={relationship.id}
                     handleFn={unAcceptFriend}
+                    isSecondary
                   />
-                  <CustomButtonFriend {...relationship} />
+                  <Button className=" flex gap-2 items-center cursor-text">
+                    {" "}
+                    <Icon name="UserPlus" />
+                    {relationship.title}
+                  </Button>
                 </div>
               )}
               {relationship.type === "IsAccept" && (
                 <div className="flex gap-2 items-center">
                   <CustomButtonFriend
+                    icon="UserX"
                     isSecondary
                     title="Từ chối"
                     message="Đã từ chối"
                     id={relationship.id}
                     handleFn={unAcceptFriend}
                   />
-                  <CustomButtonFriend {...relationship} />
+                  <CustomButtonFriend {...relationship} icon="UserRoundCheck" />
                 </div>
               )}
               {relationship.type === "None" && (
                 <div className="flex gap-2 items-center">
-                  <CustomButtonFriend {...relationship} />
+                  <CustomButtonFriend {...relationship} icon="UserPlus" />
                 </div>
               )}
             </>

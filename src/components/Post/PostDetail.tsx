@@ -6,6 +6,52 @@ import { useStore } from "@/stores";
 import { IComment, IPost } from "@/types";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { Skeleton } from "../ui/skeleton";
+import NoData from "../shared/NoData";
+
+const LoadingPostDetail = () => {
+  return (
+    <div className="max-w-[70%] mx-auto my-auto bg-white">
+      <div className="grid grid-cols-2 overflow-hidden">
+        <div className="sticky top-[88px] bg-white py-5 px-5 rounded-lg shadow-lg  max-h-[calc(100vh_-_88px)] overflow-y-auto">
+          <div className=" flex gap-3">
+            <div>
+              <Skeleton className="w-10 h-10 rounded-full" />
+            </div>
+
+            <div className="flex flex-col">
+              <Skeleton className="w-full h-4" />
+            </div>
+          </div>
+
+          <div className="mt-2 max-w-[40vw]">
+            <Skeleton className="w-full h-8" />
+          </div>
+          <div className="mt-10 relative">
+            <div>
+              <Skeleton className="post-card_img " />
+            </div>
+          </div>
+        </div>
+
+        <div className="flex-1 bg-white p-5 rounded-lg shadow-sm  h-[calc(100vh_-_88px)] overflow-y-auto">
+          <div className="mt-7">
+            <Skeleton className="w-full h-3" />
+          </div>
+
+          <div className="mt-3 max-w-[40vw] ">
+            <Skeleton className="w-full h-4 my-5" />
+            <div className="flex flex-col gap-3">
+              {"123456".split("").map((i) => (
+                <Skeleton className="w-full h-10 " key={i} />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const PostDetail = () => {
   const { postStore, commentStore } = useStore();
@@ -51,11 +97,11 @@ const PostDetail = () => {
     }
   };
 
-  if (isLoading) return <span>Đang tải...</span>;
+  if (isLoading) return <LoadingPostDetail />;
   if (!postDetail)
-    return <p className="text-body-bold">Không tồn tại bài viết</p>;
+    return <NoData title="Bài viết không tồn tại" style="w-[80px] h-[80px]" />;
   return (
-    <div className="max-w-[70%] mx-auto my-auto">
+    <div className="max-w-[70%] mx-auto my-auto bg-white">
       <div className="grid grid-cols-2 overflow-hidden">
         <div className="sticky top-[88px] bg-white py-5 px-5 rounded-lg shadow-lg  max-h-[calc(100vh_-_88px)] overflow-y-auto">
           <div className=" flex gap-3">

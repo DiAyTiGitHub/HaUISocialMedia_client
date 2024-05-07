@@ -3,6 +3,7 @@ import { FileWithPath, useDropzone } from "react-dropzone";
 import fileUpload from "@/assets/file-upload.svg";
 import { convertFileToUrl } from "@/lib/utils";
 import { Button } from "../ui/button";
+import Icon from "../shared/Icon";
 
 type FileUploaderProps = {
   fieldChange: (files: File[]) => void;
@@ -44,22 +45,22 @@ const FileUploader = ({ fieldChange, mediaUrl }: FileUploaderProps) => {
     <>
       {fileUrls && (
         <>
-          <div className="flex flex-1 flex-wrap gap-3 mb-5 ">
+          <div className="flex  justify-center flex-1 flex-wrap gap-3 mb-5 ">
             {fileUrls.map((url, index) => (
-              <div key={index} className="relative">
+              <div key={index} className="relative ">
                 <img
                   src={url}
                   alt="image"
                   className="w-28 h-28 object-cover rounded-sm"
                 />
                 <button
-                  className="absolute top-1 right-1 p-1 rounded-full bg-red-500 text-white text-xs"
+                  className="absolute -top-2 -right-2 p-[2px] rounded-full bg-red-500 text-white text-xs"
                   onClick={(e) => {
                     e.stopPropagation;
                     handleRemoveImage(index);
                   }}
                 >
-                  Xóa
+                  <Icon name="X" />
                 </button>
               </div>
             ))}
@@ -69,20 +70,19 @@ const FileUploader = ({ fieldChange, mediaUrl }: FileUploaderProps) => {
 
       <div
         {...getRootProps()}
-        className="flex flex-center flex-col  rounded-xl cursor-pointer"
+        className="flex flex-center flex-col  rounded-xl cursor-pointer "
       >
         <input {...getInputProps()} className="cursor-pointer" />
 
-        <div className=" flex flex-col items-center">
-          {!fileUrls && <img src={fileUpload} alt="file upload" />}
-
-          <h3 className="base-medium text-black mb-2 mt-6">
-            Kéo thả ảnh ở đây
-          </h3>
-          <p className="text-black small-regular mb-6">SVG, PNG, JPG</p>
-
-          <Button type="button">Lựa chọn ảnh có sẵn</Button>
-        </div>
+        {!fileUrls ||
+          (fileUrls.length === 0 && (
+            <div className=" flex flex-col items-center border h-40 w-full rounded-md">
+              <h3 className="base-medium text-black mb-2 mt-6">
+                Kéo thả ảnh ở đây
+              </h3>
+              <p className="text-black small-regular mb-6">SVG, PNG, JPG</p>
+            </div>
+          ))}
       </div>
     </>
   );

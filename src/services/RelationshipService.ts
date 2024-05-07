@@ -52,7 +52,7 @@ export function sendAddFriendRequest(receiverId: string) {
 }
 
 export function unAcceptFriendRequest(relationshipId: string) {
-  const url = API_PATH + `/unacceptFriend/${relationshipId}`;
+  const url = API_PATH + `/unAcceptFriend/${relationshipId}`;
 
   return _axios.delete(url);
 }

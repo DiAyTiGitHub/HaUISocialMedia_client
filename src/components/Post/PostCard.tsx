@@ -76,7 +76,7 @@ const PortCard = ({ post }: PostProps) => {
             </button>
             <>
               {dropdown && (
-                <div className="absolute right-2 flex flex-col gap-5 bg-slate-200 p-3 rounded-lg">
+                <div className="absolute right-2 flex flex-col gap-2 bg-white shadow-2xl p-5 z-20 rounded-lg">
                   <PostForm post={post}>
                     <button
                       className="flex gap-2 items-center"
@@ -84,7 +84,7 @@ const PortCard = ({ post }: PostProps) => {
                         e.stopPropagation()
                       }
                     >
-                      <div className="flex gap-3 items-center">
+                      <div className="flex gap-3 items-center hover:bg-blue-2 px-5 py-2 rounded-md">
                         <Pencil />
                         Chỉnh sửa
                       </div>
@@ -94,7 +94,7 @@ const PortCard = ({ post }: PostProps) => {
                     handleDelete={() => handleDeletePost(post.id)}
                     isDisable={isDeleting}
                   >
-                    <div className="flex gap-3 items-center">
+                    <div className="flex gap-3 items-center hover:bg-blue-2 px-5 py-2 rounded-md">
                       <Eraser /> Xoá
                     </div>
                   </Delete>

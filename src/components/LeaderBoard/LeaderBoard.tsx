@@ -5,67 +5,10 @@ import { Filter } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import TableSkeleton from "@/components/skeleton/TableSkeleton";
 import { useStore } from "@/stores";
-import { useGetDataObjectPagination, useGetDataPagination } from "@/lib";
+import { useGetDataObjectPagination } from "@/lib";
 import Pagination from "./Pagination";
-
-const dataLeaderBoard = [
-  {
-    id: 1,
-    code: 2021608410,
-    firstName: "Thuan",
-    lastName: "Nguyen",
-    username: "thuant",
-    totalA: 10,
-    totalB: 10,
-    totalB_: 10,
-    totalC: 10,
-    totalC_: 10,
-    totalD: 10,
-    totalD_: 10,
-  },
-  {
-    id: 1,
-    code: 2021608410,
-    firstName: "Thuan",
-    lastName: "Nguyen",
-    username: "thuant",
-    totalA: 10,
-    totalB: 10,
-    totalB_: 10,
-    totalC: 10,
-    totalC_: 10,
-    totalD: 10,
-    totalD_: 10,
-  },
-  {
-    id: 1,
-    code: 2021608410,
-    firstName: "Thuan",
-    lastName: "Nguyen",
-    username: "thuant",
-    totalA: 10,
-    totalB: 10,
-    totalB_: 10,
-    totalC: 10,
-    totalC_: 10,
-    totalD: 10,
-    totalD_: 10,
-  },
-  {
-    id: 1,
-    code: 2021608410,
-    firstName: "Thuan",
-    lastName: "Nguyen",
-    username: "thuannt",
-    totalA: 10,
-    totalB: 10,
-    totalB_: 10,
-    totalC: 10,
-    totalC_: 10,
-    totalD: 10,
-    totalD_: 10,
-  },
-];
+import Icon from "../shared/Icon";
+import { Input } from "../ui/input";
 
 const ItemTable = ({ data, stt }: { data: any; stt: number }) => {
   const navigate = useNavigate();
@@ -136,7 +79,6 @@ const LeaderBoard = () => {
     paging: paging,
   });
 
-  console.log(leaderBoardData);
   const handleSTT = (index: number) => {
     return paging.pageSize * (paging.pageIndex - 1) + index + 1;
   };
@@ -145,14 +87,15 @@ const LeaderBoard = () => {
     <div className="bg-white p-3 shadow-md rounded-md">
       <p className="text-heading3-bold">Bảng xếp hạng thành tích</p>
       <div className="mt-2 flex justify-between">
-        <input
+        <Input
           placeholder="Tìm kiếm ..."
           className="px-4 py-2 rounded-xl w-1/3  outline-none border border-blue-500"
+          disabled
         />
         <div className="flex gap-3 items-center">
-          <Button>
-            Lọc
-            <Filter className="text-[12px] ml-3" />
+          <Button className="flex gap-3 items-center" disabled>
+            <Icon name="Filter" />
+            <span>Lọc</span>
           </Button>
         </div>
       </div>

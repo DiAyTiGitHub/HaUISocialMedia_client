@@ -11,6 +11,7 @@ export function pagingPostsOfUser({
   searchObject: any;
   userId: string;
 }) {
+  console.log(searchObject);
   const url = API_PATH + `/newsfeed/${userId}`;
   return _axios.post(url, searchObject);
 }

@@ -18,7 +18,7 @@ const FriendDropdown = ({ friend }: Props) => {
           <ChevronDown />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="border-none">
-          <UnFriendButton id={friend?.id} />
+          <UnFriendButton id={friend?.relationshipDto?.id} />
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

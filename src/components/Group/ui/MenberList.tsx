@@ -1,6 +1,5 @@
-import { useGetAllData } from "@/lib";
 import { useStore } from "@/stores";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
@@ -10,17 +9,20 @@ import {
 } from "@/components/ui/dialog";
 
 import CustomButtonGroup from "./CustomButtonGroup";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { handleCheckUserIsAdmin } from "@/lib/utils";
+import LocalStorageService from "@/services/LocalStorageService";
 
 type Props = {
   children: ReactNode;
   group: any;
 };
 const MenberList = ({ children, group }: Props) => {
+  const [isOwner, setIsOwner] = useState(false);
   const isAdmin = handleCheckUserIsAdmin(group);
   const navigate = useNavigate();
-  console.log(group);
+
+  const currentUser = LocalStorageService.getLoggedInUser();
 
   const { groupStore } = useStore();
   const { dutyAdmin, cancelDutyAdmin, kickMember } = groupStore;
@@ -29,6 +31,15 @@ const MenberList = ({ children, group }: Props) => {
     navigate(`/profile/${id}`);
     window.location.href = `/profile/${id}`;
   };
+
+  const handleCheckOwner = () => {
+    if (currentUser?.id === group?.user?.id) setIsOwner(true);
+    else setIsOwner(false);
+  };
+
+  useEffect(() => {
+    handleCheckOwner();
+  }, [group]);
   return (
     <Dialog>
       <DialogTrigger className="outline-none">{children}</DialogTrigger>
@@ -58,44 +69,52 @@ const MenberList = ({ children, group }: Props) => {
                   </div>
                 </div>
 
-                {isAdmin && (
-                  <div className="flex gap-2">
-                    {d.role === "ADMIN" ? (
-                      <CustomButtonGroup
-                        message="Đã huỷ quyền quản trị"
-                        handleFn={cancelDutyAdmin}
-                        id={d?.id}
-                        style="bg-yellow-600"
-                      >
-                        Huỷ quyền
-                      </CustomButtonGroup>
-                    ) : (
-                      <CustomButtonGroup
-                        message="Đã phân quyền quản trị"
-                        handleFn={dutyAdmin}
-                        id={d?.id}
-                        style="bg-green-500"
-                      >
-                        Quản trị
-                      </CustomButtonGroup>
+                {d?.user?.id !== group?.user?.id && (
+                  <>
+                    {isAdmin && d?.user?.id !== currentUser?.id && (
+                      <div className="flex gap-2">
+                        {d.role === "ADMIN" ? (
+                          <CustomButtonGroup
+                            icon="Ban"
+                            message="Đã huỷ quyền quản trị"
+                            handleFn={cancelDutyAdmin}
+                            id={d?.id}
+                            style="bg-yellow-600"
+                          >
+                            Huỷ quyền
+                          </CustomButtonGroup>
+                        ) : (
+                          <CustomButtonGroup
+                            icon="Plus"
+                            message="Đã phân quyền quản trị"
+                            handleFn={dutyAdmin}
+                            id={d?.id}
+                            style="bg-green-500"
+                          >
+                            Quản trị
+                          </CustomButtonGroup>
+                        )}
+
+                        <CustomButtonGroup
+                          icon="X"
+                          message="Đã xoá thành viên"
+                          handleFn={kickMember}
+                          id={d?.id}
+                          style="text-red-500"
+                          variant="outline"
+                        >
+                          Xoá thành viên
+                        </CustomButtonGroup>
+                      </div>
                     )}
-                    <CustomButtonGroup
-                      message="Đã xoá thành viên"
-                      handleFn={kickMember}
-                      id={d?.id}
-                      style="text-red-500"
-                      variant="outline"
-                    >
-                      Xoá thành viên
-                    </CustomButtonGroup>
-                  </div>
+                  </>
                 )}
 
                 {!isAdmin && (
                   <div className="flex gap-2">
                     <Link
                       to={`/profile/${d?.user?.id}`}
-                      className="flex gap-2 justify-center bg-blue-200 text-blue-700 py-2 mt-5 rounded-md hover:bg-blue-100 font-semibold"
+                      className="flex gap-2 px-3 justify-center bg-blue-200 text-blue-700 py-2 mt-5 rounded-md hover:bg-blue-100 font-semibold"
                     >
                       Trang Cá Nhân
                     </Link>

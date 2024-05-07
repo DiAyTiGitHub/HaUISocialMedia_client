@@ -1,13 +1,12 @@
-import { Button } from "@/components/ui/button";
 import DropdoownMenuAdmin from "./DropdoownMenuAdmin";
 import UserWaitList from "./UserWaitList";
 import CustomButtonGroup from "./CustomButtonGroup";
 import { useStore } from "@/stores";
 
-import { useParams } from "react-router-dom";
 import { handleCheckUserJoinedGroup } from "@/lib/utils";
 import LeaveGroup from "./LeaveGroup";
 import { useEffect, useState } from "react";
+import Icon from "@/components/shared/Icon";
 
 type Props = {
   group: any;
@@ -58,13 +57,16 @@ const GroupDetailHeader = ({ group, isAdmin }: Props) => {
           <div className="flex flex-col gap-4 mt-3">
             <div>
               <p className="h3-bold capitalize">{group?.name}</p>
-              {group?.userJoins?.length === 0 ? (
-                <p>Thành viên: Chưa có thành viên nào</p>
-              ) : (
-                <p>
-                  Thành viên: <span>{group?.userJoins?.length}</span>
-                </p>
-              )}
+              <div className="flex gap-3 items-center">
+                <Icon name="Users" />
+                {group?.userJoins?.length === 0 ? (
+                  <p>Thành viên: Chưa có thành viên nào</p>
+                ) : (
+                  <p>
+                    Thành viên: <span>{group?.userJoins?.length}</span>
+                  </p>
+                )}
+              </div>
             </div>
 
             <div className="flex justify-between">
@@ -93,10 +95,11 @@ const GroupDetailHeader = ({ group, isAdmin }: Props) => {
                       <LeaveGroup id={group?.id} />
                     ) : (
                       <CustomButtonGroup
+                        icon="CirclePlus"
                         message="Đã yêu cầu tham gia"
                         handleFn={joinGroup}
                         id={group?.id}
-                        style="bg-blue-500"
+                        style="bg-blue-500 px-3"
                         isDisable={isSendRequestJoinedGroup}
                       >
                         {isSendRequestJoinedGroup

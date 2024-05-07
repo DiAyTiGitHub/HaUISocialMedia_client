@@ -4,8 +4,8 @@ import { Link, useLocation } from "react-router-dom";
 const SidebarFriendPage = () => {
   const { pathname } = useLocation();
   return (
-    <div className="sticky h-max top-[5.4rem] ">
-      <div className="mt-4 bg-white rounded-xl shadow-sm">
+    <div className="sticky h-screen top-[88px] ">
+      <div className="h-full mt-4 bg-white rounded-xl shadow-sm">
         {sidebarFriendPage.map((link) => (
           <Link
             key={link.route}

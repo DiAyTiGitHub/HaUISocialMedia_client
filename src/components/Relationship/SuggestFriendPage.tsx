@@ -30,8 +30,6 @@ const SuggestFriendPage = () => {
     setPaging: setPaging,
   });
 
-  console.log(suggestFriends);
-
   return (
     <div className="grid grid-cols-[1fr_3fr] mt-5">
       <SidebarFriendPage />
@@ -86,6 +84,7 @@ const SuggestFriendPage = () => {
                       </div>
 
                       <CustomButtonFriend
+                        icon="UserPlus"
                         handleFn={addFriend}
                         title="Thêm bạn bè"
                         message="Đã gửi lời mời"

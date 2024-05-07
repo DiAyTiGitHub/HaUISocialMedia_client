@@ -18,32 +18,37 @@ import { Grid } from "@mui/material";
 
 import "./ProfileStyle.scss";
 import NoData from "../shared/NoData";
+import LocalStorageService from "@/services/LocalStorageService";
+import PostOfUser from "./ui/PostOfUser";
+import Icon from "../shared/Icon";
 
 function Profile() {
+  const currentUser = LocalStorageService.getLoggedInUser();
+
   const { profileId } = useParams();
   const { postStore, userStore } = useStore();
-  const [paging, setPaging] = useState<SearchObjectType>({
-    pageIndex: 1,
-    pageSize: 10,
-    mileStoneId: "",
-  });
+
   const [userProfile, setUserProfile] = useState<IUser>();
+  const [isCurrentUser, setIsCurrentUser] = useState(false);
   const [isLoadingUser, setIsLoadingUser] = useState(false);
   const { getUserById } = userStore;
   const { getPostOfUser } = postStore;
-  const {
-    ref,
-    res: posts,
-    isLoading,
-    showLoadMore,
-  } = useGetDataPostByUserId({
-    getRequest: getPostOfUser,
-    paging: paging,
-    setPaging: setPaging,
-    userId: profileId,
-  });
+  // const {
+  //   ref,
+  //   res: posts,
+  //   isLoading,
+  //   showLoadMore,
+  // } = useGetDataPostByUserId({
+  //   getRequest: getPostOfUser,
+  //   paging: paging,
+  //   setPaging: setPaging,
+  //   userId: userProfile?.id,
+  // });
 
-  console.log(userProfile);
+  const handleCheckIsCurrentUser = () => {
+    if (currentUser?.id === userProfile?.id) setIsCurrentUser(true);
+    else setIsCurrentUser(false);
+  };
   useEffect(() => {
     const getUser = async () => {
       try {
@@ -58,6 +63,9 @@ function Profile() {
     };
     getUser();
   }, [profileId]);
+  useEffect(() => {
+    handleCheckIsCurrentUser();
+  }, [userProfile]);
 
   return (
     <div className="max-w-[80%] mx-auto">
@@ -66,8 +74,11 @@ function Profile() {
       <div className="flex mt-4">
         <Grid container spacing={1}>
           <Grid item xs={12} md={5} lg={4}>
-            <div className="">
-              <Tabs defaultValue="all" className="w-full pb-10 chats tabStyle">
+            <div className="mt-4">
+              <Tabs
+                defaultValue="all"
+                className="w-full pb-10  rounded-lg chats tabStyle"
+              >
                 <TabsList className="bg-white">
                   <TabsTrigger value="all">Giới thiệu</TabsTrigger>
                   <TabsTrigger value="private">Bạn bè</TabsTrigger>
@@ -84,56 +95,63 @@ function Profile() {
                       <div className="mt-5 flex flex-col ">
                         <p className="h3-bold mb-5">Giới thiệu</p>
                         <div className="flex flex-col gap-5 text-lg">
-                          <p>
-                            Giới tính:{" "}
-                            <span>{userProfile?.gender ? "Nữ" : "Nam"}</span>
-                          </p>
-                          <p>
-                            Mã sinh viên:{" "}
-                            <span>{userProfile?.code || "Chưa cập nhật"}</span>
-                          </p>
-                          <p className="font-medium">
-                            Tên tài khoản:{" "}
-                            <span className="font-normal">
-                              {userProfile?.username}
-                            </span>
-                          </p>
-                          <p className="flex gap-2">
-                            Ngày sinh:{" "}
-                            <span>
-                              {" "}
-                              {userProfile?.birthDate ? (
-                                <>
-                                  {format(
-                                    parseISO(
-                                      userProfile?.birthDate?.toString() || ""
-                                    ),
-                                    "yyy-MM-dd"
-                                  )}
-                                </>
-                              ) : (
-                                <span>Chưa cập nhật</span>
-                              )}
-                            </span>
-                          </p>
-                          <p>
-                            Email:{" "}
-                            <span>
-                              {userProfile?.email || "Chưa cập nhật"}{" "}
-                            </span>
-                          </p>
-                          <p>
-                            SDT:{" "}
-                            <span>
-                              {userProfile?.phoneNumber || "Chưa cập nhật"}
-                            </span>
-                          </p>
-                          <p>
-                            Địa chỉ:{" "}
-                            <span>
-                              {userProfile?.address || "Chưa cập nhật"}
-                            </span>
-                          </p>
+                          <div className="flex items-center gap-3">
+                            <Icon name="Code" />
+                            <p>
+                              Mã sinh viên:{" "}
+                              <span>
+                                {userProfile?.code || "Chưa cập nhật"}
+                              </span>
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <Icon name="Cake" />
+                            <p className="flex gap-2">
+                              Ngày sinh:{" "}
+                              <span>
+                                {" "}
+                                {userProfile?.birthDate ? (
+                                  <>
+                                    {format(
+                                      parseISO(
+                                        userProfile?.birthDate?.toString() || ""
+                                      ),
+                                      "yyy-MM-dd"
+                                    )}
+                                  </>
+                                ) : (
+                                  <span>Chưa cập nhật</span>
+                                )}
+                              </span>
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <Icon name="Mails" />
+                            <p>
+                              Email:{" "}
+                              <span>
+                                {userProfile?.email || "Chưa cập nhật"}{" "}
+                              </span>
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <Icon name="Phone" />
+                            <p>
+                              SDT:{" "}
+                              <span>
+                                {userProfile?.phoneNumber || "Chưa cập nhật"}
+                              </span>
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <Icon name="BookUser" />
+                            <p>
+                              Địa chỉ:{" "}
+                              <span>
+                                {userProfile?.address || "Chưa cập nhật"}
+                              </span>
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -151,22 +169,9 @@ function Profile() {
             </div>
           </Grid>
           <Grid item xs={12} md={7} lg={8}>
-            <div className="flex-1 flex flex-col">
-              <SessionCreatePost />
-              {!posts || posts.length === 0 ? (
-                <div className="bg-white w-full rounded-md h-full mt-5">
-                  <NoData title="Bạn chưa có bài viết nào, hãy kết nối với bạn bè để cùng chia sẻ những khoản khắc !!!" />
-                </div>
-              ) : (
-                <>
-                  <PostList posts={posts} isLoading={isLoading} />
-                </>
-              )}
-              {showLoadMore && (
-                <div ref={ref}>
-                  <Loader />
-                </div>
-              )}
+            <div className={`flex-1 flex flex-col  ${isCurrentUser && "mt-4"}`}>
+              {isCurrentUser && <SessionCreatePost />}
+              <PostOfUser />
             </div>
           </Grid>
         </Grid>

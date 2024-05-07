@@ -61,12 +61,14 @@ const FriendResquest = () => {
                 </div>
                 <div className="flex gap-4">
                   <CustomButtonFriend
+                    icon="UserPlus"
                     handleFn={acceptFriend}
                     title="Chấp nhận"
                     message="Đã chấp nhận"
                     id={friend.id}
                   />
                   <CustomButtonFriend
+                    icon="UserX"
                     isSecondary
                     handleFn={unAcceptFriend}
                     title="Từ chối"

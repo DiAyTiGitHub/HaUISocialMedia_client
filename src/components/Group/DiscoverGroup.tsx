@@ -1,6 +1,7 @@
 import { useGetAllData } from "@/lib";
 import { useStore } from "@/stores";
 import GroupCard from "./ui/GroupCard";
+import NoData from "../shared/NoData";
 
 const DiscoverGroup = () => {
   const { groupStore } = useStore();
@@ -13,7 +14,7 @@ const DiscoverGroup = () => {
       <div>
         <h2 className="h3-bold my-5 ">Tham gia nhóm</h2>
         {!dataGroup || dataGroup.length === 0 ? (
-          <p className="small-regular">Chưa có nhóm nào</p>
+          <NoData title="Chưa có nhóm nào đề xuất cho bạn" />
         ) : (
           <div className="flex flex-wrap gap-5">
             {dataGroup.map((group) => (

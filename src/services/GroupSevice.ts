@@ -42,7 +42,7 @@ export function dutyAdminRequest(menberId: string) {
 }
 export function cancelDutyAdminRequet(menberId: string) {
   const url = API_PATH + `/cancel-duty-admin/${menberId}`;
-  return _axios.delete(url);
+  return _axios.get(url);
 }
 export function getAllWaitRequest(groupId: string) {
   const url = API_PATH + `/get-all-wait/${groupId}`;

@@ -6,7 +6,7 @@ const Sidebar = () => {
   const { pathname } = useLocation();
   const currentUser = LocalStorage.getLoggedInUser();
   return (
-    <div className="sticky h-max top-[5.4rem] br-6">
+    <div className="sticky h-max top-[5.4rem] ">
       <Link
         to={`/profile/${currentUser?.id}`}
         className="flex items-center gap-x-4 w-full p-4 hover:bg-blue-2 rounded-2xl"

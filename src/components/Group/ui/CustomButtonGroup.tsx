@@ -4,8 +4,10 @@ import { toast } from "react-toastify";
 import { Loader } from "lucide-react";
 import { observer } from "mobx-react";
 import { Button } from "@/components/ui/button";
+import Icon, { IconName } from "@/components/shared/Icon";
 
 type CustomButtonFriendProps = {
+  icon?: string;
   message: string;
   handleFn: any;
   id?: string;
@@ -16,6 +18,7 @@ type CustomButtonFriendProps = {
 };
 
 const CustomButtonGroup = ({
+  icon,
   message,
   handleFn,
   id,
@@ -44,10 +47,11 @@ const CustomButtonGroup = ({
     <Button
       variant={variant || "default"}
       disabled={isDisabling || isDisable}
-      className={style}
+      className={`${style && style} flex items-center gap-3`}
       onClick={(e: any) => handleClick(e)}
     >
       {isLoading && <Loader />}
+      {icon && <Icon name={icon as IconName} />}
       {children}
     </Button>
   );

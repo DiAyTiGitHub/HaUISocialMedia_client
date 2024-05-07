@@ -33,7 +33,7 @@ const MenuSearch = () => {
     setSearchText(searchParams.get("name"));
   }, [searchParams]);
   return (
-    <div className="sticky top-[88px] bg-white h-full basis-1/5 p-3">
+    <div className="sticky top-[88px] bg-white h-screen basis-1/5 p-3 ">
       <div className="flex flex-col h-full">
         <p className="small-medium my-2">Bộ lọc</p>
         <div className="rounded-xl flex flex-col gap-2">

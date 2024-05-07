@@ -10,6 +10,8 @@ import { useNavigate } from "react-router-dom";
 import { useStore } from "@/stores";
 import useGetData from "@/lib";
 import SidebarFriendPage from "@/components/Relationship/SidebarFriendPage";
+import NoData from "../shared/NoData";
+import Icon from "../shared/Icon";
 
 const FriendPage = () => {
   const [search, setSearch] = useState("");
@@ -65,9 +67,12 @@ const FriendPage = () => {
           {!isLoading && (
             <>
               {!friends || friends.length === 0 ? (
-                <span>Không có bạn bè</span>
+                <NoData
+                  title="Chưa có bạn bè nào"
+                  style="h-[100px] w-[100px]"
+                />
               ) : (
-                <div className="user-grid my-10">
+                <div className="grid md:grid-cols-2 gap-3 my-10">
                   {friends.map((friend: IUser) => (
                     <div
                       key={friend.id}
@@ -86,7 +91,8 @@ const FriendPage = () => {
                           </p>
                         </div>
 
-                        <Button className="bg-blue-600 hover:bg-blue-500">
+                        <Button className="bg-blue-600 hover:bg-blue-500 flex gap-3 items-center">
+                          <Icon name="UserRoundCheck" />
                           Bạn bè
                         </Button>
                       </div>

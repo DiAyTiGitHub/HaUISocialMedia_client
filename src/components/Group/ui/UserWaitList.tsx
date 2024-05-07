@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/dialog";
 import { Check, X } from "lucide-react";
 import CustomButtonGroup from "./CustomButtonGroup";
+import Icon from "@/components/shared/Icon";
+import NoData from "@/components/shared/NoData";
 
 const UserWaitList = () => {
   const navigate = useNavigate();
@@ -30,9 +32,10 @@ const UserWaitList = () => {
   return (
     <Dialog>
       <DialogTrigger className="outline-none">
-        <span className="bg-slate-200 cursor-pointer flex items-center p-2 max-w-max justify-center rounded-md">
-          Duyệt thành viên
-        </span>
+        <div className="flex gap-3 items-center bg-slate-200 cursor-pointer  p-2 max-w-max justify-center rounded-md">
+          <Icon name="CheckCheck" />
+          <span className="">Duyệt thành viên</span>
+        </div>
       </DialogTrigger>
       <DialogContent className="mt-10 max-w-3xl max-h-[80vh] overflow-y-auto">
         <DialogHeader>
@@ -42,7 +45,7 @@ const UserWaitList = () => {
           </DialogDescription>
         </DialogHeader>
         {!data || data?.length === 0 ? (
-          <span>Không có thành vien nào</span>
+          <NoData title="Chưa có yêu cầu nào" style="w-[80px] h-[80px]" />
         ) : (
           <div className="flex flex-col gap-5">
             {data.map((d) => (
