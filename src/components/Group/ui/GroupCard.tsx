@@ -1,12 +1,10 @@
 import { Link } from "react-router-dom";
 import DeleteGroup from "./DeleteGroup";
-import {
-  handleCheckUserIsAdmin,
-  handleCheckUserJoinedGroup,
-} from "@/lib/utils";
+import { handleCheckUserIsAdmin } from "@/lib/utils";
 import CustomButtonGroup from "./CustomButtonGroup";
 import { useStore } from "@/stores";
 import LeaveGroup from "./LeaveGroup";
+import { useEffect, useState } from "react";
 
 type Props = {
   group: any;
@@ -16,7 +14,21 @@ const GroupCard = ({ group }: Props) => {
   const isAdmin = handleCheckUserIsAdmin(group);
   const { groupStore } = useStore();
   const { joinGroup } = groupStore;
-  const isJoinedGroup = handleCheckUserJoinedGroup(group);
+
+  const [statusJoinGroup, setStatusJoinGroup] = useState({ type: "" });
+
+  const checkIsSendRequestJoindedGroup = () => {
+    if (group?.relationship) {
+      if (!group.relationship?.approved) setStatusJoinGroup({ type: "IsSend" });
+      else setStatusJoinGroup({ type: "IsJoind" });
+    } else {
+      setStatusJoinGroup({ type: "NoSend" });
+    }
+  };
+
+  useEffect(() => {
+    checkIsSendRequestJoindedGroup();
+  }, [group]);
   return (
     <div className="basis-1/3 flex flex-col bg-white p-5 rounded-md ">
       <div className="flex gap-3">
@@ -55,10 +67,23 @@ const GroupCard = ({ group }: Props) => {
             Xem Nhóm
           </Link>
 
-          {isJoinedGroup ? (
-            <LeaveGroup id={group?.id} />
-          ) : (
+          {statusJoinGroup.type === "IsJoin" && <LeaveGroup id={group?.id} />}
+          {statusJoinGroup.type === "IsSend" && (
             <CustomButtonGroup
+              icon="CirclePlus"
+              message="Đã yêu cầu tham gia"
+              handleFn={joinGroup}
+              id={group?.id}
+              style="border border-green-500"
+              variant="outline"
+              isDisable
+            >
+              Đã Gửi Yêu Cầu
+            </CustomButtonGroup>
+          )}
+          {statusJoinGroup.type === "NoSend" && (
+            <CustomButtonGroup
+              icon="CirclePlus"
               message="Đã yêu cầu tham gia"
               handleFn={joinGroup}
               id={group?.id}
