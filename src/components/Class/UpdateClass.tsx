@@ -1,3 +1,4 @@
+import Icon from "../shared/Icon";
 import ClassForm from "./ClassForm";
 
 type Props = {
@@ -6,7 +7,10 @@ type Props = {
 const UpdateClass = ({ classData }: Props) => {
   return (
     <ClassForm title="Cập nhật lớp học" isUpdate classData={classData}>
-      <span className="text-yellow-600 cursor-pointer">Cập nhật</span>
+      <div className="flex items-center gap-1 text-yellow-600 cursor-pointer">
+        <Icon name="Pencil" size={16} />
+        <span>Cập nhật</span>
+      </div>
     </ClassForm>
   );
 };

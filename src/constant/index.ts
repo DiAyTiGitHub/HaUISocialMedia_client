@@ -72,27 +72,27 @@ export const sidebarAdmin = [
   {
     label: "Trang chủ",
     route: "/admin",
-    icon: "/home.svg",
+    icon: "Home",
   },
   {
     label: "Quản lý người dùng",
     route: "/admin/users",
-    icon: "/add-friend.svg",
+    icon: "UsersRound",
   },
   {
     label: "Quản lý bài viết",
     route: "/admin/posts",
-    icon: "/friend.svg",
+    icon: "StickyNote",
   },
   {
     label: "Quản lý lớp học",
     route: "/admin/classes",
-    icon: "/suggestFriend.svg",
+    icon: "School",
   },
   {
     label: "Quản lý kết quả học tập",
     route: "/admin/course-results",
-    icon: "/suggestFriend.svg",
+    icon: "BookmarkCheck",
   },
 ];
 

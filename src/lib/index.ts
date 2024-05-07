@@ -100,7 +100,6 @@ const useGetDataPostByUserId = ({
   setPaging,
   userId,
 }: Props) => {
-  console.log(userId);
   const { ref, inView } = useInView();
   const [isLoading, setIsLoading] = useState(false);
   const [showLoadMore, setShowLoadMore] = useState<boolean>(true);
@@ -274,7 +273,7 @@ const useGetDataPagination = ({ getRequest, paging }: GetDataPagingType) => {
   const [res, setRes] = useState<any[]>([]);
   const handleGetData = async (paging: any) => {
     setIsLoading(true);
-    if (paging?.pageIndex === 1) {
+    if (paging?.pageIndex === 1 || paging?.pageIndex === 0) {
       setIsLeftDisable(true);
       setIsRightDisable(false);
     } else {

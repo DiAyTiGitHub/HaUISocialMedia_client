@@ -18,3 +18,7 @@ export function getAllCourseAdminAllowRequest(userId: string) {
   const url = API_PATH + `/all-course-admin-allow/${userId}`;
   return _axios.get(url);
 }
+export function getAllUserCourseNotYetAllowRequest(searchObject: any) {
+  const url = API_PATH + `/get-all-user-course-not-yet-allow`;
+  return _axios.post(url, searchObject);
+}

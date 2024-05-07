@@ -3,7 +3,6 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
@@ -13,55 +12,57 @@ import { useStore } from "@/stores";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import Loader from "../shared/Loader";
-import Icon from "../shared/Icon";
+import Loader from "@/components/shared/Loader";
+import Icon from "@/components/shared/Icon";
 
 type Props = {
   id: string;
 };
-const DeleteClass = ({ id }: Props) => {
+const AcceptResult = ({ id }: Props) => {
   const navigate = useNavigate();
-  const { classStore } = useStore();
-  const [isDeleting, setIsDeleting] = useState(false);
-  const { deleteClass } = classStore;
+  const { userCourseStore } = useStore();
+  const [isAccepting, setIsAccepting] = useState(false);
+  const { allowUserCourse } = userCourseStore;
 
   const handleDeleteClass = async () => {
     try {
-      setIsDeleting(true);
-      await deleteClass(id);
-      toast.success("Đã xoá lơp học này");
+      setIsAccepting(true);
+      await allowUserCourse(id);
+      toast.success("Đã duyệt kết quả này");
       setTimeout(() => {
         navigate(0);
       }, 500);
     } catch (error) {
       console.log(error);
     } finally {
-      setIsDeleting(false);
+      setIsAccepting(false);
     }
   };
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <div className="flex items-center gap-[2px] text-red-600 cursor-pointer">
-          <Icon name="X" size={16} />
-          <span className="">Xoá</span>
+        <div className="flex items-center gap-1 text-green-600 cursor-pointer">
+          <Icon name="Check" size={16} />
+          <span>Duyệt kết quả</span>
         </div>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Bạn có chắc chắn muốn xoá</AlertDialogTitle>
-          <AlertDialogDescription>
-            Bạn không thế khôi phục lại lớp học sau khi xoá
-          </AlertDialogDescription>
+          <AlertDialogTitle>
+            Bạn có chắc chắn muốn duyệt kết quả này
+          </AlertDialogTitle>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Huỷ</AlertDialogCancel>
-          <AlertDialogAction className="bg-red-500" onClick={handleDeleteClass}>
-            {isDeleting ? <Loader /> : "Xoá"}
+          <AlertDialogAction
+            className="bg-green-500"
+            onClick={handleDeleteClass}
+          >
+            {isAccepting ? <Loader /> : "Xác Nhận"}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
   );
 };
-export default DeleteClass;
+export default AcceptResult;

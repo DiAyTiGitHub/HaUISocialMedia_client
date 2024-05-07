@@ -27,3 +27,7 @@ export function getAllUsers() {
   const url = API_PATH + "/all";
   return axios.get(url);
 }
+export function deleteByIdRequest(userId: string) {
+  const url = API_PATH + `/delete/${userId}`;
+  return axios.get(url);
+}

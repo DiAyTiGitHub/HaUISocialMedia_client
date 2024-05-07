@@ -20,6 +20,10 @@ export function pagingNewsFeed(searchObject: any) {
   const url = API_PATH + "/newsfeed";
   return _axios.post(url, searchObject);
 }
+export function getAllPostRequest(searchObject: any) {
+  const url = API_PATH + "/get-all-post";
+  return _axios.post(url, searchObject);
+}
 
 export function getById(postId: string) {
   const url = API_PATH + `/${postId}`;

@@ -36,6 +36,7 @@ import SearchUserList from "./components/Search/SearchUserList";
 import SearchPostList from "./components/Search/SearchPostList";
 import NoData from "./components/shared/NoData";
 import Developing from "./components/shared/Developing";
+import UserCourseResult from "./components/UserCourse/UserCourseResult";
 
 const App = () => {
   return (
@@ -88,7 +89,7 @@ const App = () => {
             <Route path="/admin/classes" element={<AdminClassPage />} />
             <Route
               path="/admin/course-results"
-              element={<AdminCourseResult />}
+              element={<UserCourseResult />}
             />
           </Route>
         </Route>

@@ -65,13 +65,6 @@ const GroupForm = ({ isUpdate, isCreate, data }: Props) => {
         name: values.name,
         description: values.description,
         backGroundImage: url || "",
-        userJoins: [
-          {
-            user: {
-              id: currentUser?.id,
-            },
-          },
-        ],
       };
       if (data) {
         await updateGroup({ ...data, ...groupData });

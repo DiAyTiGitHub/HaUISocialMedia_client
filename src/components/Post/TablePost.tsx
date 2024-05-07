@@ -1,74 +1,28 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import DeletePost from "./DeletePost";
+import DeletePost from "./ui/admin/DeletePost";
+import { format, parseISO } from "date-fns";
+import ViewPost from "./ui/admin/ViewPost";
 
-const invoices = [
-  {
-    invoice: "INV001",
-    paymentStatus: "Paid",
-    totalAmount: "$250.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV002",
-    paymentStatus: "Pending",
-    totalAmount: "$150.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV003",
-    paymentStatus: "Unpaid",
-    totalAmount: "$350.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV004",
-    paymentStatus: "Paid",
-    totalAmount: "$450.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV005",
-    paymentStatus: "Paid",
-    totalAmount: "$550.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV006",
-    paymentStatus: "Pending",
-    totalAmount: "$200.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-];
 type Props = {
   postData: any;
   isLoading: boolean;
 };
 const TablePost = ({ postData, isLoading }: Props) => {
-  const handleDelete = (): boolean => true;
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[200px]">Mã bài đăng</TableHead>
-          <TableHead>ngày đăng</TableHead>
-          <TableHead>Nội dung</TableHead>
-          <TableHead>Thông tin người tạo</TableHead>
-          <TableHead></TableHead>
+          <TableHead className="capitalize">Thông tin người đăng</TableHead>
+          <TableHead className="capitalize">Ngày đăng</TableHead>
+          <TableHead className="capitalize">Nội Dung</TableHead>
+          <TableHead className="capitalize"></TableHead>
         </TableRow>
       </TableHeader>
       <>
@@ -76,15 +30,34 @@ const TablePost = ({ postData, isLoading }: Props) => {
           <span>Chưa có Bài đăng nào</span>
         ) : (
           <TableBody>
-            likes: [];
             {postData.map((item: any) => (
               <TableRow key={item.id}>
-                <TableCell className="font-medium">{item.code}</TableCell>
-                <TableCell>{item.createDate}</TableCell>
-                <TableCell>{item.content}</TableCell>
-                <TableCell>{item.creator}</TableCell>
+                <TableCell>
+                  <div className="flex items-center gap-2">
+                    <img
+                      src={item?.creator?.avatar || "/person.jpg"}
+                      alt="userpofile"
+                      className="w-10 h-10 object-cover rounded-full"
+                    />
+                    <p className="base-semibold">
+                      {item?.creator?.lastName} {item?.creator?.lastName}
+                    </p>
+                  </div>
+                </TableCell>
+                <TableCell>
+                  {" "}
+                  {format(
+                    parseISO(item?.createDate?.toString() || ""),
+                    "yyy-MM-dd"
+                  )}
+                </TableCell>
+                <TableCell className="w-[400px] overflow-hidden">
+                  {item.content}
+                </TableCell>
+
                 <TableCell className="text-right">
                   <div className="flex gap-5 justify-end">
+                    <ViewPost post={item} />
                     <DeletePost id={item.id} />
                   </div>
                 </TableCell>

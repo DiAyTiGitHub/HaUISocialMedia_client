@@ -8,43 +8,52 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import NoData from "../shared/NoData";
+import LocalStorageService from "@/services/LocalStorageService";
+import { IUser } from "@/types";
+import DeleteUser from "./ui/admin/DeleteUser";
+import UserDetail from "./ui/admin/UserDetail";
 // import UpdateClass from "./UpdateStatusUser";
 type Props = {
   userData: any;
   isLoading: boolean;
 };
 const TableUser = ({ userData, isLoading }: Props) => {
+  const currentUser = LocalStorageService.getLoggedInUser();
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[100px]">Mã User</TableHead>
-          <TableHead>username </TableHead>
+          <TableHead>Mã SV </TableHead>
           <TableHead>Họ </TableHead>
           <TableHead>Tên </TableHead>
-          <TableHead>email </TableHead>
-          <TableHead>Địa chỉ </TableHead>
+          <TableHead>Email </TableHead>
           <TableHead>Giới tính</TableHead>
-          <TableHead>Ngày sinh</TableHead>
+          <TableHead></TableHead>
         </TableRow>
       </TableHeader>
       <>
         {!userData ? (
-          <span>Chưa có tài khoản nào được tạo</span>
+          <NoData title="Chưa có người dùng" />
         ) : (
           <TableBody>
-            {userData.map((item: any) => (
-              <TableRow key={item.id}>
-                <TableCell>{item.code}</TableCell>
-                <TableCell>{item.username}</TableCell>
-                <TableCell>{item.lastName}</TableCell>
-                <TableCell>{item.firstName}</TableCell>
-                <TableCell>{item.email}</TableCell>
-                <TableCell>{item.address}</TableCell>
-                <TableCell>{item.gender ? "Nam" : "Nữ"}</TableCell>
-                <TableCell>{item.birthDate}</TableCell>
-              </TableRow>
-            ))}
+            {userData
+              ?.filter((item: IUser) => item?.id !== currentUser?.id)
+              .map((item: any) => (
+                <TableRow key={item.id}>
+                  <TableCell>{item.code || "Chưa cập nhật"}</TableCell>
+                  <TableCell>{item.lastName}</TableCell>
+                  <TableCell>{item.firstName}</TableCell>
+                  <TableCell>{item.email || "Chưa cập nhật"}</TableCell>
+                  <TableCell>{item.gender ? "Nữ" : "Nam"}</TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex gap-5 justify-end">
+                      <UserDetail user={item} />
+                      <DeleteUser id={item.id} />
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         )}
       </>

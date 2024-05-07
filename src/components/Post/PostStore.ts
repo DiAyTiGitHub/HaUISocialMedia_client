@@ -1,6 +1,7 @@
 import {
   createPostRequest,
   deletePostRequest,
+  getAllPostRequest,
   getById,
   pagingNewsFeed,
   pagingPostsOfUser,
@@ -18,6 +19,15 @@ class PostStore {
   getNewFeed = async (searchObject: any) => {
     try {
       const { data } = await pagingNewsFeed(searchObject);
+      return data;
+    } catch (error) {
+      toast.error("Có lỗi xảy ra");
+      throw new Error("Có lỗi xảy ra ");
+    }
+  };
+  getAllPost = async (searchObject: any) => {
+    try {
+      const { data } = await getAllPostRequest(searchObject);
       return data;
     } catch (error) {
       toast.error("Có lỗi xảy ra");

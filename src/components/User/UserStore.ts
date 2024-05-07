@@ -2,7 +2,8 @@ import {
   getUserByIdRequest,
   pagingSuggestFriend,
   updateUserRequest,
-  getAllUsers
+  getAllUsers,
+  deleteByIdRequest,
 } from "@/services/UserService";
 import { makeAutoObservable } from "mobx";
 import { toast } from "react-toastify";
@@ -33,6 +34,15 @@ class UserStore {
       toast.error("Something went wrong :(");
     }
   };
+  deleteById = async (userId: string) => {
+    try {
+      const { data } = await deleteByIdRequest(userId);
+      return data;
+    } catch (error) {
+      toast.error("Something went wrong :(");
+      throw new Error("Có lỗi xảy ra");
+    }
+  };
 
   updateUser = async (fromData: any) => {
     try {
@@ -45,7 +55,6 @@ class UserStore {
   getAllUsers = async () => {
     try {
       const { data } = await getAllUsers();
-      console.log(data);
       return data;
     } catch (error) {
       toast.error("Something went wrong :(");

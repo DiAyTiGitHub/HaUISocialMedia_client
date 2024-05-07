@@ -1,23 +1,22 @@
 import { Link, useLocation } from "react-router-dom";
 import { sidebarAdmin } from "@/constant";
 import LocalStorage from "@/services/LocalStorageService";
-import { LogOut } from "lucide-react";
+
 import { useStore } from "@/stores";
 import { memo } from "react";
 import { observer } from "mobx-react";
 import LogoutButton from "../Auth/ui/LogoutButton";
+import Icon, { IconName } from "../shared/Icon";
 
 function AdminSidebar() {
   const { pathname } = useLocation();
   const currentUser = LocalStorage.getLoggedInUser();
-  const { authStore } = useStore();
-  const { logout: handleLogoutV2 } = authStore;
 
   return (
     <div className="sticky top-0 bg-white h-screen basis-1/5 p-3">
       <div className="flex flex-col justify-between h-full">
         <div>
-          <Link to="/admin" className="flex items-center gap-5 mb-3">
+          <Link to="/admin" className="mt-5 flex items-center gap-5 mb-3">
             <div className="profile-image">
               <img src="/logo-haui.png" />
             </div>
@@ -25,7 +24,7 @@ function AdminSidebar() {
           </Link>
 
           <div>
-            <div className="flex items-center gap-x-4 w-full py-4 hover:bg-blue-2 rounded-2xl">
+            <div className="flex items-center gap-x-4 w-full py-2 hover:bg-blue-2 px-3 rounded-md">
               <div className="profile-photo">
                 <img
                   src={currentUser?.avatar || "/person.jpg"}
@@ -38,20 +37,16 @@ function AdminSidebar() {
               </p>
             </div>
 
-            <div className="rounded-xl">
+            <div className="rounded-xl flex flex-col gap-3">
               {sidebarAdmin.map((link) => (
                 <Link
                   key={link.route}
                   to={link.route}
-                  className={`flex items-center h-12 cursor-pointer hover:bg-blue-2 relative ${
-                    pathname === link.route && "sidebar-active"
+                  className={`flex items-center px-4 h-12 cursor-pointer hover:bg-blue-2 rounded-md relative ${
+                    pathname === link.route && "bg-grey-2 "
                   }`}
                 >
-                  <img
-                    src={link.icon}
-                    alt="icon"
-                    className="ml-4 w-6 h-6  relative"
-                  />
+                  <Icon name={link.icon as IconName} />
                   <h3 className="ml-2 text-base-medium relative">
                     {link.label}
                   </h3>

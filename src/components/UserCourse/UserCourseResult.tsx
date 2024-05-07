@@ -1,24 +1,22 @@
 import { Input } from "@mui/material";
 import { Search } from "lucide-react";
+
+import Pagination from "./ui/Pagination";
+
 import { useStore } from "@/stores";
-import TableUser from "./TableUser";
-import { useState, useEffect } from "react";
-import Pagination from "./Pagination";
-import { SearchObjectType } from "@/types";
 import { useGetDataPagination } from "@/lib";
+import { useState } from "react";
+import { SearchObjectType } from "@/types";
+import TableUserCourseResult from "./ui/TableUserCourseResult";
 import NoData from "../shared/NoData";
 import TableSkeleton from "../skeleton/TableSkeleton";
 
-const AdminUserPage = () => {
-  const { userStore } = useStore();
-  const { getAllUsers } = userStore;
-
+const UserCourseResult = () => {
   const [paging, setPaging] = useState<SearchObjectType>({
-    pageSize: 10,
-    pageIndex: 1,
+    pageSize: 5,
+    pageIndex: 0,
     keyWord: "",
   });
-
   const [searchValue, setSearchValue] = useState("");
 
   const handleChange = (event: any) => {
@@ -29,16 +27,21 @@ const AdminUserPage = () => {
     setPaging((prevPaging) => ({
       ...prevPaging,
       keyWord: searchValue,
-      pageIndex: 1, // Reset pageIndex to 0 when performing a new search
     }));
+    // Thực hiện các thao tác khác với giá trị searchValue ở đây
   };
+  const { userCourseStore } = useStore();
+  const { getAllUserCourseNotYetAllow } = userCourseStore;
 
   const {
-    res: dataUser,
+    res: dataCourseResult,
     isLoading,
     isLeftDisable,
     isRightDisable,
-  } = useGetDataPagination({ getRequest: getAllUsers, paging: paging });
+  } = useGetDataPagination({
+    getRequest: getAllUserCourseNotYetAllow,
+    paging: paging,
+  });
 
   if (isLoading) return <TableSkeleton length={5} styles="" />;
 
@@ -46,29 +49,17 @@ const AdminUserPage = () => {
     <div className="px-5 bg-blue-2 h-screen w-full mr-5 rounded-md">
       <div className="flex flex-col w-full">
         <div className="mt-5 w-full px-5">
-          <h2 className="text-body-medium">Danh sách Tài khoản</h2>
-          <div className="w-full flex justify-between mt-2">
-            <div className="flex items-end">
-              <Input
-                type="search"
-                className="px-5"
-                placeholder="Tìm tài khoản..."
-                onChange={handleChange}
-                disabled
-              />
-              <button className="bg-primary p-2" onClick={handleClick}>
-                <Search color="#fff" />
-              </button>
-            </div>
-          </div>
+          <h2 className="text-body-medium capitalize">
+            Danh sách kết quả cần duyệt
+          </h2>
+          <div className="w-full flex justify-between mt-2"></div>
         </div>
-
-        {!dataUser || dataUser.length === 0 ? (
-          <NoData title="Danh sách người dùng trống" />
+        {!dataCourseResult || dataCourseResult.length === 0 ? (
+          <NoData title="Chưa có kết quả nào nào cân  duyệt" />
         ) : (
           <>
             <div className="mt-10 px-10 bg-white shadow-lg py-10 rounded-sm">
-              <TableUser userData={dataUser} isLoading={isLoading} />
+              <TableUserCourseResult dataCourseResult={dataCourseResult} />
             </div>
 
             <Pagination
@@ -83,4 +74,4 @@ const AdminUserPage = () => {
   );
 };
 
-export default AdminUserPage;
+export default UserCourseResult;

@@ -13,23 +13,22 @@ import { useStore } from "@/stores";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import Loader from "../shared/Loader";
-import Icon from "../shared/Icon";
-
+import Loader from "@/components/shared/Loader";
+import Icon from "@/components/shared/Icon";
 type Props = {
   id: string;
 };
-const DeleteClass = ({ id }: Props) => {
+const DeletePost = ({ id }: Props) => {
   const navigate = useNavigate();
-  const { classStore } = useStore();
+  const { postStore } = useStore();
   const [isDeleting, setIsDeleting] = useState(false);
-  const { deleteClass } = classStore;
+  const { deletePost } = postStore;
 
   const handleDeleteClass = async () => {
     try {
       setIsDeleting(true);
-      await deleteClass(id);
-      toast.success("Đã xoá lơp học này");
+      await deletePost(id);
+      toast.success("Đã xoá bài viết này");
       setTimeout(() => {
         navigate(0);
       }, 500);
@@ -42,7 +41,7 @@ const DeleteClass = ({ id }: Props) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <div className="flex items-center gap-[2px] text-red-600 cursor-pointer">
+        <div className="flex items-center gap-1 text-red-600 cursor-pointer">
           <Icon name="X" size={16} />
           <span className="">Xoá</span>
         </div>
@@ -51,7 +50,7 @@ const DeleteClass = ({ id }: Props) => {
         <AlertDialogHeader>
           <AlertDialogTitle>Bạn có chắc chắn muốn xoá</AlertDialogTitle>
           <AlertDialogDescription>
-            Bạn không thế khôi phục lại lớp học sau khi xoá
+            Bạn không thể khôi phục bài viết này sau khi xoá
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -64,4 +63,4 @@ const DeleteClass = ({ id }: Props) => {
     </AlertDialog>
   );
 };
-export default DeleteClass;
+export default DeletePost;

@@ -12,6 +12,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import TableStudent from "./TableStudent";
+import Icon from "../shared/Icon";
 type Props = {
   students: any;
 };
@@ -19,9 +20,10 @@ const ListStudent = ({ students }: Props) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <span className="text-green-600 cursor-pointer">
-          Danh sách sinh viên
-        </span>
+        <div className="flex items-center gap-1 text-green-600 cursor-pointer ">
+          <Icon name="Eye" size={16} />
+          <span className="">Danh sách sinh viên</span>
+        </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md md:max-w-6xl">
         <DialogHeader>
