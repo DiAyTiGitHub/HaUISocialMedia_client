@@ -32,6 +32,7 @@ const UserCourseResult = ({ userId }: Props) => {
     getRequest: getAllCourseAdminAllow,
     requestId: userId,
   });
+
   return (
     <div className="bg-white rounded-lg shadow-sm max-screen overflow-y-auto p-5">
       <div className="w-full overflow-hidden rounded-lg shadow-xs mt-5">

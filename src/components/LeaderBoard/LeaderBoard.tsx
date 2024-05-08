@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { Filter } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import TableSkeleton from "@/components/skeleton/TableSkeleton";
 import { useStore } from "@/stores";
@@ -35,7 +34,9 @@ const ItemTable = ({ data, stt }: { data: any; stt: number }) => {
         </div>
       </td>
 
-      <td className="px-4 py-3 text-sm text-center">{data?.user?.code}</td>
+      <td className="px-4 py-3 text-sm text-center">
+        {data?.user?.code || "Chưa cập nhật"}
+      </td>
       <td className="px-4 py-3 text-sm text-center">{data?.user?.lastName}</td>
       <td className="px-4 py-3 text-sm text-center">{data.user.firstName}</td>
 

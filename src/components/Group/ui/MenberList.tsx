@@ -50,7 +50,7 @@ const MenberList = ({ children, group }: Props) => {
         {!group?.userJoins || group?.userJoins?.length === 0 ? (
           <span>Không có thành vien nào</span>
         ) : (
-          <div className="flex flex-col gap-5">
+          <div className="flex flex-col gap-5 overflow-y-auto">
             {group?.userJoins?.map((d: any) => (
               <div className="flex flex-1 justify-between" key={d?.id}>
                 <div className="flex gap-2 items-center">

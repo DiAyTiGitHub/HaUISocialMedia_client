@@ -55,7 +55,7 @@ const UserCourseResult = () => {
           <div className="w-full flex justify-between mt-2"></div>
         </div>
         {!dataCourseResult || dataCourseResult.length === 0 ? (
-          <NoData title="Chưa có kết quả nào nào cân  duyệt" />
+          <NoData title="Chưa có kết quả nào cần duyệt" />
         ) : (
           <>
             <div className="mt-10 px-10 bg-white shadow-lg py-10 rounded-sm">
