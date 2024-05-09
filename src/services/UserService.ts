@@ -31,3 +31,11 @@ export function deleteByIdRequest(userId: string) {
   const url = API_PATH + `/delete/${userId}`;
   return axios.get(url);
 }
+export function disableUserRequest(userId: string) {
+  const url = API_PATH + `/disable/${userId}`;
+  return axios.post(url);
+}
+export function unDisableUserRequest(userId: string) {
+  const url = API_PATH + `/status/${userId}`;
+  return axios.post(url);
+}

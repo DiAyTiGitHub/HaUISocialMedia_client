@@ -13,12 +13,15 @@ import LocalStorageService from "@/services/LocalStorageService";
 import { IUser } from "@/types";
 import DeleteUser from "./ui/admin/DeleteUser";
 import UserDetail from "./ui/admin/UserDetail";
+import BlockUser from "./ui/BlockUser";
+import UnBlockUser from "./ui/UnBlockUser";
 // import UpdateClass from "./UpdateStatusUser";
 type Props = {
   userData: any;
   isLoading: boolean;
 };
 const TableUser = ({ userData, isLoading }: Props) => {
+  console.log(userData);
   const currentUser = LocalStorageService.getLoggedInUser();
   return (
     <Table>
@@ -48,6 +51,11 @@ const TableUser = ({ userData, isLoading }: Props) => {
                   <TableCell>{item.gender ? "Nữ" : "Nam"}</TableCell>
                   <TableCell className="text-right">
                     <div className="flex gap-5 justify-end">
+                      {item?.disable ? (
+                        <UnBlockUser id={item?.id} />
+                      ) : (
+                        <BlockUser id={item.id} />
+                      )}
                       <UserDetail user={item} />
                       <DeleteUser id={item.id} />
                     </div>

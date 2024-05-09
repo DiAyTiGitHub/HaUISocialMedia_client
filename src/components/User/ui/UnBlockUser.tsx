@@ -3,7 +3,6 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
@@ -15,52 +14,52 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "@/components/shared/Loader";
 import Icon from "@/components/shared/Icon";
+
 type Props = {
   id: string;
 };
-const DeleteUser = ({ id }: Props) => {
+const UnBlockUser = ({ id }: Props) => {
   const navigate = useNavigate();
   const { userStore } = useStore();
-  const [isDeleting, setIsDeleting] = useState(false);
-  const { deleteById } = userStore;
+  const [isUnBlocking, setIsUnBlocking] = useState(false);
+  const { unDisableUser } = userStore;
 
   const handleDeleteClass = async () => {
     try {
-      setIsDeleting(true);
-      await deleteById(id);
-      toast.success("Đã xoá người dùng này");
+      setIsUnBlocking(true);
+      await unDisableUser(id);
+      toast.success("Đã mở khoá cho tài khoản này");
       setTimeout(() => {
         navigate(0);
       }, 500);
     } catch (error) {
       console.log(error);
     } finally {
-      setIsDeleting(false);
+      setIsUnBlocking(false);
     }
   };
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <div className="flex items-center gap-[2px] text-red-600 cursor-pointer">
-          <Icon name="Trash" size={16} />
-          <span className="">Xoá</span>
+        <div className="flex items-center gap-1 text-green-700 cursor-pointer">
+          <Icon name="X" size={16} />
+          <span>Mở tài khoản</span>
         </div>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Bạn có chắc chắn muốn xoá</AlertDialogTitle>
-          <AlertDialogDescription>
-            Bạn không thế khôi phục người dùng này sau khi xoá
-          </AlertDialogDescription>
+          <AlertDialogTitle>
+            Bạn có chắc chắn muốn mở khoá tài khoản người dùng này
+          </AlertDialogTitle>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Huỷ</AlertDialogCancel>
           <AlertDialogAction className="bg-red-500" onClick={handleDeleteClass}>
-            {isDeleting ? <Loader /> : "Xoá"}
+            {isUnBlocking ? <Loader /> : "Xác Nhận"}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
   );
 };
-export default DeleteUser;
+export default UnBlockUser;

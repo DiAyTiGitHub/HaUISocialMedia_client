@@ -10,6 +10,7 @@ import {
 import NoData from "@/components/shared/NoData";
 import { format, parseISO } from "date-fns";
 import AcceptResult from "./AcceptResult";
+import DenyResult from "./DenyResult";
 type Props = {
   dataCourseResult: any;
 };
@@ -58,6 +59,7 @@ const TableUserCourseResult = ({ dataCourseResult }: Props) => {
 
               <TableCell className="text-right">
                 <div className="flex gap-5 justify-end">
+                  <DenyResult id={item.id} />
                   <AcceptResult id={item.id} />
                 </div>
               </TableCell>

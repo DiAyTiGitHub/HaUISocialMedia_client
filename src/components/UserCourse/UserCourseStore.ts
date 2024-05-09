@@ -1,6 +1,7 @@
 import {
   allowUserCourseRequest,
   createUserCourseRequest,
+  deleteUserCourseByIdRequest,
   getAllCourseAdminAllowRequest,
   getAllUserCourseNotYetAllowRequest,
 } from "@/services/UserCourseService";
@@ -33,6 +34,15 @@ class UserCourseStore {
   allowUserCourse = async (userCourseId: string) => {
     try {
       const { data } = await allowUserCourseRequest(userCourseId);
+      return data;
+    } catch (error) {
+      toast.error("Có lỗi xảy ra");
+      throw new Error("Có lỗi xảy ra");
+    }
+  };
+  deleteUserCourseById = async (userCourseId: string) => {
+    try {
+      const { data } = await deleteUserCourseByIdRequest(userCourseId);
       return data;
     } catch (error) {
       toast.error("Có lỗi xảy ra");

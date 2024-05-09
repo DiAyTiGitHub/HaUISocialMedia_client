@@ -51,7 +51,14 @@ class AuthStore {
         toast.error("The username or password is incorrect!", {
           position: "top-left",
         });
-      else {
+      else if (error?.response?.status === 403) {
+        toast.error(
+          "Tài khoản của bạn đã bị khoá! Vui lòng liên hệ với Quản trị viên!",
+          {
+            position: "top-left",
+          }
+        );
+      } else {
         toast.error("Connection errors!", {
           position: "top-left",
         });

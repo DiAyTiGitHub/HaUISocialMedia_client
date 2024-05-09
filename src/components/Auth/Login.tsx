@@ -46,6 +46,7 @@ function Login() {
       await authenticateUser(values);
       const data = getAllClaimsFromJwt(localStorage.getItem("token"));
       console.log(data.scope);
+
       if (data.scope === "USER") navigate("/");
       else if (data.scope === "ADMIN") navigate("/admin");
       else {

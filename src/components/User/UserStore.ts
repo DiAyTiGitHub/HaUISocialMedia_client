@@ -4,6 +4,8 @@ import {
   updateUserRequest,
   getAllUsers,
   deleteByIdRequest,
+  disableUserRequest,
+  unDisableUserRequest,
 } from "@/services/UserService";
 import { makeAutoObservable } from "mobx";
 import { toast } from "react-toastify";
@@ -37,6 +39,24 @@ class UserStore {
   deleteById = async (userId: string) => {
     try {
       const { data } = await deleteByIdRequest(userId);
+      return data;
+    } catch (error) {
+      toast.error("Something went wrong :(");
+      throw new Error("Có lỗi xảy ra");
+    }
+  };
+  disableUser = async (userId: string) => {
+    try {
+      const { data } = await disableUserRequest(userId);
+      return data;
+    } catch (error) {
+      toast.error("Something went wrong :(");
+      throw new Error("Có lỗi xảy ra");
+    }
+  };
+  unDisableUser = async (userId: string) => {
+    try {
+      const { data } = await unDisableUserRequest(userId);
       return data;
     } catch (error) {
       toast.error("Something went wrong :(");

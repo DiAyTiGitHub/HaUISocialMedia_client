@@ -13,6 +13,10 @@ export function allowUserCourseRequest(userCourseId: string) {
   const url = API_PATH + `/allow-userCourse/${userCourseId}`;
   return _axios.get(url);
 }
+export function deleteUserCourseByIdRequest(userCourseId: string) {
+  const url = API_PATH + `/${userCourseId}`;
+  return _axios.delete(url);
+}
 
 export function getAllCourseAdminAllowRequest(userId: string) {
   const url = API_PATH + `/all-course-admin-allow/${userId}`;
