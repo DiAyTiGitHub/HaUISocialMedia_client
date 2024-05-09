@@ -51,8 +51,10 @@ const TablePost = ({ postData, isLoading }: Props) => {
                     "yyy-MM-dd"
                   )}
                 </TableCell>
-                <TableCell className="w-[400px] overflow-hidden">
-                  {item.content}
+                <TableCell className="py-2">
+                  <div className="max-w-prose h-5 overflow-hidden ">
+                    {item.content}
+                  </div>
                 </TableCell>
 
                 <TableCell className="text-right">
