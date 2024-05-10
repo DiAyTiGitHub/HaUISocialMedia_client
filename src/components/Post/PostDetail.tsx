@@ -97,6 +97,7 @@ const PostDetail = () => {
     }
   };
 
+  console.log(postDetail);
   if (isLoading) return <LoadingPostDetail />;
   if (!postDetail)
     return <NoData title="Bài viết không tồn tại" style="w-[80px] h-[80px]" />;
@@ -114,9 +115,12 @@ const PostDetail = () => {
             </Link>
 
             <div className="flex flex-col">
-              <p className="base-medium lg:body-bold">
+              <Link
+                to={`/profile/${postDetail?.creator?.id}`}
+                className="base-medium lg:body-bold"
+              >
                 {postDetail?.creator.lastName} {postDetail?.creator.firstName}
-              </p>
+              </Link>
               <div className="flex gap-2 ">
                 <p className="subtle-semibold lg:small-regular ">
                   {multiFormatDateString(postDetail?.createDate.toString())}
@@ -127,32 +131,34 @@ const PostDetail = () => {
           </div>
 
           <div className="mt-2 max-w-[40vw]">{postDetail?.content}</div>
-          <div className="mt-10 relative">
-            <div className="absolute top-1/2 flex items-center bg-white rounded-full">
-              <img
-                src="/arrow-left.svg"
-                alt="arrow"
-                onClick={() => changeSlide("left")}
-                className="w-8 h-8"
-              />
-            </div>
-            <div>
-              <img
-                src={images[imageIndex]}
-                alt="post-image"
-                className="post-card_img "
-              />
-            </div>
+          {postDetail?.images?.length > 0 && (
+            <div className="mt-10 relative">
+              <div className="absolute top-1/2 flex items-center bg-white rounded-full">
+                <img
+                  src="/arrow-left.svg"
+                  alt="arrow"
+                  onClick={() => changeSlide("left")}
+                  className="w-8 h-8"
+                />
+              </div>
+              <div>
+                <img
+                  src={images[imageIndex]}
+                  alt="post-image"
+                  className="post-card_img "
+                />
+              </div>
 
-            <div className="absolute right-0 top-1/2 flex items-center bg-white rounded-full">
-              <img
-                src="/arrow-right.svg"
-                alt="arrow"
-                className="w-8 h-8"
-                onClick={() => changeSlide("right")}
-              />
+              <div className="absolute right-0 top-1/2 flex items-center bg-white rounded-full">
+                <img
+                  src="/arrow-right.svg"
+                  alt="arrow"
+                  className="w-8 h-8"
+                  onClick={() => changeSlide("right")}
+                />
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         <div className="flex-1 bg-white p-5 rounded-lg shadow-sm  h-[calc(100vh_-_88px)] overflow-y-auto">

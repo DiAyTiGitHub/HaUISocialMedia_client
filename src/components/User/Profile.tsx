@@ -1,10 +1,8 @@
 import ProfileInfo from "@/components/User/ProfileInfo";
 import SessionCreatePost from "@/components/Post/SessionCreatePost";
 import { memo, useEffect, useState } from "react";
-import { IUser, SearchObjectType } from "@/types";
+import { IUser } from "@/types";
 import { useParams } from "react-router-dom";
-import Loader from "@/components/shared/Loader";
-import PostList from "@/components/Post/PostList";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { format, parseISO } from "date-fns";
@@ -12,12 +10,11 @@ import FriendOfUser from "@/components/Relationship/FriendOfUser";
 import UserCourseResult from "../CourseResult/UserCourseResult";
 import TableSkeleton from "@/components/skeleton/TableSkeleton";
 import { useStore } from "@/stores";
-import { useGetDataByUserId, useGetDataPostByUserId } from "@/lib";
+
 import { observer } from "mobx-react";
 import { Grid } from "@mui/material";
 
 import "./ProfileStyle.scss";
-import NoData from "../shared/NoData";
 import LocalStorageService from "@/services/LocalStorageService";
 import PostOfUser from "./ui/PostOfUser";
 import Icon from "../shared/Icon";
@@ -32,18 +29,6 @@ function Profile() {
   const [isCurrentUser, setIsCurrentUser] = useState(false);
   const [isLoadingUser, setIsLoadingUser] = useState(false);
   const { getUserById } = userStore;
-  const { getPostOfUser } = postStore;
-  // const {
-  //   ref,
-  //   res: posts,
-  //   isLoading,
-  //   showLoadMore,
-  // } = useGetDataPostByUserId({
-  //   getRequest: getPostOfUser,
-  //   paging: paging,
-  //   setPaging: setPaging,
-  //   userId: userProfile?.id,
-  // });
 
   const handleCheckIsCurrentUser = () => {
     if (currentUser?.id === userProfile?.id) setIsCurrentUser(true);

@@ -57,9 +57,12 @@ const PortCard = ({ post }: PostProps) => {
                 {post?.group?.name}
               </Link>
             )}
-            <p className="base-medium lg:body-bold text-dark-1">
+            <Link
+              to={`/profile/${post?.creator?.id}`}
+              className="base-medium lg:body-bold text-dark-1"
+            >
               {post.creator.lastName} {post.creator.firstName}
-            </p>
+            </Link>
             <div className="flex gap-3 text-light-3">
               <p className="subtle-semibold lg:small-regular ">
                 {multiFormatDateString(post.createDate.toString())}

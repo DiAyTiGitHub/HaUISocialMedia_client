@@ -13,7 +13,8 @@
     --color-dark: hsl(252, 30%, var(--dark-color-lightness));
     --color-light: hsl(252, 30%, var(--light-color-lightness));
     --color-gray: hsl(var(--primary-color-hue), 15%, 65%);
-    --color-primary: hsl(var(--primary-color-hue), 75%, 60%);
+    /* --color-primary: hsl(var(--primary-color-hue), 75%, 60%); */
+    --color-primary: hsl(221.2 83.2% 53.3%);
     --color-secondary: hsl(252, 100%, 90%);
     --color-sucess: hsl(120, 90%, 65%);
     --color-danger: hsl(0, 95%, 65%);
@@ -240,7 +241,6 @@ body {
 }
 
 @layer utilities {
-
   /* TYPOGRAPHY */
   .h1-bold {
     @apply text-[36px] font-bold leading-[140%] tracking-tighter;
@@ -506,7 +506,8 @@ body {
 }
 
 .thread-card_bar {
-  @apply relative mt-2 w-0.5 grow rounded-full bg-neutral-800;
+  @apply relative mt-2 w-0.5 grow rounded-full bg-slate-300;
 }
 
-@layer components {}
+@layer components {
+}

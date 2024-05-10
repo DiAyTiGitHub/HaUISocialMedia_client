@@ -12,6 +12,7 @@ type CommentCardProps = {
 };
 
 const CommentCard = ({ comment }: CommentCardProps) => {
+  console.log(comment);
   const [openReply, setOpenReply] = useState(false);
   const [showReplyComment, setShowReplyComment] = useState(false);
 
@@ -28,19 +29,21 @@ const CommentCard = ({ comment }: CommentCardProps) => {
       <div className="flex items-start justify-between">
         <div className="flex w-full flex-1 flex-row gap-4">
           <div className="flex flex-col items-center">
-            <Link to="/profile/1" className="relative h-11 w-11">
+            <Link to="/profile/1" className="relative ">
               <img
-                src="/person.jpg"
+                src={comment?.commenter.avatar || "/person.jpg"}
                 alt="profile-imge"
-                className="cursor-pointer rounded-full"
+                className="size-10 cursor-pointer rounded-full"
               />
             </Link>
             <div className="thread-card_bar" />
           </div>
 
           <div className="flex w-full flex-col">
-            <Link to={`/profile/1`} className="w-fit">
-              <h4 className="cursor-pointer base-semibold">thanh thuan</h4>
+            <Link to={`/profile/${comment?.commenter?.id}`} className="w-fit">
+              <h4 className="cursor-pointer base-semibold">
+                {comment?.commenter.lastName} {comment?.commenter?.firstName}
+              </h4>
               <p className="text-small-medium">
                 {" "}
                 {multiFormatDateString(comment?.createDate.toString())}

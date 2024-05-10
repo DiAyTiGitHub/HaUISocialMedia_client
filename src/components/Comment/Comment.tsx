@@ -11,10 +11,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
-import { useCreateComment } from "@/react-query/comment";
 import { useStore } from "@/stores";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import LocalStorageService from "@/services/LocalStorageService";
 
 export type CreateCommentType = {
   content: string;
@@ -36,6 +36,7 @@ type CommentProps = {
   repliCommentId?: string;
 };
 const Comment = ({ postId, repliCommentId }: CommentProps) => {
+  const currentUser = LocalStorageService.getLoggedInUser();
   const { commentStore } = useStore();
   const { createComment } = commentStore;
   const [isCreateComment, setIsCreateConmment] = useState(false);
@@ -89,7 +90,7 @@ const Comment = ({ postId, repliCommentId }: CommentProps) => {
             <FormItem className="flex items-center gap-3 flex-1 p-2 space-y-0">
               <Link to="/profile/1" className="profile-photo">
                 <img
-                  src="/person.jpg"
+                  src={currentUser?.avatar || "/person.jpg"}
                   alt="profile-photo"
                   className="rounded-full"
                 />
