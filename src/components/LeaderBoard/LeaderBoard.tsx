@@ -45,7 +45,6 @@ function LeaderBoard() {
     >
       {(formProps: any) => {
         const { values, setFieldValue } = formProps;
-        console.log("values changed: ", values);
 
         function handleChangeSearchInput(e: any) {
           setFieldValue("keyword", e?.target?.value);
@@ -84,28 +83,11 @@ function LeaderBoard() {
               <div className="w-full overflow-hidden rounded-lg shadow-xs mt-5">
                 <div className="w-full overflow-x-auto ">
                   {isLoading && <TableSkeleton length={5} styles="" />}
+
                   {!isLoading && (
                     <>
                       <table className="w-full whitespace-nowrap">
-                        <thead>
-                          <tr className="text-xs tracking-wide font-bold text-left text-gray-500 uppercase border-b ">
-                            <td className="px-4 py-3 text-center">STT</td>
-                            <td className="px-4 py-3 text-center">Ảnh</td>
-                            <td className="px-4 py-3 text-center">Mã SV</td>
-                            <td className="px-4 py-3 text-center">Họ</td>
-                            <td className="px-4 py-3 text-center">Tên</td>
-                            <td className="px-4 py-3 text-center">
-                              Tên người dùng
-                            </td>
-                            <td className="px-4 py-3 text-center">A</td>
-                            <td className="px-4 py-3 text-center">B+</td>
-                            <td className="px-4 py-3 text-center">B</td>
-                            <td className="px-4 py-3 text-center">C+</td>
-                            <td className="px-4 py-3 text-center">C</td>
-                            <td className="px-4 py-3 text-center">D+</td>
-                            <td className="px-4 py-3 text-center">D</td>
-                          </tr>
-                        </thead>
+                        <DashboardHeader />
 
                         <tbody className="bg-white divide-y ">
                           {dashboardData?.map((data: any, index: number) => (
@@ -149,3 +131,28 @@ function LeaderBoard() {
 }
 
 export default memo(observer(LeaderBoard));
+
+
+function DashboardHeader() {
+  return (
+    <thead>
+      <tr className="text-xs tracking-wide font-bold text-left text-gray-500 uppercase border-b ">
+        <td className="px-4 py-3 text-center">STT</td>
+        <td className="px-4 py-3 text-center">Ảnh</td>
+        <td className="px-4 py-3 text-center">Mã SV</td>
+        <td className="px-4 py-3 text-center">Họ</td>
+        <td className="px-4 py-3 text-center">Tên</td>
+        <td className="px-4 py-3 text-center">
+          Tên người dùng
+        </td>
+        <td className="px-4 py-3 text-center">A</td>
+        <td className="px-4 py-3 text-center">B+</td>
+        <td className="px-4 py-3 text-center">B</td>
+        <td className="px-4 py-3 text-center">C+</td>
+        <td className="px-4 py-3 text-center">C</td>
+        <td className="px-4 py-3 text-center">D+</td>
+        <td className="px-4 py-3 text-center">D</td>
+      </tr>
+    </thead>
+  );
+}

@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/popover";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
+import ScheduleSendIcon from '@mui/icons-material/ScheduleSend';
 import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 import { useStore } from "@/stores";
 import { useGetAllData } from "@/lib";
@@ -95,7 +95,7 @@ const UpdateResult = ({ children }: PostFormProps) => {
     try {
       setIsLoading(true);
       await createUserCourse(data);
-      toast.success("Đã cập nhật");
+      toast.success("Đã gửi yêu cầu cập nhật, vui lòng chờ quản trị viên phê duyệt", { delay: 5000 });
       setTimeout(() => {
         navigate(0);
       }, 500);
@@ -107,6 +107,7 @@ const UpdateResult = ({ children }: PostFormProps) => {
   }
 
   if (courses === null) alert("co loi");
+  
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -120,7 +121,7 @@ const UpdateResult = ({ children }: PostFormProps) => {
             <div className="flex justify-center gap-5 flex-wrap">
               <div className="flex flex-col gap-5">
                 <FormField
-                  control={form.control}
+                  control={form?.control}
                   name="idCourse"
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
@@ -133,13 +134,13 @@ const UpdateResult = ({ children }: PostFormProps) => {
                               role="combobox"
                               className={cn(
                                 "w-[300px] justify-between",
-                                !field.value && "text-muted-foreground"
+                                !field?.value && "text-muted-foreground"
                               )}
                             >
-                              {field.value
+                              {field?.value
                                 ? courses?.find(
-                                    (course) => course.id === field.value
-                                  )?.name
+                                  (course) => course?.id === field?.value
+                                )?.name
                                 : "Lựa chọn môn học"}
 
                               <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -167,7 +168,7 @@ const UpdateResult = ({ children }: PostFormProps) => {
                                     <CheckIcon
                                       className={cn(
                                         "ml-auto h-4 w-4",
-                                        course?.id === field.value
+                                        course?.id === field?.value
                                           ? "opacity-100"
                                           : "opacity-0"
                                       )}
@@ -186,7 +187,7 @@ const UpdateResult = ({ children }: PostFormProps) => {
                 />
 
                 <FormField
-                  control={form.control}
+                  control={form?.control}
                   name="score"
                   render={({ field }) => (
                     <FormItem>
@@ -201,7 +202,7 @@ const UpdateResult = ({ children }: PostFormProps) => {
               </div>
               <div className="mb-5">
                 <FormField
-                  control={form.control}
+                  control={form?.control}
                   name="idCourseResult"
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
@@ -219,10 +220,10 @@ const UpdateResult = ({ children }: PostFormProps) => {
                             >
                               {field.value
                                 ? courseResults?.find(
-                                    (courseResult) =>
-                                      courseResult.id === field.value
-                                  )?.name
-                                : "Lựa chọn môn học"}
+                                  (courseResult) =>
+                                    courseResult?.id === field?.value
+                                )?.name
+                                : "Lựa chọn kết quả học tập"}
 
                               <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                             </Button>
@@ -231,10 +232,10 @@ const UpdateResult = ({ children }: PostFormProps) => {
                         <PopoverContent className="flex-start w-[300px] p-0 bg-white">
                           <Command>
                             <CommandInput
-                              placeholder="Tìm môn học..."
+                              placeholder="Tìm kiếm kết quả..."
                               className="h-9"
                             />
-                            <CommandEmpty>Không có môn học nào.</CommandEmpty>
+                            <CommandEmpty>Chưa có kết quả nào.</CommandEmpty>
                             <CommandList>
                               <CommandGroup>
                                 {courseResults?.map((courseResult) => (
@@ -248,11 +249,11 @@ const UpdateResult = ({ children }: PostFormProps) => {
                                       );
                                     }}
                                   >
-                                    {courseResult.code} - {courseResult?.name}
+                                    {courseResult?.code} - {courseResult?.name}
                                     <CheckIcon
                                       className={cn(
                                         "ml-auto h-4 w-4",
-                                        courseResult?.id === field.value
+                                        courseResult?.id === field?.value
                                           ? "opacity-100"
                                           : "opacity-0"
                                       )}
@@ -271,8 +272,13 @@ const UpdateResult = ({ children }: PostFormProps) => {
                 />
               </div>
             </div>
-            <Button disabled={isLoading} className="w-96 self-center mt-5">
-              {isLoading ? <Loader /> : "Cập nhật"}
+            <Button disabled={isLoading} className="w-96 self-center mt-5" style={{ backgroundColor: "#0056ff" }}>
+              {isLoading ? <Loader /> : (
+                <>
+                  <ScheduleSendIcon className="mr-4" />
+                  Gửi yêu cầu phê duyệt
+                </>
+              )}
             </Button>
           </form>
         </Form>

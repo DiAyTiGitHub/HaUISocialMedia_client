@@ -54,10 +54,6 @@ class LeaderBoardStore {
     this.getLeadingDashBoard();
   };
 
-  handleChangeSearchInput = (e: any) => {
-    console.log(e);
-  };
-
   resetStore = () => {
     this.dashboardData = [];
     this.pageIndex = 1;

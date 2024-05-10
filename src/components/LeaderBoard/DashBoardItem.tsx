@@ -1,14 +1,7 @@
 
-import { memo, useState } from "react";
+import { memo} from "react";
 
-import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import TableSkeleton from "@/components/skeleton/TableSkeleton";
-import { useStore } from "@/stores";
-import { useGetDataObjectPagination } from "@/lib";
-import Icon from "../shared/Icon";
-import { Input } from "../ui/input";
-import Pagination from '@mui/material/Pagination';
 import { observer } from "mobx-react";
 
 function DashBoardItem({ data, stt }: { data: any; stt: number }) {
@@ -17,8 +10,8 @@ function DashBoardItem({ data, stt }: { data: any; stt: number }) {
     return (
         <tr
             onClick={() => {
-                navigate(`/profile/${data.user.id}`);
-                window.location.href = `/profile/${data.user.id}`;
+                navigate(`/profile/${data?.user.id}`);
+                window.location.href = `/profile/${data?.user.id}`;
             }}
         >
             <td className={`px-3 py-2 text-sm text-center `}>
@@ -41,21 +34,21 @@ function DashBoardItem({ data, stt }: { data: any; stt: number }) {
                 {data?.user?.code || "Chưa cập nhật"}
             </td>
             <td className="px-4 py-3 text-sm text-center">{data?.user?.lastName}</td>
-            <td className="px-4 py-3 text-sm text-center">{data.user.firstName}</td>
+            <td className="px-4 py-3 text-sm text-center">{data?.user.firstName}</td>
 
             <td className="px-4 py-3 text-sm text-center">
                 <p className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full">
-                    {data.user.username}
+                    {data?.user.username}
                 </p>
             </td>
 
-            <td className="px-4 py-3 text-sm text-center">{data.numsOfA}</td>
-            <td className="px-4 py-3 text-sm text-center">{data.numsOfBPlus}</td>
-            <td className="px-4 py-3 text-sm text-center">{data.numsOfB}</td>
-            <td className="px-4 py-3 text-sm text-center">{data.numsOfCPlus}</td>
-            <td className="px-4 py-3 text-sm text-center">{data.numsOfC}</td>
-            <td className="px-4 py-3 text-sm text-center">{data.numsOfDPlus}</td>
-            <td className="px-4 py-3 text-sm text-center">{data.numsOfD}</td>
+            <td className="px-4 py-3 text-sm text-center">{data?.numsOfA}</td>
+            <td className="px-4 py-3 text-sm text-center">{data?.numsOfBPlus}</td>
+            <td className="px-4 py-3 text-sm text-center">{data?.numsOfB}</td>
+            <td className="px-4 py-3 text-sm text-center">{data?.numsOfCPlus}</td>
+            <td className="px-4 py-3 text-sm text-center">{data?.numsOfC}</td>
+            <td className="px-4 py-3 text-sm text-center">{data?.numsOfDPlus}</td>
+            <td className="px-4 py-3 text-sm text-center">{data?.numsOfD}</td>
         </tr>
     );
 };
