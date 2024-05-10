@@ -1,3 +1,4 @@
+import Icon from "@/components/shared/Icon";
 import Loader from "@/components/shared/Loader";
 import {
   AlertDialog,
@@ -44,17 +45,19 @@ const DeleteGroup = ({ id, isDetail }: Props) => {
     <AlertDialog>
       <AlertDialogTrigger asChild>
         {isDetail ? (
-          <span className="text-red-600 cursor-pointer flex items-center border p-2 w-1/3 justify-center rounded-md min-w-max">
-            Xoá Nhóm
-          </span>
+          <div className="text-red-600 cursor-pointer flex items-center gap-3  border p-2 w-1/3 justify-center rounded-md min-w-max">
+            <Icon name="CircleX" size={16} />
+            <span className="">Xoá Nhóm</span>
+          </div>
         ) : (
           <DropdownMenuItem
             onSelect={(e) => e.preventDefault()}
             className="outline-none"
           >
-            <span className="text-red-600 cursor-pointer max-w-max">
-              Xoá Nhóm
-            </span>
+            <div className="flex items-center gap-2 text-red-600 cursor-pointer max-w-max">
+              <Icon name="CircleX" size={16} />
+              <span className="">Xoá Nhóm</span>
+            </div>
           </DropdownMenuItem>
         )}
       </AlertDialogTrigger>

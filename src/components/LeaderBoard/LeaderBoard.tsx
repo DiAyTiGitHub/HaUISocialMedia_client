@@ -1,19 +1,14 @@
-import { memo, useEffect, useState } from "react";
-
+import { memo, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
 import TableSkeleton from "@/components/skeleton/TableSkeleton";
 import { useStore } from "@/stores";
-import { useGetDataObjectPagination } from "@/lib";
-import Icon from "../shared/Icon";
 import { Input } from "../ui/input";
-import Pagination from '@mui/material/Pagination';
+import Pagination from "@mui/material/Pagination";
 import { observer } from "mobx-react";
 import DashBoardItem from "./DashBoardItem";
 import "../../common/CommonStyles.scss";
 import { Formik, Form } from "formik";
-import SearchIcon from '@mui/icons-material/Search';
-
+import SearchIcon from "@mui/icons-material/Search";
 
 type PagingType = {
   pageSize: number;
@@ -35,7 +30,6 @@ function LeaderBoard() {
   } = leaderBoardStore;
 
   useEffect(function () {
-
     getLeadingDashBoard();
 
     return resetStore;
@@ -46,7 +40,7 @@ function LeaderBoard() {
       onSubmit={handleSearchingWithKeyword}
       enableReinitialize
       initialValues={{
-        keyword: null
+        keyword: null,
       }}
     >
       {(formProps: any) => {
@@ -58,7 +52,7 @@ function LeaderBoard() {
         }
 
         return (
-          <Form className='calendar-form flex justify-center p-4 w-100'>
+          <Form className="calendar-form flex justify-center p-4 w-100">
             <div className="bg-white p-3 shadow-md rounded-md w-100">
               <p className="text-heading3-bold">Bảng xếp hạng thành tích</p>
               <div className="mt-2 flex justify-right">
@@ -76,7 +70,11 @@ function LeaderBoard() {
         </div> */}
 
                 <div className="flex items-center pl-2">
-                  <Button className="flex items-center" type="submit" style={{backgroundColor: "#2d74ff"}}>
+                  <Button
+                    className="flex items-center"
+                    type="submit"
+                    style={{ backgroundColor: "#2d74ff" }}
+                  >
                     <SearchIcon />
                     <span className="pl-2">Tìm kiếm</span>
                   </Button>
@@ -96,7 +94,9 @@ function LeaderBoard() {
                             <td className="px-4 py-3 text-center">Mã SV</td>
                             <td className="px-4 py-3 text-center">Họ</td>
                             <td className="px-4 py-3 text-center">Tên</td>
-                            <td className="px-4 py-3 text-center">Tên người dùng</td>
+                            <td className="px-4 py-3 text-center">
+                              Tên người dùng
+                            </td>
                             <td className="px-4 py-3 text-center">A</td>
                             <td className="px-4 py-3 text-center">B+</td>
                             <td className="px-4 py-3 text-center">B</td>
@@ -112,10 +112,9 @@ function LeaderBoard() {
                             <DashBoardItem
                               key={data?.id}
                               data={data}
-                              stt={((pageIndex - 1) * (pageSize) + index + 1)}
+                              stt={(pageIndex - 1) * pageSize + index + 1}
                             />
                           ))}
-
                         </tbody>
                       </table>
 
@@ -126,7 +125,6 @@ function LeaderBoard() {
                       )}
 
                       <div className="flex justify-right">
-
                         <Pagination
                           count={totalPages}
                           page={pageIndex}
@@ -138,17 +136,16 @@ function LeaderBoard() {
                           showLastButton
                         />
                       </div>
-
                     </>
                   )}
                 </div>
               </div>
             </div>
           </Form>
-        )
+        );
       }}
     </Formik>
   );
-};
+}
 
 export default memo(observer(LeaderBoard));

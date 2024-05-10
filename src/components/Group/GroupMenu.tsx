@@ -16,10 +16,10 @@ const GroupMenu = () => {
           <Input
             type="text"
             placeholder="Tìm kiếm nhóm"
-            className="border-none rounded-s-full"
+            className="border border-blue-600 h-full rounded-s-full"
             disabled
           />
-          <Button className="rounded-e-full h-full" disabled>
+          <Button className="rounded-e-full h-full bg-blue-600" disabled>
             <Search />
           </Button>
         </div>

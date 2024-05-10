@@ -16,7 +16,7 @@ const MyGroup = () => {
         {!dataGroup || dataGroup.length === 0 ? (
           <NoData title="Bạn chưa tạo nào nào" style="h-[100px] w-[100px]" />
         ) : (
-          <div className="flex flex-wrap gap-5">
+          <div className="grid md:grid-cols-2 gap-5">
             {dataGroup.map((group) => (
               <GroupCard key={group.id} group={group} />
             ))}

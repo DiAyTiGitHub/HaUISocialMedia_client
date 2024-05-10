@@ -42,7 +42,7 @@ const BlockUser = ({ id }: Props) => {
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <div className="flex items-center gap-1 text-yellow-600 cursor-pointer">
-          <Icon name="X" size={16} />
+          <Icon name="LockKeyhole" size={16} />
           <span>Khoá tài khoản</span>
         </div>
       </AlertDialogTrigger>

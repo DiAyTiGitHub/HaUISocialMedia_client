@@ -5,6 +5,7 @@ import CustomButtonGroup from "./CustomButtonGroup";
 import { useStore } from "@/stores";
 import LeaveGroup from "./LeaveGroup";
 import { useEffect, useState } from "react";
+import Icon from "@/components/shared/Icon";
 
 type Props = {
   group: any;
@@ -37,7 +38,7 @@ const GroupCard = ({ group }: Props) => {
           alt="group-img"
           className="w-20 h-20 object-cover rounded-md"
         />
-        <div className="flex flex-col justify-between">
+        <div className="flex flex-col justify-start space-y-2">
           <p className="small-medium max-w-[400px] text-wrap capitalize">
             {group?.name}
           </p>
@@ -51,8 +52,9 @@ const GroupCard = ({ group }: Props) => {
         <div className="flex gap-2 mt-4">
           <Link
             to={`/group/${group.id}`}
-            className="bg-blue-100 font-medium hover:bg-opacity-80 text-blue-700 py-2 w-2/3 text-center rounded-md"
+            className="flex items-center justify-center gap-3 bg-blue-100 font-medium hover:bg-opacity-80 text-blue-700 py-2 w-2/3 text-center rounded-md"
           >
+            <Icon name="Eye" />
             Xem Nhóm
           </Link>
 
@@ -62,8 +64,9 @@ const GroupCard = ({ group }: Props) => {
         <div className="flex gap-2 mt-4">
           <Link
             to={`/group/${group.id}`}
-            className="bg-blue-100 font-medium hover:bg-opacity-80 text-blue-700 py-2 w-2/3 text-center rounded-md"
+            className="flex items-center justify-center gap-3 bg-blue-100 font-medium hover:bg-opacity-80 text-blue-700 py-2 w-2/3 text-center rounded-md"
           >
+            <Icon name="Eye" />
             Xem Nhóm
           </Link>
 
@@ -87,7 +90,7 @@ const GroupCard = ({ group }: Props) => {
               message="Đã yêu cầu tham gia"
               handleFn={joinGroup}
               id={group?.id}
-              style="border border-green-500"
+              style="border border-green-500 text-green-600"
               variant="outline"
             >
               Tham Gia Nhóm

@@ -52,7 +52,6 @@ const GroupForm = ({ isUpdate, isCreate, data }: Props) => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
     try {
       setIsCreating(true);
       let url;
@@ -128,12 +127,20 @@ const GroupForm = ({ isUpdate, isCreate, data }: Props) => {
         />
         <div className="flex justify-end">
           {isCreate && (
-            <Button disabled={isCreating} type="submit">
+            <Button
+              disabled={isCreating}
+              type="submit"
+              className="bg-blue-600 px-5"
+            >
               {isCreating ? <Loader /> : "Tạo"}
             </Button>
           )}
           {isUpdate && (
-            <Button disabled={isCreating} type="submit">
+            <Button
+              disabled={isCreating}
+              type="submit"
+              className="bg-blue-600 px-5"
+            >
               {isCreating ? <Loader /> : "Cập nhật"}
             </Button>
           )}

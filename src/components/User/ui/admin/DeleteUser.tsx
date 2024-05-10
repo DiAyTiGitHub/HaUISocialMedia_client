@@ -42,7 +42,7 @@ const DeleteUser = ({ id }: Props) => {
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <div className="flex items-center gap-[2px] text-red-600 cursor-pointer">
-          <Icon name="Trash" size={16} />
+          <Icon name="X" size={16} />
           <span className="">Xoá</span>
         </div>
       </AlertDialogTrigger>

@@ -20,7 +20,7 @@ const NavBar = () => {
     window.location.href = `/search?name=${search}`;
   };
   return (
-    <nav className="w-full bg-white py-3 px-5 sticky top-0 z-10 shadow-lg max-h-[88px] " style={{ zIndex: 1000 }}>
+    <nav className="w-full bg-white py-3 px-5 sticky top-0  shadow-lg max-h-[88px] z-20">
       <div className="flex-between ">
         <div className="flex gap-3">
           <Link to="/" className="flex items-center gap-5">
@@ -51,8 +51,9 @@ const NavBar = () => {
             <Link
               key={link.route}
               to={link.route}
-              className={`flex items-center justify-center h-16 w-20 cursor-pointer relative text-slate-500 ${pathname === link.route && "navbar-active text-primary"
-                }`}
+              className={`flex items-center justify-center h-16 w-20 cursor-pointer relative text-slate-500 ${
+                pathname === link.route && "navbar-active text-primary"
+              }`}
             >
               <Icon name={link.icon as IconName} size={28} />
             </Link>

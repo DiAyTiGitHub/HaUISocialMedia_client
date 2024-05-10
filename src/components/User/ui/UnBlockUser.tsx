@@ -42,7 +42,7 @@ const UnBlockUser = ({ id }: Props) => {
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <div className="flex items-center gap-1 text-green-700 cursor-pointer">
-          <Icon name="X" size={16} />
+          <Icon name="LockKeyholeOpen" size={16} />
           <span>Mở tài khoản</span>
         </div>
       </AlertDialogTrigger>

@@ -14,13 +14,13 @@ const DropdoownMenuAdmin = ({ group }: Props) => {
   return (
     <div>
       <DropdownMenu>
-        <DropdownMenuTrigger className="border-none bg-slate-200 outline-none h-full w-full p-2 rounded-md">
+        <DropdownMenuTrigger className=" relative border-none bg-slate-200 outline-none h-full w-full p-2 rounded-md">
           <ChevronDown />
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="border-none">
-          <DeleteGroup id={group?.id} />
-          <DropdownMenuSeparator />
+        <DropdownMenuContent className="border-none absolute right-0 w-max">
           <UpdateGroup group={group} />
+          <DropdownMenuSeparator />
+          <DeleteGroup id={group?.id} />
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

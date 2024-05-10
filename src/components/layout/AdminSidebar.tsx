@@ -2,7 +2,6 @@ import { Link, useLocation } from "react-router-dom";
 import { sidebarAdmin } from "@/constant";
 import LocalStorage from "@/services/LocalStorageService";
 
-import { useStore } from "@/stores";
 import { memo } from "react";
 import { observer } from "mobx-react";
 import LogoutButton from "../Auth/ui/LogoutButton";
@@ -24,12 +23,12 @@ function AdminSidebar() {
           </Link>
 
           <div>
-            <div className="flex items-center gap-x-4 w-full py-2 hover:bg-blue-2 px-3 rounded-md">
-              <div className="profile-photo">
+            <div className="flex items-center gap-x-4 w-full py-2 hover:bg-blue-2 px-3 rounded-md my-3">
+              <div className="">
                 <img
                   src={currentUser?.avatar || "/person.jpg"}
                   alt="avartar"
-                  className="w-8 h-8 rounded-full object-cover"
+                  className="size-10 rounded-full object-cover"
                 />
               </div>
               <p className="text-body-bold font-semibold">

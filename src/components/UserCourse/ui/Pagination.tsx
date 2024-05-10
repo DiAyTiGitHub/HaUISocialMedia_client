@@ -1,3 +1,4 @@
+import Icon from "@/components/shared/Icon";
 import { Button } from "@/components/ui/button";
 
 type Props = {
@@ -16,10 +17,10 @@ const Pagination = ({ isLeftDisable, isRightDisable, setPaging }: Props) => {
   return (
     <div className="mt-5 flex justify-center flex-wrap gap-5">
       <Button disabled={isLeftDisable} onClick={handlePrev}>
-        Trước
+        <Icon name="ArrowLeft" />
       </Button>
       <Button disabled={isRightDisable} onClick={handleNext}>
-        Sau
+        <Icon name="ArrowRight" />
       </Button>
     </div>
   );

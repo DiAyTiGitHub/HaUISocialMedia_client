@@ -82,7 +82,7 @@ const GroupSearchCard = ({ group }: Props) => {
               message="Đã yêu cầu tham gia"
               handleFn={joinGroup}
               id={group?.id}
-              style="border border-green-500 text-[12px] text-slate-700"
+              style="border border-green-500 text-[12px] text-green-600"
               variant="outline"
               isDisable={isSendRequestJoinedGroup}
             >

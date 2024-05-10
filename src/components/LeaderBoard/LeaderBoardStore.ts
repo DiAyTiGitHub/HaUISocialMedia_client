@@ -16,14 +16,13 @@ class LeaderBoardStore {
   totalPages = 0;
   totalElements = 0;
 
-
   getLeadingDashBoard = async () => {
     try {
       this.isLoading = true;
       const searchObject = {
         pageIndex: this.pageIndex,
         pageSize: this.pageSize,
-        keyWord: this.keyword
+        keyWord: this.keyword,
       };
 
       const { data } = await getLeadingDashBoardRequest(searchObject);
@@ -36,14 +35,13 @@ class LeaderBoardStore {
       this.totalPages = data?.totalPages;
 
       this.isLoading = false;
-
     } catch (error) {
       toast.error("Something went wrong :(");
     }
   };
 
   handleChangePage = (event: any, newPage: number) => {
-    this.pageIndex = (newPage);
+    this.pageIndex = newPage;
 
     this.getLeadingDashBoard();
   };
@@ -51,14 +49,14 @@ class LeaderBoardStore {
   handleSearchingWithKeyword = (values: any) => {
     this.pageIndex = 1;
     this.keyword = values?.keyword;
-    console.log("submit values: ", values)
+    console.log("submit values: ", values);
 
     this.getLeadingDashBoard();
-  }
+  };
 
   handleChangeSearchInput = (e: any) => {
     console.log(e);
-  }
+  };
 
   resetStore = () => {
     this.dashboardData = [];
@@ -67,7 +65,7 @@ class LeaderBoardStore {
     this.keyword = null;
     this.isLoading = true;
     this.totalElements = 0;
-  }
+  };
 }
 
 export default LeaderBoardStore;

@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/dialog";
 import GroupForm from "../form/GroupForm";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import Icon from "@/components/shared/Icon";
 
 type Props = {
   group: any;
@@ -19,7 +20,10 @@ const UpdateGroup = ({ group }: Props) => {
           onSelect={(e) => e.preventDefault()}
           className="outline-none"
         >
-          Cập nhật nhóm
+          <div className="flex items-center gap-3">
+            <Icon name="Pencil" size={16} />
+            <span>Cập nhật nhóm</span>
+          </div>
         </DropdownMenuItem>
       </DialogTrigger>
       <DialogContent className="mt-10 max-w-4xl max-h-[80vh] overflow-y-auto">

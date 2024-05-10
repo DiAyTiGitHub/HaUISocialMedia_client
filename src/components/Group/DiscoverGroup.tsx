@@ -16,7 +16,7 @@ const DiscoverGroup = () => {
         {!dataGroup || dataGroup.length === 0 ? (
           <NoData title="Chưa có nhóm nào đề xuất cho bạn" />
         ) : (
-          <div className="flex flex-wrap gap-5">
+          <div className="grid md:grid-cols-2 gap-5">
             {dataGroup.map((group) => (
               <GroupCard key={group.id} group={group} />
             ))}
