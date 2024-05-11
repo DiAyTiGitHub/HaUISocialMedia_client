@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import FriendListSkeleton from "../skeleton/FriendListSkeleton";
 import { SearchObjectType } from "@/types";
 import { useStore } from "@/stores";
+import MutualFriends from "../User/ui/MutualFriend";
 
 const FriendResquest = () => {
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ const FriendResquest = () => {
     };
     handleGetRequestFriend();
   }, []);
-
+  console.log(requestFriends);
   if (isLoading)
     return <FriendListSkeleton length={3} styles="flex flex-col gap-2" />;
   return (
@@ -52,11 +53,17 @@ const FriendResquest = () => {
                       alt="profile-photo"
                     />
                   </div>
-                  <div>
-                    <p className="font-medium">
+
+                  <div className="flex flex-col gap-2">
+                    <p className=" font-medium">
                       {friend?.requestSender?.lastName}{" "}
                       {friend?.requestSender?.firstName}
                     </p>
+                    {friend?.requestSender?.mutualFriends?.length > 0 && (
+                      <MutualFriends
+                        mutualFriends={friend?.requestSender?.mutualFriends}
+                      />
+                    )}
                   </div>
                 </div>
                 <div className="flex gap-4">

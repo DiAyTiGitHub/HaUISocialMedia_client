@@ -21,6 +21,7 @@ export type IUser = {
   role: string;
   username: string;
   relationship: IRelationship;
+  mutualFriends: any;
 };
 
 export type IImage = {

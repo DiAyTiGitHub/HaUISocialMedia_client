@@ -6,6 +6,7 @@ import { useStore } from "@/stores";
 import CustomButtonFriend from "@/components/Relationship/CustomButtonFriend";
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/shared/Icon";
+import MutualFriends from "@/components/User/ui/MutualFriend";
 type Props = {
   user: IUser | any;
 };
@@ -95,14 +96,19 @@ const UserSearchCard = ({ user }: Props) => {
           <img
             src={user?.avatar || "/person.jpg"}
             alt="avatar"
-            className="profile-photo rounded-full "
+            className="size-16 object-cover rounded-full ring-1"
           />
-          <p
-            className="font-semibold cursor-pointer hover:underline"
-            onClick={handleNavigate}
-          >
-            {user?.lastName} {user?.firstName}
-          </p>
+          <div className="flex flex-col gap-2">
+            <p
+              className="font-semibold cursor-pointer hover:underline"
+              onClick={handleNavigate}
+            >
+              {user?.lastName} {user?.firstName}
+            </p>
+            {user?.mutualFriends?.length > 0 && (
+              <MutualFriends mutualFriends={user?.mutualFriends} />
+            )}
+          </div>
         </div>
 
         <div>

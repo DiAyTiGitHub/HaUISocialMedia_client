@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SidebarFriendPage from "./SidebarFriendPage";
 import NoData from "../shared/NoData";
+import MutualFriends from "../User/ui/MutualFriend";
 
 export type requestFriendsPagination = {
   pageIndex: number;
@@ -62,17 +63,30 @@ const RequestFriendPage = () => {
                         navigate(`/profile/${friend.requestSender.id}`)
                       }
                     >
-                      <div className="flex justify-between flex-1">
-                        <div className="flex items-center gap-3">
-                          <img
-                            src={friend.avatar || "/person.jpg"}
-                            alt="avatar"
-                            className="w-10 h-10 rounded-full object-cover"
-                          />
-                          <p className="font-medium">
-                            {friend.requestSender.lastName}{" "}
-                            {friend.requestSender.firstName}
-                          </p>
+                      <div className="flex justify-between items-center flex-1">
+                        <div>
+                          <div className="flex items-center gap-3">
+                            <img
+                              src={friend.avatar || "/person.jpg"}
+                              alt="avatar"
+                              className="w-10 h-10 rounded-full object-cover"
+                            />
+                          </div>
+
+                          <div className="flex flex-col gap-2">
+                            <p className=" font-medium">
+                              {friend?.requestSender?.lastName}{" "}
+                              {friend?.requestSender?.firstName}
+                            </p>
+                            {friend?.requestSender?.mutualFriends?.length >
+                              0 && (
+                              <MutualFriends
+                                mutualFriends={
+                                  friend?.requestSender?.mutualFriends
+                                }
+                              />
+                            )}
+                          </div>
                         </div>
                         <div className="flex gap-2">
                           <CustomButtonFriend

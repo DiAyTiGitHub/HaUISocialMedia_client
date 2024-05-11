@@ -3,12 +3,14 @@ import { IUser } from "@/types";
 import { Link } from "react-router-dom";
 import CustomButtonFriend from "../CustomButtonFriend";
 import { useStore } from "@/stores";
+import MutualFriends from "@/components/User/ui/MutualFriend";
 
 type Props = {
   suggestFriends: any;
 };
 const ListSuggestFriend = ({ suggestFriends }: Props) => {
   const { relationshipStore } = useStore();
+  console.log(suggestFriends);
 
   const { addFriend } = relationshipStore;
   return (
@@ -22,16 +24,22 @@ const ListSuggestFriend = ({ suggestFriends }: Props) => {
             to={`/profile/${friend?.id}`}
             className="cursor-pointer flex items-center gap-5 p-3 bg-blue-2 rounded-xl w-full"
           >
-            <div className="flex justify-between flex-1 ">
+            <div className="flex justify-between items-center flex-1 ">
               <div className="flex items-center gap-3">
                 <img
                   src={friend.avatar || "/person.jpg"}
                   alt="avatar"
-                  className="w-10 h-10 rounded-full object-cover"
+                  className="size-16 rounded-full object-cover"
                 />
-                <p className="font-medium">
-                  {friend.lastName} {friend.firstName}
-                </p>
+
+                <div className="flex flex-col gap-2">
+                  <p className=" font-bold">
+                    {friend.lastName} {friend.firstName}
+                  </p>
+                  {friend?.mutualFriends?.length > 0 && (
+                    <MutualFriends mutualFriends={friend?.mutualFriends} />
+                  )}
+                </div>
               </div>
 
               <CustomButtonFriend

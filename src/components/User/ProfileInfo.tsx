@@ -10,6 +10,7 @@ import CustomButtonFriend from "../Relationship/CustomButtonFriend";
 import FriendDropdown from "./ui/FrienDropDown";
 import UpdateBackgroupImg from "./ui/UpdateBackgroupImg";
 import Icon from "../shared/Icon";
+import MutualFriends from "./ui/MutualFriend";
 type Props = {
   userProfile: any;
   isLoading: boolean;
@@ -126,10 +127,13 @@ function ProfileInfo({ userProfile, isLoading }: Props) {
                 className=" w-36 h-36 object-cover rounded-full"
               />
             </div>
-            <div>
+            <div className="flex flex-col gap-2">
               <p className="text-[28px] font-bold">
                 {userProfile?.lastName} {userProfile?.firstName}
               </p>
+              {!isCurrentUser && userProfile?.mutualFriends?.length > 0 && (
+                <MutualFriends mutualFriends={userProfile?.mutualFriends} />
+              )}
             </div>
           </div>
           {currentUser?.id === userProfile?.id ? (
