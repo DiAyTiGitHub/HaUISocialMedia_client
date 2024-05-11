@@ -59,7 +59,7 @@ const FriendResquest = () => {
                       {friend?.requestSender?.lastName}{" "}
                       {friend?.requestSender?.firstName}
                     </p>
-                    {friend?.requestSender?.mutualFriends?.length > 0 && (
+                    {friend?.requestSender.mutualFriends?.length > 0 && (
                       <MutualFriends
                         mutualFriends={friend?.requestSender?.mutualFriends}
                       />
