@@ -133,14 +133,16 @@ const PostDetail = () => {
           <div className="mt-2 max-w-[40vw]">{postDetail?.content}</div>
           {postDetail?.images?.length > 0 && (
             <div className="mt-10 relative">
-              <div className="absolute top-1/2 flex items-center bg-white rounded-full">
-                <img
-                  src="/arrow-left.svg"
-                  alt="arrow"
-                  onClick={() => changeSlide("left")}
-                  className="w-8 h-8"
-                />
-              </div>
+              {postDetail.images.length > 1 && (
+                <div className="absolute top-1/2 flex items-center bg-white rounded-full">
+                  <img
+                    src="/arrow-left.svg"
+                    alt="arrow"
+                    onClick={() => changeSlide("left")}
+                    className="w-8 h-8"
+                  />
+                </div>
+              )}
               <div>
                 <img
                   src={images[imageIndex]}
@@ -149,14 +151,16 @@ const PostDetail = () => {
                 />
               </div>
 
-              <div className="absolute right-0 top-1/2 flex items-center bg-white rounded-full">
-                <img
-                  src="/arrow-right.svg"
-                  alt="arrow"
-                  className="w-8 h-8"
-                  onClick={() => changeSlide("right")}
-                />
-              </div>
+              {postDetail.images.length > 1 && (
+                <div className="absolute right-0 top-1/2 flex items-center bg-white rounded-full">
+                  <img
+                    src="/arrow-right.svg"
+                    alt="arrow"
+                    className="w-8 h-8"
+                    onClick={() => changeSlide("right")}
+                  />
+                </div>
+              )}
             </div>
           )}
         </div>

@@ -112,42 +112,6 @@ const PortCard = ({ post }: PostProps) => {
         <p>{post.content}</p>
       </div>
 
-      {/* {images && images.length > 0 && (
-        <div className="rounded-xl overflow-hidden my-2 gap-2 flex">
-          <div className="basis-2/3">
-            <img
-              src={images[0]}
-              alt="post-image"
-              className="post-card_img"
-              onClick={() => navigate(`/post/${post.id}`)}
-            />
-          </div>
-          {images.length > 1 && (
-            <div className="flex flex-col justify-start gap-3 basis-1/3">
-              {images.slice(1, 4).map(
-                (
-                  image,
-                  index // Chỉ hiển thị 4 ảnh còn lại
-                ) => (
-                  <img
-                    key={index}
-                    src={image}
-                    alt="post-image"
-                    className="h-[150px] object-cover w-full rounded-[10px]"
-                    onClick={() => navigate(`/post/${post.id}`)}
-                  />
-                )
-              )}
-              {images.length > 5 && (
-                <div className="h-[150px] w-full bg-gray-200 flex items-center justify-center text-gray-500 font-semibold rounded-[10px] cursor-pointer">
-                  +{images.length - 5} ảnh khác
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-      )} */}
-
       {images && images.length > 0 && (
         <div className="rounded-xl overflow-hidden my-2 gap-2 flex relative">
           {" "}
