@@ -64,3 +64,7 @@ export function getAllGroupUserNotYeJoinRequest() {
   const url = API_PATH + `/get-all-group-user-not-yet-join`;
   return _axios.get(url);
 }
+export function getAllPostOfAllGroupRequest(searchObject: any) {
+  const url = API_PATH + `/get-all-post-of-all-group`;
+  return _axios.post(url, searchObject);
+}

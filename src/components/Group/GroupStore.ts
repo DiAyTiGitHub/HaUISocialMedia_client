@@ -9,6 +9,7 @@ import {
   getAllGroupUserIsAdminRequest,
   getAllGroupUserNotYeJoinRequest,
   getAllJoinedGroupOfUserRequest,
+  getAllPostOfAllGroupRequest,
   getAllWaitRequest,
   joinGroupRequest,
   kickMemberRequest,
@@ -152,6 +153,15 @@ class GroupStore {
   getAllGroupUserNotYeJoin = async () => {
     try {
       const { data } = await getAllGroupUserNotYeJoinRequest();
+      return data;
+    } catch (error) {
+      toast.error("Có lỗi xảy ra");
+      throw new Error("Có lỗi xảy ra");
+    }
+  };
+  getAllPostOfAllGroup = async (paging: any) => {
+    try {
+      const { data } = await getAllPostOfAllGroupRequest(paging);
       return data;
     } catch (error) {
       toast.error("Có lỗi xảy ra");

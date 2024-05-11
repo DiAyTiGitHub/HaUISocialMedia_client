@@ -11,7 +11,6 @@ type Props = {
 };
 // GET DATA INFINITY
 const useGetData = ({ getRequest, paging, setPaging }: Props) => {
-  console.log(paging);
   const { ref, inView } = useInView();
   const [isLoading, setIsLoading] = useState(false);
   const [showLoadMore, setShowLoadMore] = useState<boolean>(true);

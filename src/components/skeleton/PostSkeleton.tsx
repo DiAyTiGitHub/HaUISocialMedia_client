@@ -9,11 +9,10 @@ function PostSkeleton() {
             <Skeleton className="profile-photo rounded-full" />
           </div>
 
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-2">
             <Skeleton className="h-4 w-full" />
-            <div className="flex gap-3 text-light-3">
-              <Skeleton className="h-4 w-20" />
-            </div>
+
+            <Skeleton className="h-4 w-20" />
           </div>
         </div>
       </div>
