@@ -9,7 +9,7 @@ const SessionCreatePost = () => {
   const currentUser = LocalStorage.getLoggedInUser();
 
   return (
-    <div className="w-full bg-white py-3 px-2 rounded-lg">
+    <div className="w-full bg-white py-3 px-2 rounded-lg mb-4">
       <div className="flex items-center gap-5 ">
         <Link to="/profile/1" className="flex items-center">
           <div className=" ">
@@ -23,7 +23,7 @@ const SessionCreatePost = () => {
         <PostForm groupId={groupId}>
           <Input
             type="text"
-            placeholder="Bạn đăng nghĩ gì thế?"
+            placeholder="Bạn đang nghĩ gì thế?"
             className="outline-none px-4 py-6  rounded-full bg-gray-10 border-none border-b-2"
           />
         </PostForm>

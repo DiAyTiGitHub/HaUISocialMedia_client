@@ -27,6 +27,7 @@ import { useNavigate } from "react-router-dom";
 import { handleUploadImage } from "@/lib/utils";
 import { Input } from "../ui/input";
 import LocalStorageService from "@/services/LocalStorageService";
+import DrawIcon from '@mui/icons-material/Draw';
 
 export type CreatePostType = {
   content: string;
@@ -198,6 +199,7 @@ const PostForm = ({ children, post, groupId }: PostFormProps) => {
                 type="submit"
                 className="w-full capitalize"
               >
+                <DrawIcon className="mr-2" />
                 {isLoading ? "Đang đăng..." : "Đăng "}
               </Button>
             </DialogFooter>

@@ -19,11 +19,12 @@
     .loginFormWrapper {
         justify-content: flex-end;
         width: 100%;
-        padding-right: 80px;
+        padding-right: 100px;
 
         .loginForm {
             background-color: white;
-            opacity: 0.98;
+            opacity: 0.92;
+            min-width: 380px;
 
             .loginFormAvatar {
                 background-color: white;
