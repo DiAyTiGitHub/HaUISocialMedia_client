@@ -6,7 +6,7 @@ const MutualFriends = ({ mutualFriends }: Props) => {
   return (
     <div className="flex  items-center gap-3">
       <div className="flex items-center -space-x-3">
-        {mutualFriends?.map((mutualFriend: any) => (
+        {mutualFriends?.slice(0, 5)?.map((mutualFriend: any) => (
           <img
             src={mutualFriend?.avatar || "/person.jpg"}
             className="size-6 rounded-full object-cover"
