@@ -241,6 +241,7 @@ body {
 }
 
 @layer utilities {
+
   /* TYPOGRAPHY */
   .h1-bold {
     @apply text-[36px] font-bold leading-[140%] tracking-tighter;
@@ -509,5 +510,4 @@ body {
   @apply relative mt-2 w-0.5 grow rounded-full bg-slate-300;
 }
 
-@layer components {
-}
+@layer components {}

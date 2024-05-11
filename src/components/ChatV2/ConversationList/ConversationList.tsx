@@ -7,6 +7,7 @@ import './ConversationList.css';
 import { useStore } from '@/stores';
 import { observer } from 'mobx-react';
 import ConversationListItemLoadingSkeleton from './ConversationListItem/ConversationListItemLoadingSkeleton';
+import NoData from '@/components/shared/NoData';
 
 function ConversationList() {
   const { chatStore } = useStore();
@@ -50,8 +51,11 @@ function ConversationList() {
                   }
                   {
                     ((!joinedRooms || (joinedRooms.length === 0)) && !isLoading) && (
-                      <div className="no-conversation">
-                        <p>Bạn chưa có cuộc trò chuyện nào <br /> Hãy tìm kiếm thêm bạn bè</p>
+                      <div className="no-conversation p-4">
+                        <NoData
+                          title={<p>Bạn chưa có cuộc trò chuyện nào <br /> Hãy tìm kiếm thêm bạn bè nào</p>}
+                          style="h-[80px] w-[80px]"
+                        />
                       </div>
                     )
                   }

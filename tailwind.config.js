@@ -140,7 +140,7 @@ module.exports = {
         "pink-1": "#FDDAD6",
       },
       backgroundImage: {
-        bgHaui: "url('/bg-haui.jpg')",
+        bgHaui: "url('https://xdcs.cdnchinhphu.vn/446259493575335936/2024/1/4/t94467-1704321705073-17043217052481641427499.jpg')",
       },
       screens: {
         xs: "480px",

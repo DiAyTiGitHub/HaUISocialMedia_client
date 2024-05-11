@@ -18,14 +18,20 @@ class AuthStore {
   signUpUser = async (user: any) => {
     try {
       const { data } = await registerUser(user);
-      toast.success("Register successfully! Please login again!");
+      toast.success("Chúc mừng bạn đã đăng kí thành công, vui lòng đăng nhập lại!", {
+        position: "top-left",
+      });
       return data;
     } catch (error: any) {
       if (error?.response?.status === 409)
-        toast.info("Username has existed, please choose another one!");
+        toast.info("Tên người dùng đã tồn tại, vui lòng chọn tên khác!", {
+          position: "top-left",
+        });
       else {
         console.error(error);
-        toast.error("Registration has error occured :(");
+        toast.error("Đăng kí tài khoản có lỗi :(", {
+          position: "top-left",
+        });
       }
       throw new Error(error);
     }
@@ -37,7 +43,7 @@ class AuthStore {
       const userData = data?.loggedInUser;
 
       toast.dismiss();
-      toast.success("Login successfully!", {
+      toast.success("Đăng nhập thành công, cùng trải nghiệm ứng dụng nào!", {
         position: "top-left",
       });
 
@@ -48,7 +54,7 @@ class AuthStore {
       return data;
     } catch (error: any) {
       if (error?.response?.status === 401)
-        toast.error("The username or password is incorrect!", {
+        toast.error("Tên tài khoản hoặc mật khẩu không chính xác!", {
           position: "top-left",
         });
       else if (error?.response?.status === 403) {
@@ -59,7 +65,7 @@ class AuthStore {
           }
         );
       } else {
-        toast.error("Connection errors!", {
+        toast.error("Lỗi kết nối!", {
           position: "top-left",
         });
       }

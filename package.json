@@ -61,6 +61,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@mui/lab": "^5.0.0-alpha.170",
     "@types/react": "^18.2.64",
     "@types/react-dom": "^18.2.21",
     "@types/sockjs-client": "^1.5.4",

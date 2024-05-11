@@ -9,6 +9,7 @@ import CustomizeChatIndex from "./CustomizeChatAccordion/CustomizeChatIndex";
 import ParticipantIndex from "./ParticipantAccordion/ParticipantIndex";
 import OtherActionsIndex from "./OtherActionsAccordion/OtherActionsIndex";
 import { Accordion, Skeleton } from "@mui/material";
+import NoData from "@/components/shared/NoData";
 
 function InfoList() {
   const { chatStore, authStore } = useStore();
@@ -128,7 +129,10 @@ function InfoList() {
           <>
             {!chosenRoom && (
               <div className="no-info">
-                <p>Chưa chọn cuộc trò chuyện nào</p>
+                <NoData
+                  title={<p>Chưa chọn cuộc trò chuyện nào</p>}
+                  style="h-[80px] w-[80px]"
+                />
               </div>
             )}
 

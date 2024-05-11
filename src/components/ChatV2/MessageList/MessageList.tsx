@@ -6,6 +6,7 @@ import './MessageList.css';
 import { observer } from 'mobx-react';
 import { useStore } from '@/stores';
 import MessageListLoadingSkeleton from './MessageListLoadingSkeleton';
+import NoData from '@/components/shared/NoData';
 
 function MessageList(props: any) {
   const ref = useRef<HTMLDivElement>(null);
@@ -89,7 +90,12 @@ function MessageList(props: any) {
         ) : (
           <>
             {!chosenRoom ? (
-              <div className="no-message">Chưa có cuộc trò chuyện nào được chọn</div>
+              <div className="no-message">
+                <NoData
+                  title={'Chưa có cuộc trò chuyện nào được chọn'}
+                  style="h-[80px] w-[80px]"
+                />
+              </div>
             )
               :
               (

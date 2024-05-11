@@ -39,6 +39,7 @@ export function pagingFriendsOfUser({
   const url = API_PATH + `/friends/${userId}`;
   return _axios.post(url, searchObject);
 }
+
 export function acceptFriendRequest(relationshipId: string) {
   const url = API_PATH + `/acceptRequest/${relationshipId}`;
 

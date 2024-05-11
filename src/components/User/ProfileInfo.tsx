@@ -11,9 +11,15 @@ import FriendDropdown from "./ui/FrienDropDown";
 import UpdateBackgroupImg from "./ui/UpdateBackgroupImg";
 import Icon from "../shared/Icon";
 import MutualFriends from "./ui/MutualFriend";
+import { Tab, Tabs } from "@mui/material";
+import "./ProfileStyle.scss";
+import TabList from '@mui/lab/TabList';
+
 type Props = {
   userProfile: any;
   isLoading: boolean;
+  handleChangeTab: any;
+  profileTab: string;
 };
 type RelationshipType = {
   type: "IsFriend" | "IsSend" | "IsAccept" | "None" | "";
@@ -22,14 +28,14 @@ type RelationshipType = {
   message: string;
   id: string;
 };
-function ProfileInfo({ userProfile, isLoading }: Props) {
+function ProfileInfo({ userProfile, isLoading, handleChangeTab, profileTab }: Props) {
   const { profileId } = useParams();
   console.log(userProfile);
 
   const [relationship, setRelationship] = useState<RelationshipType>({
     type: "",
     title: "",
-    handleFn: () => {},
+    handleFn: () => { },
     message: "",
     id: "",
   });
@@ -62,7 +68,7 @@ function ProfileInfo({ userProfile, isLoading }: Props) {
             type: "IsSend",
             title: "Đã gửi lời mời",
             message: "Thêm bạn bè",
-            handleFn: () => {},
+            handleFn: () => { },
             id: userProfile.relationshipDto.id,
           }));
         } else {
@@ -94,6 +100,7 @@ function ProfileInfo({ userProfile, isLoading }: Props) {
   }, [userProfile, profileId]);
 
   if (isLoading) return <ProfileInfoSkeletion />;
+
   return (
     <div className="flex flex-col">
       <div className="w-full h-[250px] relative">
@@ -112,7 +119,7 @@ function ProfileInfo({ userProfile, isLoading }: Props) {
       </div>
 
       <div
-        className="bg-white h-fit p-5"
+        className="bg-white h-fit px-4 pt-4 pb-0"
         style={{
           borderBottomLeftRadius: "8px",
           borderBottomRightRadius: "8px",
@@ -202,6 +209,15 @@ function ProfileInfo({ userProfile, isLoading }: Props) {
               )}
             </>
           )}
+        </div>
+
+        {/* tab like facebook */}
+        <div className="flex w-100 profileTabSection">
+          <TabList onChange={handleChangeTab} aria-label="basic tabs example">
+            <Tab label="Bảng tin" className="tabStyle" value="0" />
+            <Tab label="Bạn bè" className="tabStyle" value="1" />
+            <Tab label="Thành tích" className="tabStyle" value="2" />
+          </TabList>
         </div>
       </div>
     </div>

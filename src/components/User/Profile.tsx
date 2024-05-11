@@ -3,14 +3,14 @@ import SessionCreatePost from "@/components/Post/SessionCreatePost";
 import { memo, useEffect, useState } from "react";
 import { IUser } from "@/types";
 import { useParams } from "react-router-dom";
-
+import TabContext from '@mui/lab/TabContext';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { format, parseISO } from "date-fns";
 import FriendOfUser from "@/components/Relationship/FriendOfUser";
 import UserCourseResult from "../CourseResult/UserCourseResult";
 import TableSkeleton from "@/components/skeleton/TableSkeleton";
 import { useStore } from "@/stores";
-
+import TabPanel from '@mui/lab/TabPanel';
 import { observer } from "mobx-react";
 import { Grid } from "@mui/material";
 
@@ -18,6 +18,9 @@ import "./ProfileStyle.scss";
 import LocalStorageService from "@/services/LocalStorageService";
 import PostOfUser from "./ui/PostOfUser";
 import Icon from "../shared/Icon";
+import MainProfile from "./ProfileTab/MainProfile";
+import UserFriends from "./ProfileTab/UserFriends";
+import Achievements from "./ProfileTab/Achievements";
 
 function Profile() {
   const currentUser = LocalStorageService.getLoggedInUser();
@@ -34,6 +37,7 @@ function Profile() {
     if (currentUser?.id === userProfile?.id) setIsCurrentUser(true);
     else setIsCurrentUser(false);
   };
+
   useEffect(() => {
     const getUser = async () => {
       try {
@@ -48,119 +52,47 @@ function Profile() {
     };
     getUser();
   }, [profileId]);
+
   useEffect(() => {
     handleCheckIsCurrentUser();
   }, [userProfile]);
 
+  const [profileTab, setProfileTab] = useState("0");
+
+  function handleChangeTab(_: any, newTab: string) {
+    setProfileTab(newTab);
+  }
+
   return (
     <div className="max-w-[80%] mx-auto">
-      <ProfileInfo userProfile={userProfile} isLoading={isLoadingUser} />
+      <TabContext value={profileTab}>
+        <ProfileInfo
+          profileTab={profileTab}
+          handleChangeTab={handleChangeTab}
+          userProfile={userProfile}
+          isLoading={isLoadingUser}
+        />
 
-      <div className="flex mt-4">
-        <Grid container spacing={1}>
-          <Grid item xs={12} md={5} lg={4}>
-            <div className="mt-4">
-              <Tabs
-                defaultValue="all"
-                className="w-full pb-10  rounded-lg chats tabStyle"
-              >
-                <TabsList className="bg-white">
-                  <TabsTrigger value="all">Giới thiệu</TabsTrigger>
-                  <TabsTrigger value="private">Bạn bè</TabsTrigger>
-                  <TabsTrigger value="result">Thành tích</TabsTrigger>
-                </TabsList>
-                <TabsContent value="all">
-                  {isLoadingUser ? (
-                    <TableSkeleton
-                      styles="chats h-max-content w-full overflow-y-auto"
-                      length={5}
-                    />
-                  ) : (
-                    <div className="h-max-content overflow-y-auto ">
-                      <div className="mt-5 flex flex-col ">
-                        <p className="h3-bold mb-5">Giới thiệu</p>
-                        <div className="flex flex-col gap-5 text-lg">
-                          <div className="flex items-center gap-3">
-                            <Icon name="Code" />
-                            <p>
-                              Mã sinh viên:{" "}
-                              <span>
-                                {userProfile?.code || "Chưa cập nhật"}
-                              </span>
-                            </p>
-                          </div>
-                          <div className="flex items-center gap-3">
-                            <Icon name="Cake" />
-                            <p className="flex gap-2">
-                              Ngày sinh:{" "}
-                              <span>
-                                {" "}
-                                {userProfile?.birthDate ? (
-                                  <>
-                                    {format(
-                                      parseISO(
-                                        userProfile?.birthDate?.toString() || ""
-                                      ),
-                                      "yyy-MM-dd"
-                                    )}
-                                  </>
-                                ) : (
-                                  <span>Chưa cập nhật</span>
-                                )}
-                              </span>
-                            </p>
-                          </div>
-                          <div className="flex items-center gap-3">
-                            <Icon name="Mails" />
-                            <p>
-                              Email:{" "}
-                              <span>
-                                {userProfile?.email || "Chưa cập nhật"}{" "}
-                              </span>
-                            </p>
-                          </div>
-                          <div className="flex items-center gap-3">
-                            <Icon name="Phone" />
-                            <p>
-                              SDT:{" "}
-                              <span>
-                                {userProfile?.phoneNumber || "Chưa cập nhật"}
-                              </span>
-                            </p>
-                          </div>
-                          <div className="flex items-center gap-3">
-                            <Icon name="BookUser" />
-                            <p>
-                              Địa chỉ:{" "}
-                              <span>
-                                {userProfile?.address || "Chưa cập nhật"}
-                              </span>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </TabsContent>
-                <TabsContent value="private">
-                  <div className=" h-[100vh] overflow-y-auto ">
-                    <FriendOfUser profileId={profileId as string} />
-                  </div>
-                </TabsContent>
-                <TabsContent value="result" className="w-full">
-                  <UserCourseResult userId={profileId as string} />
-                </TabsContent>
-              </Tabs>
-            </div>
-          </Grid>
-          <Grid item xs={12} md={7} lg={8}>
-            <div className={`flex-1 flex flex-col  ${isCurrentUser && "mt-4"}`}>
-              {isCurrentUser && <SessionCreatePost />}
-              <PostOfUser />
-            </div>
-          </Grid>
-        </Grid>
-      </div>
+
+        <TabPanel className="p-0" value="0">
+          <MainProfile
+            isLoadingUser={isLoadingUser}
+            userProfile={userProfile}
+            isCurrentUser={isCurrentUser}
+          />
+        </TabPanel>
+        <TabPanel className="p-0" value="1">
+          <UserFriends
+
+          />
+        </TabPanel>
+        <TabPanel className="p-0" value="2">
+          <Achievements
+
+          />
+        </TabPanel>
+      </TabContext>
+
     </div>
   );
 }

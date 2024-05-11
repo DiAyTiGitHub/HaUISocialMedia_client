@@ -16,6 +16,8 @@ import { memo } from "react";
 import { observer } from "mobx-react";
 import { useStore } from "@/stores";
 import { toast } from "react-toastify";
+import LoginIcon from '@mui/icons-material/Login';
+import HowToRegIcon from '@mui/icons-material/HowToReg';
 
 const formSchema = z.object({
   username: z.string().min(1, {
@@ -58,20 +60,20 @@ function Login() {
   }
 
   return (
-    <div className="bg-bgHaui h-screen ">
-      <div className="bg-green-500 max-w-[1200px] mx-auto bg-transparent h-full flex items-center">
-        <div className="flex flex-col items-center gap-5 bg-white p-16 shadow-md rounded-lg">
+    <div className="bg-bgHaui h-screen">
+      <div className="bg-green-500 bg-transparent h-full flex items-center loginFormWrapper">
+        <div className="flex flex-col items-center gap-5 bg-white p-8 shadow-md rounded-lg loginForm">
           <img
             src={`https://cdn-001.haui.edu.vn//img/logo-haui-size.png`}
             alt="logo"
-            className="w-24 h-24 object-cover"
+            className="w-24 h-24 object-cover loginFormAvatar"
           />
 
           <div className="flex flex-col items-center">
             <h1 className="text-3xl font-semibold mb-5 ">
               Đại Học Công Nghiệp Hà Nội
             </h1>
-            <p>HAUI Social</p>
+            <p>HaUI Social Media Network</p>
           </div>
 
           <Form {...form}>
@@ -110,10 +112,12 @@ function Login() {
               <p className="text-end mr-5">
                 Chưa có tài khoản?{" "}
                 <Link to="/register" className="text-blue-600">
+                  {/* <HowToRegIcon className="mr-4" /> */}
                   Đăng ký
                 </Link>
               </p>
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="w-full actionBtn">
+                <LoginIcon className="mr-2" />
                 Đăng Nhập
               </Button>
             </form>

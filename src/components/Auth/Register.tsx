@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import * as apiClient from "@/react-query/query-api";
 import {
   Form,
   FormControl,
@@ -17,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import Loader from "@/components/shared/Loader";
 import { useStore } from "@/stores";
 import { useState } from "react";
+import HowToRegIcon from '@mui/icons-material/HowToReg';
 
 const formSchema = z.object({
   username: z.string().min(1, {
@@ -74,9 +74,9 @@ const Register = () => {
   };
 
   return (
-    <div className="bg-bgHaui h-screen  bg-no-repeat ">
-      <div className="bg-green-500 max-w-[1200px] mx-auto bg-transparent h-full flex items-center">
-        <div className="flex flex-col items-center gap-2 bg-white px-10 py-4 shadow-md rounded-lg">
+    <div className="bg-bgHaui h-screen bg-no-repeat ">
+      <div className="bg-green-500 mx-auto bg-transparent h-full flex items-center">
+        <div className="flex flex-col items-center gap-2 bg-white p-8 shadow-md rounded-lg">
           <img
             src={`https://cdn-001.haui.edu.vn//img/logo-haui-size.png`}
             alt="logo"
@@ -87,7 +87,7 @@ const Register = () => {
             <h1 className="text-xl font-semibold mb-3">
               Đại Học Công Nghiệp Hà Nội
             </h1>
-            <p>HAUI Social</p>
+            <p>HaUI Social Media Network</p>
           </div>
 
           <Form {...form}>
@@ -232,6 +232,7 @@ const Register = () => {
                 </Link>
               </p>
               <Button disabled={isLoading} type="submit" className="w-full">
+                <HowToRegIcon className="mr-2" />
                 {isLoading ? <Loader /> : "Đăng ký"}
               </Button>
             </form>

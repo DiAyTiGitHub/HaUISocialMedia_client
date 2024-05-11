@@ -5,3 +5,41 @@
 .over-hidden {
     overflow: hidden !important;
 }
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.bg-bgHaui.h-screen {
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+
+    .loginFormWrapper {
+        justify-content: flex-end;
+        width: 100%;
+        padding-right: 80px;
+
+        .loginForm {
+            background-color: white;
+            opacity: 0.98;
+
+            .loginFormAvatar {
+                background-color: white;
+            }
+
+            .actionBtn {
+                background-color: #0054c8;
+            }
+        }
+    }
+
+}
+
+
+.infoCard {
+    padding: 16px;
+    background-color: white;
+    border-radius: 8px;
+}
