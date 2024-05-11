@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -167,7 +166,7 @@ const PostForm = ({ children, post, groupId }: PostFormProps) => {
                     <FormControl>
                       <Input
                         {...field}
-                        placeholder={`${currentUser?.firstName} ơi, bạn đang nghỉ gì thế?`}
+                        placeholder={`${currentUser?.firstName} ơi, bạn đang nghĩ gì thế?`}
                         className="border-none py-4  shadow-none text-[16px] focus-visible:ring-0"
                       />
                     </FormControl>

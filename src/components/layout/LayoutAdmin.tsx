@@ -3,9 +3,9 @@ import AdminSidebar from "./AdminSidebar";
 
 const LayoutAdmin = () => {
   return (
-    <div className="flex gap-5">
+    <div className="relative flex gap-5 overflow-y-auto">
       <AdminSidebar />
-      <main className="flex-1">
+      <main className="flex-1 pr-5 ml-[20%]">
         <Outlet />
       </main>
     </div>

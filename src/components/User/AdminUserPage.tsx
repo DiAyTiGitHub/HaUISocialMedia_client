@@ -43,7 +43,7 @@ const AdminUserPage = () => {
   if (isLoading) return <TableSkeleton length={5} styles="" />;
 
   return (
-    <div className="px-5 bg-blue-2 h-screen w-full mr-5 rounded-md">
+    <div className="px-5 bg-blue-2 w-full mr-5 rounded-md">
       <div className="flex flex-col w-full">
         <div className="mt-5 w-full px-5">
           <h2 className="text-body-medium">Danh sách Tài khoản</h2>

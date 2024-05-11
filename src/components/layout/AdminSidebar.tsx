@@ -12,7 +12,7 @@ function AdminSidebar() {
   const currentUser = LocalStorage.getLoggedInUser();
 
   return (
-    <div className="sticky top-0 bg-white h-screen basis-1/5 p-3">
+    <div className="fixed top-0  bg-white h-screen basis-1/5 p-3">
       <div className="flex flex-col justify-between h-full">
         <div>
           <Link to="/admin" className="mt-5 flex items-center gap-5 mb-3">

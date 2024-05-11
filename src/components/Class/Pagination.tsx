@@ -15,7 +15,7 @@ const Pagination = ({ isLeftDisable, isRightDisable, setPaging }: Props) => {
     setPaging((prev: any) => ({ ...prev, pageIndex: prev.pageIndex + 1 }));
   };
   return (
-    <div className="mt-5 flex justify-center flex-wrap gap-5">
+    <div className="my-5 flex justify-center flex-wrap gap-5">
       <Button disabled={isLeftDisable} onClick={handlePrev}>
         <Icon name="ArrowLeft" />
       </Button>

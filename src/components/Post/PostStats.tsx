@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LocalStorage from "@/services/LocalStorageService";
 import { useStore } from "@/stores";
-import PostDetailModal from "./ui/PostDetailModal";
 
 type PostStatsProps = {
   post: IPost;
