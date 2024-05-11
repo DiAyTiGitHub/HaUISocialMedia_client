@@ -1,7 +1,7 @@
 import {
   createPostRequest,
   deletePostRequest,
-  getAllPostRequest,
+  adminPagingPostRequest,
   getById,
   pagingNewsFeed,
   pagingPostsOfUser,
@@ -25,9 +25,9 @@ class PostStore {
       throw new Error("Có lỗi xảy ra ");
     }
   };
-  getAllPost = async (searchObject: any) => {
+  adminPagingPost = async (searchObject: any) => {
     try {
-      const { data } = await getAllPostRequest(searchObject);
+      const { data } = await adminPagingPostRequest(searchObject);
       return data;
     } catch (error) {
       toast.error("Có lỗi xảy ra");

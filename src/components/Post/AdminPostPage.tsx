@@ -11,20 +11,20 @@ import TableSkeleton from "../skeleton/TableSkeleton";
 
 const AdminPostPage = () => {
   const [paging, setPaging] = useState<SearchObjectType>({
-    pageIndex: 0,
+    pageIndex: 1,
     pageSize: 10,
 
     keyWord: "",
   });
   const { postStore } = useStore();
-  const { getAllPost } = postStore;
+  const { adminPagingPost } = postStore;
 
   const {
     res: dataPost,
     isLoading,
     isLeftDisable,
     isRightDisable,
-  } = useGetDataPagination({ getRequest: getAllPost, paging: paging });
+  } = useGetDataPagination({ getRequest: adminPagingPost, paging: paging });
   if (isLoading) return <TableSkeleton length={5} styles="" />;
   return (
     <div className="px-5 bg-blue-2 w-full mr-5 rounded-md">

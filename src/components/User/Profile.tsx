@@ -23,7 +23,7 @@ function Profile() {
   const currentUser = LocalStorageService.getLoggedInUser();
 
   const { profileId } = useParams();
-  const { postStore, userStore } = useStore();
+  const { userStore } = useStore();
 
   const [userProfile, setUserProfile] = useState<IUser>();
   const [isCurrentUser, setIsCurrentUser] = useState(false);

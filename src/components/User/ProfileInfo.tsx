@@ -23,6 +23,7 @@ type RelationshipType = {
 };
 function ProfileInfo({ userProfile, isLoading }: Props) {
   const { profileId } = useParams();
+  console.log(userProfile);
 
   const [relationship, setRelationship] = useState<RelationshipType>({
     type: "",

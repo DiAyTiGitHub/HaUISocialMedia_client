@@ -2,7 +2,7 @@ import { Input } from "@mui/material";
 import { Search } from "lucide-react";
 import { useStore } from "@/stores";
 import TableUser from "./TableUser";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Pagination from "./Pagination";
 import { SearchObjectType } from "@/types";
 import { useGetDataPagination } from "@/lib";
@@ -10,8 +10,8 @@ import NoData from "../shared/NoData";
 import TableSkeleton from "../skeleton/TableSkeleton";
 
 const AdminUserPage = () => {
-  const { userStore } = useStore();
-  const { getAllUsers } = userStore;
+  const { loadingTotalStore } = useStore();
+  const { pagingUserByKeyword } = loadingTotalStore;
 
   const [paging, setPaging] = useState<SearchObjectType>({
     pageSize: 10,
@@ -38,7 +38,7 @@ const AdminUserPage = () => {
     isLoading,
     isLeftDisable,
     isRightDisable,
-  } = useGetDataPagination({ getRequest: getAllUsers, paging: paging });
+  } = useGetDataPagination({ getRequest: pagingUserByKeyword, paging: paging });
 
   if (isLoading) return <TableSkeleton length={5} styles="" />;
 
@@ -46,7 +46,7 @@ const AdminUserPage = () => {
     <div className="px-5 bg-blue-2 w-full mr-5 rounded-md">
       <div className="flex flex-col w-full">
         <div className="mt-5 w-full px-5">
-          <h2 className="text-body-medium">Danh sách Tài khoản</h2>
+          <h2 className="text-body-medium">Danh sách Tài Khoản</h2>
           <div className="w-full flex justify-between mt-2">
             <div className="flex items-end">
               <Input
