@@ -134,7 +134,7 @@ const UserSearchCard = ({ user }: Props) => {
                     handleFn={unAcceptFriend}
                     isSecondary
                   />
-                  <Button className=" flex gap-2 items-center cursor-text">
+                  <Button className=" flex gap-2 items-center cursor-text opacity-60">
                     {" "}
                     <Icon name="UserPlus" />
                     {relationship.title}

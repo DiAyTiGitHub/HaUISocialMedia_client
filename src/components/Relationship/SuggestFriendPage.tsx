@@ -1,27 +1,28 @@
-import CustomButtonFriend from "./CustomButtonFriend";
-import { IUser, SearchObjectType } from "@/types";
+import { SearchObjectType } from "@/types";
 import { Search } from "lucide-react";
 import { useState } from "react";
 import Loader from "@/components/shared/Loader";
-import { Link } from "react-router-dom";
 import FriendListSkeleton from "@/components/skeleton/FriendListSkeleton";
 import useGetData from "@/lib";
 import { useStore } from "@/stores";
 import SidebarFriendPage from "./SidebarFriendPage";
-import NoData from "../shared/NoData";
 import { Button } from "../ui/button";
+import ListSuggestFriend from "./ui/ListSuggestFriend";
 
 const SuggestFriendPage = () => {
+  const [search, setSearch] = useState("");
   const [paging, setPaging] = useState<SearchObjectType>({
     pageIndex: 1,
     pageSize: 20,
   });
+
   const { relationshipStore } = useStore();
 
-  const { addFriend, getSuggestFriend } = relationshipStore;
+  const { getSuggestFriend } = relationshipStore;
   const {
     ref,
     res: suggestFriends,
+    resSearch,
     isLoading,
     showLoadMore,
   } = useGetData({
@@ -29,7 +30,14 @@ const SuggestFriendPage = () => {
     paging: paging,
     setPaging: setPaging,
   });
-
+  const handleSearch = () => {
+    setPaging((prev) => ({
+      ...prev,
+      keyWord: search,
+      pageIndex: 1,
+      pageSize: 100,
+    }));
+  };
   return (
     <div className="grid grid-cols-[1fr_3fr] mt-5">
       <SidebarFriendPage />
@@ -42,9 +50,9 @@ const SuggestFriendPage = () => {
                 type="text"
                 placeholder="Tìm bạn bè..."
                 className="input input-field"
-                disabled
+                onChange={(e) => setSearch(e.target.value)}
               />
-              <Button disabled>
+              <Button onClick={handleSearch} disabled={search.length === 0}>
                 <Search />
               </Button>
             </div>
@@ -58,43 +66,9 @@ const SuggestFriendPage = () => {
           )}
 
           {!isLoading && (
-            <div className=" grid grid-cols-2 gap-5 my-10">
-              {!suggestFriends || suggestFriends.length === 0 ? (
-                <NoData
-                  title="Chưa có bạn bè gợi ý"
-                  style="h-[100px] w-[100px]"
-                />
-              ) : (
-                suggestFriends.map((friend: IUser) => (
-                  <Link
-                    key={friend?.id}
-                    to={`/profile/${friend?.id}`}
-                    className="cursor-pointer flex items-center gap-5 p-3 bg-blue-2 rounded-xl w-full"
-                  >
-                    <div className="flex justify-between flex-1 ">
-                      <div className="flex items-center gap-3">
-                        <img
-                          src={friend.avatar || "/person.jpg"}
-                          alt="avatar"
-                          className="w-10 h-10 rounded-full object-cover"
-                        />
-                        <p className="font-medium">
-                          {friend.lastName} {friend.firstName}
-                        </p>
-                      </div>
-
-                      <CustomButtonFriend
-                        icon="UserPlus"
-                        handleFn={addFriend}
-                        title="Thêm bạn bè"
-                        message="Đã gửi lời mời"
-                        id={friend.id}
-                      />
-                    </div>
-                  </Link>
-                ))
-              )}
-            </div>
+            <ListSuggestFriend
+              suggestFriends={search.length === 0 ? suggestFriends : resSearch}
+            />
           )}
 
           {showLoadMore && (

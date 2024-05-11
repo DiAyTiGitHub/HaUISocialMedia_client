@@ -71,6 +71,7 @@ const App = () => {
               <Route path="/group/feed" element={<PostOfGroup />} />
               <Route path="/group/joined" element={<GroupJoined />} />
               <Route path="/group/:groupId" element={<GroupDetail />} />
+              <Route path="/group/search-group" element={<SearchGroupList />} />
             </Route>
             {/* Search Route */}
             <Route path="/search" element={<SearchLayout />}>

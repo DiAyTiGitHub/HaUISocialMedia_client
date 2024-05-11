@@ -6,6 +6,18 @@ import { useSearchParams } from "react-router-dom";
 import { SearchObjectType } from "@/types";
 import Loader from "../shared/Loader";
 import NoData from "../shared/NoData";
+import { Skeleton } from "../ui/skeleton";
+
+const LoadingGroups = () => {
+  return (
+    <div className="flex gap-4 flex-col mt-5">
+      {"1234567".split("").map((i) => (
+        <Skeleton className="w-full h-20 rounded-lg" key={i} />
+      ))}
+    </div>
+  );
+};
+
 const SearchGroupList = () => {
   const [searchParams] = useSearchParams();
   const { loadingTotalStore } = useStore();
@@ -26,7 +38,8 @@ const SearchGroupList = () => {
     paging: paging,
     setPaging: setPaging,
   });
-  console.log(dataGroup);
+
+  if (isLoading) return <LoadingGroups />;
   return (
     <div className="mt-5">
       {!dataGroup || dataGroup.length === 0 ? (

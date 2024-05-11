@@ -5,7 +5,7 @@ const GroupLayout = () => {
   return (
     <div className="flex gap-5">
       <GroupMenu />
-      <main className="flex-1">
+      <main className="flex-1 pr-3">
         <Outlet />
       </main>
     </div>

@@ -10,9 +10,9 @@ type PostListProps = {
 
 const LoadingUsers = () => {
   return (
-    <div>
+    <div className="flex gap-4 flex-col mt-5">
       {"1234567".split("").map((i) => (
-        <Skeleton className="w-full h-24 rounded-lg" key={i} />
+        <Skeleton className="w-full h-20 rounded-lg" key={i} />
       ))}
     </div>
   );

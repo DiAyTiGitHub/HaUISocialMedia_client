@@ -1,17 +1,13 @@
 import Loader from "@/components/shared/Loader";
-
 import FriendListSkeleton from "@/components/skeleton/FriendListSkeleton";
 import { Button } from "@/components/ui/button";
-import { IUser, SearchObjectType } from "@/types";
-
+import { SearchObjectType } from "@/types";
 import { Search } from "lucide-react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useStore } from "@/stores";
 import useGetData from "@/lib";
 import SidebarFriendPage from "@/components/Relationship/SidebarFriendPage";
-import NoData from "../shared/NoData";
-import Icon from "../shared/Icon";
+import ListFriend from "./ui/ListFriend";
 
 const FriendPage = () => {
   const [search, setSearch] = useState("");
@@ -19,12 +15,12 @@ const FriendPage = () => {
     pageIndex: 1,
     pageSize: 20,
   });
-  const navigate = useNavigate();
   const { relationshipStore } = useStore();
   const { getCurrentFriend } = relationshipStore;
   const {
     ref,
     res: friends,
+    resSearch,
     isLoading,
     showLoadMore,
   } = useGetData({
@@ -37,7 +33,8 @@ const FriendPage = () => {
     setPaging((prev) => ({
       ...prev,
       keyWord: search,
-      pageIndex: 0,
+      pageIndex: 1,
+      pageSize: 100,
     }));
   };
   return (
@@ -53,9 +50,8 @@ const FriendPage = () => {
                 placeholder="Tìm bạn bè..."
                 className="input input-field"
                 onChange={(e) => setSearch(e.target.value)}
-                disabled
               />
-              <Button onClick={handleSearch} disabled={true}>
+              <Button onClick={handleSearch}>
                 <Search />
               </Button>
             </div>
@@ -65,42 +61,7 @@ const FriendPage = () => {
           )}
 
           {!isLoading && (
-            <>
-              {!friends || friends.length === 0 ? (
-                <NoData
-                  title="Chưa có bạn bè nào"
-                  style="h-[100px] w-[100px]"
-                />
-              ) : (
-                <div className="grid md:grid-cols-2 gap-3 my-10">
-                  {friends.map((friend: IUser) => (
-                    <div
-                      key={friend.id}
-                      className="flex items-center gap-5 p-3 bg-white  rounded-xl cursor-pointer"
-                      onClick={() => navigate(`/profile/${friend.id}`)}
-                    >
-                      <div className="flex justify-between flex-1">
-                        <div className="flex items-center gap-3">
-                          <img
-                            src={friend.avatar || "/person.jpg"}
-                            alt="avatar"
-                            className="w-10 h-10 rounded-full object-cover"
-                          />
-                          <p className="font-medium">
-                            {friend.lastName} {friend.firstName}
-                          </p>
-                        </div>
-
-                        <Button className="bg-blue-600 hover:bg-blue-500 flex gap-3 items-center">
-                          <Icon name="UserRoundCheck" />
-                          Bạn bè
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </>
+            <ListFriend friends={search.length === 0 ? friends : resSearch} />
           )}
           {showLoadMore && (
             <div ref={ref}>

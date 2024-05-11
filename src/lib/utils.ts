@@ -96,7 +96,8 @@ export const handleCheckUserIsAdmin = (groupData: any) => {
       (menber: any) =>
         menber?.user?.id === currentUser?.id && menber.role === "ADMIN"
     );
-    if (checkUserIsAdmin) isAdmin = true;
+    if (checkUserIsAdmin || currentUser?.id === groupData?.user?.id)
+      isAdmin = true;
     else isAdmin = false;
   }
 

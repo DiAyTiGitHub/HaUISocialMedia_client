@@ -1,17 +1,13 @@
 import CustomButtonFriend from "./CustomButtonFriend";
 import Loader from "@/components/shared/Loader";
-
 import FriendListSkeleton from "@/components/skeleton/FriendListSkeleton";
 import useGetData from "@/lib";
 import { useStore } from "@/stores";
 import { SearchObjectType } from "@/types";
-import { Search } from "lucide-react";
 import { useState } from "react";
-
 import { useNavigate } from "react-router-dom";
 import SidebarFriendPage from "./SidebarFriendPage";
 import NoData from "../shared/NoData";
-import { Button } from "../ui/button";
 
 export type requestFriendsPagination = {
   pageIndex: number;
@@ -45,16 +41,6 @@ const RequestFriendPage = () => {
         <div className="flex-1 p-5">
           <div className="mb-5">
             <h3 className="h3-bold mb-5">Danh sách lời mời kết bạn</h3>
-            <div className="flex items-center bg-white max-w-max px-2 rounded-xl">
-              <input
-                type="text"
-                placeholder="Tìm bạn bè..."
-                className="input input-field"
-              />
-              <Button disabled>
-                <Search />
-              </Button>
-            </div>
           </div>
           {isLoading && (
             <FriendListSkeleton length={12} styles="user-grid my-10" />

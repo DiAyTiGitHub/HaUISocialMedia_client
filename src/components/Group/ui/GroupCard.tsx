@@ -21,7 +21,7 @@ const GroupCard = ({ group }: Props) => {
   const checkIsSendRequestJoindedGroup = () => {
     if (group?.relationship) {
       if (!group.relationship?.approved) setStatusJoinGroup({ type: "IsSend" });
-      else setStatusJoinGroup({ type: "IsJoind" });
+      else setStatusJoinGroup({ type: "IsJoin" });
     } else {
       setStatusJoinGroup({ type: "NoSend" });
     }
@@ -77,7 +77,7 @@ const GroupCard = ({ group }: Props) => {
               message="Đã yêu cầu tham gia"
               handleFn={joinGroup}
               id={group?.id}
-              style="border border-green-500"
+              style="border border-green-500 text-green-600"
               variant="outline"
               isDisable
             >

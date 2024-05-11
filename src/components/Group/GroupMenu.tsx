@@ -5,9 +5,19 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import ListGroupJoined from "./ui/ListGroupJoined";
 import Icon, { IconName } from "../shared/Icon";
+import { ChangeEvent, useState } from "react";
 
 const GroupMenu = () => {
   const { pathname } = useLocation();
+  const [search, setSearch] = useState("");
+
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
+
+  const handleNavigateSearchPage = () => {
+    window.location.href = `/group/search-group?name=${search}`;
+  };
   return (
     <div className="sticky top-[88px] bg-white  max-h-screen h-screen basis-1/5 p-3 overflow-y-auto">
       <div className="flex flex-col h-full">
@@ -17,9 +27,13 @@ const GroupMenu = () => {
             type="text"
             placeholder="Tìm kiếm nhóm"
             className="border border-blue-600 h-full rounded-s-full"
-            disabled
+            onChange={handleSearchChange}
           />
-          <Button className="rounded-e-full h-full bg-blue-600" disabled>
+          <Button
+            onClick={handleNavigateSearchPage}
+            className="rounded-e-full h-full bg-blue-600"
+            disabled={search.length === 0}
+          >
             <Search />
           </Button>
         </div>

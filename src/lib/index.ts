@@ -11,12 +11,13 @@ type Props = {
 };
 // GET DATA INFINITY
 const useGetData = ({ getRequest, paging, setPaging }: Props) => {
+  console.log(paging);
   const { ref, inView } = useInView();
   const [isLoading, setIsLoading] = useState(false);
   const [showLoadMore, setShowLoadMore] = useState<boolean>(true);
   const [isError, setIdError] = useState<any>();
-
   const [res, setRes] = useState<any[]>([]);
+  const [resSearch, setResSearch] = useState<any[]>([]);
   const handleGetData = async (paging: any) => {
     setIsLoading(true);
     try {
@@ -27,7 +28,14 @@ const useGetData = ({ getRequest, paging, setPaging }: Props) => {
           pageIndex: paging.pageIndex + 1,
           ...(paging?.keyWord && { keyWord: paging.keyWord }),
         });
-        setRes((prev) => [...prev, ...data]);
+
+        if (
+          paging?.keyWord &&
+          paging.keyWord.length > 0 &&
+          paging.keyWord !== ""
+        ) {
+          setResSearch([...data]);
+        } else setRes((prev) => [...prev, ...data]);
       } else {
         if (!data || data.length === 0 || data.length < paging.pageSize)
           setShowLoadMore(false);
@@ -47,7 +55,7 @@ const useGetData = ({ getRequest, paging, setPaging }: Props) => {
     }
   }, [inView, paging]);
 
-  return { ref, res, isLoading, showLoadMore, isError };
+  return { ref, res, resSearch, isLoading, showLoadMore, isError };
 };
 
 // GET DATA NEW FEED

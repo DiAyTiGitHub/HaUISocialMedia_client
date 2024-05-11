@@ -19,14 +19,15 @@ const GroupSearchCard = ({ group }: Props) => {
   const isAdmin = handleCheckUserIsAdmin(group);
   const { groupStore } = useStore();
   const { joinGroup } = groupStore;
-  const isJoinedGroup = handleCheckUserJoinedGroup(group);
-  const [isSendRequestJoinedGroup, setIsSendRequestJoinedGroup] =
-    useState(false);
+
+  const [statusJoinGroup, setStatusJoinGroup] = useState({ type: "" });
+
   const checkIsSendRequestJoindedGroup = () => {
-    if (group.relationship && !group.relationship?.approved) {
-      setIsSendRequestJoinedGroup(true);
+    if (group?.relationship !== null) {
+      if (!group.relationship?.approved) setStatusJoinGroup({ type: "IsSend" });
+      else setStatusJoinGroup({ type: "IsJoin" });
     } else {
-      setIsSendRequestJoinedGroup(false);
+      setStatusJoinGroup({ type: "NoSend" });
     }
   };
 
@@ -56,7 +57,7 @@ const GroupSearchCard = ({ group }: Props) => {
         <div className="flex items-center gap-2 mt-4">
           <Link
             to={`/group/${group.id}`}
-            className="bg-blue-100 font-medium hover:bg-opacity-80 text-blue-700 p-2  text-center rounded-md text-[12px]"
+            className="flex items-center gap-2 bg-blue-100 font-medium hover:bg-opacity-80 text-blue-700 p-2  text-center rounded-md text-[12px]"
           >
             <Icon name="Eye" />
             Xem Nhóm
@@ -74,19 +75,30 @@ const GroupSearchCard = ({ group }: Props) => {
             Xem Nhóm
           </Link>
 
-          {isJoinedGroup ? (
-            <LeaveGroup id={group?.id} />
-          ) : (
+          {statusJoinGroup.type === "IsJoin" && <LeaveGroup id={group?.id} />}
+          {statusJoinGroup.type === "IsSend" && (
             <CustomButtonGroup
-              icon="SquarePlus"
+              icon="CirclePlus"
               message="Đã yêu cầu tham gia"
               handleFn={joinGroup}
               id={group?.id}
-              style="border border-green-500 text-[12px] text-green-600"
+              style="border border-green-500 text-green-600"
               variant="outline"
-              isDisable={isSendRequestJoinedGroup}
+              isDisable
             >
-              {isSendRequestJoinedGroup ? "Đã Gửi Yêu Cầu" : "Tham Gia Nhóm"}
+              Đã Gửi Yêu Cầu
+            </CustomButtonGroup>
+          )}
+          {statusJoinGroup.type === "NoSend" && (
+            <CustomButtonGroup
+              icon="CirclePlus"
+              message="Đã yêu cầu tham gia"
+              handleFn={joinGroup}
+              id={group?.id}
+              style="border border-green-500 text-green-600"
+              variant="outline"
+            >
+              Tham Gia Nhóm
             </CustomButtonGroup>
           )}
         </div>
