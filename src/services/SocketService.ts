@@ -64,7 +64,7 @@ class SocketService {
         console.error(err);
 
         toast.error(
-            "Connect to messenger error, please login again! Auto redirect in 5 seconds...",
+            "Không thể kết nối với hệ thống, tự động đăng xuất trong 5s...",
             { autoClose: 5000 }
         );
 

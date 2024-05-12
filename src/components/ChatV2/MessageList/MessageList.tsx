@@ -7,13 +7,16 @@ import { observer } from 'mobx-react';
 import { useStore } from '@/stores';
 import MessageListLoadingSkeleton from './MessageListLoadingSkeleton';
 import NoData from '@/components/shared/NoData';
+import FaceBookCircularProgress from '../FaceBookCircularProgress';
 
 function MessageList(props: any) {
   const ref = useRef<HTMLDivElement>(null);
   const { authStore, chatStore } = useStore();
   const {
     isLoading,
-    chosenRoom
+    chosenRoom,
+    isLoadingMore,
+    handleLoadMoreMessages
   } = chatStore;
 
   const { getLoggedInUser } = authStore;
@@ -35,7 +38,7 @@ function MessageList(props: any) {
     while (i < messageCount) {
       let previous = messages[i - 1];
       let current = messages[i];
-      console.log("current", current);
+      // console.log("current", current);
       let next = messages[i + 1];
       let prevType = previous && previous?.messageType?.name;
       let type = current?.messageType?.name;
@@ -80,11 +83,17 @@ function MessageList(props: any) {
 
   }, [chosenRoom?.messages?.length, chosenRoom]);
 
+  function handleScrollMessageContainer(e: React.UIEvent<HTMLElement>) {
+    if (e?.currentTarget?.scrollTop == 0) {
+      handleLoadMoreMessages();
+    }
+  }
+
   return (
     <div className="message-list">
       <Toolbar title="" />
 
-      <div className="message-list-container flex-1" id="messageListContainer" ref={ref}>
+      <div className="message-list-container flex-1" id="messageListContainer" ref={ref} onScroll={handleScrollMessageContainer}>
         {isLoading ? (
           <MessageListLoadingSkeleton />
         ) : (
@@ -100,6 +109,12 @@ function MessageList(props: any) {
               :
               (
                 <>
+                  {isLoadingMore && (
+                    <div className="flex-center w-100">
+                      <FaceBookCircularProgress />
+                    </div>
+                  )}
+
                   {
                     renderMessages()
                   }

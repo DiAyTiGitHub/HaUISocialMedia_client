@@ -11,7 +11,10 @@ import {
   addMultipleUsersIntoGroupChat,
   getAllJoinedRooms,
 } from "@/services/RoomService";
-import { sendMessage } from "@/services/MessageService";
+import {
+  sendMessage,
+  findTop20PreviousByMileStone
+} from "@/services/MessageService";
 
 class ChatStore {
   isLoading: boolean = true;
@@ -67,6 +70,8 @@ class ChatStore {
   resetStore = () => {
     this.joinedRooms = [];
     this.chosenRoom = null;
+    this.isLoadingMore = false;
+    this.canLoadMore = true;
   };
 
   onReceiveRoomMessage = (payload: any) => {
@@ -309,6 +314,44 @@ class ChatStore {
       // Handle errors as needed
     }
   };
+
+
+
+
+  // handle for loading more messsages
+  isLoadingMore = false;
+  canLoadMore = true;
+
+  handleLoadMoreMessages = async () => {
+    try {
+      if (this.isLoadingMore || !this?.canLoadMore) return;
+      this.isLoadingMore = true;
+
+      const latestMessage = this.getLatestAvailableMessage();
+
+      const { data } = await findTop20PreviousByMileStone(latestMessage?.id);
+      if (data?.length < 20) this.canLoadMore = false;
+
+      this.chosenRoom.messages = [...data, ...this.chosenRoom.messages];
+
+      this.isLoadingMore = false;
+    }
+    catch (error: any) {
+      toast.error("Có lỗi xảy ra khi tải tin nhắn cũ");
+      console.log("cannot load more messages in this situation")
+    }
+  }
+
+  getLatestAvailableMessage = () => {
+    if (this.chosenRoom == null) return null;
+
+    const availableMesssages = this?.chosenRoom?.messages;
+    if (!availableMesssages || availableMesssages.length == 0) return null;
+
+    const latestMessage = availableMesssages[0];
+
+    return latestMessage;
+  }
 }
 
 export default ChatStore;

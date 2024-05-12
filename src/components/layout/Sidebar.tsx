@@ -28,11 +28,10 @@ const Sidebar = () => {
           <Link
             key={link.route}
             to={link.route}
-            className={`flex items-center ml-3 h-16 cursor-pointer hover:bg-blue-2 relative rounded-md ${
-              pathname === link.route && "sidebar-active"
-            }`}
+            className={`${link?.disabled && 'disableLeftSideBarItem'} flex items-center ml-3 h-16 cursor-pointer hover:bg-blue-2 relative rounded-md ${pathname === link.route && "sidebar-active"
+              }`}
           >
-            <div className="bg-blue-2 rounded-full  p-3 text-slate-600 shadow-sm">
+            <div className={` bg-blue-2 rounded-full  p-3 text-slate-600 shadow-sm `}>
               <Icon name={link.icon as IconName} />
             </div>
             <h3 className="ml-6 text-body-medium relative">{link.label}</h3>

@@ -32,16 +32,19 @@ export const sidebarLink = [
     label: "Sự kiện",
     route: "/event",
     icon: "Calendar",
+    disabled: true,
   },
   {
     label: "Kỉ niệm",
     route: "/celebrate",
     icon: "CalendarSearch",
+    disabled: true,
   },
   {
     label: "Đã lưu",
     route: "/saved",
     icon: "Save",
+    disabled: true,
   },
 ];
 

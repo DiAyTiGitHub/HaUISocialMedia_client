@@ -45,22 +45,22 @@ function Message(props: any) {
   const { authStore, chatStore } = useStore();
   const { chosenRoom } = chatStore;
   const imagePath = photo || 'https://www.treasury.gov.ph/wp-content/uploads/2022/01/male-placeholder-image.jpeg';
-  const [bubbleBackground, setBubbleBackground] = useState(chosenRoom?.color);
+  // const [bubbleBackground, setBubbleBackground] = useState(chosenRoom?.color);
 
-  useEffect(() => {
-    bubbleBackground && setBubbleBackground(bubbleBackground);
-    let bubble = document.querySelectorAll(".message.mine .bubble-container .bubble") as NodeListOf<HTMLElement>;
-    bubble.forEach(item => {
-      if (item) {
-        item.style.backgroundColor = bubbleBackground;
-        if (lightOrDark(bubbleBackground)) {
-          item.style.color = "black";
-        } else {
-          item.style.color = "white";
-        }
-      }
-    })
-  }, [chosenRoom?.id]);
+  // useEffect(() => {
+  //   bubbleBackground && setBubbleBackground(bubbleBackground);
+  //   let bubble = document.querySelectorAll(".message.mine .bubble-container .bubble") as NodeListOf<HTMLElement>;
+  //   bubble.forEach(item => {
+  //     if (item) {
+  //       item.style.backgroundColor = bubbleBackground;
+  //       if (lightOrDark(bubbleBackground)) {
+  //         item.style.color = "black";
+  //       } else {
+  //         item.style.color = "white";
+  //       }
+  //     }
+  //   })
+  // }, [chosenRoom?.id]);
 
   console.log(chosenRoom?.id)
 
