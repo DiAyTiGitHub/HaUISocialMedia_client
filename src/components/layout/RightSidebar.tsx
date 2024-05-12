@@ -9,6 +9,7 @@ import FriendListSkeleton from "../skeleton/FriendListSkeleton";
 import useGetData from "@/lib";
 import { useStore } from "@/stores";
 import NoData from "../shared/NoData";
+import MutualFriends from "../User/ui/MutualFriend";
 
 const RightSidebar = () => {
   const { relationshipStore } = useStore();
@@ -53,11 +54,20 @@ const RightSidebar = () => {
                       <img
                         src={friend.avatar || "/person.jpg"}
                         alt="profile-img"
-                        className="profilePhoto"
+                        className="size-14 rounded-full object-cover"
                       />
-                      <p>
-                        {friend.lastName} {friend.firstName}
-                      </p>
+                      <div className="space-y-1">
+                        <p className="base-medium">
+                          {friend.lastName} {friend.firstName}
+                        </p>
+                        <div>
+                          {friend?.mutualFriends?.length > 0 && (
+                            <MutualFriends
+                              mutualFriends={friend?.mutualFriends}
+                            />
+                          )}
+                        </div>
+                      </div>
                     </Link>
                   ))}
                 </div>

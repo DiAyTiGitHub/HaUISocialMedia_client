@@ -79,49 +79,50 @@ const Comment = ({ postId, repliCommentId }: CommentProps) => {
   }
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex items-center gap-3"
-      >
-        <FormField
-          control={form.control}
-          name="comment"
-          render={({ field }) => (
-            <FormItem className="flex items-center gap-3 flex-1 p-2 space-y-0">
-              <Link to="/profile/1" className="profile-photo">
+      <form onSubmit={form.handleSubmit(onSubmit)} className=" ">
+        <div className="flex items-center gap-2 ">
+          <FormField
+            control={form.control}
+            name="comment"
+            render={({ field }) => (
+              <FormItem className="flex  gap-3 flex-1 p-2 space-y-0">
                 <img
                   src={currentUser?.avatar || "/person.jpg"}
                   alt="profile-photo"
-                  className="rounded-full"
+                  className="size-10 object-cover rounded-full"
+                  onClick={() =>
+                    (window.location.href = `/profile/${currentUser?.id}`)
+                  }
                 />
-              </Link>
-              <FormControl>
-                <Input
-                  placeholder="Bình luận bài viết..."
-                  {...field}
-                  className="px-4 py-2"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit" disabled={isCreateComment}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"
-            />
-          </svg>
-        </Button>
+
+                <FormControl>
+                  <Input
+                    placeholder="Viết bình luận..."
+                    {...field}
+                    className="p-4 py-2 border-none bg-blue-2 "
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit" disabled={isCreateComment}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"
+              />
+            </svg>
+          </Button>
+        </div>
       </form>
     </Form>
   );

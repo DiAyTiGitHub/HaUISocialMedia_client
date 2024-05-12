@@ -8,7 +8,6 @@ import { navbarLink } from "@/constant";
 import { ChangeEvent, memo, useState } from "react";
 import { observer } from "mobx-react";
 import Icon, { IconName } from "../shared/Icon";
-import { Grid } from "@mui/material";
 
 const NavBar = () => {
   const [search, setSearch] = useState("");
@@ -21,8 +20,11 @@ const NavBar = () => {
     window.location.href = `/search?name=${search}`;
   };
   return (
-    <nav className="w-full bg-white sticky top-0  shadow-lg max-h-[88px] z-20">
-      <div className="flex-between py-3 px-5" style={{ flexWrap: "wrap", backgroundColor: "white" }}>
+    <nav className="w-full bg-white sticky top-0  max-h-[88px] z-20">
+      <div
+        className="flex-between py-3 px-5"
+        style={{ flexWrap: "wrap", backgroundColor: "white" }}
+      >
         <div className="flex gap-3">
           <Link to="/" className="flex items-center gap-5">
             <div className="profile-image">
@@ -52,8 +54,9 @@ const NavBar = () => {
             <Link
               key={link.route}
               to={link.route}
-              className={`flex items-center justify-center h-16 w-20 cursor-pointer relative text-slate-500 ${pathname === link.route && "navbar-active text-primary"
-                }`}
+              className={`flex items-center justify-center h-16 w-20 cursor-pointer relative text-slate-500 ${
+                pathname === link.route && "navbar-active text-primary"
+              }`}
             >
               <Icon name={link.icon as IconName} size={28} />
             </Link>

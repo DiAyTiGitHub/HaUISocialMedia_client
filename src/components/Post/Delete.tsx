@@ -39,7 +39,7 @@ const Delete = ({ children, handleDelete, isDisable }: DeleteProps) => {
           <AlertDialogCancel>Huỷ</AlertDialogCancel>
           <AlertDialogAction
             disabled={isDisable}
-            className="bg-red-600 hover:bg-red-500 text-white mt-2"
+            className="bg-red-600 hover:bg-red-500 text-white "
             onClick={handleDelete}
           >
             Xoá

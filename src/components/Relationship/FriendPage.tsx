@@ -8,6 +8,7 @@ import { useStore } from "@/stores";
 import useGetData from "@/lib";
 import SidebarFriendPage from "@/components/Relationship/SidebarFriendPage";
 import ListFriend from "./ui/ListFriend";
+import { Input } from "../ui/input";
 
 const FriendPage = () => {
   const [search, setSearch] = useState("");
@@ -44,14 +45,18 @@ const FriendPage = () => {
         <div className="flex-1 p-5">
           <div className="mb-5">
             <h3 className="h3-bold mb-5">Danh sách bạn bè</h3>
-            <div className="flex items-center bg-white max-w-max px-2  rounded-xl">
-              <input
+            <div className="flex items-center bg-white max-w-max  rounded-xl">
+              <Input
                 type="text"
                 placeholder="Tìm bạn bè..."
-                className="input input-field"
                 onChange={(e) => setSearch(e.target.value)}
+                className="border-blue-500 rounded-none rounded-l-md"
               />
-              <Button onClick={handleSearch}>
+              <Button
+                onClick={handleSearch}
+                className="rounded-none rounded-r-md border border-blue-500"
+                disabled={search.length === 0}
+              >
                 <Search />
               </Button>
             </div>

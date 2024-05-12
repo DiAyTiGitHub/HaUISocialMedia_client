@@ -54,41 +54,41 @@ const RequestFriendPage = () => {
                   style="h-[100px] w-[100px]"
                 />
               ) : (
-                <div className="grid grid-cols-2 gap-5 my-10">
+                <div className="grid grid-cols-4 gap-5 my-10">
                   {requestFriends.map((friend: any) => (
                     <div
                       key={friend.id}
-                      className="flex items-center gap-5 p-3 bg-white  rounded-xl cursor-pointer"
-                      onClick={() =>
-                        navigate(`/profile/${friend.requestSender.id}`)
-                      }
+                      className="flex  gap-5 pb-5 bg-white  rounded-xl cursor-pointer"
                     >
-                      <div className="flex justify-between items-center flex-1">
-                        <div className="flex items-center  gap-3">
-                          <div className="flex items-center gap-3">
-                            <img
-                              src={friend.avatar || "/person.jpg"}
-                              alt="avatar"
-                              className="size-16 rounded-full object-cover"
-                            />
-                          </div>
-
-                          <div className="flex flex-col gap-2">
-                            <p className=" font-medium">
-                              {friend?.requestSender?.lastName}{" "}
-                              {friend?.requestSender?.firstName}
-                            </p>
-                            {friend?.requestSender?.mutualFriends?.length >
-                              0 && (
-                              <MutualFriends
-                                mutualFriends={
-                                  friend?.requestSender?.mutualFriends
-                                }
-                              />
-                            )}
-                          </div>
+                      <div className="flex flex-col gap-5 justify-between flex-1">
+                        <div
+                          className="rounded-xl space-y-2 overflow-hidden"
+                          onClick={() =>
+                            navigate(`/profile/${friend.requestSender.id}`)
+                          }
+                        >
+                          <img
+                            src={friend.avatar || "/person.jpg"}
+                            alt="avatar"
+                            className="w-full h-[200px] object-cover "
+                          />
+                          <p className=" font-medium px-5">
+                            {friend?.requestSender?.lastName}{" "}
+                            {friend?.requestSender?.firstName}
+                          </p>
                         </div>
-                        <div className="flex gap-2">
+
+                        <div className=" px-5">
+                          {friend?.requestSender?.mutualFriends?.length > 0 && (
+                            <MutualFriends
+                              mutualFriends={
+                                friend?.requestSender?.mutualFriends
+                              }
+                            />
+                          )}
+                        </div>
+
+                        <div className="space-y-2 px-5">
                           <CustomButtonFriend
                             icon="UserX"
                             isSecondary
@@ -100,7 +100,7 @@ const RequestFriendPage = () => {
                           <CustomButtonFriend
                             icon="UserPlus"
                             handleFn={acceptFriend}
-                            title="Chấp nhật"
+                            title="Chấp nhận"
                             message="Đã chấp nhận"
                             id={friend.id}
                           />

@@ -4,12 +4,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LogOut, Pencil } from "lucide-react";
+import { ArrowRight, Pencil } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { memo } from "react";
 import { observer } from "mobx-react";
 import { useStore } from "@/stores";
 import LogoutButton from "../Auth/ui/LogoutButton";
+import EditUserModal from "../User/ui/EditUserModal";
 
 function UserDropdownMenu() {
   const navigate = useNavigate();
@@ -29,15 +30,27 @@ function UserDropdownMenu() {
           className="w-10 h-10 rounded-full object-cover"
         />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="relative right-[2vw] min-w-[300px] flex flex-col gap-3 p-3 border-none shadow-lg max-z-index">
+      <DropdownMenuContent className="relative right-[2vw] min-w-[300px] flex flex-col gap-3 p-3 border-none shadow-lg ">
         <DropdownMenuItem className="hover:bg-blue-2 py-2 rounded-xl">
-          <button
+          <div
             className="flex gap-2 items-center"
-            onClick={() => navigate("/profile/edit")}
+            onClick={() =>
+              (window.location.href = `/profile/${currentUser?.id}`)
+            }
           >
-            <Pencil /> Chỉnh sửa thông tin
-          </button>
+            <ArrowRight /> Trang cá nhân
+          </div>
         </DropdownMenuItem>
+        <EditUserModal>
+          <DropdownMenuItem
+            className="hover:bg-blue-2 py-2 rounded-xl"
+            onSelect={(e) => e.preventDefault()}
+          >
+            <div className="flex gap-2 items-center">
+              <Pencil /> Chỉnh sửa thông tin
+            </div>
+          </DropdownMenuItem>
+        </EditUserModal>
 
         <LogoutButton />
       </DropdownMenuContent>

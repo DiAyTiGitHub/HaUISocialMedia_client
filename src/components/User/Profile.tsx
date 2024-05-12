@@ -1,23 +1,15 @@
 import ProfileInfo from "@/components/User/ProfileInfo";
-import SessionCreatePost from "@/components/Post/SessionCreatePost";
 import { memo, useEffect, useState } from "react";
 import { IUser } from "@/types";
 import { useParams } from "react-router-dom";
-import TabContext from '@mui/lab/TabContext';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { format, parseISO } from "date-fns";
-import FriendOfUser from "@/components/Relationship/FriendOfUser";
-import UserCourseResult from "../CourseResult/UserCourseResult";
-import TableSkeleton from "@/components/skeleton/TableSkeleton";
+import TabContext from "@mui/lab/TabContext";
 import { useStore } from "@/stores";
-import TabPanel from '@mui/lab/TabPanel';
+import TabPanel from "@mui/lab/TabPanel";
 import { observer } from "mobx-react";
-import { Grid } from "@mui/material";
 
 import "./ProfileStyle.scss";
 import LocalStorageService from "@/services/LocalStorageService";
-import PostOfUser from "./ui/PostOfUser";
-import Icon from "../shared/Icon";
+
 import MainProfile from "./ProfileTab/MainProfile";
 import UserFriends from "./ProfileTab/UserFriends";
 import Achievements from "./ProfileTab/Achievements";
@@ -73,7 +65,6 @@ function Profile() {
           isLoading={isLoadingUser}
         />
 
-
         <TabPanel className="p-0" value="0">
           <MainProfile
             isLoadingUser={isLoadingUser}
@@ -82,17 +73,12 @@ function Profile() {
           />
         </TabPanel>
         <TabPanel className="p-0" value="1">
-          <UserFriends
-
-          />
+          <UserFriends />
         </TabPanel>
         <TabPanel className="p-0" value="2">
-          <Achievements
-
-          />
+          <Achievements />
         </TabPanel>
       </TabContext>
-
     </div>
   );
 }

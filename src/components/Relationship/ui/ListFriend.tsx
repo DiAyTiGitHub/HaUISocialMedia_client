@@ -1,3 +1,4 @@
+import MutualFriends from "@/components/User/ui/MutualFriend";
 import Icon from "@/components/shared/Icon";
 import NoData from "@/components/shared/NoData";
 import { Button } from "@/components/ui/button";
@@ -9,34 +10,45 @@ type Props = {
 };
 const ListFriend = ({ friends }: Props) => {
   const navigate = useNavigate();
+
   return (
     <>
       {!friends || friends.length === 0 ? (
         <NoData title="Chưa có bạn bè nào" style="h-[100px] w-[100px]" />
       ) : (
-        <div className="grid md:grid-cols-2 gap-3 my-10">
+        <div className="grid md:grid-cols-4 gap-3 my-10">
           {friends.map((friend: IUser) => (
             <div
               key={friend.id}
-              className="flex items-center gap-5 p-3 bg-white  rounded-xl cursor-pointer"
-              onClick={() => navigate(`/profile/${friend.id}`)}
+              className="cursor-pointer flex  gap-5 pb-5 bg-blue-2 rounded-xl w-full"
             >
-              <div className="flex justify-between flex-1">
-                <div className="flex items-center gap-3">
+              <div
+                className="flex flex-col gap-3 justify-between flex-1"
+                onClick={() => navigate(`/profile/${friend.id}`)}
+              >
+                <div className="rounded-xl space-y-2 overflow-hidden">
                   <img
                     src={friend.avatar || "/person.jpg"}
                     alt="avatar"
-                    className="w-10 h-10 rounded-full object-cover"
+                    className="w-full h-[200px] object-cover"
                   />
-                  <p className="font-medium">
+                  <p className="font-medium px-5">
                     {friend.lastName} {friend.firstName}
                   </p>
                 </div>
 
-                <Button className="bg-blue-600 hover:bg-blue-500 flex gap-3 items-center">
-                  <Icon name="UserRoundCheck" />
-                  Bạn bè
-                </Button>
+                <div className="px-5">
+                  {friend?.mutualFriends?.length > 0 && (
+                    <MutualFriends mutualFriends={friend?.mutualFriends} />
+                  )}
+                </div>
+
+                <div className="w-full px-5">
+                  <Button className="border w-full border-blue-500 bg-transparent text-blue-500  shadow-none flex gap-3 items-center">
+                    <Icon name="UserRoundCheck" />
+                    Trang cá nhân
+                  </Button>
+                </div>
               </div>
             </div>
           ))}

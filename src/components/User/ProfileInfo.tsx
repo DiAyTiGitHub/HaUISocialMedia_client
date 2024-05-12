@@ -13,8 +13,8 @@ import Icon from "../shared/Icon";
 import MutualFriends from "./ui/MutualFriend";
 import { Tab, Tabs } from "@mui/material";
 import "./ProfileStyle.scss";
-import TabList from '@mui/lab/TabList';
-
+import TabList from "@mui/lab/TabList";
+import EditUserModal from "./ui/EditUserModal";
 type Props = {
   userProfile: any;
   isLoading: boolean;
@@ -28,14 +28,13 @@ type RelationshipType = {
   message: string;
   id: string;
 };
-function ProfileInfo({ userProfile, isLoading, handleChangeTab, profileTab }: Props) {
+function ProfileInfo({ userProfile, isLoading, handleChangeTab }: Props) {
   const { profileId } = useParams();
-  console.log(userProfile);
 
   const [relationship, setRelationship] = useState<RelationshipType>({
     type: "",
     title: "",
-    handleFn: () => { },
+    handleFn: () => {},
     message: "",
     id: "",
   });
@@ -68,7 +67,7 @@ function ProfileInfo({ userProfile, isLoading, handleChangeTab, profileTab }: Pr
             type: "IsSend",
             title: "Đã gửi lời mời",
             message: "Thêm bạn bè",
-            handleFn: () => { },
+            handleFn: () => {},
             id: userProfile.relationshipDto.id,
           }));
         } else {
@@ -152,13 +151,12 @@ function ProfileInfo({ userProfile, isLoading, handleChangeTab, profileTab }: Pr
                 </div>
               </UpdateResult>
 
-              <Button
-                onClick={() => navigate("/profile/edit")}
-                className="flex gap-2 items-center text-[15px]"
-              >
-                <Icon name="Pencil" size={16} />
-                <span>Cập nhật thông tin</span>
-              </Button>
+              <EditUserModal>
+                <div className="flex gap-2 items-center text-[15px] bg-blue-500 p-2 rounded-md text-white cursor-pointer">
+                  <Icon name="Pencil" size={16} />
+                  <span>Cập nhật thông tin</span>
+                </div>
+              </EditUserModal>
             </div>
           ) : (
             <>

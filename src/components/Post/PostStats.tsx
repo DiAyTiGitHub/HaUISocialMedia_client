@@ -55,7 +55,9 @@ const PostStats = ({ post }: PostStatsProps) => {
   };
 
   return (
-    <div className={`flex justify-start items-center z-20 `}>
+    <div
+      className={`flex justify-start items-center z-20 border-t border-slate-300 py-2`}
+    >
       <div className="flex gap-2 mr-5">
         {checkIsLiked(likes, currentUser?.id as string) ? (
           <button onClick={handleDislike}>

@@ -25,7 +25,7 @@ const CommentCard = ({ comment }: CommentCardProps) => {
   };
 
   return (
-    <article className={`flex w-full flex-col rounded-xl pr-3`}>
+    <article className={`flex w-full flex-col rounded-xl pr-1`}>
       <div className="flex items-start justify-between">
         <div className="flex w-full flex-1 flex-row gap-4">
           <div className="flex flex-col items-center">
@@ -40,20 +40,27 @@ const CommentCard = ({ comment }: CommentCardProps) => {
           </div>
 
           <div className="flex w-full flex-col">
-            <Link to={`/profile/${comment?.commenter?.id}`} className="w-fit">
-              <h4 className="cursor-pointer base-semibold">
+            <div className="w-fit flex flex-col gap-1 bg-blue-2 px-2 py-1 rounded-md">
+              <p
+                className="cursor-pointer  base-semibold"
+                onClick={() =>
+                  (window.location.href = `/profile/${comment?.commenter?.id}`)
+                }
+              >
                 {comment?.commenter.lastName} {comment?.commenter?.firstName}
-              </h4>
-              <p className="text-small-medium">
-                {" "}
-                {multiFormatDateString(comment?.createDate.toString())}
               </p>
-            </Link>
+              <span className="base-regular  text-balance ">
+                {" "}
+                {comment?.content}
+              </span>
+            </div>
+            <p className="text-small-medium mt-0.5">
+              {" "}
+              {multiFormatDateString(comment?.createDate.toString())}
+            </p>
 
-            <p className="mt-2 ">{comment?.content}</p>
-
-            <div className={`my-5 flex flex-col gap-3`}>
-              <div className="flex gap-3">
+            <div className={`my-1 flex flex-col gap-3`}>
+              <div className="flex gap-2">
                 <img
                   src={reply}
                   alt="reply-icon"

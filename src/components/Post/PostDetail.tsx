@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Skeleton } from "../ui/skeleton";
 import NoData from "../shared/NoData";
+import PostStats from "./PostStats";
 
 const LoadingPostDetail = () => {
   return (
@@ -102,36 +103,16 @@ const PostDetail = () => {
   if (!postDetail)
     return <NoData title="Bài viết không tồn tại" style="w-[80px] h-[80px]" />;
   return (
-    <div className="max-w-[70%] mx-auto my-auto bg-white">
-      <div className="grid grid-cols-2 overflow-hidden">
-        <div className="sticky top-[88px] bg-white py-5 px-5 rounded-lg shadow-lg  max-h-[calc(100vh_-_88px)] overflow-y-auto">
-          <div className=" flex gap-3">
-            <Link to="/" className="">
-              <img
-                src={postDetail?.creator.avatar || "/person.jpg"}
-                alt="creator"
-                className="w-10 h-10 rounded-full"
-              />
-            </Link>
-
-            <div className="flex flex-col">
-              <Link
-                to={`/profile/${postDetail?.creator?.id}`}
-                className="base-medium lg:body-bold"
-              >
-                {postDetail?.creator.lastName} {postDetail?.creator.firstName}
-              </Link>
-              <div className="flex gap-2 ">
-                <p className="subtle-semibold lg:small-regular ">
-                  {multiFormatDateString(postDetail?.createDate.toString())}
-                </p>
-                •
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-2 max-w-[40vw]">{postDetail?.content}</div>
-          {postDetail?.images?.length > 0 && (
+    <div className=" mx-auto my-auto bg-blue-2">
+      <div
+        className={`grid ${
+          postDetail?.images.length > 0
+            ? "grid-cols-[2fr_1fr]"
+            : " place-items-center min-w-4xl"
+        }  overflow-hidden`}
+      >
+        {postDetail?.images?.length > 0 && (
+          <div className="sticky top-[88px] bg-white py-5 px-5 rounded-lg shadow-lg  max-h-[calc(100vh_-_88px)] overflow-y-auto">
             <div className="mt-10 relative">
               {postDetail.images.length > 1 && (
                 <div className="absolute top-1/2 flex items-center bg-white rounded-full">
@@ -162,17 +143,46 @@ const PostDetail = () => {
                 </div>
               )}
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
-        <div className="flex-1 bg-white p-5 rounded-lg shadow-sm  h-[calc(100vh_-_88px)] overflow-y-auto">
-          <div className="mt-7">
-            <p className="body-bold">Bình luận</p>
-            <Comment postId={postDetail?.id || ""} />
+        <div
+          className={`${
+            postDetail?.images.length === 0 && "w-3/5"
+          } bg-white p-5 rounded-lg shadow-sm  h-[calc(100vh_-_88px)] overflow-y-auto `}
+        >
+          <div className=" flex gap-3">
+            <Link to={`/profile/${postDetail?.creator?.id}`} className="">
+              <img
+                src={postDetail?.creator.avatar || "/person.jpg"}
+                alt="creator"
+                className="w-10 h-10 rounded-full"
+              />
+            </Link>
+
+            <div className="flex flex-col">
+              <Link
+                to={`/profile/${postDetail?.creator?.id}`}
+                className="base-medium lg:body-bold"
+              >
+                {postDetail?.creator.lastName} {postDetail?.creator.firstName}
+              </Link>
+              <div className="flex gap-2 ">
+                <p className="subtle-semibold lg:small-regular ">
+                  {multiFormatDateString(postDetail?.createDate.toString())}
+                </p>
+                •
+              </div>
+            </div>
+          </div>
+          <div className="space-y-2">
+            <div className="mt-2 max-w-[40vw]">{postDetail?.content}</div>
+            <PostStats post={postDetail} />
+            <div className="border-b border-slate-300" />
           </div>
 
           <div className="mt-3 max-w-[40vw] ">
-            <p className="body-bold mb-3">Bình luận gần đây</p>
+            <p className="base-semibold mb-3">Bình luận gần đây</p>
             {postDetail?.comments.length === 0 ? (
               <span>Chưa có bình luận nào</span>
             ) : (
@@ -184,6 +194,10 @@ const PostDetail = () => {
                   ))}
               </>
             )}
+          </div>
+
+          <div className="mt-2">
+            <Comment postId={postDetail?.id || ""} />
           </div>
         </div>
       </div>

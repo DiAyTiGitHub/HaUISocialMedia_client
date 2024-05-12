@@ -8,6 +8,7 @@ import { useStore } from "@/stores";
 import SidebarFriendPage from "./SidebarFriendPage";
 import { Button } from "../ui/button";
 import ListSuggestFriend from "./ui/ListSuggestFriend";
+import { Input } from "../ui/input";
 
 const SuggestFriendPage = () => {
   const [search, setSearch] = useState("");
@@ -45,14 +46,18 @@ const SuggestFriendPage = () => {
         <div className="flex-1 p-5">
           <div className="mb-5">
             <h3 className="h3-bold mb-5">Danh sách gợi ý</h3>
-            <div className="flex items-center bg-white max-w-max px-2 rounded-xl">
-              <input
+            <div className="flex items-center bg-white max-w-max rounded-xl">
+              <Input
                 type="text"
                 placeholder="Tìm bạn bè..."
-                className="input input-field"
+                className="border-blue-500 rounded-none rounded-l-md"
                 onChange={(e) => setSearch(e.target.value)}
               />
-              <Button onClick={handleSearch} disabled={search.length === 0}>
+              <Button
+                onClick={handleSearch}
+                className="rounded-none rounded-r-md border border-blue-500"
+                disabled={search.length === 0}
+              >
                 <Search />
               </Button>
             </div>
@@ -61,7 +66,7 @@ const SuggestFriendPage = () => {
           {isLoading && (
             <FriendListSkeleton
               length={6}
-              styles="grid grid-cols-2 gap-5 my-10"
+              styles="grid grid-cols-3 gap-5 my-10"
             />
           )}
 
