@@ -33,18 +33,18 @@ function ChangeConversationNamePopup(props: any) {
     if (event.target.files && event.target.files[0]) {
       const img = event.target.files[0];
       try {
-        toast.info("Conversation's avatar is handling, please wait...");
+        toast.info("Cuộc trò chuyện đang được cập nhật, vui lòng đợi...");
         const url = await handleUploadImage(img);
 
         await uploadRoomAvatar(url);
-        toast.success("Successfully updated avatar");
+        toast.success("Thay đổi ảnh cuộc trò chuyện thành công!");
       } catch (error) {
         toast.error("Có lỗi xảy ra!!! Vui lòng thử lại sau");
       } finally {
         setIsUpdating(false);
       }
     } else {
-      toast.error("Invalid avatar to set file");
+      toast.error("Ảnh cuộc trò chuyện có lỗi");
     }
   }
 

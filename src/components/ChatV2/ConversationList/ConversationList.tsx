@@ -15,6 +15,7 @@ function ConversationList() {
     joinedRooms,
     isLoading,
   } = chatStore;
+  
   return (
     <div>
       <Toolbar title="">

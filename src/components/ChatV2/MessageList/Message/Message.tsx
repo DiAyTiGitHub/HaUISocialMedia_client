@@ -42,9 +42,10 @@ function Message(props: any) {
     photo,
     sendDate,
   } = props;
+  const imagePath = photo || 'https://www.treasury.gov.ph/wp-content/uploads/2022/01/male-placeholder-image.jpeg';
+
   const { authStore, chatStore } = useStore();
   const { chosenRoom } = chatStore;
-  const imagePath = photo || 'https://www.treasury.gov.ph/wp-content/uploads/2022/01/male-placeholder-image.jpeg';
   // const [bubbleBackground, setBubbleBackground] = useState(chosenRoom?.color);
 
   // useEffect(() => {
@@ -62,7 +63,18 @@ function Message(props: any) {
   //   })
   // }, [chosenRoom?.id]);
 
-  console.log(chosenRoom?.id)
+  let mineMessageWithColor = {};
+  if (isMine && type == "chat" && chosenRoom?.color) {
+    let fontTheme = "white";
+    if (lightOrDark(chosenRoom?.color)) {
+      fontTheme = "black";
+    }
+
+    mineMessageWithColor = {
+      backgroundColor: chosenRoom?.color,
+      color: fontTheme
+    };
+  }
 
   return (
     <div
@@ -100,7 +112,7 @@ function Message(props: any) {
               <img className="thumbnail" src={imagePath} alt=""></img>
             )}
             <div className="bubble-container">
-              <div className="bubble">
+              <div className="bubble" style={mineMessageWithColor}>
                 {data}
               </div>
             </div>

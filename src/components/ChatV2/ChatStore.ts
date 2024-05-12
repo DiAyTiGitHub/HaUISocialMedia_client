@@ -199,7 +199,7 @@ class ChatStore {
     } catch (err: any) {
       console.log(err);
       this.setIsLoading(false);
-      toast.error("Update this conversation info fail, please try again!");
+      toast.error("Cập nhật thông tin cuộc trò chuyện có lỗi, vui lòng thử lại sau");
       throw new Error(err);
     }
   };
@@ -219,7 +219,7 @@ class ChatStore {
     } catch (err: any) {
       console.log(err);
       this.setIsLoading(false);
-      toast.error("Update this conversation info fail, please try again!");
+      toast.error("Cập nhật thông tin cuộc trò chuyện có lỗi, vui lòng thử lại sau");
       throw new Error(err);
     }
   };
@@ -233,8 +233,6 @@ class ChatStore {
         this.chosenRoom?.id
       );
 
-      console.log("updated group chat: ", data);
-
       await this.getAllJoinedRooms();
       this.setIsLoading(false);
 
@@ -242,7 +240,7 @@ class ChatStore {
     } catch (err: any) {
       console.log(err);
       this.setIsLoading(false);
-      toast.error("Update this conversation info fail, please try again!");
+      toast.error("Cập nhật thông tin cuộc trò chuyện có lỗi, vui lòng thử lại sau");
       throw new Error(err);
     }
   };
@@ -257,7 +255,7 @@ class ChatStore {
       return data;
     } catch (err: any) {
       console.log(err);
-      toast.error("Cannot get list unjoined friends, please try again!");
+      toast.error("Có lỗi khi lấy danh sách bạn bè chưa tham gia, vui lòng thử lại sau");
       throw new Error(err);
     }
   };
@@ -278,7 +276,7 @@ class ChatStore {
     } catch (err: any) {
       console.log(err);
       this.setIsLoading(false);
-      toast.error("Update this conversation info fail, please try again!");
+      toast.error("Cập nhật thông tin cuộc trò chuyện có lỗi, vui lòng thử lại sau!");
       throw new Error(err);
     }
   };

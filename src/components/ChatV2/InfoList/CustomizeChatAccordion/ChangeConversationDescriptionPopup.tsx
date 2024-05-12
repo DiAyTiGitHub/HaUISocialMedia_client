@@ -16,11 +16,11 @@ function ChangeConversationDescriptionPopup(props: any) {
     const [isUpdating, setIsUpdating] = useState(false);
     async function handleChangeConversationDescription(values: any) {
         setIsUpdating(true);
-        toast.info("Please await! We're updating this conversation");
+        toast.info("Vui lòng đợi, yêu cầu đang được xử lí...");
 
         await updateRoomInfo(values);
         console.log("des", values);
-        toast.success("This conversation is updated!");
+        toast.success("Cuộc trò chuyện đã được cập nhật!");
         setIsUpdating(false);
         handleClose();
     }
@@ -36,7 +36,7 @@ function ChangeConversationDescriptionPopup(props: any) {
                 initialValues={{ description: chosenRoom?.description }}
                 onSubmit={handleChangeConversationDescription}
             >
-                {(props) => (
+                {(props: any) => (
                     <Form autoComplete='off'>
                         <Box className='modal-container w-80 p-0 m-0' sx={{ border: 0, borderRadius: "10px" }}>
                             <div className="modalContainer flex-center justify-between appHeader" style={{ borderRadius: "10px 10px 0 0" }}>
