@@ -64,7 +64,8 @@ export type NotificationType = {
   owner: IUser;
   actor: IUser;
   referenceId: string;
-  post: string;
+  post: IPost;
+  groupDto: any;
 };
 
 export type CourseType = {

@@ -14,7 +14,7 @@ const SuggestFriendPage = () => {
   const [search, setSearch] = useState("");
   const [paging, setPaging] = useState<SearchObjectType>({
     pageIndex: 1,
-    pageSize: 20,
+    pageSize: 100,
   });
 
   const { relationshipStore } = useStore();
@@ -65,8 +65,8 @@ const SuggestFriendPage = () => {
 
           {isLoading && (
             <FriendListSkeleton
-              length={6}
-              styles="grid grid-cols-3 gap-5 my-10"
+              length={8}
+              styles="grid grid-cols-4 gap-5 my-10"
             />
           )}
 

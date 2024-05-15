@@ -4,69 +4,77 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Bell, Loader } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NotificationType } from "@/types";
 import { useNavigate } from "react-router-dom";
 import { multiFormatDateString } from "@/lib/utils";
 import FriendListSkeleton from "../skeleton/FriendListSkeleton";
+import { useInView } from "react-intersection-observer";
 import { useStore } from "@/stores";
-import useGetData from "@/lib";
 import NoData from "../shared/NoData";
 
 const Notification = () => {
+  const endOfListRef = useRef<HTMLDivElement>(null);
   const { notificationStore } = useStore();
   const { getNotification } = notificationStore;
-
-  const [paging, setPaging] = useState({
-    pageIndex: 1,
-    pageSize: 10,
-  });
-
-  const {
-    ref,
-    res: notifications,
-    isLoading,
-    showLoadMore,
-  } = useGetData({
-    getRequest: getNotification,
-    paging: paging,
-    setPaging: setPaging,
-  });
-
   const navigate = useNavigate();
 
-  const handleNavigateNotification = (notify: any) => {
-    let handleFn = () => {};
+  const [notifications, setNotifications] = useState<any[]>([]);
+  const [paging, setPaging] = useState({ pageIndex: 1, pageSize: 30 });
+  const [isLoading, setIsLoading] = useState(false);
+  const [showLoadMore, setShowLoadMore] = useState(true);
+
+  const { ref, inView } = useInView();
+
+  const handleGetData = async (paging: any) => {
+    setIsLoading(true);
+    try {
+      const data = await getNotification(paging);
+      if (data && data.length > 0) {
+        setNotifications((prev) => [...prev, ...data]);
+      }
+      setShowLoadMore(data.length === paging.pageSize);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+    endOfListRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    if (inView && showLoadMore) {
+      const nextPage = paging.pageIndex + 1;
+      handleGetData({ ...paging, pageIndex: nextPage });
+      setPaging((prev) => ({ ...prev, pageIndex: nextPage }));
+    }
+  }, [inView, showLoadMore]);
+
+  const handleNavigateNotification = (notify: NotificationType) => {
     switch (notify?.notificationType.name) {
       case "Group":
-        handleFn = () => {
-          navigate("/group/" + notify.groupDto?.id);
-          window.location.href = "/group/" + notify.groupDto?.id;
-        };
+        navigate(`/group/${notify.groupDto?.id}`);
         break;
-
       case "Friend":
-        handleFn = () => {
-          navigate("/profile/" + notify.actor?.id);
-        };
+        navigate(`/profile/${notify.actor?.id}`);
         break;
-
       case "Post":
-        handleFn = () => {
-          navigate("/post/" + notify.post?.id);
-        };
+        navigate(`/post/${notify.post?.id}`);
         break;
       default:
         break;
     }
+  };
 
-    return handleFn;
+  const handlePopoverOpen = () => {
+    setNotifications([]);
+    setPaging({ pageIndex: 1, pageSize: 30 });
+    handleGetData(paging);
   };
 
   return (
-    <Popover>
+    <Popover onOpenChange={handlePopoverOpen}>
       <PopoverTrigger>
-        {" "}
         <Bell className="hover:text-primary" />
       </PopoverTrigger>
       <PopoverContent className="min-w-[350px] mt-[32px] relative z-10 right-1/3 max-h-[70vh] overflow-y-auto border-none bg-white">
@@ -85,7 +93,7 @@ const Notification = () => {
                 <div className="flex flex-col gap-2">
                   {notifications.map((notification: NotificationType) => (
                     <div
-                      onClick={handleNavigateNotification(notification)}
+                      onClick={() => handleNavigateNotification(notification)}
                       key={notification?.id}
                       className="flex items-center bg-blue-2 p-2 rounded-lg cursor-pointer"
                     >
@@ -110,13 +118,14 @@ const Notification = () => {
                   ))}
                 </div>
               )}
-              {showLoadMore && (
-                <div ref={ref}>
-                  <Loader />
-                </div>
-              )}
             </>
           )}
+          {showLoadMore && (
+            <div ref={ref}>
+              <Loader />
+            </div>
+          )}
+          <div ref={endOfListRef} />
         </div>
       </PopoverContent>
     </Popover>

@@ -22,7 +22,7 @@ const RequestFriendPage = () => {
     relationshipStore;
   const [paging, setPaging] = useState<SearchObjectType>({
     pageIndex: 1,
-    pageSize: 20,
+    pageSize: 100,
   });
 
   const {
@@ -44,7 +44,10 @@ const RequestFriendPage = () => {
             <h3 className="h3-bold mb-5">Danh sách lời mời kết bạn</h3>
           </div>
           {isLoading && (
-            <FriendListSkeleton length={12} styles="user-grid my-10" />
+            <FriendListSkeleton
+              length={12}
+              styles="grid grid-cols-4 gap-5 my-10"
+            />
           )}
           {!isLoading && (
             <>

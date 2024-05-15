@@ -19,8 +19,8 @@ const HomePage = () => {
   const { getNewFeed } = postStore;
 
   const [paging, setPaging] = useState<SearchObjectType>({
-    pageIndex: 0,
-    pageSize: 20,
+    pageIndex: 1,
+    pageSize: 50,
     mileStoneId: "",
   });
 

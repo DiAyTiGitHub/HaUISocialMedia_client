@@ -14,7 +14,7 @@ const FriendPage = () => {
   const [search, setSearch] = useState("");
   const [paging, setPaging] = useState<SearchObjectType>({
     pageIndex: 1,
-    pageSize: 20,
+    pageSize: 100,
   });
   const { relationshipStore } = useStore();
   const { getCurrentFriend } = relationshipStore;
@@ -62,7 +62,10 @@ const FriendPage = () => {
             </div>
           </div>
           {isLoading && (
-            <FriendListSkeleton length={12} styles="user-grid my-10" />
+            <FriendListSkeleton
+              length={12}
+              styles="grid grid-cols-4 gap-5 my-10"
+            />
           )}
 
           {!isLoading && (

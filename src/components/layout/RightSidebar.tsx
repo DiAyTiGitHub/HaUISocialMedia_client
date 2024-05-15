@@ -16,7 +16,7 @@ const RightSidebar = () => {
   const { getCurrentFriend } = relationshipStore;
   const [paging, setPaging] = useState<SearchObjectType>({
     pageIndex: 1,
-    pageSize: 10,
+    pageSize: 100,
   });
 
   const {

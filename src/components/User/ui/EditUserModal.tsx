@@ -1,7 +1,7 @@
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { format } from "date-fns";
+import { format, parse } from "date-fns";
 import {
   Form,
   FormControl,
@@ -17,18 +17,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import ProfileUploader from "../ProfileUploader";
-import { CalendarIcon, Loader, Pencil } from "lucide-react";
+import { Loader } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { handleUploadImage } from "@/lib/utils";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 
 import LocalStorage from "@/services/LocalStorageService";
 import { useStore } from "@/stores";
@@ -68,7 +62,7 @@ function EditUserModal({ children }: Props) {
       phoneNumber: currentUser?.phoneNumber || "",
       firstname: currentUser?.firstName || "",
       lastname: currentUser?.lastName || "",
-      birthDate: (currentUser?.birthDate as Date) || Date.now,
+      birthDate: new Date(currentUser?.birthDate),
       address: currentUser?.address || "",
       gender: currentUser?.gender.toString() || "false",
       email: currentUser?.email || "",
@@ -77,6 +71,7 @@ function EditUserModal({ children }: Props) {
 
   // Handler
   const handleUpdate = async (values: z.infer<typeof formSchema>) => {
+    console.log(values);
     try {
       setIsUpdating(true);
       let url;
@@ -171,36 +166,25 @@ function EditUserModal({ children }: Props) {
                     render={({ field }) => (
                       <FormItem className="flex-1">
                         <FormControl>
-                          <Popover>
-                            <PopoverTrigger asChild>
-                              <FormControl>
-                                <Button variant={"outline"}>
-                                  {field.value ? (
-                                    format(field.value, "yyyy-MM-dd")
-                                  ) : (
-                                    <span>Pick a date</span>
-                                  )}
-                                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                </Button>
-                              </FormControl>
-                            </PopoverTrigger>
-                            <PopoverContent
-                              className="w-auto p-0"
-                              align="start"
-                            >
-                              <Calendar
-                                className="bg-white"
-                                mode="single"
-                                selected={field.value}
-                                onSelect={field.onChange}
-                                disabled={(date) =>
-                                  date > new Date() ||
-                                  date < new Date("1900-01-01")
-                                }
-                                initialFocus
-                              />
-                            </PopoverContent>
-                          </Popover>
+                          <Input
+                            type="date"
+                            {...field}
+                            value={
+                              field.value
+                                ? format(field.value, "yyyy-MM-dd")
+                                : ""
+                            }
+                            onChange={(e) => {
+                              const selectedDate = e.target.value
+                                ? parse(
+                                    e.target.value,
+                                    "yyyy-MM-dd",
+                                    new Date()
+                                  )
+                                : null;
+                              field.onChange(selectedDate);
+                            }}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -274,12 +258,6 @@ function EditUserModal({ children }: Props) {
                   )}
                 />
                 <div className="flex gap-4 items-center justify-end">
-                  {/* <Button
-                    type="button"
-                    className="bg-red-500 hover:bg-rose-600"
-                  >
-                    Huỷ
-                  </Button> */}
                   <Button
                     disabled={isUpdating}
                     type="submit"

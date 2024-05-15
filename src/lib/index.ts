@@ -58,33 +58,76 @@ const useGetData = ({ getRequest, paging, setPaging }: Props) => {
 };
 
 // GET DATA NEW FEED
+// const useGetDataNewFeed = ({ getRequest, paging, setPaging }: Props) => {
+//   const { ref, inView } = useInView();
+//   const [isLoading, setIsLoading] = useState(false);
+//   const [showLoadMore, setShowLoadMore] = useState<boolean>(true);
+//   const [isError, setIdError] = useState<any>();
+
+//   const [res, setRes] = useState<any[]>([]);
+//   const handleGetData = async (paging: any) => {
+//     setIsLoading(true);
+//     try {
+//       const data = await getRequest(paging);
+//       if (data && data.length > 0) {
+//         setRes((prev) => [...prev, ...data]);
+//         if (data.length === paging.pageSize) {
+//           setPaging({
+//             pageSize: paging.pageSize,
+//             pageIndex: paging.pageIndex + 1,
+//             mileStoneId: data[data.length - 1]?.id,
+//             ...(paging?.keyWord && { keyWord: paging.keyWord }),
+//           });
+//         }
+//       }
+//       if (!data || data.length === 0 || data.length < paging.pageSize)
+//         setShowLoadMore(false);
+//     } catch (error) {
+//       console.log(error);
+//       setIdError(error);
+//       setShowLoadMore(false);
+//     } finally {
+//       setIsLoading(false);
+//     }
+//   };
+
+//   useEffect(() => {
+//     console.log(paging);
+//     if (inView) {
+//       handleGetData(paging);
+//     }
+//   }, [inView, paging]);
+
+//   return { ref, res, isLoading, showLoadMore, isError };
+// };
 const useGetDataNewFeed = ({ getRequest, paging, setPaging }: Props) => {
   const { ref, inView } = useInView();
   const [isLoading, setIsLoading] = useState(false);
   const [showLoadMore, setShowLoadMore] = useState<boolean>(true);
-  const [isError, setIdError] = useState<any>();
-
+  const [isError, setIsError] = useState<any>(null);
   const [res, setRes] = useState<any[]>([]);
+
   const handleGetData = async (paging: any) => {
     setIsLoading(true);
     try {
       const data = await getRequest(paging);
       if (data && data.length > 0) {
         setRes((prev) => [...prev, ...data]);
-        if (data.length === paging.pageSize) {
-          setPaging({
-            pageSize: paging.pageSize,
-            pageIndex: paging.pageIndex + 1,
-            mileStoneId: data[length - 1]?.id,
-            ...(paging?.keyWord && { keyWord: paging.keyWord }),
-          });
-        }
-      }
-      if (!data || data.length === 0 || data.length < paging.pageSize)
+        const lastItem = data[data.length - 1];
+        setPaging((prevPaging: any) => ({
+          ...prevPaging,
+          pageSize: paging.pageSize,
+          pageIndex: paging.pageIndex + 1,
+          mileStoneId: lastItem?.id,
+          ...(paging?.keyWord && { keyWord: paging.keyWord }),
+        }));
+        setShowLoadMore(data.length === paging.pageSize);
+      } else {
         setShowLoadMore(false);
+      }
     } catch (error) {
       console.log(error);
-      setIdError(error);
+      setIsError(error);
       setShowLoadMore(false);
     } finally {
       setIsLoading(false);
@@ -92,10 +135,10 @@ const useGetDataNewFeed = ({ getRequest, paging, setPaging }: Props) => {
   };
 
   useEffect(() => {
-    if (inView) {
+    if (inView && showLoadMore) {
       handleGetData(paging);
     }
-  }, [inView, paging]);
+  }, [inView, paging, showLoadMore]);
 
   return { ref, res, isLoading, showLoadMore, isError };
 };

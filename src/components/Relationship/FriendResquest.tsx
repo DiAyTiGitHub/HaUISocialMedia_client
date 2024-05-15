@@ -33,7 +33,7 @@ const FriendResquest = () => {
     };
     handleGetRequestFriend();
   }, []);
-  console.log(requestFriends);
+
   if (isLoading)
     return <FriendListSkeleton length={3} styles="flex flex-col gap-2" />;
   return (

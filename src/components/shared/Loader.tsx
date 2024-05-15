@@ -1,6 +1,6 @@
 import loader from "/loader.svg";
 const Loader = () => (
-  <div className="flex-center w-full">
+  <div className="flex items-center justify-center w-full">
     <img
       src={loader}
       alt="loader"
