@@ -14,7 +14,7 @@ const PostOfUser = () => {
 
   const [paging, setPaging] = useState<SearchObjectType>({
     pageIndex: 1,
-    pageSize: 10,
+    pageSize: 20,
     mileStoneId: "",
   });
 
@@ -24,6 +24,7 @@ const PostOfUser = () => {
     res: posts,
     isLoading,
     showLoadMore,
+    endOfListRef,
   } = useGetDataPostByUserId({
     getRequest: getPostOfUser,
     paging: paging,
@@ -37,12 +38,17 @@ const PostOfUser = () => {
       ) : (
         <>
           {!posts || posts.length === 0 ? (
-            <div className="bg-white w-full rounded-md h-full py-10">
+            <div className="bg-white w-full rounded-md h-full py-10 mt-4">
               <NoData title="Bạn chưa có bài viết nào, hãy kết nối với bạn bè để cùng chia sẻ những khoản khắc !!!" />
             </div>
           ) : (
             <>
-              <PostList posts={posts} isLoading={isLoading} />
+              <PostList
+                posts={posts}
+                isLoading={isLoading}
+                endOfListRef={endOfListRef}
+                lastId={paging.mileStoneId}
+              />
             </>
           )}
           {showLoadMore && (

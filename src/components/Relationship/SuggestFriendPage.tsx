@@ -40,7 +40,7 @@ const SuggestFriendPage = () => {
     }));
   };
   return (
-    <div className="grid grid-cols-[1fr_3fr] mt-5">
+    <div className="grid grid-cols-[1fr_3fr] mt-2">
       <SidebarFriendPage />
       <div className="flex flex-col gap-10 mx-5">
         <div className="flex-1 p-5">

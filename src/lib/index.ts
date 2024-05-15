@@ -1,6 +1,6 @@
 import LocalStorageService from "@/services/LocalStorageService";
 import { useStore } from "@/stores";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 
 type Props = {
@@ -35,9 +35,9 @@ const useGetData = ({ getRequest, paging, setPaging }: Props) => {
         ) {
           setResSearch([...data]);
         } else setRes((prev) => [...prev, ...data]);
+        setShowLoadMore(res.length === paging?.pageSize);
       } else {
-        if (!data || data.length === 0 || data.length < paging.pageSize)
-          setShowLoadMore(false);
+        setShowLoadMore(false);
       }
     } catch (error) {
       console.log(error);
@@ -49,78 +49,30 @@ const useGetData = ({ getRequest, paging, setPaging }: Props) => {
   };
 
   useEffect(() => {
-    if (inView) {
+    if (inView && showLoadMore) {
       handleGetData(paging);
     }
-  }, [inView, paging]);
+  }, [inView, paging, showLoadMore]);
 
   return { ref, res, resSearch, isLoading, showLoadMore, isError };
 };
 
-// GET DATA NEW FEED
-// const useGetDataNewFeed = ({ getRequest, paging, setPaging }: Props) => {
-//   const { ref, inView } = useInView();
-//   const [isLoading, setIsLoading] = useState(false);
-//   const [showLoadMore, setShowLoadMore] = useState<boolean>(true);
-//   const [isError, setIdError] = useState<any>();
-
-//   const [res, setRes] = useState<any[]>([]);
-//   const handleGetData = async (paging: any) => {
-//     setIsLoading(true);
-//     try {
-//       const data = await getRequest(paging);
-//       if (data && data.length > 0) {
-//         setRes((prev) => [...prev, ...data]);
-//         if (data.length === paging.pageSize) {
-//           setPaging({
-//             pageSize: paging.pageSize,
-//             pageIndex: paging.pageIndex + 1,
-//             mileStoneId: data[data.length - 1]?.id,
-//             ...(paging?.keyWord && { keyWord: paging.keyWord }),
-//           });
-//         }
-//       }
-//       if (!data || data.length === 0 || data.length < paging.pageSize)
-//         setShowLoadMore(false);
-//     } catch (error) {
-//       console.log(error);
-//       setIdError(error);
-//       setShowLoadMore(false);
-//     } finally {
-//       setIsLoading(false);
-//     }
-//   };
-
-//   useEffect(() => {
-//     console.log(paging);
-//     if (inView) {
-//       handleGetData(paging);
-//     }
-//   }, [inView, paging]);
-
-//   return { ref, res, isLoading, showLoadMore, isError };
-// };
+// GET DATA OF USER
 const useGetDataNewFeed = ({ getRequest, paging, setPaging }: Props) => {
-  const { ref, inView } = useInView();
   const [isLoading, setIsLoading] = useState(false);
   const [showLoadMore, setShowLoadMore] = useState<boolean>(true);
   const [isError, setIsError] = useState<any>(null);
   const [res, setRes] = useState<any[]>([]);
-
+  const { ref, inView } = useInView();
+  const endOfListRef = useRef<HTMLDivElement>(null);
+  const [lastItem, setLastItem] = useState<any>();
   const handleGetData = async (paging: any) => {
     setIsLoading(true);
     try {
       const data = await getRequest(paging);
       if (data && data.length > 0) {
         setRes((prev) => [...prev, ...data]);
-        const lastItem = data[data.length - 1];
-        setPaging((prevPaging: any) => ({
-          ...prevPaging,
-          pageSize: paging.pageSize,
-          pageIndex: paging.pageIndex + 1,
-          mileStoneId: lastItem?.id,
-          ...(paging?.keyWord && { keyWord: paging.keyWord }),
-        }));
+        setLastItem(data[data.length - 1]);
         setShowLoadMore(data.length === paging.pageSize);
       } else {
         setShowLoadMore(false);
@@ -136,13 +88,28 @@ const useGetDataNewFeed = ({ getRequest, paging, setPaging }: Props) => {
 
   useEffect(() => {
     if (inView && showLoadMore) {
-      handleGetData(paging);
+      const nextPage = paging.pageIndex + 1;
+      handleGetData({
+        ...paging,
+        pageIndex: nextPage,
+        mileStoneId: lastItem?.id,
+      });
+      setPaging((prev: any) => ({
+        ...prev,
+        pageIndex: nextPage,
+        mileStoneId: lastItem?.id,
+      }));
     }
-  }, [inView, paging, showLoadMore]);
+  }, [inView, showLoadMore]);
 
-  return { ref, res, isLoading, showLoadMore, isError };
+  useEffect(() => {
+    if (res.length > 0 && endOfListRef?.current) {
+      endOfListRef?.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [res]);
+
+  return { ref, res, isLoading, showLoadMore, isError, endOfListRef };
 };
-
 // GET POST OF USER
 const useGetDataPostByUserId = ({
   getRequest,
@@ -154,6 +121,8 @@ const useGetDataPostByUserId = ({
   const [isLoading, setIsLoading] = useState(false);
   const [showLoadMore, setShowLoadMore] = useState<boolean>(true);
   const [isError, setIdError] = useState<any>();
+  const endOfListRef = useRef<HTMLDivElement>(null);
+  const [lastItem, setLastItem] = useState<any>();
 
   const [res, setRes] = useState<any[]>([]);
   const handleGetData = async (paging: any) => {
@@ -162,17 +131,11 @@ const useGetDataPostByUserId = ({
       const data = await getRequest({ searchObject: paging, userId: userId });
       if (data && data.length > 0) {
         setRes((prev) => [...prev, ...data]);
-        if (data.length === paging.pageSize) {
-          setPaging({
-            pageSize: paging.pageSize,
-            pageIndex: paging.pageIndex + 1,
-            mileStoneId: data[length - 1]?.id,
-          });
-        }
-      }
-
-      if (!data || data.length === 0 || data.length < paging.pageSize)
+        setLastItem(data[data.length - 1]);
+        setShowLoadMore(data.length === paging.pageSize);
+      } else {
         setShowLoadMore(false);
+      }
     } catch (error) {
       console.log(error);
       setIdError(error);
@@ -182,13 +145,27 @@ const useGetDataPostByUserId = ({
   };
 
   useEffect(() => {
-    if (inView) {
-      handleGetData(paging);
+    if (inView && showLoadMore) {
+      const nextPage = paging.pageIndex + 1;
+      handleGetData({
+        ...paging,
+        pageIndex: nextPage,
+        mileStoneId: lastItem?.id,
+      });
+      setPaging((prev: any) => ({
+        ...prev,
+        pageIndex: nextPage,
+        mileStoneId: lastItem?.id,
+      }));
     }
-  }, [inView, paging]);
-  console.log(res);
+  }, [inView, showLoadMore]);
 
-  return { ref, res, isLoading, showLoadMore, isError };
+  useEffect(() => {
+    if (res.length > 0 && endOfListRef?.current) {
+      endOfListRef?.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [res]);
+  return { ref, res, isLoading, showLoadMore, isError, endOfListRef };
 };
 
 const useGetDataByUserId = ({

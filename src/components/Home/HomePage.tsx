@@ -6,7 +6,7 @@ import { useState } from "react";
 
 import { SearchObjectType } from "@/types";
 import { Loader } from "lucide-react";
-import useGetData, { useGetDataNewFeed } from "@/lib";
+import { useGetDataNewFeed } from "@/lib";
 import { useStore } from "@/stores";
 import NoData from "../shared/NoData";
 
@@ -20,7 +20,7 @@ const HomePage = () => {
 
   const [paging, setPaging] = useState<SearchObjectType>({
     pageIndex: 1,
-    pageSize: 50,
+    pageSize: 20,
     mileStoneId: "",
   });
 
@@ -30,6 +30,7 @@ const HomePage = () => {
     isLoading,
     showLoadMore,
     isError,
+    endOfListRef,
   } = useGetDataNewFeed({
     getRequest: getNewFeed,
     paging: paging,
@@ -55,13 +56,19 @@ const HomePage = () => {
                   posts={posts}
                   isLoading={isLoading}
                   isError={isError}
+                  lastId={paging?.mileStoneId}
+                  endOfListRef={endOfListRef}
                 />
               </>
             )}
+
             {showLoadMore && (
-              <div ref={ref} className="flex justify-center">
-                <Loader />
-              </div>
+              <>
+                {/* <div ref={endOfListRef} /> */}
+                <div ref={ref} className="flex justify-center">
+                  <Loader />
+                </div>
+              </>
             )}
           </>
         )}

@@ -14,13 +14,18 @@ import { useStore } from "@/stores";
 import NoData from "../shared/NoData";
 
 const Notification = () => {
+  const [lastItem, setLastItem] = useState<any>();
   const endOfListRef = useRef<HTMLDivElement>(null);
   const { notificationStore } = useStore();
   const { getNotification } = notificationStore;
   const navigate = useNavigate();
 
   const [notifications, setNotifications] = useState<any[]>([]);
-  const [paging, setPaging] = useState({ pageIndex: 1, pageSize: 30 });
+  const [paging, setPaging] = useState({
+    pageIndex: 1,
+    pageSize: 30,
+    mileStoneId: "",
+  });
   const [isLoading, setIsLoading] = useState(false);
   const [showLoadMore, setShowLoadMore] = useState(true);
 
@@ -32,8 +37,9 @@ const Notification = () => {
       const data = await getNotification(paging);
       if (data && data.length > 0) {
         setNotifications((prev) => [...prev, ...data]);
-      }
-      setShowLoadMore(data.length === paging.pageSize);
+        setLastItem(data[data.length - 1]);
+        setShowLoadMore(data.length === paging.pageSize);
+      } else setShowLoadMore(false);
     } catch (error) {
       console.log(error);
     } finally {
@@ -45,10 +51,20 @@ const Notification = () => {
   useEffect(() => {
     if (inView && showLoadMore) {
       const nextPage = paging.pageIndex + 1;
-      handleGetData({ ...paging, pageIndex: nextPage });
+      handleGetData({
+        ...paging,
+        pageIndex: nextPage,
+        mileStoneId: lastItem?.id,
+      });
       setPaging((prev) => ({ ...prev, pageIndex: nextPage }));
     }
   }, [inView, showLoadMore]);
+
+  useEffect(() => {
+    if (notifications.length > 0 && endOfListRef?.current) {
+      endOfListRef?.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [notifications]);
 
   const handleNavigateNotification = (notify: NotificationType) => {
     switch (notify?.notificationType.name) {
@@ -68,7 +84,7 @@ const Notification = () => {
 
   const handlePopoverOpen = () => {
     setNotifications([]);
-    setPaging({ pageIndex: 1, pageSize: 30 });
+    setPaging({ pageIndex: 1, pageSize: 30, mileStoneId: "" });
     handleGetData(paging);
   };
 
@@ -96,6 +112,11 @@ const Notification = () => {
                       onClick={() => handleNavigateNotification(notification)}
                       key={notification?.id}
                       className="flex items-center bg-blue-2 p-2 rounded-lg cursor-pointer"
+                      ref={
+                        paging?.mileStoneId === notification?.id
+                          ? endOfListRef
+                          : undefined
+                      }
                     >
                       <div className="profilePhotoWrapper pr-2">
                         <img
@@ -125,7 +146,6 @@ const Notification = () => {
               <Loader />
             </div>
           )}
-          <div ref={endOfListRef} />
         </div>
       </PopoverContent>
     </Popover>

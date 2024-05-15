@@ -13,7 +13,7 @@ function MainProfile(props: any) {
   return (
     <Grid container spacing={2} className="pt-4">
       <Grid item xs={12} md={5} lg={4}>
-        <div className="infoCard">
+        <div className="infoCard mt-4">
           {isLoadingUser ? (
             <TableSkeleton
               styles="chats h-max-content w-full overflow-y-auto"

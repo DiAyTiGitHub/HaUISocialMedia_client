@@ -17,12 +17,12 @@ const UpdateBackgroupImg = ({ backgroundImg }: Props) => {
       <DialogTrigger className="outline-none">
         <div className="flex items-center gap-2 small-medium text-slate-700 bg-white px-8 py-2 rounded-md">
           <Icon name="Camera" />
-          <span>Cập nhật ảnh bìa</span>
+          <span>Thêm ảnh bìa</span>
         </div>
       </DialogTrigger>
       <DialogContent className="mt-10 max-w-4xl max-h-[80vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Cập nhật ảnh bìa</DialogTitle>
+          <DialogTitle>Thêm ảnh bìa</DialogTitle>
         </DialogHeader>
         <UpdateBackgroundImgForm backgroundImg={backgroundImg} />
       </DialogContent>

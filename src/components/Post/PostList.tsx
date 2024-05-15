@@ -6,6 +6,8 @@ type PostListProps = {
   posts: IPost[];
   isLoading?: boolean;
   isError?: boolean;
+  lastId?: string;
+  endOfListRef?: any;
 };
 
 export const LoadingPost = () => {
@@ -18,14 +20,25 @@ export const LoadingPost = () => {
   );
 };
 
-const PostList = ({ posts, isLoading, isError }: PostListProps) => {
+const PostList = ({
+  posts,
+  isLoading,
+  isError,
+  lastId,
+  endOfListRef,
+}: PostListProps) => {
   if (isLoading) return <LoadingPost />;
   if (isError)
     return <span className="text-red-500 text-center">Có lỗi xảy ra</span>;
   return (
     <div className="">
       {posts?.map((post: IPost) => (
-        <PostCard key={post.id} post={post} />
+        <PostCard
+          key={post.id}
+          post={post}
+          lastId={lastId as string}
+          endOfListRef={endOfListRef}
+        />
       ))}
     </div>
   );

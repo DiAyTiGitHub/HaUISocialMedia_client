@@ -13,9 +13,11 @@ import { toast } from "react-toastify";
 
 type PostProps = {
   post: IPost | any;
+  lastId?: string;
+  endOfListRef?: any;
 };
 
-const PortCard = ({ post }: PostProps) => {
+const PortCard = ({ post, lastId, endOfListRef }: PostProps) => {
   const [dropdown, setdropDowm] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const currentUser = LocalStorage.getLoggedInUser();
@@ -37,7 +39,10 @@ const PortCard = ({ post }: PostProps) => {
     }
   };
   return (
-    <div className="bg-white rounded-xl p-4 my-4 text-base">
+    <div
+      className="bg-white rounded-xl p-4 my-4 text-base"
+      ref={post?.id === lastId ? endOfListRef : undefined}
+    >
       <div className="relative flex-between">
         <div className="  flex items-center gap-3">
           <Link to={`/profile/${post.creator.id}`} className="profile-photo">

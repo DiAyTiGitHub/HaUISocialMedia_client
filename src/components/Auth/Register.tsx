@@ -16,27 +16,34 @@ import { Button } from "@/components/ui/button";
 import Loader from "@/components/shared/Loader";
 import { useStore } from "@/stores";
 import { useState } from "react";
-import HowToRegIcon from '@mui/icons-material/HowToReg';
+import HowToRegIcon from "@mui/icons-material/HowToReg";
 
-const formSchema = z.object({
-  username: z.string().min(1, {
-    message: "Tên đăng nhập là bắt buộc",
-  }),
-  password: z.string().min(1, {
-    message: "Mật khẩu là bắt buộc",
-  }),
-  firstName: z.string().min(1, { message: "Họ không được trống" }),
-  lastName: z.string().min(1, { message: "Tên không được trống" }),
-  code: z.string().min(1, {
-    message: "Mã sinh viên là bắt buộc",
-  }),
+const formSchema = z
+  .object({
+    username: z.string().min(1, {
+      message: "Tên đăng nhập là bắt buộc",
+    }),
+    password: z.string().min(1, {
+      message: "Mật khẩu là bắt buộc",
+    }),
+    firstName: z.string().min(1, { message: "Họ không được trống" }),
+    lastName: z.string().min(1, { message: "Tên không được trống" }),
+    code: z.string().min(1, {
+      message: "Mã sinh viên là bắt buộc",
+    }),
 
-  confirmPassword: z.string().min(1, {
-    message: "Nhập lại mật khẩu",
-  }),
-  phoneNumber: z.string().min(1, { message: "Số điện thoại không được trống" }),
-  gender: z.string(),
-});
+    confirmPassword: z.string().min(1, {
+      message: "Nhập lại mật khẩu",
+    }),
+    phoneNumber: z
+      .string()
+      .min(1, { message: "Số điện thoại không được trống" }),
+    gender: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Mật khẩu không chính xác",
+    path: ["confirmPassword"],
+  });
 const Register = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
