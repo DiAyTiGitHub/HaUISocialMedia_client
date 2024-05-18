@@ -2,7 +2,7 @@ import useGetData, { useGetDataNewFeed } from "@/lib";
 import { useStore } from "@/stores";
 import { SearchObjectType } from "@/types";
 import { useState } from "react";
-import PostList from "../Post/PostList";
+import PostList, { LoadingPost } from "../Post/PostList";
 import Loader from "../shared/Loader";
 import { useSearchParams } from "react-router-dom";
 import NoData from "../shared/NoData";
@@ -25,27 +25,40 @@ const SearchPostList = () => {
     isLoading,
     showLoadMore,
     isError,
+    endOfListRef,
   } = useGetDataNewFeed({
     getRequest: pagingPostByKeyword,
     paging: paging,
     setPaging: setPaging,
   });
-  console.log(posts);
+
   return (
-    <div>
-      {!posts || posts.length === 0 ? (
-        <NoData title="Không có kết quả tìm kiếm bài viết" />
+    <>
+      {isLoading ? (
+        <LoadingPost />
       ) : (
-        <>
-          <PostList posts={posts} isLoading={isLoading} isError={isError} />
-        </>
-      )}
-      {showLoadMore && (
-        <div ref={ref}>
-          <Loader />
+        <div>
+          {!posts || posts.length === 0 ? (
+            <NoData title="Không có kết quả tìm kiếm bài viết" />
+          ) : (
+            <>
+              <PostList
+                posts={posts}
+                isLoading={isLoading}
+                isError={isError}
+                lastId={paging?.mileStoneId}
+                endOfListRef={endOfListRef}
+              />
+            </>
+          )}
+          {showLoadMore && (
+            <div ref={ref}>
+              <Loader />
+            </div>
+          )}
         </div>
       )}
-    </div>
+    </>
   );
 };
 
