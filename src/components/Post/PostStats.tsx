@@ -61,7 +61,7 @@ const PostStats = ({ post }: PostStatsProps) => {
       <div className="flex gap-2 mr-5">
         {checkIsLiked(likes, currentUser?.id as string) ? (
           <button onClick={handleDislike}>
-            {isLiking ? <Loader /> : <Heart fill="red" />}
+            {isLiking ? <Loader /> : <Heart fill="red" stroke="red" />}
           </button>
         ) : (
           <button onClick={handleLike}>

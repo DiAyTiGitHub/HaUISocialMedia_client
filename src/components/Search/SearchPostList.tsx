@@ -13,7 +13,7 @@ const SearchPostList = () => {
   const { pagingPostByKeyword } = loadingTotalStore;
 
   const [paging, setPaging] = useState<SearchObjectType>({
-    pageIndex: 1,
+    pageIndex: 0,
     pageSize: 20,
     mileStoneId: "",
     keyWord: searchParams.get("name") as string,

@@ -13,7 +13,7 @@ const PostOfUser = () => {
   const { postStore } = useStore();
 
   const [paging, setPaging] = useState<SearchObjectType>({
-    pageIndex: 1,
+    pageIndex: 0,
     pageSize: 20,
     mileStoneId: "",
   });
