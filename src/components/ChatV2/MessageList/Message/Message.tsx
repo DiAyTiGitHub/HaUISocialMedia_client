@@ -3,29 +3,24 @@ import "./Message.scss";
 import { format, parseISO } from "date-fns";
 import { observer } from "mobx-react";
 import { useStore } from "@/stores";
+import { Sticker } from "lucide-react";
+import { StickerList } from "../../StickerList";
 
 function lightOrDark(color: any) {
-
   var r: any, g: any, b: any, hsp: any;
 
-  color = +("0x" + color?.slice(1)?.replace(
-    color?.length < 5 && /./g, '$&$&'));
+  color = +("0x" + color?.slice(1)?.replace(color?.length < 5 && /./g, "$&$&"));
 
   r = color >> 16;
-  g = color >> 8 & 255;
+  g = (color >> 8) & 255;
   b = color & 255;
 
-  hsp = Math.sqrt(
-    0.299 * (r * r) +
-    0.587 * (g * g) +
-    0.114 * (b * b)
-  );
+  hsp = Math.sqrt(0.299 * (r * r) + 0.587 * (g * g) + 0.114 * (b * b));
 
   if (hsp > 127.5) {
     // sang
     return true;
-  }
-  else {
+  } else {
     //toi
     return false;
   }
@@ -42,7 +37,10 @@ function Message(props: any) {
     photo,
     sendDate,
   } = props;
-  const imagePath = photo || 'https://www.treasury.gov.ph/wp-content/uploads/2022/01/male-placeholder-image.jpeg';
+
+  const imagePath =
+    photo ||
+    "https://www.treasury.gov.ph/wp-content/uploads/2022/01/male-placeholder-image.jpeg";
 
   const { authStore, chatStore } = useStore();
   const { chosenRoom } = chatStore;
@@ -72,7 +70,7 @@ function Message(props: any) {
 
     mineMessageWithColor = {
       backgroundColor: chosenRoom?.color,
-      color: fontTheme
+      color: fontTheme,
     };
   }
 
@@ -92,17 +90,9 @@ function Message(props: any) {
         </div>
       )}
 
-      {type == "join" && (
-        <div className="notification">
-          {data}
-        </div>
-      )}
+      {type == "join" && <div className="notification">{data}</div>}
 
-      {type == "left" && (
-        <div className="notification">
-          {data}
-        </div>
-      )}
+      {type == "left" && <div className="notification">{data}</div>}
 
       {type == "chat" && (
         <>
@@ -119,7 +109,23 @@ function Message(props: any) {
           </div>
         </>
       )}
-
+      {type == "sticker" && (
+        <>
+          {startsSequence && <div className="username">{author}</div>}
+          <div className="user-container">
+            {startsSequence && !isMine && (
+              <img className="thumbnail" src={imagePath} alt=""></img>
+            )}
+            <div className="bubble-container">
+              <img
+                src={StickerList[data - 1].key}
+                alt="sticker"
+                className="w-16 object-cover mb-3 mr-1"
+              />
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

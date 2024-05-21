@@ -29,6 +29,10 @@ function ConversationListItem(props: any) {
   function renderLastMessageInConversation() {
     if (messages && messages?.length > 0) {
       const lastMessage = messages[messages?.length - 1];
+      if (lastMessage?.messageType?.name === "sticker") {
+        return "Đã gửi một sticker";
+      }
+
       return lastMessage?.content;
     }
     return "";

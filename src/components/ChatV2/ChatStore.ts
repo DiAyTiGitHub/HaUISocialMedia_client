@@ -13,7 +13,7 @@ import {
 } from "@/services/RoomService";
 import {
   sendMessage,
-  findTop20PreviousByMileStone
+  findTop20PreviousByMileStone,
 } from "@/services/MessageService";
 
 class ChatStore {
@@ -42,6 +42,45 @@ class ChatStore {
         content: messageContent,
         room: { id: this?.chosenRoom?.id },
         messageType: { name: "chat" },
+        user: currentUser,
+      };
+      console.log("msg content: " + messageContent);
+
+      //send message via stompclient
+      // this?.stompClient?.send(
+      //   "/messenger/privateMessage",
+      //   {},
+      //   JSON.stringify(chatMessage)
+      // );
+
+      //send message via api
+      const { data: sentMessage } = await sendMessage(chatMessage);
+      console.log("sent message: ", sentMessage);
+    } catch (err: any) {
+      if (err?.response?.status === 401)
+        toast.error("Bạn không còn quyền truy cập vào cuộc hội thoại này");
+      else {
+        console.log(err);
+        toast.error("Có lỗi xảy ra khi gửi tin nhắn, vui lòng thử lại sau");
+      }
+      throw new Error(err);
+    }
+  };
+  sendSticker = async (messageContent: string) => {
+    if (
+      !messageContent ||
+      messageContent.length === 0 ||
+      messageContent.trim().length <= 0
+    ) {
+      return;
+    }
+    try {
+      const currentUser = LocalStorage.getLoggedInUser();
+
+      const chatMessage = {
+        content: messageContent,
+        room: { id: this?.chosenRoom?.id },
+        messageType: { name: "sticker" },
         user: currentUser,
       };
       console.log("msg content: " + messageContent);
@@ -199,7 +238,9 @@ class ChatStore {
     } catch (err: any) {
       console.log(err);
       this.setIsLoading(false);
-      toast.error("Cập nhật thông tin cuộc trò chuyện có lỗi, vui lòng thử lại sau");
+      toast.error(
+        "Cập nhật thông tin cuộc trò chuyện có lỗi, vui lòng thử lại sau"
+      );
       throw new Error(err);
     }
   };
@@ -219,7 +260,9 @@ class ChatStore {
     } catch (err: any) {
       console.log(err);
       this.setIsLoading(false);
-      toast.error("Cập nhật thông tin cuộc trò chuyện có lỗi, vui lòng thử lại sau");
+      toast.error(
+        "Cập nhật thông tin cuộc trò chuyện có lỗi, vui lòng thử lại sau"
+      );
       throw new Error(err);
     }
   };
@@ -240,7 +283,9 @@ class ChatStore {
     } catch (err: any) {
       console.log(err);
       this.setIsLoading(false);
-      toast.error("Cập nhật thông tin cuộc trò chuyện có lỗi, vui lòng thử lại sau");
+      toast.error(
+        "Cập nhật thông tin cuộc trò chuyện có lỗi, vui lòng thử lại sau"
+      );
       throw new Error(err);
     }
   };
@@ -255,7 +300,9 @@ class ChatStore {
       return data;
     } catch (err: any) {
       console.log(err);
-      toast.error("Có lỗi khi lấy danh sách bạn bè chưa tham gia, vui lòng thử lại sau");
+      toast.error(
+        "Có lỗi khi lấy danh sách bạn bè chưa tham gia, vui lòng thử lại sau"
+      );
       throw new Error(err);
     }
   };
@@ -276,7 +323,9 @@ class ChatStore {
     } catch (err: any) {
       console.log(err);
       this.setIsLoading(false);
-      toast.error("Cập nhật thông tin cuộc trò chuyện có lỗi, vui lòng thử lại sau!");
+      toast.error(
+        "Cập nhật thông tin cuộc trò chuyện có lỗi, vui lòng thử lại sau!"
+      );
       throw new Error(err);
     }
   };
@@ -313,9 +362,6 @@ class ChatStore {
     }
   };
 
-
-
-
   // handle for loading more messsages
   isLoadingMore = false;
   canLoadMore = true;
@@ -333,12 +379,11 @@ class ChatStore {
       this.chosenRoom.messages = [...data, ...this.chosenRoom.messages];
 
       this.isLoadingMore = false;
-    }
-    catch (error: any) {
+    } catch (error: any) {
       toast.error("Có lỗi xảy ra khi tải tin nhắn cũ");
-      console.log("cannot load more messages in this situation")
+      console.log("cannot load more messages in this situation");
     }
-  }
+  };
 
   getLatestAvailableMessage = () => {
     if (this.chosenRoom == null) return null;
@@ -349,7 +394,7 @@ class ChatStore {
     const latestMessage = availableMesssages[0];
 
     return latestMessage;
-  }
+  };
 }
 
 export default ChatStore;

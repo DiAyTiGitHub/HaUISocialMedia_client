@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import { observer } from "mobx-react";
 import { useStore } from "@/stores";
+import StickerList from "../../Sticker/StickerList";
 
 function Compose() {
   const { chatStore, authStore } = useStore();
@@ -38,9 +39,12 @@ function Compose() {
         onChange={handleChangeMessageContent}
         onKeyDown={handleOnKeyDownMessageContent}
       />
-      <Button variant="contained" onClick={handleSendMessage}>
-        <SendRoundedIcon></SendRoundedIcon>
-      </Button>
+      <div className="flex items-center gap-2">
+        <StickerList />
+        <Button variant="contained" onClick={handleSendMessage}>
+          <SendRoundedIcon></SendRoundedIcon>
+        </Button>
+      </div>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-export const StikerList = [
+export const StickerList = [
   {
     key: "https://cdn-icons-png.flaticon.com/256/6601/6601077.png",
     value: 1,
