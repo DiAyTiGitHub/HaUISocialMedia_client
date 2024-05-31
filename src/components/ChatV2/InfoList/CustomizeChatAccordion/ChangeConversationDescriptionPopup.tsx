@@ -56,9 +56,9 @@ function ChangeConversationDescriptionPopup(props: any) {
 
                                 <Field
                                     as={TextField}
-                                    label="New conversation description"
+                                    label="Tên mới của cuộc trò chuyện"
                                     name="description"
-                                    placeholder="Enter new conversation description"
+                                    placeholder="Nhập tên mới của cuộc trò chuyện..."
                                     fullWidth
                                     required
                                     disabled={isUpdating}

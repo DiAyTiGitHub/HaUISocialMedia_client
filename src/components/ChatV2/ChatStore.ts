@@ -113,7 +113,7 @@ class ChatStore {
     this.canLoadMore = true;
   };
 
-  onReceiveRoomMessage = (payload: any) => {
+   onReceiveRoomMessage = (payload: any) => {
     const payloadData = JSON.parse(payload.body);
     const roomId = payloadData?.room?.id;
     if (!roomId) {

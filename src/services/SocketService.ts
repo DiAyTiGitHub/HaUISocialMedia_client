@@ -50,14 +50,15 @@ class SocketService {
         }
     }
 
-    onReceivedNotification = (notification: any) => {
-        const currentLocation = window.location.href;
-        if (currentLocation.includes("messenger-v2")) return;
+    onReceivedNotification = (data: any) => {
+        const currentLocation = window?.location?.href;
+        const notification = JSON.parse(data?.body);
+        console.log("notification: ", notification);
 
-        const data = JSON.parse(notification?.body);
-        console.log("notification: ", data);
+        //dont show chat notifiction when use is in messenger page
+        if (currentLocation.includes("messenger-v2") && notification?.notificationType?.name == "Chat") return;
         // toast.info(data?.content);
-        toastInfo(data);
+        toastInfo(notification);
     }
 
     onError = (err: any) => {

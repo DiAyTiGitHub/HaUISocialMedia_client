@@ -109,6 +109,7 @@ function Message(props: any) {
           </div>
         </>
       )}
+
       {type == "sticker" && (
         <>
           {startsSequence && <div className="username">{author}</div>}
@@ -118,7 +119,7 @@ function Message(props: any) {
             )}
             <div className="bubble-container">
               <img
-                src={StickerList[data - 1].key}
+                src={StickerList[data - 1]?.key}
                 alt="sticker"
                 className="w-16 object-cover mb-3 mr-1"
               />

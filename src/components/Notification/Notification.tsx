@@ -61,7 +61,7 @@ const Notification = () => {
   }, [inView, showLoadMore]);
 
   useEffect(() => {
-    if (notifications.length > 0 && endOfListRef?.current) {
+    if (notifications?.length > 0 && endOfListRef?.current) {
       endOfListRef?.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [notifications]);
@@ -100,14 +100,14 @@ const Notification = () => {
             <FriendListSkeleton length={5} styles="flex flex-col gap-2" />
           ) : (
             <>
-              {!notifications || notifications.length === 0 ? (
+              {(!notifications || notifications?.length === 0) ? (
                 <NoData
                   title="Chưa có thông báo nào"
                   style="h-[80px] w-[80px]"
                 />
               ) : (
                 <div className="flex flex-col gap-2">
-                  {notifications.map((notification: NotificationType) => (
+                  {notifications?.map((notification: NotificationType) => (
                     <div
                       onClick={() => handleNavigateNotification(notification)}
                       key={notification?.id}
@@ -127,11 +127,11 @@ const Notification = () => {
                       </div>
                       <div className="flex-1">
                         <p className="text-base-medium">
-                          {notification.content}
+                          {notification?.content}
                         </p>
                         <span>
                           {multiFormatDateString(
-                            notification.createDate.toString()
+                            notification?.createDate?.toString()
                           )}
                         </span>
                       </div>
