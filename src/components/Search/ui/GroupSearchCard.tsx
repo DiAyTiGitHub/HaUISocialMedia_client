@@ -15,7 +15,6 @@ type Props = {
 };
 
 const GroupSearchCard = ({ group }: Props) => {
-  console.log(group);
   const isAdmin = handleCheckUserIsAdmin(group);
   const { groupStore } = useStore();
   const { joinGroup } = groupStore;

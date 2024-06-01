@@ -21,6 +21,7 @@ const useGetData = ({ getRequest, paging, setPaging }: Props) => {
     setIsLoading(true);
     try {
       const data = await getRequest(paging);
+
       if (data && data.length > 0) {
         setPaging({
           pageSize: paging.pageSize,

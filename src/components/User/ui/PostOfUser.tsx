@@ -16,7 +16,7 @@ const PostOfUser = () => {
 
   const [paging, setPaging] = useState<SearchObjectType>({
     pageIndex: 0,
-    pageSize: 20,
+    pageSize: 200,
     mileStoneId: "",
   });
 
@@ -36,6 +36,11 @@ const PostOfUser = () => {
 
   return (
     <>
+      {showLoadMore && (
+        <div ref={ref} className="-mt-4">
+          <Loader />
+        </div>
+      )}
       {isLoading ? (
         <LoadingPost />
       ) : (
@@ -46,22 +51,16 @@ const PostOfUser = () => {
             endOfListRef={endOfListRef}
             lastId={paging.mileStoneId}
           />
-          {!posts ||
-            (posts.length === 0 && (
-              <div className="bg-white w-full rounded-md h-full py-10 mt-4">
-                {profileId === currentUser?.id ? (
-                  <NoData title="Bạn chưa có bài viết nào, hãy kết nối với bạn bè để cùng chia sẻ những khoản khắc !!!" />
-                ) : (
-                  <NoData title="Chưa có bài viết nào" />
-                )}
-              </div>
-            ))}
+          {posts.length === 0 && (
+            <div className="bg-white w-full rounded-md h-full py-10 mt-4">
+              {profileId === currentUser?.id ? (
+                <NoData title="Bạn chưa có bài viết nào, hãy kết nối với bạn bè để cùng chia sẻ những khoản khắc !!!" />
+              ) : (
+                <NoData title="Chưa có bài viết nào" />
+              )}
+            </div>
+          )}
         </>
-      )}
-      {showLoadMore && (
-        <div ref={ref} className="-mt-4">
-          <Loader />
-        </div>
       )}
     </>
   );

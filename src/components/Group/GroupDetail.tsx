@@ -5,6 +5,7 @@ import GroupDetailHeader from "./ui/GroupDetailHeader";
 import LocalStorageService from "@/services/LocalStorageService";
 
 import GroupContent from "./ui/GroupContent";
+import ProfileInfoSkeletion from "../skeleton/ProfileInfoSkeletion";
 
 const GroupDetail = () => {
   const { groupId } = useParams();
@@ -41,6 +42,8 @@ const GroupDetail = () => {
       else setIsAdmin(false);
     }
   }, [groupData]);
+
+  if (isLoadingGroup) return <ProfileInfoSkeletion />;
 
   return (
     <div className="w-full flex flex-col ">

@@ -20,7 +20,7 @@ const SearchUserList = () => {
 
   const {
     ref,
-    res: users,
+    resSearch: users,
     isLoading,
     showLoadMore,
     isError,

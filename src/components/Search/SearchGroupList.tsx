@@ -29,7 +29,7 @@ const SearchGroupList = () => {
     keyWord: searchParams.get("name") as string,
   });
   const {
-    res: dataGroup,
+    resSearch: dataGroup,
     isLoading,
     ref,
     showLoadMore,
@@ -40,6 +40,7 @@ const SearchGroupList = () => {
   });
 
   if (isLoading) return <LoadingGroups />;
+  console.log(dataGroup);
   return (
     <div className="mt-5">
       {!dataGroup || dataGroup.length === 0 ? (

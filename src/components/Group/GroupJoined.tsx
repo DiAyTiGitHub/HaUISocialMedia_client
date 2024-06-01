@@ -13,6 +13,7 @@ const GroupJoined = () => {
     getRequest: getAllJoinedGroupOfUser,
     requestId: currentUser?.id,
   });
+
   return (
     <div className=" mt-5 p-5 mx-auto">
       <div>

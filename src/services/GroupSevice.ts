@@ -68,3 +68,7 @@ export function getAllPostOfAllGroupRequest(searchObject: any) {
   const url = API_PATH + `/get-all-post-of-all-group`;
   return _axios.post(url, searchObject);
 }
+export function getAllPostOfGroupRequest(groupId: any) {
+  const url = API_PATH + `/get-all-post-in-group/${groupId}`;
+  return _axios.get(url);
+}

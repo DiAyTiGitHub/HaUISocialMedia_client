@@ -71,7 +71,7 @@ const RequestFriendPage = () => {
                           }
                         >
                           <img
-                            src={friend.avatar || "/person.jpg"}
+                            src={friend?.requestSender?.avatar || "/person.jpg"}
                             alt="avatar"
                             className="w-full h-[200px] object-cover "
                           />

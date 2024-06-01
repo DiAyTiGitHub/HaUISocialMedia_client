@@ -1,10 +1,23 @@
 import PostList from "@/components/Post/PostList";
 import NoData from "@/components/shared/NoData";
+import PostSkeleton from "@/components/skeleton/PostSkeleton";
+import { useGetAllData } from "@/lib";
+import { useStore } from "@/stores";
+import { useParams } from "react-router-dom";
 
 type Props = {
-  posts: any;
+  groupId: any;
 };
-const ListPostOfGroup = ({ posts }: Props) => {
+const ListPostOfGroup = ({}: Props) => {
+  const { groupId } = useParams();
+  const { groupStore } = useStore();
+  const { getAllPostOfGroup } = groupStore;
+
+  const { res: posts, isLoading } = useGetAllData({
+    requestId: groupId,
+    getRequest: getAllPostOfGroup,
+  });
+  if (isLoading) return <PostSkeleton></PostSkeleton>;
   return (
     <>
       {!posts || posts.length === 0 ? (

@@ -5,7 +5,7 @@ const SidebarFriendPage = () => {
   const { pathname } = useLocation();
   return (
     <div className="sticky h-screen top-[1rem] ">
-      <div className="h-full  bg-white  rounded-r-md shadow-sm">
+      <div className="h-full  bg-white  rounded-r-md pl-3 shadow-sm">
         {sidebarFriendPage.map((link) => (
           <Link
             key={link.route}

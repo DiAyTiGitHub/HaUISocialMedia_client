@@ -33,6 +33,7 @@ const FriendResquest = () => {
     };
     handleGetRequestFriend();
   }, []);
+  console.log(requestFriends);
 
   if (isLoading)
     return <FriendListSkeleton length={3} styles="flex flex-col gap-2" />;
@@ -47,10 +48,11 @@ const FriendResquest = () => {
             <Link to={`/profile/${friend?.requestSender?.id}`} key={friend?.id}>
               <div className="bg-white p-4 rounded-xl mb-3">
                 <div className="flex items-center gap-4 mb-4">
-                  <div className="profile-photo">
+                  <div className="">
                     <img
-                      src={friend.avatar || "/person.jpg"}
+                      src={friend?.requestSender?.avatar || "/person.jpg"}
                       alt="profile-photo"
+                      className="size-10 rounded-full object-cover"
                     />
                   </div>
 

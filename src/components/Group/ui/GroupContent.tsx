@@ -2,6 +2,7 @@ import SessionCreatePost from "@/components/Post/SessionCreatePost";
 import { useNavigate } from "react-router-dom";
 import MenberList from "./MenberList";
 import ListPostOfGroup from "./ListPostOfGroup";
+import { IPost } from "@/types";
 
 type Props = {
   group: any;
@@ -17,10 +18,10 @@ const GroupContent = ({ group }: Props) => {
       <div className=" w-full grid grid-cols-[2fr_1fr] gap-8">
         <div className="flex gap-5 flex-col">
           <SessionCreatePost />
-          <ListPostOfGroup posts={group?.posts} />
+          <ListPostOfGroup groupId={group?.id} />
         </div>
         <div className="flex flex-col gap-5">
-          <div className="bg-white flex gap-3 flex-col p-3 max-h-[300px] overflow-y-auto rounded-md shadow-md">
+          <div className="bg-white flex gap-3 flex-col p-3 max-h-[300px] overflow-y-auto rounded-md shadow-md mt-4">
             <p className="small-medium">Giới thiệu</p>
             <p>{group?.description}</p>
           </div>
