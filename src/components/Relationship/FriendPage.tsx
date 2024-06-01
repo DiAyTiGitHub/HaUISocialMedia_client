@@ -45,7 +45,7 @@ const FriendPage = () => {
         <div className="flex-1 p-5">
           <div className="mb-5">
             <h3 className="h3-bold mb-5">Danh sách bạn bè</h3>
-            <div className="flex items-center bg-white max-w-max  rounded-xl">
+            <div className="hidden items-center bg-white max-w-max  rounded-xl">
               <Input
                 type="text"
                 placeholder="Tìm bạn bè..."

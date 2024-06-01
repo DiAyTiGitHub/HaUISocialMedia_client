@@ -22,7 +22,7 @@ const FriendOfUser = ({ profileId }: Props) => {
   const { getFriendOfUser } = relationshipStore;
   const [paging, setPaging] = useState<SearchObjectType>({
     pageIndex: 1,
-    pageSize: 20,
+    pageSize: 200,
   });
   const {
     ref,
