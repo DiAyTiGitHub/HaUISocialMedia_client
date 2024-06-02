@@ -53,6 +53,15 @@ function MainProfile(props: any) {
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
+                    <Icon name="CassetteTape" />
+                    <p>
+                      Lớp:{" "}
+                      <span>
+                        {userProfile?.classroomDto?.name || "Chưa cập nhật"}{" "}
+                      </span>
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-3">
                     <Icon name="Mails" />
                     <p>
                       Email:{" "}

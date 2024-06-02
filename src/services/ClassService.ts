@@ -8,6 +8,10 @@ export function createClassRequest(formData: any) {
   const url = API_PATH + "/save";
   return _axios.post(url, formData);
 }
+export function getAllClassroomRequest() {
+  const url = API_PATH + "/all";
+  return _axios.get(url);
+}
 export function updateClassRequest(formData: any) {
   const url = API_PATH + "/update";
   return _axios.put(url, formData);

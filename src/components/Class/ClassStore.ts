@@ -1,6 +1,7 @@
 import {
   createClassRequest,
   deleteClassRequest,
+  getAllClassroomRequest,
   getClassByIdRequest,
   pagingClassRequest,
   updateClassRequest,
@@ -34,6 +35,15 @@ class ClassStore {
   getClassById = async (classId: string) => {
     try {
       const { data } = await getClassByIdRequest(classId);
+      return data;
+    } catch (error) {
+      toast.error("Có lỗi xảy ra");
+      throw new Error("Có lỗi xảy ra");
+    }
+  };
+  getAllClassroom = async () => {
+    try {
+      const { data } = await getAllClassroomRequest();
       return data;
     } catch (error) {
       toast.error("Có lỗi xảy ra");

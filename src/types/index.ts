@@ -9,7 +9,6 @@ export type IUser = {
   address: string;
   avatar: string;
   birthDate: Date;
-  classroomDto: string;
   code: string;
   email: string;
   firstName: string;
@@ -22,6 +21,7 @@ export type IUser = {
   username: string;
   relationship: IRelationship;
   mutualFriends: any;
+  classroomDto: any;
 };
 
 export type IImage = {

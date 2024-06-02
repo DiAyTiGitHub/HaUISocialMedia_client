@@ -20,9 +20,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import ProfileUploader from "../ProfileUploader";
-import { Loader } from "lucide-react";
+import { CheckIcon, Loader } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { handleUploadImage } from "@/lib/utils";
+import { cn, handleUploadImage } from "@/lib/utils";
 
 import LocalStorage from "@/services/LocalStorageService";
 import { useStore } from "@/stores";
@@ -30,6 +30,21 @@ import { ReactNode, memo, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { observer } from "mobx-react";
+import { useGetAllData } from "@/lib";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { CaretSortIcon } from "@radix-ui/react-icons";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
 
 const formSchema = z.object({
   firstname: z.string().min(1, { message: "Họ không được trống" }),
@@ -39,7 +54,8 @@ const formSchema = z.object({
   email: z.string().email({ message: "Email không hợp lệ" }),
   phoneNumber: z.string().min(1, { message: "Số điện thoại không được trống" }),
   avatar: z.custom<File[]>(),
-  gender: z.string(),
+  gender: z.boolean(),
+  classId: z.string(),
 });
 
 export type UpdateUserForm = z.infer<typeof formSchema>;
@@ -49,10 +65,15 @@ type Props = {
 function EditUserModal({ children }: Props) {
   const navigate = useNavigate();
 
-  const { userStore, authStore } = useStore();
+  const { userStore, authStore, classStore } = useStore();
   const { setUser } = authStore;
   const { updateUser } = userStore;
   const currentUser = LocalStorage.getLoggedInUser();
+
+  const { getAllClassroom } = classStore;
+  const { res: classList } = useGetAllData({
+    getRequest: getAllClassroom,
+  });
 
   const [isUpdating, setIsUpdating] = useState(false);
   const form = useForm<UpdateUserForm>({
@@ -64,14 +85,14 @@ function EditUserModal({ children }: Props) {
       lastname: currentUser?.lastName || "",
       birthDate: new Date(currentUser?.birthDate),
       address: currentUser?.address || "",
-      gender: currentUser?.gender.toString() || "false",
+      gender: currentUser?.gender,
       email: currentUser?.email || "",
+      classId: currentUser?.classroomDto?.id || "",
     },
   });
 
   // Handler
   const handleUpdate = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
     try {
       setIsUpdating(true);
       let url;
@@ -80,6 +101,7 @@ function EditUserModal({ children }: Props) {
       } else {
         url = currentUser.avatar;
       }
+
       const data = await updateUser({
         ...currentUser,
         phoneNumber: values.phoneNumber,
@@ -90,6 +112,7 @@ function EditUserModal({ children }: Props) {
         gender: values.gender,
         email: values.email,
         avatar: url,
+        classroomDto: classList.find((i) => (i.id = values.classId)) || null,
       });
       toast.success("Đã cập nhật");
       setUser(data);
@@ -104,13 +127,13 @@ function EditUserModal({ children }: Props) {
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="sm:max-w-3xl ">
+      <DialogContent className="sm:max-w-3xl flex flex-col">
         <DialogHeader>
           <DialogTitle className="text-center">
             Chỉnh sửa thông tin cá nhân
           </DialogTitle>
         </DialogHeader>
-        <div className="flex w-full bg-white p-10 ">
+        <div className="flex w-full bg-white ">
           <div className="mx-auto">
             <Form {...form}>
               <form
@@ -198,19 +221,21 @@ function EditUserModal({ children }: Props) {
                       <FormItem className="flex px-3">
                         <FormControl>
                           <RadioGroup
-                            onValueChange={field.onChange}
-                            defaultValue={"false"}
-                            className="flex  gap-10"
+                            onValueChange={(value) =>
+                              field.onChange(value === "true")
+                            }
+                            className="flex gap-10"
+                            defaultValue={currentUser?.gender.toString()}
                           >
                             <FormItem className="flex items-center space-x-3 space-y-0">
                               <FormControl>
-                                <RadioGroupItem value={"false"} />
+                                <RadioGroupItem value={"true"} />
                               </FormControl>
                               <FormLabel>Nam</FormLabel>
                             </FormItem>
                             <FormItem className="flex items-center space-x-3 space-y-0">
                               <FormControl>
-                                <RadioGroupItem value={"true"} />
+                                <RadioGroupItem value={"false"} />
                               </FormControl>
                               <FormLabel>Nữ</FormLabel>
                             </FormItem>
@@ -221,6 +246,72 @@ function EditUserModal({ children }: Props) {
                     )}
                   />
                 </div>
+                <FormField
+                  control={form?.control}
+                  name="classId"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col">
+                      <FormLabel>Lớp học</FormLabel>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant="outline"
+                              role="combobox"
+                              className={cn(
+                                "w-[300px] justify-between",
+                                !field?.value && "text-muted-foreground"
+                              )}
+                            >
+                              {field?.value
+                                ? classList?.find(
+                                    (classItem) =>
+                                      classItem?.id === field?.value
+                                  )?.name
+                                : "Lựa chọn lớp học"}
+
+                              <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="flex-start w-[300px] p-0 bg-white">
+                          <Command>
+                            <CommandInput
+                              placeholder="Tìm lớp học..."
+                              className="h-9"
+                            />
+                            <CommandEmpty>Không có lớp học nào.</CommandEmpty>
+                            <CommandList>
+                              <CommandGroup>
+                                {classList?.map((classItem) => (
+                                  <CommandItem
+                                    value={classItem?.id}
+                                    key={classItem?.id}
+                                    onSelect={() => {
+                                      form.setValue("classId", classItem?.id);
+                                    }}
+                                  >
+                                    {classItem?.name}
+                                    <CheckIcon
+                                      className={cn(
+                                        "ml-auto h-4 w-4",
+                                        classItem?.id === field?.value
+                                          ? "opacity-100"
+                                          : "opacity-0"
+                                      )}
+                                    />
+                                  </CommandItem>
+                                ))}
+                              </CommandGroup>
+                            </CommandList>
+                          </Command>
+                        </PopoverContent>
+                      </Popover>
+
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 <FormField
                   control={form.control}
                   name="phoneNumber"
