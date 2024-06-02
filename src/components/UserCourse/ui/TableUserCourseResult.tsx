@@ -39,7 +39,7 @@ const TableUserCourseResult = ({ dataCourseResult }: Props) => {
                     className="w-10 h-10 object-cover rounded-full"
                   />
                   <p className="base-semibold">
-                    {item?.user?.lastName} {item?.user?.lastName}
+                    {item?.user?.lastName} {item?.user?.firstName}
                   </p>
                 </div>
               </TableCell>

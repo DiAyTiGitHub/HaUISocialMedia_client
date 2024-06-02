@@ -63,7 +63,7 @@ const UserCourseResult = () => {
             </div>
 
             <Pagination
-              isLeftDisable={isLeftDisable}
+              isLeftDisable={paging.pageIndex === 0}
               isRightDisable={isRightDisable}
               setPaging={setPaging}
             />
