@@ -1,7 +1,6 @@
 import { dislikeAPostRequest, likeAPostRequest } from "@/services/LikeService";
 
 import { makeAutoObservable } from "mobx";
-import { toast } from "react-toastify";
 
 class LikeStore {
   constructor() {
@@ -12,17 +11,13 @@ class LikeStore {
     try {
       const { data } = await likeAPostRequest(postId);
       return data;
-    } catch (error) {
-      toast.error("Something went wrong :(");
-    }
+    } catch (error) {}
   };
   dislikePost = async (postId: string) => {
     try {
       const { data } = await dislikeAPostRequest(postId);
       return data;
-    } catch (error) {
-      toast.error("Something went wrong :(");
-    }
+    } catch (error) {}
   };
 }
 

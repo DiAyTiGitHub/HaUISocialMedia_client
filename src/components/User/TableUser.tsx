@@ -57,7 +57,7 @@ const TableUser = ({ userData, isLoading }: Props) => {
                         <BlockUser id={item.id} />
                       )}
                       <UserDetail user={item} />
-                      <DeleteUser id={item.id} />
+                      {/* <DeleteUser id={item.id} /> */}
                     </div>
                   </TableCell>
                 </TableRow>
