@@ -15,9 +15,11 @@ HAUISocialMedia
    cd HaUISocialMedia_client
 2. **Install dependencies:**
    Make sure you have Node.js and Npm installed.
+   ```sh
    npm install
 ## Development
 1. **Run the development server:**
+   ```sh
   npm run dev
-2. **Open your browser:**
+3. **Open your browser:**
    - Open your browser and navigate to http://localhost:5173 (or the port specified in the console) to see your application running.
